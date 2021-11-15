@@ -7,7 +7,7 @@ interface PostBodyProps {
 function PostBody(props : PostBodyProps) {
     return (
       <div className="PostBody">
-          <p className="PostBody">{props.body}</p>
+          <p>{props.body}</p>
       </div>
     );
   }
