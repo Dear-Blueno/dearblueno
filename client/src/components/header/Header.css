@@ -1,0 +1,12 @@
+.Header {
+  margin-top: 1rem;
+  padding: 0;
+  background-color: #ffffff;
+  width: 45rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#HeaderText {
+  border-bottom: 1px solid #000000;
+}
