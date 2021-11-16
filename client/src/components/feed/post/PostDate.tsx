@@ -7,7 +7,7 @@ interface PostDateProps {
 function PostDate(props : PostDateProps) {
     return (
       <div className="PostDate">
-          <p className="PostDate">{props.value}</p>
+          <p>{props.value}</p>
       </div>
     );
   }

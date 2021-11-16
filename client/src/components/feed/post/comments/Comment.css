@@ -1,0 +1,12 @@
+.Comment {
+  position: relative;
+  margin: 0.8rem;
+}
+
+.CommentAuthor {
+  font-weight: 600;
+}
+
+.CommentBody {
+  margin-top: 0.4rem;
+}

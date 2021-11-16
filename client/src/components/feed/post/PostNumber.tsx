@@ -7,7 +7,7 @@ interface PostNumberProps {
 function PostNumber(props : PostNumberProps) {
     return (
       <div className="PostNumber">
-          <h3 className="PostNumber">#{props.value}</h3>
+          <h3>#{props.value}</h3>
       </div>
     );
   }
