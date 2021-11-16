@@ -3,10 +3,11 @@
   right: 0.2rem;
   width: 3rem;
   height: 3rem;
-  border: 0.02rem solid #c0c0c0;
-  box-shadow: 0 0.1rem 0.2rem 0.05rem rgba(0, 0, 0, 0.3);
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   float: right;
   margin-left: 0.4rem;
+  background-color: white;
 }
 
 .HeaderButtonImage {
@@ -14,5 +15,4 @@
   height: 80%;
   margin-top: 10%;
   margin-left: 10%;
-  opacity: 0.4;
 }

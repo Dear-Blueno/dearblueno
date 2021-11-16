@@ -4,14 +4,10 @@
 
 body {
   margin: 0;
-  font-family: "Lato", sans-serif;
+  font-family: "Fira Code", monospace;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 1.2rem;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-size: 1rem;
+  background-color: #d5ebff;
 }

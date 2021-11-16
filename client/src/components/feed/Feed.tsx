@@ -11,8 +11,6 @@ condimentum. Nullam tempus quis lacus id tristique. Aenean vestibulum
 euismod dui a fringilla. Nam eget lorem et augue volutpat viverra a non
 libero. Present malesuada, tellus vestibulum faucibus fermentum, nisl
 metus tincidunt ipsum, in interdum diam massa vitae eros."></Post>
-          <Post postDate="May 12" postNumber={2} postBody="hello"></Post>
-          <Post postDate="May 12" postNumber={1} postBody="hello"></Post>
       </div>
     );
   }
