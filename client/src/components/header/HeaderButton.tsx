@@ -1,14 +1,17 @@
-import "./PostNumber.css";
+import "./HeaderButton.css";
 
 interface HeaderButtonProps {
-    action: () => void;
+  action: () => void;
+  image: string;
 }
 
-function HeaderButton(props : HeaderButtonProps) {
-    return (
-      <div className="HeaderButton">
-      </div>
-    );
-  }
-  
-  export default HeaderButton;
+/*This div should be a button that, on clinck, calls the action prop. */
+function HeaderButton(props: HeaderButtonProps) {
+  return (
+    <div className="HeaderButton" onClick={props.action}>
+      <img className="HeaderButtonImage" src={props.image} />
+    </div>
+  );
+}
+
+export default HeaderButton;
