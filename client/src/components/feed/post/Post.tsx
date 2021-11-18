@@ -3,13 +3,15 @@ import PostBody from "./PostBody";
 import PostDate from "./PostDate";
 import PostNumber from "./PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
-import CommentSection from "./comments/CommentSection";
+import CommentSection, { Comment } from "./comments/CommentSection";
 
-interface PostProps {
+type PostProps = {
   postNumber: number;
   postBody: string;
   postDate: string;
-}
+  comments: Comment[];
+  reactions: string[][];
+};
 
 function Post(props: PostProps) {
   return (
@@ -17,8 +19,11 @@ function Post(props: PostProps) {
       <PostNumber value={props.postNumber}></PostNumber>
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
-      <ReactionBar></ReactionBar>
-      <CommentSection postId={1}></CommentSection>
+      <ReactionBar reactions={props.reactions}></ReactionBar>
+      <CommentSection
+        comments={props.comments}
+        postId={props.postNumber}
+      ></CommentSection>
     </div>
   );
 }

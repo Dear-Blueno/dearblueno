@@ -14,15 +14,17 @@ import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useState } from "react";
 
-interface ReactionBarProps {}
+type ReactionBarProps = {
+  reactions: string[][];
+};
 
 function ReactionBar(props: ReactionBarProps) {
-  const [angryCount, setAngryCount] = useState(0);
-  const [cryCount, setCryCount] = useState(0);
-  const [heartCount, setHeartCount] = useState(0);
-  const [laughCount, setLaughCount] = useState(0);
-  const [likeCount, setLikeCount] = useState(0);
-  const [surpriseCount, setSurpriseCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(props.reactions[0].length);
+  const [heartCount, setHeartCount] = useState(props.reactions[1].length);
+  const [laughCount, setLaughCount] = useState(props.reactions[2].length);
+  const [cryCount, setCryCount] = useState(props.reactions[3].length);
+  const [angryCount, setAngryCount] = useState(props.reactions[4].length);
+  const [surpriseCount, setSurpriseCount] = useState(props.reactions[5].length);
   const [showIcons, setShowIcons] = useState(false);
   const [nonZeroOrder, setNonZeroOrder] = useState(["like"]);
   const [zeroOrder, setZeroOrder] = useState([
