@@ -17,8 +17,8 @@ function Post(props: PostProps) {
       <PostNumber value={props.postNumber}></PostNumber>
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
-      <CommentSection postId={1}></CommentSection>
       <ReactionBar></ReactionBar>
+      <CommentSection postId={1}></CommentSection>
     </div>
   );
 }
