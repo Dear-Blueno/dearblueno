@@ -2,6 +2,7 @@ import "./Post.css";
 import PostBody from "./PostBody";
 import PostDate from "./PostDate";
 import PostNumber from "./PostNumber";
+import ReactionBar from "./reactions/ReactionBar";
 import CommentSection from "./comments/CommentSection";
 
 interface PostProps {
@@ -17,6 +18,7 @@ function Post(props: PostProps) {
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
       <CommentSection postId={1}></CommentSection>
+      <ReactionBar></ReactionBar>
     </div>
   );
 }
