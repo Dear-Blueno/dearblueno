@@ -25,9 +25,8 @@ function ReactionBar(props: ReactionBarProps) {
   const [likeCount, setLikeCount] = useState(0);
   const [surpriseCount, setSurpriseCount] = useState(0);
   const [showIcons, setShowIcons] = useState(false);
-  const [nonZeroOrder, setNonZeroOrder] = useState([""]);
+  const [nonZeroOrder, setNonZeroOrder] = useState(["like"]);
   const [zeroOrder, setZeroOrder] = useState([
-    "like",
     "heart",
     "laugh",
     "cry",
@@ -35,9 +34,8 @@ function ReactionBar(props: ReactionBarProps) {
     "surprise",
   ]);
 
-  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState([""]);
+  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState(["like"]);
   const [zeroOrderDisplay, setZeroOrderDisplay] = useState([
-    "like",
     "heart",
     "laugh",
     "cry",
@@ -57,10 +55,6 @@ function ReactionBar(props: ReactionBarProps) {
     setZeroOrderDisplay(zeroOrder);
   };
 
-  if (likeCount > 0 && nonZeroOrder.includes("like")) {
-    setNonZeroOrder([...nonZeroOrder, "like"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "like"));
-  }
   if (heartCount > 0 && !nonZeroOrder.includes("heart")) {
     setNonZeroOrder([...nonZeroOrder, "heart"]);
     setZeroOrder(zeroOrder.filter((x) => x !== "heart"));
@@ -80,6 +74,10 @@ function ReactionBar(props: ReactionBarProps) {
   if (surpriseCount > 0 && !nonZeroOrder.includes("surprise")) {
     setNonZeroOrder([...nonZeroOrder, "surprise"]);
     setZeroOrder(zeroOrder.filter((x) => x !== "surprise"));
+  }
+  if (likeCount > 0 && !nonZeroOrder.includes("like")) {
+    setNonZeroOrder([...nonZeroOrder, "like"]);
+    setZeroOrder(zeroOrder.filter((x) => x !== "like"));
   }
 
   for (let i = 0; i < nonZeroOrderDisplay.length; i++) {
@@ -141,16 +139,6 @@ function ReactionBar(props: ReactionBarProps) {
   }
 
   for (let i = 0; i < zeroOrderDisplay.length; i++) {
-    if (zeroOrderDisplay[i] === "like") {
-      buttons.push(
-        <ReactionButton
-          image={!likeCount ? LikeIcon : LikeIcon}
-          count={likeCount}
-          showIcons={true}
-          countSetter={setLikeCount}
-        ></ReactionButton>
-      );
-    }
     if (zeroOrderDisplay[i] === "heart") {
       buttons.push(
         <ReactionButton

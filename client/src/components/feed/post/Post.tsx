@@ -2,15 +2,8 @@ import "./Post.css";
 import PostBody from "./PostBody";
 import PostDate from "./PostDate";
 import PostNumber from "./PostNumber";
-<<<<<<< HEAD
 import ReactionBar from "./reactions/ReactionBar";
-import CommentSection, {
-  CommentData,
-  CommentSectionProps,
-} from "./comments/CommentSection";
-=======
 import CommentSection, { CommentData } from "./comments/CommentSection";
->>>>>>> 1e11cef039030d116b0c5bfa15ec8992724237d5
 
 const data1: CommentData = {
   author: "Nicholas Vadasz",
@@ -32,10 +25,7 @@ function Post(props: PostProps) {
       <PostNumber value={props.postNumber}></PostNumber>
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
-<<<<<<< HEAD
       <ReactionBar></ReactionBar>
-=======
->>>>>>> 1e11cef039030d116b0c5bfa15ec8992724237d5
       <CommentSection data={data}></CommentSection>
     </div>
   );
