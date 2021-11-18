@@ -1,7 +1,7 @@
 {
   "name": "dear-blueno-client",
   "version": "0.1.0",
-  "private": true,
+  "description": "Frontend client for the Dear Blueno web app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -39,5 +39,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanhu7/dearblueno.git"
+  },
+  "keywords": [
+    "blueno",
+    "brown",
+    "university"
+  ],
+  "author": "Dear Blueno Team",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dylanhu7/dearblueno/issues"
+  },
+  "homepage": "https://github.com/dylanhu7/dearblueno"
 }
