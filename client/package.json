@@ -1,18 +1,15 @@
 {
-  "name": "my-app",
+  "name": "dear-blueno-client",
   "version": "0.1.0",
-  "private": true,
+  "description": "Frontend client for the Dear Blueno web app",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "tslib": "^2.3.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
@@ -39,5 +36,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanhu7/dearblueno.git"
+  },
+  "keywords": [
+    "blueno",
+    "brown",
+    "university"
+  ],
+  "author": "Dear Blueno Team",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dylanhu7/dearblueno/issues"
+  },
+  "homepage": "http://dearblueno.bottone.io/"
 }
