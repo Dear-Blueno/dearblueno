@@ -1,33 +1,98 @@
 import "./CommentSection.css";
-import Comment from "./Comment";
+import Thread from "./Thread";
 
 export interface CommentSectionProps {
-    data : CommentData[];
+  postId: number;
 }
 
-export interface CommentData {
-    author : string;
-    body : string;
-    date : string;
-    depth : number;
+// export interface CommentData {
+// id: number;
+// parentId: number;
+// author: string;
+// body: string;
+// date: string;
+// }
+
+export type Comment = {
+  id: number;
+  parentId: number;
+  author: string;
+  body: string;
+  date: string;
+  children: Comment[];
+};
+
+const commentMap: { [key: number]: Comment } = {};
+
+function nestComments(commentList: Comment[]) {
+  // move all the comments into a map of id => comment
+  commentList.forEach((comment) => (commentMap[comment.id] = comment));
+
+  // iterate over the comments again and correctly nest the children
+  commentList.forEach((comment) => {
+    if (comment.parentId !== -1) {
+      const parent = commentMap[comment.parentId];
+      (parent.children = parent.children || []).push(comment);
+    }
+  });
+
+  // filter the list to return a list of correctly nested comments
+  return commentList.filter((comment) => {
+    return comment.parentId === -1;
+  });
 }
 
-function CommentSection(props : CommentSectionProps) {
-    return (
-      <div className="CommentSection">
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={0}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={1}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={2}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={3}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={4}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={5}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={6}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={7}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={8}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={9}/>
-          <Comment author={props.data[0].author} body={props.data[0].body} date="May 12" depth={10}/>
-      </div>
-    );
-  }
-  
-  export default CommentSection;
+const comments: Comment[] = [];
+const comment1: Comment = {
+  id: 1,
+  parentId: -1,
+  author: "Dylan Hu",
+  body: "This is a comment",
+  date: "2020-01-01",
+  children: [],
+};
+const comment2: Comment = {
+  id: 2,
+  parentId: 1,
+  author: "Nicholas Vadasz",
+  body: "This is another comment",
+  date: "2020-01-01",
+  children: [],
+};
+const comment3: Comment = {
+  id: 3,
+  parentId: 2,
+  author: "Dylan Hu",
+  body: "That's cool yo",
+  date: "2020-01-01",
+  children: [],
+};
+
+const comment5: Comment = {
+  id: 5,
+  parentId: 2,
+  author: "Nick Bottone",
+  body: "This is a comment",
+  date: "2020-01-01",
+  children: [],
+};
+const comment6: Comment = {
+  id: 6,
+  parentId: 1,
+  author: "Nick Bottone",
+  body: "SHEEEESH",
+  date: "2020-01-01",
+  children: [],
+};
+comments.push(comment1, comment2, comment3, comment5, comment6);
+nestComments(comments);
+
+function CommentSection(props: CommentSectionProps) {
+  return (
+    <div className="CommentSection">
+      <Thread comment={commentMap[1]} />
+    </div>
+  );
+}
+
+export default CommentSection;

@@ -1,0 +1,25 @@
+.Comment {
+  position: relative;
+  margin: 0.8rem;
+}
+
+.CommentAuthor {
+  font-weight: 600;
+  width: fit-content;
+  margin-right: 1rem;
+}
+
+.CommentBody {
+  margin-top: 0.4rem;
+}
+
+.CommentDate {
+  color: gray;
+  font-size: 0.8rem;
+  width: fit-content;
+}
+
+.CommentHeader {
+  display: flex;
+  align-items: center;
+}
