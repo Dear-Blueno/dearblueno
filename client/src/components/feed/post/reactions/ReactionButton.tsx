@@ -1,6 +1,4 @@
 import "./ReactionButton.css";
-import { useEffect, useState } from "react";
-import { react } from "@babel/types";
 
 interface ReactionButtonProps {
   image: string;
@@ -20,6 +18,7 @@ function ReactionButton(props: ReactionButtonProps) {
         className="ReactionButtonImage"
         src={props.image}
         onClick={() => props.countSetter(props.count + 1)}
+        alt="reaction"
       />
       <p className="ReactionCounter">{props.count}</p>
     </div>
