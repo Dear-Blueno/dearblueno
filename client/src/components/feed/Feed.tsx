@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Comment } from "./post/comments/CommentSection";
 
 function Feed() {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
-  let data; // result of fetch call to query db for posts
+  // let data; // result of fetch call to query db for posts
 
   // assemble comments from post data with empty children array
 
