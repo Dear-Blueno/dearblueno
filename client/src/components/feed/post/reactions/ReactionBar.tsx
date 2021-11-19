@@ -9,7 +9,7 @@ import HeartBWIcon from "../../../../images/heartBW.svg";
 import LaughIcon from "../../../../images/laugh.svg";
 import LaughBWIcon from "../../../../images/laughBW.svg";
 import LikeIcon from "../../../../images/like.svg";
-// import LikeBWIcon from "../../../../images/likeBW.svg";
+import LikeBWIcon from "../../../../images/likeBW.svg";
 import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useState } from "react";
@@ -26,23 +26,11 @@ function ReactionBar(props: ReactionBarProps) {
   const [angryCount, setAngryCount] = useState(props.reactions[4].length);
   const [surpriseCount, setSurpriseCount] = useState(props.reactions[5].length);
   const [showIcons, setShowIcons] = useState(false);
-  const [nonZeroOrder, setNonZeroOrder] = useState(["like"]);
-  const [zeroOrder, setZeroOrder] = useState([
-    "heart",
-    "laugh",
-    "cry",
-    "angry",
-    "surprise",
-  ]);
+  const [nonZeroOrder, setNonZeroOrder] = useState([NaN]); // NaN is a placeholder for the first reaction
+  const [zeroOrder, setZeroOrder] = useState([0, 1, 2, 3, 4, 5]); // These arrays are the real-time order and state of the reactions
 
-  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState(["like"]);
-  const [zeroOrderDisplay, setZeroOrderDisplay] = useState([
-    "heart",
-    "laugh",
-    "cry",
-    "angry",
-    "surprise",
-  ]);
+  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState([NaN]); // NaN is a placeholder for the first reaction
+  const [zeroOrderDisplay, setZeroOrderDisplay] = useState([0, 1, 2, 3, 4, 5]); // these arrays are the display order and state of the reactions, that is updated on leave
 
   const buttons = [];
 
@@ -55,43 +43,46 @@ function ReactionBar(props: ReactionBarProps) {
     setNonZeroOrderDisplay(nonZeroOrder);
     setZeroOrderDisplay(zeroOrder);
   };
+  
+  
+  if (likeCount > 0 && !nonZeroOrder.includes(0)) { 
+    setNonZeroOrder([...nonZeroOrder, 0]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 0));
+  }
+  if (heartCount > 0 && !nonZeroOrder.includes(1)) {
+    setNonZeroOrder([...nonZeroOrder, 1]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 1));
+  }
+  if (laughCount > 0 && !nonZeroOrder.includes(2)) {
+    setNonZeroOrder([...nonZeroOrder, 2]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 2));
+  }
+  if (cryCount > 0 && !nonZeroOrder.includes(3)) {
+    setNonZeroOrder([...nonZeroOrder, 3]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 3));
+  }
+  if (angryCount > 0 && !nonZeroOrder.includes(4)) {
+    setNonZeroOrder([...nonZeroOrder, 4]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 4));
+  }
+  if (surpriseCount > 0 && !nonZeroOrder.includes(5)) {
+    setNonZeroOrder([...nonZeroOrder, 5]);
+    setZeroOrder(zeroOrder.filter((x) => x !== 5));
+  }
 
-  if (heartCount > 0 && !nonZeroOrder.includes("heart")) {
-    setNonZeroOrder([...nonZeroOrder, "heart"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "heart"));
-  }
-  if (laughCount > 0 && !nonZeroOrder.includes("laugh")) {
-    setNonZeroOrder([...nonZeroOrder, "laugh"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "laugh"));
-  }
-  if (cryCount > 0 && !nonZeroOrder.includes("cry")) {
-    setNonZeroOrder([...nonZeroOrder, "cry"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "cry"));
-  }
-  if (angryCount > 0 && !nonZeroOrder.includes("angry")) {
-    setNonZeroOrder([...nonZeroOrder, "angry"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "angry"));
-  }
-  if (surpriseCount > 0 && !nonZeroOrder.includes("surprise")) {
-    setNonZeroOrder([...nonZeroOrder, "surprise"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "surprise"));
-  }
-  if (likeCount > 0 && !nonZeroOrder.includes("like")) {
-    setNonZeroOrder([...nonZeroOrder, "like"]);
-    setZeroOrder(zeroOrder.filter((x) => x !== "like"));
-  }
-
+  nonZeroOrder.sort((a, b) => a - b); // Sorts the non-display nonZeroOrder so that when the reactions are updated, the order is like this: [0, 1, 2, 3, 4, 5]
+   
   for (let i = 0; i < nonZeroOrderDisplay.length; i++) {
-    if (nonZeroOrderDisplay[i] === "like") {
+    if (nonZeroOrderDisplay[i] === 0) {
       buttons.push(
         <ReactionButton
-          image={!likeCount ? LikeIcon : LikeIcon}
+          image={!likeCount ? LikeBWIcon : LikeIcon}
           count={likeCount}
           showIcons={true}
           countSetter={setLikeCount}
         ></ReactionButton>
       );
-    } else if (nonZeroOrderDisplay[i] === "heart") {
+    } else if (nonZeroOrderDisplay[i] === 1) {
       buttons.push(
         <ReactionButton
           image={!heartCount ? HeartBWIcon : HeartIcon}
@@ -100,7 +91,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setHeartCount}
         ></ReactionButton>
       );
-    } else if (nonZeroOrderDisplay[i] === "laugh") {
+    } else if (nonZeroOrderDisplay[i] === 2) {
       buttons.push(
         <ReactionButton
           image={!laughCount ? LaughBWIcon : LaughIcon}
@@ -109,7 +100,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setLaughCount}
         ></ReactionButton>
       );
-    } else if (nonZeroOrderDisplay[i] === "cry") {
+    } else if (nonZeroOrderDisplay[i] === 3) {
       buttons.push(
         <ReactionButton
           image={!cryCount ? CryBWIcon : CryIcon}
@@ -118,7 +109,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setCryCount}
         ></ReactionButton>
       );
-    } else if (nonZeroOrderDisplay[i] === "angry") {
+    } else if (nonZeroOrderDisplay[i] === 4) {
       buttons.push(
         <ReactionButton
           image={!angryCount ? AngryBWIcon : AngryIcon}
@@ -127,7 +118,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setAngryCount}
         ></ReactionButton>
       );
-    } else if (nonZeroOrderDisplay[i] === "surprise") {
+    } else if (nonZeroOrderDisplay[i] === 5) {
       buttons.push(
         <ReactionButton
           image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
@@ -140,7 +131,27 @@ function ReactionBar(props: ReactionBarProps) {
   }
 
   for (let i = 0; i < zeroOrderDisplay.length; i++) {
-    if (zeroOrderDisplay[i] === "heart") {
+    if (zeroOrderDisplay[i] === 0) {
+      if (nonZeroOrder.length === 1) {
+        buttons.push(
+          <ReactionButton
+            image={!likeCount ? LikeBWIcon : LikeIcon}
+            count={likeCount}
+            showIcons={true}
+            countSetter={setLikeCount}
+          ></ReactionButton>
+        );
+      } else {
+        buttons.push(
+          <ReactionButton
+            image={!likeCount ? LikeBWIcon : LikeIcon}
+            count={likeCount}
+            showIcons={showIcons}
+            countSetter={setLikeCount}
+          ></ReactionButton>
+        );
+      }
+    } else if (zeroOrderDisplay[i] === 1) {
       buttons.push(
         <ReactionButton
           image={!heartCount ? HeartBWIcon : HeartIcon}
@@ -149,7 +160,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setHeartCount}
         ></ReactionButton>
       );
-    } else if (zeroOrderDisplay[i] === "laugh") {
+    } else if (zeroOrderDisplay[i] === 2) {
       buttons.push(
         <ReactionButton
           image={!laughCount ? LaughBWIcon : LaughIcon}
@@ -158,7 +169,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setLaughCount}
         ></ReactionButton>
       );
-    } else if (zeroOrderDisplay[i] === "cry") {
+    } else if (zeroOrderDisplay[i] === 3) {
       buttons.push(
         <ReactionButton
           image={!cryCount ? CryBWIcon : CryIcon}
@@ -167,7 +178,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setCryCount}
         ></ReactionButton>
       );
-    } else if (zeroOrderDisplay[i] === "angry") {
+    } else if (zeroOrderDisplay[i] === 4) {
       buttons.push(
         <ReactionButton
           image={!angryCount ? AngryBWIcon : AngryIcon}
@@ -176,7 +187,7 @@ function ReactionBar(props: ReactionBarProps) {
           countSetter={setAngryCount}
         ></ReactionButton>
       );
-    } else if (zeroOrderDisplay[i] === "surprise") {
+    } else if (zeroOrderDisplay[i] === 5) {
       buttons.push(
         <ReactionButton
           image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
