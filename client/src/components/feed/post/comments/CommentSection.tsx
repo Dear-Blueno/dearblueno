@@ -17,9 +17,9 @@ export type Comment = {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const commentMap: { [key: number]: Comment } = {};
-
   const nestComments = (commentList: Comment[]) => {
+    const commentMap: { [key: number]: Comment } = {};
+
     // move all the comments into a map of id => comment
     commentList.forEach((comment) => (commentMap[comment.id] = comment));
 
@@ -27,7 +27,10 @@ function CommentSection(props: CommentSectionProps) {
     commentList.forEach((comment) => {
       if (comment.parentId !== -1) {
         const parent = commentMap[comment.parentId];
-        (parent.children = parent.children || []).push(comment);
+        if (!parent.children.includes(comment)) {
+          parent.children.push(comment);
+        }
+        // (parent.children = parent.children || []).push(comment);
       }
     });
 
@@ -37,12 +40,12 @@ function CommentSection(props: CommentSectionProps) {
     });
   };
 
-  nestComments(props.comments);
+  const comments = nestComments(props.comments);
   return (
     <div className="CommentSection">
-      {Object.values(commentMap).map((comment) => {
-        return <Thread comment={comment} />;
-      })}
+      {comments.map((comment) => (
+        <Thread comment={comment} />
+      ))}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import Post from "./post/Post";
 import "./Feed.css";
 import { useState } from "react";
+import { Comment } from "./post/comments/CommentSection";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -11,7 +12,64 @@ function Feed() {
 
   // map over posts and return a Post component for each post
 
-  return <div className="Feed">{posts}</div>;
+  // for testing
+  const comments: Comment[] = [];
+  const comment1: Comment = {
+    id: 1,
+    parentId: -1,
+    author: "Dylan Hu",
+    body: "This is a comment",
+    date: "2020-01-01",
+    children: [],
+  };
+  const comment2: Comment = {
+    id: 2,
+    parentId: 1,
+    author: "Nicholas Vadasz",
+    body: "This is another comment",
+    date: "2020-01-01",
+    children: [],
+  };
+  const comment3: Comment = {
+    id: 3,
+    parentId: 2,
+    author: "Dylan Hu",
+    body: "That's cool yo",
+    date: "2020-01-01",
+    children: [],
+  };
+
+  const comment5: Comment = {
+    id: 5,
+    parentId: 2,
+    author: "Nick Bottone",
+    body: "This is a comment",
+    date: "2020-01-01",
+    children: [],
+  };
+  const comment6: Comment = {
+    id: 6,
+    parentId: 1,
+    author: "Nick Bottone",
+    body: "SHEEEESH",
+    date: "2020-01-01",
+    children: [],
+  };
+  comments.push(comment1, comment2, comment3, comment5, comment6);
+  console.log(comments);
+
+  return (
+    <div className="Feed">
+      {/* for testing */}
+      <Post
+        postNumber={1}
+        postDate="May 12"
+        postBody="Hello this is Dylan"
+        comments={comments}
+        reactions={[[], [], [], [], [], []]}
+      />
+    </div>
+  );
 }
 
 export default Feed;
