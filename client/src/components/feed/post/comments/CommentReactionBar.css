@@ -1,7 +1,5 @@
 .CommentReactionBar {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  width: fit-content;
   background-color: white;
   box-sizing: border-box;
   display: inline-block;
