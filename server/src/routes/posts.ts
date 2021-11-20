@@ -6,14 +6,14 @@ import Post from "../models/Post";
 const postRouter = Router();
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
-postRouter.get("/", body("page").isInt({ min: 1 }), async (req, res) => {
+postRouter.get("/", param("page").isInt({ min: 1 }), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
     return;
   }
 
-  const page = req.body.page || 1;
+  const page = req.params?.page || 1;
   const posts = await Post.find({ approved: true })
     .sort({ createdAt: -1 })
     .skip((page - 1) * 10)
@@ -34,7 +34,7 @@ postRouter.get("/", body("page").isInt({ min: 1 }), async (req, res) => {
 postRouter.get(
   "/all",
   // moderatorCheck, // TODO: uncomment when authentication is implemented
-  body("page").isInt({ min: 1 }),
+  param("page").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,7 +42,7 @@ postRouter.get(
       return;
     }
 
-    const page = req.body.page || 1;
+    const page = req.params?.page || 1;
     const posts = await Post.find()
       .sort({ createdAt: -1 })
       .skip((page - 1) * 10)
