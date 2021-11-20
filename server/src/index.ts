@@ -2,9 +2,12 @@ import path from "path";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import mongoSanitize from "express-mongo-sanitize";
+
+import { mongoConnection } from "./config/mongo";
 
 import postsRouter from "./routes/posts";
-import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
@@ -12,6 +15,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 // Setup Express server
 const app = express();
 app.use(express.json());
+app.use(mongoSanitize());
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:3000",
@@ -22,7 +26,7 @@ app.use(
 
 // TODO: Use Passport.js to handle authentication
 
-// TODO: MongoDB connection
+mongoConnection();
 
 // TODO: Express session for cookies
 
@@ -33,7 +37,7 @@ app.get("/", (_req, res) => {
 
 // Setup API routes
 app.use("/posts", postsRouter);
-app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 // Start Express server
 const port = process.env.PORT || 5000;
