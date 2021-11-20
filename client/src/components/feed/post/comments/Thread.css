@@ -1,6 +1,13 @@
-.Comment {
-  position: relative;
+.Thread {
+  height: fit-content;
   margin: 0.8rem;
+}
+
+.Comment {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  margin-bottom: 1rem;
 }
 
 .CommentAuthor {
@@ -11,6 +18,7 @@
 
 .CommentBody {
   margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
 .CommentDate {
@@ -21,5 +29,6 @@
 
 .CommentHeader {
   display: flex;
+  flex-direction: row;
   align-items: center;
 }

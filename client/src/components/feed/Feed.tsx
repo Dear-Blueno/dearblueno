@@ -21,6 +21,10 @@ function Feed() {
     body: "This is a comment",
     date: "2020-01-01",
     children: [],
+    reactions: [
+      ["like", "1"],
+      ["dislike", "2"],
+    ],
   };
   const comment2: Comment = {
     id: 2,
@@ -29,6 +33,7 @@ function Feed() {
     body: "This is another comment",
     date: "2020-01-01",
     children: [],
+    reactions: [["hi"], [], [], ["tee", "hee", "LOL"], ["like", "1"]],
   };
   const comment3: Comment = {
     id: 3,
@@ -37,6 +42,7 @@ function Feed() {
     body: "That's cool yo",
     date: "2020-01-01",
     children: [],
+    reactions: [[]],
   };
 
   const comment5: Comment = {
@@ -46,6 +52,7 @@ function Feed() {
     body: "This is a comment",
     date: "2020-01-01",
     children: [],
+    reactions: [[], []],
   };
   const comment6: Comment = {
     id: 6,
@@ -54,6 +61,7 @@ function Feed() {
     body: "SHEEEESH",
     date: "2020-01-01",
     children: [],
+    reactions: [[], [], [], [], [], ["FIZZ", "BUZZ", "TEE", "HEE", "LOL"]],
   };
   comments.push(comment1, comment2, comment3, comment5, comment6);
   console.log(comments);

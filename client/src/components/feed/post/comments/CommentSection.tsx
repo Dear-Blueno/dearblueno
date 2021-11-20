@@ -14,6 +14,7 @@ export type Comment = {
   body: string;
   date: string;
   children: Comment[];
+  reactions: string[][];
 };
 
 function CommentSection(props: CommentSectionProps) {
