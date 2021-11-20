@@ -1,14 +1,22 @@
 .Thread {
-  /* height: fit-content; */
-  /* margin: 0.8rem; */
   margin-left: 1rem;
   margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1.5rem max-content;
+  grid-template-rows: 1.5rem max-content;
+  gap: 0px 0px;
+  grid-template-areas:
+    "pic header"
+    "collapser thread";
+  column-gap: 0.4rem;
+  row-gap: 0.4rem;
 }
 
 .Comment {
   display: flex;
   flex-direction: column;
   height: fit-content;
+  grid-area: thread;
 }
 
 .CommentAuthor {
@@ -32,4 +40,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  grid-area: header;
+}
+
+.ProfilePicture {
+  background-color: red;
 }
