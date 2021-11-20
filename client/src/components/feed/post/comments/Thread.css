@@ -1,13 +1,14 @@
 .Thread {
-  height: fit-content;
-  margin: 0.8rem;
+  /* height: fit-content; */
+  /* margin: 0.8rem; */
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
 
 .Comment {
   display: flex;
   flex-direction: column;
   height: fit-content;
-  margin-bottom: 1rem;
 }
 
 .CommentAuthor {
