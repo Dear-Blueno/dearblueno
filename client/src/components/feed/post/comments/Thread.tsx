@@ -1,5 +1,6 @@
 import "./Thread.css";
 import CommentReactionBar from "./CommentReactionBar";
+import LikeCommentBar from "./LikeCommentBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { Comment } from "./CommentSection";
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ function Thread(props: { comment: Comment }) {
       <div className="CommentHeader">
         <p className="CommentAuthor">{props.comment.author}</p>
         <p className="CommentDate">{props.comment.date}</p>
+        <LikeCommentBar />
       </div>
       {show && (
         <div className="Comment">
