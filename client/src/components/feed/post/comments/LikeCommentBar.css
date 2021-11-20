@@ -1,0 +1,18 @@
+.LikeCommentBar {
+  margin-left: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+}
+
+.LikeText {
+  font-size: 0.8rem;
+  color: #8e8e8e;
+}
+
+.LikeImage {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: 0.6rem;
+}
