@@ -1,6 +1,6 @@
 import "./CommentSection.css";
 import Thread from "./Thread";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type CommentSectionProps = {
   postId: number;
@@ -41,7 +41,7 @@ const nestComments = (commentList: Comment[]): Comment[] => {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const [comments, setComments] = useState<Comment[]>(
+  const [comments /*, setComments*/] = useState<Comment[]>(
     nestComments(props.comments)
   );
 

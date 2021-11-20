@@ -3,7 +3,7 @@ import CommentReactionBar from "./CommentReactionBar";
 import LikeCommentBar from "./LikeCommentBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { Comment } from "./CommentSection";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function Thread(props: { comment: Comment }) {
   const [show, setShow] = useState(true);

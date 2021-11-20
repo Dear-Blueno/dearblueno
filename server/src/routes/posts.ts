@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { body, param, validationResult } from "express-validator";
+import { body, param, query, validationResult } from "express-validator";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
 
 const postRouter = Router();
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
-postRouter.get("/", param("page").isInt({ min: 1 }), async (req, res) => {
+postRouter.get("/", query("page").isInt({ min: 1 }), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
     return;
   }
 
-  const page = req.params?.page || 1;
+  const page = req.query?.page || 1;
   const posts = await Post.find({ approved: true })
     .sort({ createdAt: -1 })
     .skip((page - 1) * 10)

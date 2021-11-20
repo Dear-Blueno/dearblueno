@@ -1,6 +1,5 @@
 import Post from "./post/Post";
 import "./Feed.css";
-import { useState } from "react";
 import { Comment } from "./post/comments/CommentSection";
 
 function Feed() {
