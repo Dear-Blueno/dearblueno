@@ -17,8 +17,16 @@
   margin-left: 10%;
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+/* Extra extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
+  .HeaderButton {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}
+
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
   .HeaderButton {
     width: 2rem;
     height: 2rem;
