@@ -6,7 +6,7 @@ export function mongoConnection() {
     console.log("Connected to MongoDB!");
   });
   // Init the mongoose models
-  require("./models/User");
-  require("./models/Post");
-  require("./models/Comment");
+  require("../models/User");
+  require("../models/Post");
+  require("../models/Comment");
 }
