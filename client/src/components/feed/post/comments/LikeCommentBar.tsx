@@ -7,7 +7,9 @@ import LikeBWIcon from "../../../../images/likeBW.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useState } from "react";
 
-type LikeCommentBarProps = {};
+type LikeCommentBarProps = {
+  updateReactions: (index: number) => void;
+};
 
 function LikeCommentBar(props: LikeCommentBarProps) {
   const [showIcons, setShowIcons] = useState(false);
@@ -28,39 +30,39 @@ function LikeCommentBar(props: LikeCommentBarProps) {
     >
       <p className="LikeText">like</p>
       <img
-        className="LikeImage"
         src={LikeBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(0)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
-        className="LikeImage"
         src={HeartBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(1)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
-        className="LikeImage"
         src={LaughBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(2)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
-        className="LikeImage"
         src={CryBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(3)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
-        className="LikeImage"
         src={AngryBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(4)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
-        className="LikeImage"
         src={SurpriseBWIcon}
         alt="reaction"
+        onClick={() => props.updateReactions(5)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
     </div>
