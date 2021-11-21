@@ -1,7 +1,7 @@
 <!-- [![Build](https://img.shields.io/github/workflow/status/dylanhu7/dearblueno/%F0%9F%9A%80%20Deploy%20Production?style=plastic)](https://github.com/dylanhu7/dearblueno/actions/workflows/deploy.yml) -->
 
 [![Repo License](https://img.shields.io/badge/license-AGPL--3.0-orange?style=plastic)](https://github.com/dylanhu7/dearblueno/blob/main/LICENSE)
-[![Website](https://img.shields.io/website?style=plastic&url=https%3A%2F%2Fdearblueno.bottone.io%2F)](https://dearblueno.bottone.io/)
+[![Website](https://img.shields.io/website?style=plastic&url=https%3A%2F%2Fdearblueno.net%2F)](https://dearblueno.net/)
 
 # Dear Blueno
 
