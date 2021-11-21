@@ -12,27 +12,11 @@ function Header(props: HeaderProps) {
     <div className="Header">
       <h1 id="HeaderText">Dear Blueno</h1>
       <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" />
-      <HeaderButton
-        action={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        image={PostIcon}
-        alt="Post"
-      />
-      <HeaderButton
-        action={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        image={FilterIcon}
-        alt="Filter"
-      />
-      <HeaderButton
-        action={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        image={SearchIcon}
-        alt="Search"
-      />
+      <div className="HeaderButtons">
+        <HeaderButton action={() => {}} image={PostIcon} alt="Post" />
+        <HeaderButton action={() => {}} image={FilterIcon} alt="Filter" />
+        <HeaderButton action={() => {}} image={SearchIcon} alt="Search" />
+      </div>
     </div>
   );
 }
