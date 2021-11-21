@@ -18,7 +18,7 @@ postRouter.get(
 
     const page = req.query?.page || 1;
     const posts = await Post.find({ approved: true })
-      .sort({ createdAt: -1 })
+      .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
       .limit(10)
       .populate("comments")
@@ -48,7 +48,7 @@ postRouter.get(
 
     const page = req.query?.page || 1;
     const posts = await Post.find()
-      .sort({ createdAt: -1 })
+      .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
       .limit(10)
       .populate("comments")
