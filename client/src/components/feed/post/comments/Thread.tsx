@@ -3,9 +3,13 @@ import CommentReactionBar from "./CommentReactionBar";
 import LikeCommentBar from "./LikeCommentBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function Thread(props: { comment: IThread }) {
+type ThreadProps = {
+  comment: IThread;
+};
+
+function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
   const [reactions, setReactions] = useState<string[][]>(
     props.comment.reactions
@@ -21,7 +25,10 @@ function Thread(props: { comment: IThread }) {
     const newReactions = [...reactions];
     newReactions[index].push("john");
     setReactions(newReactions);
+    // update database
   };
+
+  useEffect(() => {}, [reactions]);
 
   const nestedComments = (props.comment.children || []).map((comment) => {
     return <Thread comment={comment} />;
@@ -33,7 +40,7 @@ function Thread(props: { comment: IThread }) {
       {show && <ThreadCollapser collapse={toggleShow} />}
       <div className="CommentHeader">
         <p className="CommentAuthor">{props.comment.author}</p>
-        <p className="CommentDate">{props.comment.commentTime}</p>
+        {/* <p className="CommentDate">{props.comment.commentTime}</p> */}
         <LikeCommentBar updateReactions={updateReactions} />
       </div>
       {show && (

@@ -1,6 +1,5 @@
 import "./CommentSection.css";
 import Thread from "./Thread";
-import { useState } from "react";
 import IComment from "../../../../types/IComment";
 
 export type CommentSectionProps = {
@@ -38,13 +37,11 @@ const nestComments = (commentList: IThread[]): IThread[] => {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const [comments /*, setComments*/] = useState<IThread[]>(
-    nestComments(props.comments)
-  );
+  // const [comments, setComments] = useState<IThread[]>(props.comments);
 
   return (
     <div className="CommentSection">
-      {comments.map((comment) => (
+      {nestComments(props.comments).map((comment) => (
         <Thread key={comment.commentNumber} comment={comment} />
       ))}
     </div>

@@ -30,9 +30,24 @@ function Feed() {
     return comments.map(convertToThread);
   };
 
+  const comments: IComment[] = [];
+  const comment1: IComment = {
+    post: 1,
+    postNumber: 1,
+    approved: true,
+    commentNumber: 1,
+    parentCommentNumber: -1,
+    author: "Dylan Hu",
+    content: "This is a comment",
+    commentTime: new Date("2020-01-01"),
+    reactions: [[], [], [], [], [], []],
+  };
+  comments.push(comment1);
+  console.log(comments);
+
   return (
     <div className="Feed">
-      {posts.map((post) => {
+      {/* {posts.map((post) => {
         return (
           <Post
             key={post.postNumber}
@@ -43,7 +58,14 @@ function Feed() {
             reactions={post.reactions}
           />
         );
-      })}
+      })} */}
+      <Post
+        postNumber={1}
+        postBody="This is a post"
+        postDate={new Date().toLocaleDateString()}
+        comments={convertCommentsToThreads(comments)}
+        reactions={[]}
+      />
     </div>
   );
 }

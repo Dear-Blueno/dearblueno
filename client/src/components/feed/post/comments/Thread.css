@@ -1,6 +1,7 @@
 .Thread {
   margin-left: 1rem;
   margin-top: 1rem;
+  display: -ms-grid;
   display: grid;
   grid-template-columns: 1.5rem max-content;
   grid-template-rows: 1.5rem max-content;
