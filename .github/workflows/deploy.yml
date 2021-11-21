@@ -43,7 +43,7 @@ jobs:
           mkdir -p deploy/public
           cp -r client/build/* deploy/public
         env:
-          API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_API_URL: ${{ secrets.API_URL }}
 
       - name: ☁ SFTP Deploy
         uses: easingthemes/ssh-deploy@v2
