@@ -30,36 +30,42 @@ function LikeCommentBar(props: LikeCommentBarProps) {
     >
       <p className="LikeText">like</p>
       <img
+        className="LikeCommentImage"
         src={LikeBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(0)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
+        className="LikeCommentImage"
         src={HeartBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(1)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
+        className="LikeCommentImage"
         src={LaughBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(2)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
+        className="LikeCommentImage"
         src={CryBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(3)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
+        className="LikeCommentImage"
         src={AngryBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(4)}
         style={showIcons ? { display: "block" } : { display: "none" }}
       ></img>
       <img
+        className="LikeCommentImage"
         src={SurpriseBWIcon}
         alt="reaction"
         onClick={() => props.updateReactions(5)}
