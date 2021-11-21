@@ -1,6 +1,7 @@
 import IComment from "./IComment";
 
 export default interface IPost {
+  _id: string;
   postNumber: number;
   content: string;
   contentWarning: string;

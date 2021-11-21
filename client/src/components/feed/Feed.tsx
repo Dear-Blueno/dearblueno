@@ -4,7 +4,7 @@ import IComment from "../../types/IComment";
 import { IThread } from "./post/comments/CommentSection";
 import IPost from "../../types/IPost";
 import { useState, useEffect } from "react";
-import { getPosts } from "../../gateways/PostGateway";
+import { approvePost, createPost, getPosts } from "../../gateways/PostGateway";
 
 function Feed() {
   const [pageNumber] = useState(1);
@@ -30,24 +30,22 @@ function Feed() {
     return comments.map(convertToThread);
   };
 
-  const comments: IComment[] = [];
-  const comment1: IComment = {
-    post: 1,
-    postNumber: 1,
-    approved: true,
-    commentNumber: 1,
-    parentCommentNumber: -1,
-    author: "Dylan Hu",
-    content: "This is a comment",
-    commentTime: new Date("2020-01-01"),
-    reactions: [[], [], [], [], [], []],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const content =
+    "What is going on with Spring Weekend this year? Is it gonna be back in person again?";
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const addPost = (content: string) => {
+    createPost(content).then((response) => {
+      if (response.success && response.payload) {
+        approvePost(response.payload._id, true);
+      }
+    });
   };
-  comments.push(comment1);
-  console.log(comments);
 
   return (
     <div className="Feed">
-      {/* {posts.map((post) => {
+      {posts.map((post) => {
         return (
           <Post
             key={post.postNumber}
@@ -58,14 +56,9 @@ function Feed() {
             reactions={post.reactions}
           />
         );
-      })} */}
-      <Post
-        postNumber={1}
-        postBody="This is a post"
-        postDate={new Date().toLocaleDateString()}
-        comments={convertCommentsToThreads(comments)}
-        reactions={[]}
-      />
+      })}
+      {/* Button which adds a new post  */}
+      {/* <button onClick={() => addPost(content)}>Add Post</button> */}
     </div>
   );
 }

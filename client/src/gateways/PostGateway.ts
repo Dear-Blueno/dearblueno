@@ -110,7 +110,7 @@ export async function reactToComment(
 }
 
 export async function approvePost(
-  postId: number,
+  postId: string,
   approved: boolean
 ): Promise<IResponse<IPost>> {
   try {
