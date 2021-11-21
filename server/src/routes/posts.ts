@@ -6,35 +6,9 @@ import Post from "../models/Post";
 const postRouter = Router();
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
-postRouter.get("/", query("page").isInt({ min: 1 }), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
-
-  const page = req.query?.page || 1;
-  const posts = await Post.find({ approved: true })
-    .sort({ createdAt: -1 })
-    .skip((page - 1) * 10)
-    .limit(10)
-    .populate("comments")
-    .populate("comments.author");
-
-  // don't include comments if they are not approved
-  posts.forEach((post) => {
-    post.comments = post.comments.filter((comment) => comment.approved);
-  });
-
-  res.send(posts);
-});
-
-// GET request that gets 10 posts paginated in order of most recent (all posts)
-// (Must be authenticated as a moderator)
 postRouter.get(
-  "/all",
-  // moderatorCheck, // TODO: uncomment when authentication is implemented
-  param("page").isInt({ min: 1 }),
+  "/",
+  query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,7 +16,37 @@ postRouter.get(
       return;
     }
 
-    const page = req.params?.page || 1;
+    const page = req.query?.page || 1;
+    const posts = await Post.find({ approved: true })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .populate("comments")
+      .populate("comments.author");
+
+    // don't include comments if they are not approved
+    posts.forEach((post) => {
+      post.comments = post.comments.filter((comment) => comment.approved);
+    });
+
+    res.send(posts);
+  }
+);
+
+// GET request that gets 10 posts paginated in order of most recent (all posts)
+// (Must be authenticated as a moderator)
+postRouter.get(
+  "/all",
+  // moderatorCheck, // TODO: uncomment when authentication is implemented
+  query("page").optional().isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const page = req.query?.page || 1;
     const posts = await Post.find()
       .sort({ createdAt: -1 })
       .skip((page - 1) * 10)
