@@ -87,6 +87,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     if (nonZeroOrderDisplay[i] === 0) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!likeCount ? LikeBWIcon : LikeIcon}
           count={likeCount}
           showIcons={true}
@@ -96,6 +97,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (nonZeroOrderDisplay[i] === 1) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!heartCount ? HeartBWIcon : HeartIcon}
           count={heartCount}
           showIcons={showIcons}
@@ -105,6 +107,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (nonZeroOrderDisplay[i] === 2) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!laughCount ? LaughBWIcon : LaughIcon}
           count={laughCount}
           showIcons={showIcons}
@@ -114,6 +117,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (nonZeroOrderDisplay[i] === 3) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!cryCount ? CryBWIcon : CryIcon}
           count={cryCount}
           showIcons={showIcons}
@@ -123,6 +127,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (nonZeroOrderDisplay[i] === 4) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!angryCount ? AngryBWIcon : AngryIcon}
           count={angryCount}
           showIcons={showIcons}
@@ -132,6 +137,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (nonZeroOrderDisplay[i] === 5) {
       buttons.push(
         <CommentReactionButton
+          key={i}
           image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
           count={surpriseCount}
           showIcons={showIcons}
@@ -145,6 +151,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     if (zeroOrderDisplay[i] === 0) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!likeCount ? LikeBWIcon : LikeIcon}
           count={likeCount}
           showIcons={showIcons}
@@ -154,6 +161,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (zeroOrderDisplay[i] === 1) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!heartCount ? HeartBWIcon : HeartIcon}
           count={heartCount}
           showIcons={showIcons}
@@ -163,6 +171,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (zeroOrderDisplay[i] === 2) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!laughCount ? LaughBWIcon : LaughIcon}
           count={laughCount}
           showIcons={showIcons}
@@ -172,6 +181,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (zeroOrderDisplay[i] === 3) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!cryCount ? CryBWIcon : CryIcon}
           count={cryCount}
           showIcons={showIcons}
@@ -181,6 +191,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (zeroOrderDisplay[i] === 4) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!angryCount ? AngryBWIcon : AngryIcon}
           count={angryCount}
           showIcons={showIcons}
@@ -190,6 +201,7 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     } else if (zeroOrderDisplay[i] === 5) {
       buttons.push(
         <CommentReactionButton
+          key={i + 6}
           image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
           count={surpriseCount}
           showIcons={showIcons}

@@ -3,13 +3,13 @@ import PostBody from "./PostBody";
 import PostDate from "./PostDate";
 import PostNumber from "./PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
-import CommentSection, { Comment } from "./comments/CommentSection";
+import CommentSection, { IThread } from "./comments/CommentSection";
 
 type PostProps = {
   postNumber: number;
   postBody: string;
   postDate: string;
-  comments: Comment[];
+  comments: IThread[];
   reactions: string[][];
 };
 

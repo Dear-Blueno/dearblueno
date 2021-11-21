@@ -1,32 +1,29 @@
 import "./CommentSection.css";
 import Thread from "./Thread";
 import { useState } from "react";
+import IComment from "../../../../types/IComment";
 
 export type CommentSectionProps = {
   postId: number;
-  comments: Comment[];
+  comments: IThread[];
 };
 
-export type Comment = {
-  id: number;
-  parentId: number;
-  author: string;
-  body: string;
-  date: string;
-  children: Comment[];
-  reactions: string[][];
-};
+export interface IThread extends IComment {
+  children: IThread[];
+}
 
-const nestComments = (commentList: Comment[]): Comment[] => {
-  const commentMap: { [key: number]: Comment } = {};
+const nestComments = (commentList: IThread[]): IThread[] => {
+  const commentMap: { [key: number]: IThread } = {};
 
   // move all the comments into a map of id => comment
-  commentList.forEach((comment) => (commentMap[comment.id] = comment));
+  commentList.forEach(
+    (comment) => (commentMap[comment.commentNumber] = comment)
+  );
 
   // iterate over the comments again and correctly nest the children
   commentList.forEach((comment) => {
-    if (comment.parentId !== -1) {
-      const parent = commentMap[comment.parentId];
+    if (comment.parentCommentNumber !== -1) {
+      const parent = commentMap[comment.parentCommentNumber];
       if (!parent.children.includes(comment)) {
         parent.children.push(comment);
       }
@@ -36,19 +33,19 @@ const nestComments = (commentList: Comment[]): Comment[] => {
 
   // filter the list to return a list of correctly nested comments
   return commentList.filter((comment) => {
-    return comment.parentId === -1;
+    return comment.parentCommentNumber === -1;
   });
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const [comments /*, setComments*/] = useState<Comment[]>(
+  const [comments /*, setComments*/] = useState<IThread[]>(
     nestComments(props.comments)
   );
 
   return (
     <div className="CommentSection">
       {comments.map((comment) => (
-        <Thread key={comment.id} comment={comment} />
+        <Thread key={comment.commentNumber} comment={comment} />
       ))}
     </div>
   );
