@@ -1,8 +1,3 @@
-.ReactionButton {
-  width: fit-content;
-  height: fit-content;
-}
-
 .ReactionButtonImage {
   width: 1.8rem;
   height: 1.8rem;
@@ -14,8 +9,6 @@
 }
 
 .ReactionCounter {
-  width: fit-content;
-  height: fit-content;
   margin-top: 0.2rem;
   float: left;
   margin-right: 0.5rem;

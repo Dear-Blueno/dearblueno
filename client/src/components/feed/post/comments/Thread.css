@@ -1,7 +1,6 @@
 .Thread {
   margin-left: 1rem;
   margin-top: 1rem;
-  display: -ms-grid;
   display: grid;
   grid-template-columns: 1.5rem calc(100% - 2.8rem);
   grid-template-rows: 1.5rem max-content;
@@ -16,13 +15,11 @@
 .Comment {
   display: flex;
   flex-direction: column;
-  height: fit-content;
   width: inherit;
 }
 
 .CommentAuthor {
   font-weight: 600;
-  width: fit-content;
   margin-right: 1rem;
 }
 
@@ -34,7 +31,6 @@
 .CommentDate {
   color: gray;
   font-size: 0.8rem;
-  width: fit-content;
 }
 
 .CommentHeader {
