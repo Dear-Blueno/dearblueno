@@ -1,0 +1,13 @@
+.ConsentButton {
+  margin-right: 1rem;
+}
+
+#box {
+  border: 1px solid #000000;
+  width: 1rem;
+  height: 1rem;
+}
+
+#box:checked:after {
+  color: black;
+}

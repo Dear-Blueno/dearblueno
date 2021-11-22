@@ -1,13 +1,11 @@
-import React from "react";
 import "./App.css";
-import Feed from "./components/feed/Feed";
-import Header from "./components/header/Header";
+import FeedPage from "./pages/FeedPage";
+// import SubmitPage from "./pages/submitpage/SubmitPage";
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Feed />
+      <FeedPage />
     </div>
   );
 }
