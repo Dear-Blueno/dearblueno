@@ -4,10 +4,10 @@
   margin-right: auto;
   background-color: white;
   box-sizing: border-box;
-  border-bottom: 0.05rem solid #c0c0c0;
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
   box-sizing: border-box;
+  height: auto;
 }

@@ -23,7 +23,9 @@ function Thread(props: ThreadProps) {
     // TODO: if user has reacted to comment, remove reaction
     // else add reaction
     const newReactions = [...reactions];
-    newReactions[index].push("john");
+    newReactions[index]
+      ? newReactions[index].push("john")
+      : (newReactions[index] = ["john"]);
     setReactions(newReactions);
     // update database
   };

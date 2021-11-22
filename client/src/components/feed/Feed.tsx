@@ -4,7 +4,12 @@ import IComment from "../../types/IComment";
 import { IThread } from "./post/comments/CommentSection";
 import IPost from "../../types/IPost";
 import { useState, useEffect } from "react";
-import { approvePost, createPost, getPosts } from "../../gateways/PostGateway";
+import {
+  approvePost,
+  commentOnPost,
+  createPost,
+  getPosts,
+} from "../../gateways/PostGateway";
 
 function Feed() {
   const [pageNumber] = useState(1);
@@ -43,6 +48,31 @@ function Feed() {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const postNumber = 6;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const commentContent =
+    "Flex 330 for life. Real talk though I have met very few people who were close to running out even on Flex 330. Even if you end up having to buy meals your last week or 2 on Thayer it will end up being cheaper than either 20 Weekly or Flex 460.";
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const parentCommentNumber = -1;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const addComment = (
+    postNumber: number,
+    content: string,
+    parentCommentNumber: number
+  ) => {
+    console.log("add comment", postNumber, content, parentCommentNumber);
+    commentOnPost(postNumber, content, parentCommentNumber).then((response) => {
+      if (response.success && response.payload) {
+      } else {
+        console.log("error commenting on post", response.message);
+      }
+    });
+  };
+
   return (
     <div className="Feed">
       {posts.map((post) => {
@@ -59,6 +89,14 @@ function Feed() {
       })}
       {/* Button which adds a new post  */}
       {/* <button onClick={() => addPost(content)}>Add Post</button> */}
+      {/* Button which adds a new comment  */}
+      {/* <button
+        onClick={() =>
+          addComment(postNumber, commentContent, parentCommentNumber)
+        }
+      >
+        Add Comment
+      </button> */}
     </div>
   );
 }

@@ -3,7 +3,7 @@
   margin-top: 1rem;
   display: -ms-grid;
   display: grid;
-  grid-template-columns: 1.5rem max-content;
+  grid-template-columns: 1.5rem calc(100% - 2.8rem);
   grid-template-rows: 1.5rem max-content;
   gap: 0px 0px;
   grid-template-areas:
@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
-  grid-area: thread;
+  width: inherit;
 }
 
 .CommentAuthor {

@@ -7,8 +7,6 @@
   width: 1.8rem;
   height: 1.8rem;
   float: left;
-  /* maybe remove this bot margin */
-  margin-bottom: 1rem;
 }
 
 .ReactionButtonImage:hover {
@@ -21,6 +19,4 @@
   margin-top: 0.2rem;
   float: left;
   margin-right: 0.5rem;
-  /* maybe remove this bot margin */
-  margin-bottom: 1rem;
 }

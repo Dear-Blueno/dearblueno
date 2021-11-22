@@ -19,9 +19,9 @@ export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
   }
 }
 
-export async function getPost(id: number): Promise<IResponse<IPost>> {
+export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   try {
-    const response = await axios.get(`/posts/${id}`);
+    const response = await axios.get(`/posts/${postNumber}`);
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
@@ -46,12 +46,12 @@ export async function createPost(content: string): Promise<IResponse<IPost>> {
 }
 
 export async function reactToPost(
-  postId: number,
+  postNumber: number,
   reaction: number,
   status: boolean
 ): Promise<IResponse<IPost>> {
   try {
-    const response = await axios.put(`/posts/${postId}/react`, {
+    const response = await axios.put(`/posts/${postNumber}/react`, {
       reaction,
       status,
     });
@@ -66,14 +66,14 @@ export async function reactToPost(
 }
 
 export async function commentOnPost(
-  postId: number,
+  postNumber: number,
   content: string,
-  parentId: number
+  parentCommentNumber: number
 ): Promise<IResponse<IPost>> {
   try {
-    const response = await axios.post(`/posts/${postId}/comment`, {
+    const response = await axios.post(`/posts/${postNumber}/comment`, {
       content,
-      parentId,
+      parentCommentNumber,
     });
     if (response.status === 200) {
       return successfulResponse(response.data);
@@ -86,14 +86,14 @@ export async function commentOnPost(
 }
 
 export async function reactToComment(
-  postId: number,
-  commentId: number,
+  postNumber: number,
+  commentNumber: number,
   reaction: number,
   status: boolean
 ): Promise<IResponse<IPost>> {
   try {
     const response = await axios.put(
-      `/posts/${postId}/comment/${commentId}/react`,
+      `/posts/${postNumber}/comment/${commentNumber}/react`,
       {
         reaction,
         status,
