@@ -1,9 +1,11 @@
 import "./CommentSection.css";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
+import NewCommentBox from "./NewCommentBox";
+import { useState } from "react";
 
 export type CommentSectionProps = {
-  postId: number;
+  postNumber: number;
   comments: IThread[];
 };
 
@@ -38,12 +40,18 @@ const nestComments = (commentList: IThread[]): IThread[] => {
 
 function CommentSection(props: CommentSectionProps) {
   // const [comments, setComments] = useState<IThread[]>(props.comments);
+  const [commentAreaActive, setCommentAreaActive] = useState<boolean>(false);
 
   return (
     <div className="CommentSection">
       {nestComments(props.comments).map((comment) => (
         <Thread key={comment.commentNumber} comment={comment} />
       ))}
+      <NewCommentBox
+        parentCommentNumber={-1}
+        active={commentAreaActive}
+        setActive={setCommentAreaActive}
+      ></NewCommentBox>
     </div>
   );
 }

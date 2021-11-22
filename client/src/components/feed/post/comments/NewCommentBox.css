@@ -1,11 +1,12 @@
 .NewCommentTemporaryInput {
-  width: calc(100% - 3rem);
+  width: calc(100% - 5rem);
   height: 1rem;
   border: 1px solid #ccc;
   padding: 0.5rem;
-  margin-left: 1rem;
+  margin-left: 3rem;
   margin-top: 1rem;
   font-family: "Fira Code", monospace;
+  font-size: 1rem;
 }
 
 .NewCommentTemporaryInput:focus {
@@ -13,16 +14,22 @@
 }
 
 .NewCommentTextArea {
-  width: calc(100% - 3rem);
+  width: calc(100% - 5rem);
   height: 4rem;
   border: 1px solid #ccc;
   padding: 0.5rem;
-  margin-left: 1rem;
+  margin-left: 3rem;
   margin-top: 1rem;
   font-family: "Fira Code", monospace;
+  font-size: 1rem;
   resize: vertical;
 }
 
 .NewCommentTextArea:focus {
   outline: none;
+}
+
+.TopLevelComment {
+  margin-left: 1rem;
+  width: calc(100% - 3rem);
 }

@@ -57,6 +57,7 @@ function Thread(props: ThreadProps) {
         )}
       </div>
       <NewCommentBox
+        parentCommentNumber={props.comment.commentNumber}
         active={commentAreaActive}
         setActive={setCommentAreaActive}
       />
