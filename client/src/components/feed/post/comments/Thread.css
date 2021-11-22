@@ -1,4 +1,4 @@
-.Thread {
+.ThreadGrid {
   margin-left: 1rem;
   margin-top: 1rem;
   display: grid;
@@ -42,5 +42,4 @@
 
 .ProfilePicture {
   background-color: #c0c0c0;
-  border-radius: 0.2rem;
 }

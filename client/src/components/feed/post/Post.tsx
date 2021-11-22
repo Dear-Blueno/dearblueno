@@ -20,9 +20,7 @@ function Post(props: PostProps) {
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
       <ReactionBar reactions={props.reactions}></ReactionBar>
-      {props.comments.length ? (
-        <CommentSection comments={props.comments} postId={props.postNumber} />
-      ) : null}
+      <CommentSection comments={props.comments} postId={props.postNumber} />
     </div>
   );
 }

@@ -1,0 +1,28 @@
+.NewCommentTemporaryInput {
+  width: calc(100% - 3rem);
+  height: 1rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-family: "Fira Code", monospace;
+}
+
+.NewCommentTemporaryInput:focus {
+  outline: none;
+}
+
+.NewCommentTextArea {
+  width: calc(100% - 3rem);
+  height: 4rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-family: "Fira Code", monospace;
+  resize: vertical;
+}
+
+.NewCommentTextArea:focus {
+  outline: none;
+}
