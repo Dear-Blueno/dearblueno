@@ -1,0 +1,12 @@
+.ConsentBar {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  padding: 0.5rem;
+  width: 70%;
+  margin-top: 0.2rem;
+}
+
+.ConsentText {
+  font-size: 0.8rem;
+}
