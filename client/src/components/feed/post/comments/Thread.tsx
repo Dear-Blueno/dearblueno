@@ -26,7 +26,9 @@ function Thread(props: ThreadProps) {
   useEffect(() => {}, [reactions]);
 
   const nestedComments = (props.comment.children || []).map((comment) => {
-    return <Thread collapsed={false} comment={comment} />;
+    return (
+      <Thread key={comment.commentNumber} collapsed={false} comment={comment} />
+    );
   });
 
   const formatDuration = (duration: string) => {
@@ -50,6 +52,7 @@ function Thread(props: ThreadProps) {
   const className =
     props.comment.parentCommentNumber < 0 ? "Thread TopLevelThread" : "Thread";
 
+  console.log(props.comment.author);
   return (
     <div className={className} key={props.comment.commentNumber}>
       <div className="ThreadGrid">

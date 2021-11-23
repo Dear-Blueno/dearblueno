@@ -220,8 +220,6 @@ function CommentReactionBar(props: CommentReactionBarProps) {
     }
   }
 
-  console.log(likeCount);
-
   return (
     <div
       className="CommentReactionBar"
