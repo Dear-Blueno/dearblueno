@@ -29,7 +29,8 @@
   outline: none;
 }
 
-.TopLevelComment {
+.TopLevelCommentBox {
   margin-left: 0;
+  margin-top: 0;
   width: calc(100% - 1rem - 2px);
 }

@@ -10,11 +10,11 @@ type NewCommentBoxProps = {
 function NewCommentBox(props: NewCommentBoxProps) {
   const textAreaClassName =
     props.parentCommentNumber < 0
-      ? "NewCommentTextArea TopLevelComment"
+      ? "NewCommentTextArea TopLevelCommentBox"
       : "NewCommentTextArea";
   const inputClassName =
     props.parentCommentNumber < 0
-      ? "NewCommentTemporaryInput TopLevelComment"
+      ? "NewCommentTemporaryInput TopLevelCommentBox"
       : "NewCommentTemporaryInput";
 
   return (
