@@ -7,6 +7,7 @@ import NewCommentBox from "./NewCommentBox";
 import { formatDistanceToNowStrict } from "date-fns";
 import ReplyButton from "./comment_footer/ReplyButton";
 import CommentFooterDivider from "./comment_footer/CommentFooterDivider";
+import ProfilePicture from "../../../user/ProfilePicture";
 
 type ThreadProps = {
   collapsed: boolean;
@@ -52,7 +53,7 @@ function Thread(props: ThreadProps) {
   return (
     <div className={className} key={props.comment.commentNumber}>
       <div className="ThreadGrid">
-        <div className="ProfilePicture"> </div>
+        <ProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
         <div className="CommentHeader">
           <p className="CommentAuthor">{props.comment.author}</p>
