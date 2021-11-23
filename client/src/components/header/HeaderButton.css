@@ -20,8 +20,9 @@
 /* Extra extra small devices (phones, 400px and down) */
 @media only screen and (max-width: 400px) {
   .HeaderButton {
-    width: 1.3rem;
-    height: 1.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    box-shadow: -0.05rem 0.05rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
 }
 
@@ -30,6 +31,7 @@
   .HeaderButton {
     width: 2rem;
     height: 2rem;
+    box-shadow: -0.05rem 0.05rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
 }
 

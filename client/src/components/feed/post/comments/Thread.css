@@ -1,6 +1,4 @@
 .ThreadGrid {
-  margin-left: 1rem;
-  margin-top: 1rem;
   display: grid;
   grid-template-columns: 1.5rem calc(100% - 2.8rem);
   grid-template-rows: 1.5rem max-content;
@@ -21,6 +19,7 @@
 .CommentAuthor {
   font-weight: 600;
   margin-right: 1rem;
+  font-size: 0.8rem;
 }
 
 .CommentBody {
@@ -38,8 +37,20 @@
   flex-direction: row;
   align-items: center;
   grid-area: header;
+  flex-wrap: wrap;
 }
 
-.ProfilePicture {
-  background-color: #c0c0c0;
+.Thread {
+  margin-top: 1rem;
+}
+
+.TopLevelThread {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.CommentFooter {
+  display: flex;
+  flex-direction: row;
 }

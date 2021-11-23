@@ -1,0 +1,17 @@
+.CommentReactionBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.LikeText {
+  font-size: 0.8rem;
+  color: #8e8e8e;
+  user-select: none;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
+.LikeText:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

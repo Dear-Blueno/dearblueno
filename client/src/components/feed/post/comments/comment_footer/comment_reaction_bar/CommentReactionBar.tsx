@@ -1,18 +1,18 @@
 import "./CommentReactionBar.css";
 import CommentReactionButton from "./CommentReactionButton";
-import AngryIcon from "../../../../../images/angry.svg";
-import AngryBWIcon from "../../../../../images/angryBW.svg";
-import CryIcon from "../../../../../images/cry.svg";
-import CryBWIcon from "../../../../../images/cryBW.svg";
-import HeartIcon from "../../../../../images/heart.svg";
-import HeartBWIcon from "../../../../../images/heartBW.svg";
-import LaughIcon from "../../../../../images/laugh.svg";
-import LaughBWIcon from "../../../../../images/laughBW.svg";
-import LikeIcon from "../../../../../images/like.svg";
-import LikeBWIcon from "../../../../../images/likeBW.svg";
-import SurpriseIcon from "../../../../../images/surprise.svg";
-import SurpriseBWIcon from "../../../../../images/surpriseBW.svg";
-import { useEffect, useState } from "react";
+import AngryIcon from "../../../../../../images/angry.svg";
+import AngryBWIcon from "../../../../../../images/angryBW.svg";
+import CryIcon from "../../../../../../images/cry.svg";
+import CryBWIcon from "../../../../../../images/cryBW.svg";
+import HeartIcon from "../../../../../../images/heart.svg";
+import HeartBWIcon from "../../../../../../images/heartBW.svg";
+import LaughIcon from "../../../../../../images/laugh.svg";
+import LaughBWIcon from "../../../../../../images/laughBW.svg";
+import LikeIcon from "../../../../../../images/like.svg";
+import LikeBWIcon from "../../../../../../images/likeBW.svg";
+import SurpriseIcon from "../../../../../../images/surprise.svg";
+import SurpriseBWIcon from "../../../../../../images/surpriseBW.svg";
+import { useState } from "react";
 
 type CommentReactionBarProps = {
   reactions: string[][];
@@ -43,17 +43,17 @@ function CommentReactionBar(props: CommentReactionBarProps) {
 
   const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState([NaN]); // NaN is a placeholder for the first reaction
   const [zeroOrderDisplay, setZeroOrderDisplay] = useState([0, 1, 2, 3, 4, 5]); // these arrays are the display order and state of the reactions, that is updated on leave
+  const [showReactText, setShowReactText] = useState<boolean>(
+    likeCount +
+      heartCount +
+      laughCount +
+      cryCount +
+      angryCount +
+      surpriseCount ===
+      0
+  );
 
   const buttons = [];
-
-  useEffect(() => {
-    setLikeCount(props.reactions[0] ? props.reactions[0].length : 0);
-    setHeartCount(props.reactions[1] ? props.reactions[1].length : 0);
-    setLaughCount(props.reactions[2] ? props.reactions[2].length : 0);
-    setCryCount(props.reactions[3] ? props.reactions[3].length : 0);
-    setAngryCount(props.reactions[4] ? props.reactions[4].length : 0);
-    setSurpriseCount(props.reactions[5] ? props.reactions[5].length : 0);
-  }, [props.reactions]);
 
   const showAll = () => {
     setShowIcons(true);
@@ -223,9 +223,38 @@ function CommentReactionBar(props: CommentReactionBarProps) {
   return (
     <div
       className="CommentReactionBar"
-      onMouseOver={showAll}
-      onMouseLeave={hideAll}
+      onMouseOver={() => {
+        console.log(showReactText);
+        if (!showReactText) {
+          showAll();
+        }
+      }}
+      onMouseLeave={() => {
+        if (
+          likeCount +
+            heartCount +
+            laughCount +
+            cryCount +
+            angryCount +
+            surpriseCount ===
+          0
+        ) {
+          setShowReactText(true);
+        }
+        hideAll();
+      }}
     >
+      {showReactText && (
+        <p
+          className="LikeText"
+          onClick={() => {
+            setShowReactText(false);
+            showAll();
+          }}
+        >
+          react
+        </p>
+      )}
       {buttons}
     </div>
   );
