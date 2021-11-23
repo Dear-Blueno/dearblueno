@@ -11,3 +11,11 @@ body {
   font-size: 1rem;
   background-color: #d5ebff;
 }
+
+input[type="text"] {
+  appearance: none;
+}
+
+textarea {
+  appearance: none;
+}
