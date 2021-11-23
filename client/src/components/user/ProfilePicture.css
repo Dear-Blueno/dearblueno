@@ -1,3 +1,10 @@
+.ProfilePictureImage {
+  grid-area: pic;
+  height: 100%;
+  width: 100%;
+  border-radius: 69rem;
+}
 .ProfilePicture {
-  border: 1px solid #ccc;
+  border: 1px solid #bbb;
+  border-radius: 69rem;
 }

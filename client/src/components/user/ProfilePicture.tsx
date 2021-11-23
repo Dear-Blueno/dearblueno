@@ -7,7 +7,7 @@ interface ProfilePictureProps {
 function ProfilePicture(props: ProfilePictureProps) {
   return (
     <div className="ProfilePicture">
-      <img src={props.link} alt="" />
+      <img className="ProfilePictureImage" src={props.link} alt="" />
     </div>
   );
 }
