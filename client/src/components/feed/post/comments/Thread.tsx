@@ -52,14 +52,13 @@ function Thread(props: ThreadProps) {
   const className =
     props.comment.parentCommentNumber < 0 ? "Thread TopLevelThread" : "Thread";
 
-  console.log(props.comment.author);
   return (
     <div className={className} key={props.comment.commentNumber}>
       <div className="ThreadGrid">
         <ProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
         <div className="CommentHeader">
-          <p className="CommentAuthor">{props.comment.author}</p>
+          <p className="CommentAuthor">{props.comment.author.name}</p>
           <p className="CommentDate">
             {formatDuration(
               formatDistanceToNowStrict(new Date(props.comment.commentTime))

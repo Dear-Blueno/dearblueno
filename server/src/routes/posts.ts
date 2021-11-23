@@ -22,7 +22,12 @@ postRouter.get(
       .skip((page - 1) * 10)
       .limit(10)
       .populate("comments")
-      .populate("comments.author");
+      .populate({
+        path: "comments",
+        populate: { path: "author" },
+        // select name and profile picture
+        // select: "name profilePicture", // TODO: only select name and profilePicture
+      });
 
     // don't include comments if they are not approved
     posts.forEach((post) => {
