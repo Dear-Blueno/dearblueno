@@ -6,7 +6,7 @@
   margin-left: 3rem;
   margin-top: 1rem;
   font-family: "Fira Code", monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .NewCommentTemporaryInput:focus {
@@ -21,7 +21,7 @@
   margin-left: 3rem;
   margin-top: 1rem;
   font-family: "Fira Code", monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
   resize: vertical;
 }
 
@@ -30,6 +30,6 @@
 }
 
 .TopLevelComment {
-  margin-left: 1rem;
-  width: calc(100% - 3rem);
+  margin-left: 0;
+  width: calc(100% - 1rem - 2px);
 }

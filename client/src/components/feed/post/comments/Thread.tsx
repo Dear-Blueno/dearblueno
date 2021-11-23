@@ -1,12 +1,12 @@
 import "./Thread.css";
-import CommentReactionBar from "./comment_reaction_bar/CommentReactionBar";
-import LikeCommentBar from "./like_reaction_bar/LikeCommentBar";
+import CommentReactionBar from "./comment_footer/comment_reaction_bar/CommentReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
 import NewCommentBox from "./NewCommentBox";
 import { formatDistanceToNowStrict } from "date-fns";
-import ReplyButton from "./ReplyButton";
+import ReplyButton from "./comment_footer/ReplyButton";
+import CommentFooterDivider from "./comment_footer/CommentFooterDivider";
 
 type ThreadProps = {
   collapsed: boolean;
@@ -15,24 +15,11 @@ type ThreadProps = {
 
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
-  const [reactions, setReactions] = useState<string[][]>(
-    props.comment.reactions
-  );
+  const [reactions] = useState<string[][]>(props.comment.reactions);
   const [commentAreaActive, setCommentAreaActive] = useState<boolean>(false);
 
   const toggleShow = () => {
     setShow(!show);
-  };
-
-  const updateReactions = (index: number) => {
-    // TODO: if user has reacted to comment, remove reaction
-    // else add reaction
-    const newReactions = [...reactions];
-    newReactions[index]
-      ? newReactions[index].push("john")
-      : (newReactions[index] = ["john"]);
-    setReactions(newReactions);
-    // update database
   };
 
   useEffect(() => {}, [reactions]);
@@ -59,8 +46,11 @@ function Thread(props: ThreadProps) {
     }
   };
 
+  const className =
+    props.comment.parentCommentNumber < 0 ? "Thread TopLevelThread" : "Thread";
+
   return (
-    <div className="Thread" key={props.comment.commentNumber}>
+    <div className={className} key={props.comment.commentNumber}>
       <div className="ThreadGrid">
         <div className="ProfilePicture"> </div>
         {show && <ThreadCollapser collapse={toggleShow} />}
@@ -71,13 +61,17 @@ function Thread(props: ThreadProps) {
               formatDistanceToNowStrict(new Date(props.comment.commentTime))
             )}
           </p>
-          {show && <LikeCommentBar updateReactions={updateReactions} />}
-          {show && <ReplyButton click={() => {}} />}
         </div>
         {show && (
           <div className="Comment">
             <p className="CommentBody">{props.comment.content}</p>
-            <CommentReactionBar reactions={reactions} />
+            <div className="CommentFooter">
+              {show && (
+                <CommentReactionBar reactions={props.comment.reactions} />
+              )}
+              <CommentFooterDivider />
+              {show && <ReplyButton click={() => {}} />}
+            </div>
             {nestedComments}
           </div>
         )}

@@ -1,8 +1,4 @@
 .CommentReactionButton {
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  align-items: center;
 }
 
 .CommentReactionButtonImage {
@@ -16,9 +12,7 @@
 }
 
 .CommentReactionCounter {
-  width: fit-content;
-  height: fit-content;
   float: left;
-  margin-right: 0.5rem;
+  margin-right: 0.4rem;
   font-size: 0.8rem;
 }
