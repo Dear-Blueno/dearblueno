@@ -51,6 +51,7 @@ function CommentSection(props: CommentSectionProps) {
         parentCommentNumber={-1}
         active={commentAreaActive}
         setActive={setCommentAreaActive}
+        show={true}
       ></NewCommentBox>
     </div>
   );

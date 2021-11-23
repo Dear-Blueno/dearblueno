@@ -5,6 +5,7 @@ import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
 import NewCommentBox from "./NewCommentBox";
+import { formatDistanceToNowStrict } from "date-fns";
 
 type ThreadProps = {
   comment: IThread;
@@ -38,6 +39,24 @@ function Thread(props: ThreadProps) {
     return <Thread comment={comment} />;
   });
 
+  const formatDuration = (duration: string) => {
+    if (duration.includes(" seconds")) {
+      return duration.replace(" seconds", "s");
+    } else if (duration.includes(" minutes")) {
+      return duration.replace(" minutes", "m");
+    } else if (duration.includes(" hours")) {
+      return duration.replace(" hours", "h");
+    } else if (duration.includes(" days")) {
+      return duration.replace(" days", "d");
+    } else if (duration.includes(" months")) {
+      return duration.replace(" months", "mo");
+    } else if (duration.includes(" years")) {
+      return duration.replace(" years", "y");
+    } else {
+      return duration;
+    }
+  };
+
   return (
     <div className="Thread" key={props.comment.commentNumber}>
       <div className="ThreadGrid">
@@ -45,7 +64,11 @@ function Thread(props: ThreadProps) {
         {show && <ThreadCollapser collapse={toggleShow} />}
         <div className="CommentHeader">
           <p className="CommentAuthor">{props.comment.author}</p>
-          {/* <p className="CommentDate">{props.comment.commentTime}</p> */}
+          <p className="CommentDate">
+            {formatDuration(
+              formatDistanceToNowStrict(new Date(props.comment.commentTime))
+            )}
+          </p>
           <LikeCommentBar updateReactions={updateReactions} />
         </div>
         {show && (
@@ -60,6 +83,7 @@ function Thread(props: ThreadProps) {
         parentCommentNumber={props.comment.commentNumber}
         active={commentAreaActive}
         setActive={setCommentAreaActive}
+        show={false}
       />
     </div>
   );
