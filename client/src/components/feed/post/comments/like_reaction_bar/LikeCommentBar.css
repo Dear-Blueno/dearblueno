@@ -2,8 +2,6 @@
   margin-left: 0.9rem;
   display: flex;
   flex-direction: row;
-  width: fit-content;
-  height: fit-content;
 }
 
 .LikeText {
@@ -11,8 +9,19 @@
   color: #8e8e8e;
 }
 
+.LikeText:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .LikeCommentImage {
   width: 1.1rem;
   height: 1.1rem;
   margin-left: 0.6rem;
+  cursor: pointer;
+}
+
+.LikeCommentBarIcons {
+  display: flex;
+  flex-direction: row;
 }

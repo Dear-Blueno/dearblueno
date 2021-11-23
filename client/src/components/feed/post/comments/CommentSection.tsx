@@ -45,7 +45,11 @@ function CommentSection(props: CommentSectionProps) {
   return (
     <div className="CommentSection">
       {nestComments(props.comments).map((comment) => (
-        <Thread key={comment.commentNumber} comment={comment} />
+        <Thread
+          key={comment.commentNumber}
+          comment={comment}
+          collapsed={false}
+        />
       ))}
       <NewCommentBox
         parentCommentNumber={-1}

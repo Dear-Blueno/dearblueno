@@ -1,17 +1,17 @@
 import "./CommentReactionBar.css";
 import CommentReactionButton from "./CommentReactionButton";
-import AngryIcon from "../../../../images/angry.svg";
-import AngryBWIcon from "../../../../images/angryBW.svg";
-import CryIcon from "../../../../images/cry.svg";
-import CryBWIcon from "../../../../images/cryBW.svg";
-import HeartIcon from "../../../../images/heart.svg";
-import HeartBWIcon from "../../../../images/heartBW.svg";
-import LaughIcon from "../../../../images/laugh.svg";
-import LaughBWIcon from "../../../../images/laughBW.svg";
-import LikeIcon from "../../../../images/like.svg";
-import LikeBWIcon from "../../../../images/likeBW.svg";
-import SurpriseIcon from "../../../../images/surprise.svg";
-import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
+import AngryIcon from "../../../../../images/angry.svg";
+import AngryBWIcon from "../../../../../images/angryBW.svg";
+import CryIcon from "../../../../../images/cry.svg";
+import CryBWIcon from "../../../../../images/cryBW.svg";
+import HeartIcon from "../../../../../images/heart.svg";
+import HeartBWIcon from "../../../../../images/heartBW.svg";
+import LaughIcon from "../../../../../images/laugh.svg";
+import LaughBWIcon from "../../../../../images/laughBW.svg";
+import LikeIcon from "../../../../../images/like.svg";
+import LikeBWIcon from "../../../../../images/likeBW.svg";
+import SurpriseIcon from "../../../../../images/surprise.svg";
+import SurpriseBWIcon from "../../../../../images/surpriseBW.svg";
 import { useEffect, useState } from "react";
 
 type CommentReactionBarProps = {

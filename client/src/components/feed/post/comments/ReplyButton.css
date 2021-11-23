@@ -1,0 +1,12 @@
+.ReplyButton {
+  margin-left: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.8rem;
+  color: #8e8e8e;
+}
+
+.ReplyButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

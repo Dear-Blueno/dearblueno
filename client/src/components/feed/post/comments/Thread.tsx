@@ -1,13 +1,15 @@
 import "./Thread.css";
-import CommentReactionBar from "./CommentReactionBar";
-import LikeCommentBar from "./LikeCommentBar";
+import CommentReactionBar from "./comment_reaction_bar/CommentReactionBar";
+import LikeCommentBar from "./like_reaction_bar/LikeCommentBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
 import NewCommentBox from "./NewCommentBox";
 import { formatDistanceToNowStrict } from "date-fns";
+import ReplyButton from "./ReplyButton";
 
 type ThreadProps = {
+  collapsed: boolean;
   comment: IThread;
 };
 
@@ -36,7 +38,7 @@ function Thread(props: ThreadProps) {
   useEffect(() => {}, [reactions]);
 
   const nestedComments = (props.comment.children || []).map((comment) => {
-    return <Thread comment={comment} />;
+    return <Thread collapsed={false} comment={comment} />;
   });
 
   const formatDuration = (duration: string) => {
@@ -69,7 +71,8 @@ function Thread(props: ThreadProps) {
               formatDistanceToNowStrict(new Date(props.comment.commentTime))
             )}
           </p>
-          <LikeCommentBar updateReactions={updateReactions} />
+          {show && <LikeCommentBar updateReactions={updateReactions} />}
+          {show && <ReplyButton click={() => {}} />}
         </div>
         {show && (
           <div className="Comment">
