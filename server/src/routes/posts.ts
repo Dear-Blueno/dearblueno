@@ -37,7 +37,7 @@ postRouter.get(
 // (Must be authenticated as a moderator)
 postRouter.get(
   "/all",
-  // moderatorCheck, // TODO: uncomment when authentication is implemented
+  // modCheck, // TODO: uncomment when authentication is implemented
   query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -105,7 +105,7 @@ postRouter.post(
 // (Must be authenticated as a moderator)
 postRouter.put(
   "/:id/approve",
-  // moderatorCheck, // TODO: uncomment when auth is implemented
+  // modCheck, // TODO: uncomment when auth is implemented
   body("approved").toBoolean(),
   param("id").isMongoId(),
   async (req, res) => {
@@ -214,7 +214,7 @@ postRouter.post(
 // (Must be authenticated as a moderator)
 postRouter.put(
   "/:id/comment/:commentId/approve",
-  // moderatorCheck, // TODO: uncomment when auth is implemented
+  // modCheck, // TODO: uncomment when auth is implemented
   body("approved").toBoolean(),
   param("id").isInt({ min: 1 }),
   param("commentId").isInt({ min: 1 }),

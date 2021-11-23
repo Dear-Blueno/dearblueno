@@ -12,6 +12,8 @@ export default interface IUser {
   createdAt: Date;
   lastLoggedIn: Date;
   level: number;
+  streakDays: number;
   commentsCount: number;
+  verifiedBrown: boolean;
   moderator: boolean;
 }

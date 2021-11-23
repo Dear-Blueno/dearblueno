@@ -53,9 +53,17 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
+  streakDays: {
+    type: Number,
+    default: 0,
+  },
   commentsCount: {
     type: Number,
     default: 0,
+  },
+  verifiedBrown: {
+    type: Boolean,
+    default: false,
   },
   moderator: {
     type: Boolean,
@@ -77,7 +85,9 @@ export interface IUser extends Document {
   createdAt: Date;
   lastLoggedIn: Date;
   level: number;
+  streakDays: number;
   commentsCount: number;
+  verifiedBrown: boolean;
   moderator: boolean;
 }
 
