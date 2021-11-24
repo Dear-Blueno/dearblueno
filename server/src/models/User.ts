@@ -72,6 +72,7 @@ const UserSchema = new Schema({
   badges: {
     type: [String],
     default: [],
+  },
 });
 
 export interface IUser extends Document {
