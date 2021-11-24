@@ -4,10 +4,10 @@ import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
 import NewCommentBox from "./NewCommentBox";
-import { formatDistanceToNowStrict } from "date-fns";
 import ReplyButton from "./comment_footer/ReplyButton";
 import CommentFooterDivider from "./comment_footer/CommentFooterDivider";
 import ProfilePicture from "../../../user/ProfilePicture";
+import CommentHeader from "./comment_header/CommentHeader";
 
 type ThreadProps = {
   collapsed: boolean;
@@ -31,36 +31,6 @@ function Thread(props: ThreadProps) {
     );
   });
 
-  const formatDuration = (duration: string) => {
-    if (duration.includes(" seconds")) {
-      return duration.replace(" seconds", "s");
-    } else if (duration.includes(" second")) {
-      return duration.replace(" second", "s");
-    } else if (duration.includes(" minutes")) {
-      return duration.replace(" minutes", "m");
-    } else if (duration.includes(" minute")) {
-      return duration.replace(" minute", "m");
-    } else if (duration.includes(" hours")) {
-      return duration.replace(" hours", "h");
-    } else if (duration.includes(" hour")) {
-      return duration.replace(" hour", "h");
-    } else if (duration.includes(" days")) {
-      return duration.replace(" days", "d");
-    } else if (duration.includes(" day")) {
-      return duration.replace(" day", "d");
-    } else if (duration.includes(" months")) {
-      return duration.replace(" months", "mo");
-    } else if (duration.includes(" month")) {
-      return duration.replace(" month", "mo");
-    } else if (duration.includes(" years")) {
-      return duration.replace(" years", "y");
-    } else if (duration.includes(" year")) {
-      return duration.replace(" year", "y");
-    } else {
-      return duration;
-    }
-  };
-
   const className =
     props.comment.parentCommentNumber < 0 ? "Thread TopLevelThread" : "Thread";
 
@@ -69,14 +39,11 @@ function Thread(props: ThreadProps) {
       <div className="ThreadGrid">
         <ProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
-        <div className="CommentHeader">
-          <p className="CommentAuthor">{props.comment.author.name}</p>
-          <p className="CommentDate">
-            {formatDuration(
-              formatDistanceToNowStrict(new Date(props.comment.commentTime))
-            )}
-          </p>
-        </div>
+        <CommentHeader
+          comment={props.comment}
+          collapsed={!show}
+          expand={() => setShow(true)}
+        />
         {show && (
           <div className="Comment">
             <p className="CommentBody">{props.comment.content}</p>
