@@ -69,6 +69,9 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  badges: {
+    type: [String],
+    default: [],
 });
 
 export interface IUser extends Document {
