@@ -53,27 +53,27 @@
 @media only screen and (min-width: 600px) {
   .NewCommentTemporaryInput,
   .NewCommentTextArea {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .NewCommentTemporaryInput,
   .NewCommentTextArea {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
   .NewCommentTemporaryInput,
   .NewCommentTextArea {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .NewCommentTemporaryInput,
   .NewCommentTextArea {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
