@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, validationResult } from "express-validator";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 
 const userRouter = Router();
 
@@ -18,12 +18,19 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
     return;
   }
 
+  // Send non sensitive user data
   res.json({
     user: {
       googleId: user.googleId,
       name: user.name,
       profilePicture: user.profilePicture,
       level: user.level,
+      bio: user.bio,
+      instagram: user.instagram,
+      twitter: user.twitter,
+      facebook: user.facebook,
+      concentration: user.concentration,
+      classYear: user.classYear,
       streakDays: user.streakDays,
       verifiedBrown: user.verifiedBrown,
     },
@@ -56,7 +63,7 @@ userRouter.put(
       host_whitelist: ["facebook.com"],
     }),
   body("concentration").optional().isString(),
-  body("classYear").optional().isInt({ min: 1900, max: 2100 }),
+  body("classYear").optional().isInt({ min: 1900, max: 2100 }), // what about .5'ers?
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty() || !req.params) {
@@ -64,9 +71,28 @@ userRouter.put(
       return;
     }
 
-    // const user = req.user as IUser;
+    const user = req.user as IUser;
+    const { bio, instagram, twitter, facebook, concentration, classYear } =
+      req.body;
+
+    bio && (user.bio = bio);
+    instagram && (user.instagram = instagram);
+    twitter && (user.twitter = twitter);
+    facebook && (user.facebook = facebook);
+    concentration && (user.concentration = concentration);
+    classYear && (user.classYear = classYear);
+
+    const newUser = await User.findOneAndUpdate(
+      { googleId: user.googleId },
+      user,
+      { new: true }
+    );
+
+    res.json({ user: newUser });
   }
 );
+
+// TODO: PUT request that updates a user's profile picture
 
 // TODO: Add routes here
 
