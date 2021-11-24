@@ -1,24 +1,56 @@
 .SubmitBox {
-  align-items: center;
-  vertical-align: middle;
+  margin-bottom: 1rem;
+  padding: 1rem;
   background-color: #ffffff;
   box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#textinput {
+  width: calc(100%);
+  height: 20rem;
+  padding: 0.5rem;
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+  font-size: 1rem;
 }
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .SubmitBox {
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 1rem);
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+  .SubmitBoxHeaderText {
+    align-items: left;
+    font-size: 1.7rem;
+    margin-top: 0.3rem;
+  }
+
+  .Submit {
+    /* font-weight: bold; */
+    font-size: 1rem;
+  }
+
+  #textinput {
+    height: 76vh;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .SubmitBox {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    width: calc(100% - 5rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 /* Medium devices (landscape tablets, 768px and up) */
@@ -26,6 +58,7 @@
   .SubmitBox {
     padding-left: 1rem;
     padding-right: 1rem;
+    width: 60%;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */
@@ -33,6 +66,11 @@
   .SubmitBox {
     padding-left: 0.8rem;
     padding-right: 0.8rem;
+    width: 60%;
+  }
+
+  .SubmitBoxHeaderText {
+    font-size: 2.4rem;
   }
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -40,15 +78,13 @@
   .SubmitBox {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    width: 45rem;
   }
-}
 
-#textinput {
-  border: 0.1rem solid rgba(0, 0, 0, 1);
-  padding: 0.6rem;
-  font-size: 1rem;
-  width: 45rem;
-  height: 20rem;
+  .SubmitBoxHeaderText {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+  }
 }
 
 #textinput:focus {
@@ -57,10 +93,14 @@
 
 .SubmitBoxHeaderText {
   font-family: "Fira Mono", monospace;
-  font-size: 2.5rem;
   font-weight: 400;
   margin-bottom: 1rem;
-  margin-top: 1rem;
+}
+
+.Submit {
+  font-family: "Fira Mono", monospace;
+  padding: 0.3rem;
+  padding-right: 0.5rem;
 }
 
 .ConsentAndSubmit {
@@ -69,12 +109,6 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.4rem;
-}
-
-.Submit {
-  font-family: "Fira Mono", monospace;
-  padding: 0.3rem;
-  padding-right: 0.5rem;  
 }
 
 .Submit:hover {
