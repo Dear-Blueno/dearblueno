@@ -1,7 +1,19 @@
+.BluenoHomeButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  margin: 1rem;
+}
+
 .SubmitPage {
-  width: 100%;
-  height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }

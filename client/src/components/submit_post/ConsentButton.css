@@ -1,9 +1,12 @@
 .ConsentButton {
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 #box {
   border: 1px solid #000000;
+  margin-left: 0.5rem;
   width: 1rem;
   height: 1rem;
 }
