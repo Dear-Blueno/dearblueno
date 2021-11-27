@@ -40,6 +40,9 @@
     padding: 0.3rem;
     font-size: 0.8rem;
   }
+  .TopLevelCommentBox {
+    width: calc(100% - 0.5rem - 4px);
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
