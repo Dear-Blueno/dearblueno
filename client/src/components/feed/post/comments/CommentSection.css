@@ -1,7 +1,7 @@
 .CommentSection {
   display: flex;
   flex-direction: column;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   border: 0.01rem solid #c0c0c0;
   position: relative;
   padding: 1rem;
