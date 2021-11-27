@@ -9,7 +9,6 @@ type SubmitBoxProps = {
 };
 
 function SubmitBox(props: SubmitBoxProps) {
-
   return (
     <div className="SubmitBox">
       {!props.submitted && (
@@ -28,7 +27,7 @@ function SubmitBox(props: SubmitBoxProps) {
         <div className="PostSubmitContent">
           <h2 className="ReturnText">
             Your post has been submitted and will be reviewed by moderators
-            shortly. Thank you.{" "}
+            shortly. Thank you. **DEMO ONLY - NO POSTS ARE ACCEPTED**{" "}
           </h2>
           <Link to="/">
             <img
