@@ -1,6 +1,5 @@
 import "./SubmitBox.css";
 import ConsentBar from "./ConsentBar";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
 
