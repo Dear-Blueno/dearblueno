@@ -1,7 +1,7 @@
 import "./CommentReactionButton.css";
 
 interface CommentReactionButtonProps {
-  image: string;
+  images: string[];
   count: number;
   showIcons: boolean;
   countSetter: (count: number) => void;
@@ -16,7 +16,7 @@ function CommentReactionButton(props: CommentReactionButtonProps) {
     <div className="CommentReactionButton" style={style}>
       <img
         className="CommentReactionButtonImage"
-        src={props.image}
+        src={props.count ? props.images[0] : props.images[1]}
         onClick={() => props.countSetter(props.count + 1)}
         alt="reaction"
       />

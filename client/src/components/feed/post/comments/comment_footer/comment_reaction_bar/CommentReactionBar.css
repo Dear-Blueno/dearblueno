@@ -3,7 +3,7 @@
   flex-direction: row;
 }
 
-.LikeText {
+.ReactText {
   font-size: 0.8rem;
   color: #8e8e8e;
   user-select: none;
@@ -11,7 +11,7 @@
   margin-right: 0.4rem;
 }
 
-.LikeText:hover {
+.ReactText:hover {
   text-decoration: underline;
   cursor: pointer;
 }
