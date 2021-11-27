@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+.PostFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .Post {

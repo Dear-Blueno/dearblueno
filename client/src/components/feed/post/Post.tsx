@@ -3,6 +3,8 @@ import PostBody from "./PostBody";
 import PostDate from "./PostDate";
 import PostNumber from "./PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
+import DividerDot from "./DividerDot";
+import CommentButton from "./CommentButton";
 import CommentSection, { IThread } from "./comments/CommentSection";
 
 type PostProps = {
@@ -19,7 +21,11 @@ function Post(props: PostProps) {
       <PostNumber value={props.postNumber}></PostNumber>
       <PostDate value={props.postDate}></PostDate>
       <PostBody body={props.postBody}></PostBody>
-      <ReactionBar reactions={props.reactions}></ReactionBar>
+      <div className="PostFooter">
+        <ReactionBar type={"post"} reactions={props.reactions}></ReactionBar>
+        <DividerDot />
+        <CommentButton type="comment" click={() => {}} />
+      </div>
       <CommentSection comments={props.comments} postNumber={props.postNumber} />
     </div>
   );

@@ -1,11 +1,11 @@
 import "./Thread.css";
-import CommentReactionBar from "./comment_footer/comment_reaction_bar/CommentReactionBar";
+import ReactionBar from "../reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
 import NewCommentBox from "./NewCommentBox";
-import ReplyButton from "./comment_footer/ReplyButton";
-import CommentFooterDivider from "./comment_footer/CommentFooterDivider";
+import CommentButton from "../CommentButton";
+import DividerDot from "../DividerDot";
 import ProfilePicture from "../../../user/ProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
 
@@ -49,10 +49,13 @@ function Thread(props: ThreadProps) {
             <p className="CommentBody">{props.comment.content}</p>
             <div className="CommentFooter">
               {show && (
-                <CommentReactionBar reactions={props.comment.reactions} />
+                <ReactionBar
+                  type="comment"
+                  reactions={props.comment.reactions}
+                />
               )}
-              <CommentFooterDivider />
-              {show && <ReplyButton click={() => {}} />}
+              <DividerDot />
+              {show && <CommentButton type="reply" click={() => {}} />}
             </div>
             {nestedComments}
           </div>

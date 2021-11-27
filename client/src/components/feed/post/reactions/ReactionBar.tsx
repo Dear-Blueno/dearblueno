@@ -12,9 +12,10 @@ import LikeIcon from "../../../../images/like.svg";
 import LikeBWIcon from "../../../../images/likeBW.svg";
 import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 type ReactionBarProps = {
+  type: "comment" | "post";
   reactions: string[][];
 };
 
@@ -37,14 +38,55 @@ function ReactionBar(props: ReactionBarProps) {
   const [surpriseCount, setSurpriseCount] = useState(
     props.reactions[5] ? props.reactions[5].length : 0
   );
+  const reactionCounts = useMemo(
+    () => [
+      likeCount,
+      heartCount,
+      laughCount,
+      cryCount,
+      angryCount,
+      surpriseCount,
+    ],
+    [likeCount, heartCount, laughCount, cryCount, angryCount, surpriseCount]
+  );
+  const countUpdaters = useMemo(
+    () => [
+      setLikeCount,
+      setHeartCount,
+      setLaughCount,
+      setCryCount,
+      setAngryCount,
+      setSurpriseCount,
+    ],
+    [
+      setLikeCount,
+      setHeartCount,
+      setLaughCount,
+      setCryCount,
+      setAngryCount,
+      setSurpriseCount,
+    ]
+  );
+  const icons = useMemo(
+    () => [
+      [LikeIcon, LikeBWIcon],
+      [HeartIcon, HeartBWIcon],
+      [LaughIcon, LaughBWIcon],
+      [CryIcon, CryBWIcon],
+      [AngryIcon, AngryBWIcon],
+      [SurpriseIcon, SurpriseBWIcon],
+    ],
+    []
+  );
   const [showIcons, setShowIcons] = useState(false);
-  const [nonZeroOrder, setNonZeroOrder] = useState([NaN]); // NaN is a placeholder for the first reaction
+  const [nonZeroOrder, setNonZeroOrder] = useState<number[]>([]);
   const [zeroOrder, setZeroOrder] = useState([0, 1, 2, 3, 4, 5]); // These arrays are the real-time order and state of the reactions
 
-  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState([NaN]); // NaN is a placeholder for the first reaction
+  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState<number[]>([]);
   const [zeroOrderDisplay, setZeroOrderDisplay] = useState([0, 1, 2, 3, 4, 5]); // these arrays are the display order and state of the reactions, that is updated on leave
-
-  const buttons = [];
+  const [showReactText, setShowReactText] = useState<boolean>(
+    reactionCounts.every((count) => count === 0)
+  );
 
   const showAll = () => {
     setShowIcons(true);
@@ -56,176 +98,80 @@ function ReactionBar(props: ReactionBarProps) {
     setZeroOrderDisplay(zeroOrder);
   };
 
-  if (likeCount > 0 && !nonZeroOrder.includes(0)) {
-    setNonZeroOrder([...nonZeroOrder, 0]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 0));
-  }
-  if (heartCount > 0 && !nonZeroOrder.includes(1)) {
-    setNonZeroOrder([...nonZeroOrder, 1]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 1));
-  }
-  if (laughCount > 0 && !nonZeroOrder.includes(2)) {
-    setNonZeroOrder([...nonZeroOrder, 2]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 2));
-  }
-  if (cryCount > 0 && !nonZeroOrder.includes(3)) {
-    setNonZeroOrder([...nonZeroOrder, 3]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 3));
-  }
-  if (angryCount > 0 && !nonZeroOrder.includes(4)) {
-    setNonZeroOrder([...nonZeroOrder, 4]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 4));
-  }
-  if (surpriseCount > 0 && !nonZeroOrder.includes(5)) {
-    setNonZeroOrder([...nonZeroOrder, 5]);
-    setZeroOrder(zeroOrder.filter((x) => x !== 5));
-  }
-
-  nonZeroOrder.sort((a, b) => a - b); // Sorts the non-display nonZeroOrder so that when the reactions are updated, the order is like this: [0, 1, 2, 3, 4, 5]
-
-  for (let i = 0; i < nonZeroOrderDisplay.length; i++) {
-    if (nonZeroOrderDisplay[i] === 0) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!likeCount ? LikeBWIcon : LikeIcon}
-          count={likeCount}
-          showIcons={true}
-          countSetter={setLikeCount}
-        ></ReactionButton>
-      );
-    } else if (nonZeroOrderDisplay[i] === 1) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!heartCount ? HeartBWIcon : HeartIcon}
-          count={heartCount}
-          showIcons={showIcons}
-          countSetter={setHeartCount}
-        ></ReactionButton>
-      );
-    } else if (nonZeroOrderDisplay[i] === 2) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!laughCount ? LaughBWIcon : LaughIcon}
-          count={laughCount}
-          showIcons={showIcons}
-          countSetter={setLaughCount}
-        ></ReactionButton>
-      );
-    } else if (nonZeroOrderDisplay[i] === 3) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!cryCount ? CryBWIcon : CryIcon}
-          count={cryCount}
-          showIcons={showIcons}
-          countSetter={setCryCount}
-        ></ReactionButton>
-      );
-    } else if (nonZeroOrderDisplay[i] === 4) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!angryCount ? AngryBWIcon : AngryIcon}
-          count={angryCount}
-          showIcons={showIcons}
-          countSetter={setAngryCount}
-        ></ReactionButton>
-      );
-    } else if (nonZeroOrderDisplay[i] === 5) {
-      buttons.push(
-        <ReactionButton
-          key={i}
-          image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
-          count={surpriseCount}
-          showIcons={showIcons}
-          countSetter={setSurpriseCount}
-        ></ReactionButton>
-      );
-    }
-  }
-
-  for (let i = 0; i < zeroOrderDisplay.length; i++) {
-    if (zeroOrderDisplay[i] === 0) {
-      if (nonZeroOrder.length === 1) {
-        buttons.push(
-          <ReactionButton
-            key={i + 6}
-            image={!likeCount ? LikeBWIcon : LikeIcon}
-            count={likeCount}
-            showIcons={true}
-            countSetter={setLikeCount}
-          ></ReactionButton>
-        );
-      } else {
-        buttons.push(
-          <ReactionButton
-            key={i + 6}
-            image={!likeCount ? LikeBWIcon : LikeIcon}
-            count={likeCount}
-            showIcons={showIcons}
-            countSetter={setLikeCount}
-          ></ReactionButton>
-        );
+  // update non-display orders when the user clicks on a reaction button
+  useEffect(() => {
+    for (let i = 0; i < 6; i++) {
+      if (reactionCounts[i] > 0 && !nonZeroOrder.includes(i)) {
+        setNonZeroOrder((n) => [...n, i]);
+        setZeroOrder((z) => z.filter((x) => x !== i));
       }
-    } else if (zeroOrderDisplay[i] === 1) {
-      buttons.push(
-        <ReactionButton
-          key={i + 6}
-          image={!heartCount ? HeartBWIcon : HeartIcon}
-          count={heartCount}
-          showIcons={showIcons}
-          countSetter={setHeartCount}
-        ></ReactionButton>
-      );
-    } else if (zeroOrderDisplay[i] === 2) {
-      buttons.push(
-        <ReactionButton
-          key={i + 6}
-          image={!laughCount ? LaughBWIcon : LaughIcon}
-          count={laughCount}
-          showIcons={showIcons}
-          countSetter={setLaughCount}
-        ></ReactionButton>
-      );
-    } else if (zeroOrderDisplay[i] === 3) {
-      buttons.push(
-        <ReactionButton
-          key={i + 6}
-          image={!cryCount ? CryBWIcon : CryIcon}
-          count={cryCount}
-          showIcons={showIcons}
-          countSetter={setCryCount}
-        ></ReactionButton>
-      );
-    } else if (zeroOrderDisplay[i] === 4) {
-      buttons.push(
-        <ReactionButton
-          key={i + 6}
-          image={!angryCount ? AngryBWIcon : AngryIcon}
-          count={angryCount}
-          showIcons={showIcons}
-          countSetter={setAngryCount}
-        ></ReactionButton>
-      );
-    } else if (zeroOrderDisplay[i] === 5) {
-      buttons.push(
-        <ReactionButton
-          key={i + 6}
-          image={!surpriseCount ? SurpriseBWIcon : SurpriseIcon}
-          count={surpriseCount}
-          showIcons={showIcons}
-          countSetter={setSurpriseCount}
-        ></ReactionButton>
-      );
     }
-  }
+    setNonZeroOrder((n) => n.sort((a, b) => a - b));
+  }, [
+    likeCount,
+    heartCount,
+    laughCount,
+    cryCount,
+    angryCount,
+    surpriseCount,
+    reactionCounts,
+    nonZeroOrder,
+  ]);
+
+  useEffect(() => {
+    setShowReactText(reactionCounts.every((count) => count === 0));
+  }, [reactionCounts]);
 
   return (
-    <div className="ReactionBar" onMouseOver={showAll} onMouseLeave={hideAll}>
-      {buttons}
+    <div
+      className="ReactionBar"
+      onMouseOver={() => {
+        if (!showReactText) {
+          showAll();
+        }
+      }}
+      onMouseLeave={() => {
+        if (reactionCounts.every((count) => count === 0)) {
+          setShowReactText(true);
+        }
+        hideAll();
+      }}
+    >
+      {showReactText && (
+        <p
+          className="ReactText"
+          onClick={() => {
+            setShowReactText(false);
+            showAll();
+          }}
+        >
+          react
+        </p>
+      )}
+      {nonZeroOrderDisplay.map((reaction) => {
+        return (
+          <ReactionButton
+            type={props.type}
+            key={reaction}
+            images={icons[reaction]}
+            count={reactionCounts[reaction]}
+            showIcons={true}
+            countSetter={countUpdaters[reaction]}
+          ></ReactionButton>
+        );
+      })}
+      {zeroOrderDisplay.map((reaction) => {
+        return (
+          <ReactionButton
+            type={props.type}
+            key={reaction + 6}
+            images={icons[reaction]}
+            count={reactionCounts[reaction]}
+            showIcons={showIcons}
+            countSetter={countUpdaters[reaction]}
+          ></ReactionButton>
+        );
+      })}
     </div>
   );
 }

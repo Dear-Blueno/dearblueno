@@ -1,7 +1,8 @@
 import "./ReactionButton.css";
 
 interface ReactionButtonProps {
-  image: string;
+  type: "comment" | "post";
+  images: string[];
   count: number;
   showIcons: boolean;
   countSetter: (count: number) => void;
@@ -12,15 +13,18 @@ function ReactionButton(props: ReactionButtonProps) {
   const style = {
     display: props.count > 0 || props.showIcons ? "inline" : "none",
   };
+  const className =
+    props.type === "comment" ? "CommentReactionButton" : "PostReactionButton";
+
   return (
-    <div className="ReactionButton" style={style}>
+    <div className={className} style={style}>
       <img
-        className="ReactionButtonImage"
-        src={props.image}
+        className={className + "Image"}
+        src={props.count ? props.images[0] : props.images[1]}
         onClick={() => props.countSetter(props.count + 1)}
         alt="reaction"
       />
-      <p className="ReactionCounter">{props.count}</p>
+      <p className={className + "Count"}>{props.count}</p>
     </div>
   );
 }

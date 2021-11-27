@@ -1,11 +1,11 @@
-.ReplyButton {
+.CommentButton {
   margin-left: 0.4rem;
   font-size: 0.8rem;
   color: #8e8e8e;
   display: inline-block;
 }
 
-.ReplyButton:hover {
+.CommentButton:hover {
   text-decoration: underline;
   cursor: pointer;
 }
