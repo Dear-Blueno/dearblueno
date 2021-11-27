@@ -1,8 +1,7 @@
 .ConsentBar {
   display: flex;
   flex-direction: row;
-  align-items: left;
-  padding: 0.5rem;
+  align-items: center;
   width: 70%;
   margin-top: 0.2rem;
 }
