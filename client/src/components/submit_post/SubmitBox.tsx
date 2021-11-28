@@ -14,7 +14,7 @@ function SubmitBox(props: SubmitBoxProps) {
       {!props.submitted && (
         <div className="PreSubmitContent">
           <h2 className="SubmitBoxHeaderText">post anonymously</h2>
-          <textarea id="textinput" name="textinput"></textarea>
+          <textarea id="TextBox" name="TextBox"></textarea>
           <div className="ConsentAndSubmit">
             <ConsentBar />
             <p className="Submit" onClick={() => props.submittedSetter(true)}>

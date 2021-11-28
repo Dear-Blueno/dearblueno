@@ -30,13 +30,14 @@
   text-align: center;
 }
 
-#textinput {
+#TextBox {
   resize: none;
   flex-grow: 3;
   padding: 0.5rem;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
   font-size: 1rem;
+  font-family: "Fira Code", monospace;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -69,7 +70,7 @@
 @media only screen and (min-width: 1200px) {
 }
 
-#textinput:focus {
+#TextBox:focus {
   outline: none;
 }
 
