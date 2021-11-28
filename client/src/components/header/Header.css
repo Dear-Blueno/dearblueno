@@ -35,12 +35,13 @@
 }
 
 /* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 600px) {
   .Header {
     margin-top: 0.5rem;
     width: calc(100% - 1rem);
-    margin-left: 0.6rem;
+    margin-left: 0.5rem;
     padding: 0.3rem;
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
   #HeaderText {
     font-size: 1.3rem;
@@ -55,10 +56,10 @@
 }
 
 /* Extra small devices (phones, 400px and up) */
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 600px) {
   .Header {
     width: calc(100% - 1rem);
-    margin-left: 0.6rem;
+    margin-left: 0.5rem;
     padding: 0.4rem;
   }
   #HeaderText {
@@ -74,7 +75,7 @@
 @media only screen and (min-width: 600px) {
   .Header {
     width: calc(100% - 1rem);
-    margin-left: 0.6rem;
+    margin-left: 0.5rem;
     padding: 0.5rem;
   }
   #HeaderText {

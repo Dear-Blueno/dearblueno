@@ -33,19 +33,15 @@
   width: calc(100% - 1rem - 2px);
 }
 
-/* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 400px) {
+/* Extra extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
   .NewCommentTemporaryInput,
   .NewCommentTextArea {
+    padding: 0.3rem;
     font-size: 0.8rem;
   }
-}
-
-/* Extra small devices (phones, 400px and up) */
-@media only screen and (min-width: 400px) {
-  .NewCommentTemporaryInput,
-  .NewCommentTextArea {
-    font-size: 0.8rem;
+  .TopLevelCommentBox {
+    width: calc(100% - 0.5rem - 4px);
   }
 }
 
