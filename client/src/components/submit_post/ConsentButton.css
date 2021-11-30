@@ -2,6 +2,12 @@
   margin-right: 1rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  border: 1px solid #000000;
+  margin-left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
 }
 
 #box {
@@ -9,8 +15,11 @@
   margin-left: 0.5rem;
   width: 1rem;
   height: 1rem;
+  -webkit-appearance: none;
+  border-radius: 0;
 }
 
-#box:checked:after {
-  color: black;
+.CheckMark {
+  width: 80%;
+  height: 80%;
 }

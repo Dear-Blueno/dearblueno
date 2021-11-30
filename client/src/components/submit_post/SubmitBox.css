@@ -90,7 +90,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.6rem;
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .Submit:hover {
