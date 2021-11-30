@@ -10,15 +10,6 @@
   flex-shrink: 0;
 }
 
-#box {
-  border: 1px solid #000000;
-  margin-left: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  -webkit-appearance: none;
-  border-radius: 0;
-}
-
 .CheckMark {
   width: 80%;
   height: 80%;
