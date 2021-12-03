@@ -24,7 +24,7 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
       googleId: user.googleId,
       name: user.name,
       profilePicture: user.profilePicture,
-      level: user.level,
+      xp: user.xp,
       bio: user.bio,
       instagram: user.instagram,
       twitter: user.twitter,

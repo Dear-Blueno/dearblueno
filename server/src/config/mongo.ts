@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export function mongoConnection() {
+export default function mongoConnection() {
   // connect to MongoDB
   mongoose.connect(process.env.MONGODB_URI || "", () => {
     console.log("Connected to MongoDB!");

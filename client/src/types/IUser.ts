@@ -11,7 +11,7 @@ export default interface IUser {
   classYear?: string;
   createdAt: Date;
   lastLoggedIn: Date;
-  level: number;
+  xp: number;
   streakDays: number;
   commentsCount: number;
   verifiedBrown: boolean;

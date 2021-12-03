@@ -8,8 +8,9 @@ import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 
-import { mongoConnection } from "./config/mongo";
+import mongoConnection from "./config/mongo";
 import passportConfig from "./config/passport";
+import setupCron from "./config/cron";
 
 import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
@@ -62,6 +63,9 @@ app.get("/", (_req, res) => {
 app.use("/posts", postsRouter);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
+
+// Setup cron jobs
+setupCron();
 
 // Start Express server
 const port = process.env.PORT || 5000;

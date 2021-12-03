@@ -49,7 +49,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  level: {
+  xp: {
     type: Number,
     default: 0,
   },
@@ -88,7 +88,7 @@ export interface IUser extends Document {
   classYear: string;
   createdAt: Date;
   lastLoggedIn: Date;
-  level: number;
+  xp: number;
   streakDays: number;
   commentsCount: number;
   verifiedBrown: boolean;
