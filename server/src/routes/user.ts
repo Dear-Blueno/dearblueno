@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, validationResult } from "express-validator";
-import User, { IBasicUser, IUser } from "../models/User";
+import User, { IUser } from "../models/User";
 
 const userRouter = Router();
 
@@ -39,9 +39,50 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   });
 });
 
+// GET request that searches for users by name
+userRouter.get(
+  "/search/:name",
+  param("name").isString().isLength({ min: 2 }).isAlpha(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const users = await User.find({ name: { $regex: req.params.name } });
+    if (!users) {
+      res.status(404).send("No users found");
+      return;
+    }
+
+    // Send non sensitive user data
+    res.json({
+      users: users.map((user) => {
+        return {
+          googleId: user.googleId,
+          name: user.name,
+          profilePicture: user.profilePicture,
+          bio: user.bio,
+          instagram: user.instagram,
+          twitter: user.twitter,
+          facebook: user.facebook,
+          concentration: user.concentration,
+          createdAt: user.createdAt,
+          xp: user.xp,
+          classYear: user.classYear,
+          streakDays: user.streakDays,
+          verifiedBrown: user.verifiedBrown,
+          badges: user.badges,
+        };
+      }),
+    });
+  }
+);
+
 // PUT request that updates a user's bio profile
 userRouter.put(
-  "/bio",
+  "/profile",
   body("bio").optional().isString(),
   body("instagram")
     .optional()
