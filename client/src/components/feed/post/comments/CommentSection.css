@@ -1,10 +1,13 @@
 .CommentSection {
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
-  border: 0.01rem solid #c0c0c0;
+  margin-top: 0.8rem;
+  /* border: 0.01rem solid black; */
   position: relative;
-  padding: 1rem;
+  /* padding: 1rem; */
+  border-top: 0.01rem solid #ccc;
+  padding-top: 1rem;
+  padding-bottom: 0.2rem;
 }
 
 /* Extra small devices (phones, 600px and down) */

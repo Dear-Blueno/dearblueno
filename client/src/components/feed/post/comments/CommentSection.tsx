@@ -2,11 +2,11 @@ import "./CommentSection.css";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
 import NewCommentBox from "./NewCommentBox";
-import { useState } from "react";
 
 export type CommentSectionProps = {
   postNumber: number;
   comments: IThread[];
+  showCommentBox: boolean;
 };
 
 export interface IThread extends IComment {
@@ -39,26 +39,23 @@ const nestComments = (commentList: IThread[]): IThread[] => {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  // const [comments, setComments] = useState<IThread[]>(props.comments);
-  const [commentAreaActive, setCommentAreaActive] = useState<boolean>(false);
-
-  return (
+  return props.comments.length || props.showCommentBox ? (
     <div className="CommentSection">
-      {nestComments(props.comments).map((comment) => (
+      {nestComments(props.comments).map((comment, index) => (
         <Thread
           key={comment.commentNumber}
           comment={comment}
           collapsed={false}
+          firstThread={index === 0}
         />
       ))}
       <NewCommentBox
+        firstComment={props.comments.length === 0}
         parentCommentNumber={-1}
-        active={commentAreaActive}
-        setActive={setCommentAreaActive}
-        show={true}
+        show={props.showCommentBox}
       ></NewCommentBox>
     </div>
-  );
+  ) : null;
 }
 
 export default CommentSection;
