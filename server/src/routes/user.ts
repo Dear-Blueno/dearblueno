@@ -92,7 +92,35 @@ userRouter.put(
   }
 );
 
-// TODO: PUT request that updates a user's profile picture
+// PUT request that updates a user's profile picture
+userRouter.put(
+  "/profilePicture",
+  body("profilePicture").isURL({
+    require_protocol: true,
+    protocols: ["https"],
+    host_whitelist: ["i.imgur.com"],
+  }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const user = req.user as IUser;
+    const { profilePicture } = req.body;
+
+    profilePicture && (user.profilePicture = profilePicture);
+
+    const newUser = await User.findOneAndUpdate(
+      { googleId: user.googleId },
+      user,
+      { new: true }
+    );
+
+    res.json({ user: newUser });
+  }
+);
 
 // TODO: Add routes here
 
