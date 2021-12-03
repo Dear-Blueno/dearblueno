@@ -46,7 +46,7 @@ const PostSchema = new Schema({
   ],
 });
 
-export interface IPost extends Document {
+export interface IPost {
   postNumber: number;
   content: string;
   contentWarning: string;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, validationResult } from "express-validator";
-import User, { IUser } from "../models/User";
+import User, { IBasicUser, IUser } from "../models/User";
 
 const userRouter = Router();
 
@@ -24,15 +24,17 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
       googleId: user.googleId,
       name: user.name,
       profilePicture: user.profilePicture,
-      xp: user.xp,
       bio: user.bio,
       instagram: user.instagram,
       twitter: user.twitter,
       facebook: user.facebook,
       concentration: user.concentration,
+      createdAt: user.createdAt,
+      xp: user.xp,
       classYear: user.classYear,
       streakDays: user.streakDays,
       verifiedBrown: user.verifiedBrown,
+      badges: user.badges,
     },
   });
 });

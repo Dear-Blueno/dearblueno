@@ -45,7 +45,7 @@ const CommentSchema = new Schema({
   ],
 });
 
-export interface IComment extends Document {
+export interface IComment {
   commentNumber: number;
   parentCommentNumber: number;
   post: any;
