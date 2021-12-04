@@ -3,8 +3,8 @@ import passport from "passport";
 
 const authRouter = Router();
 
-// Login success
-authRouter.get("/login/success", (req, res) => {
+// Return user info
+authRouter.get("/", (req, res) => {
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -14,22 +14,17 @@ authRouter.get("/login/success", (req, res) => {
     });
   } else {
     // The user is not logged in
-    res.redirect("/auth/login/failed");
+    res.status(401).json({
+      success: false,
+      message: "Not logged in",
+    });
   }
-});
-
-// Login failed
-authRouter.get("/login/failed", (_req, res) => {
-  res.status(401).json({
-    success: false,
-    message: "Login failed",
-  });
 });
 
 // Logout
 authRouter.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("/auth/login/failed");
+  res.redirect(process.env.CLIENT_URL || "http://localhost:3000");
 });
 
 // Google OAuth2 - Verified Brown users only
@@ -55,26 +50,10 @@ authRouter.get(
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/auth/login/failed",
-    successRedirect: "/auth/login/success",
+    successRedirect: process.env.CLIENT_URL,
+    failureRedirect: process.env.CLIENT_URL,
+    failureFlash: true,
   })
 );
-
-// Return user info
-authRouter.get("/", (req, res) => {
-  if (req.user) {
-    res.status(200).json({
-      success: true,
-      message: "User logged in",
-      user: req.user,
-    });
-  } else {
-    // The user is not logged in
-    res.status(401).json({
-      success: false,
-      message: "User not logged in",
-    });
-  }
-});
 
 export default authRouter;

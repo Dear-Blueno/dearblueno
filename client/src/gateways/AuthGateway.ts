@@ -9,11 +9,11 @@ import {
 // loadAuth: Checks if the user is logged in or not
 export async function loadAuth(): Promise<IResponse<IUser>> {
   try {
-    const response = await axios.get("/auth/login/success");
+    const response = await axios.get("/auth");
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data.user);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data.message);
     }
   } catch (error: any) {
     return failureResponse(error);

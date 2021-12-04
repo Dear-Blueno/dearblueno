@@ -1,10 +1,18 @@
 import Feed from "../components/feed/Feed";
 import Header from "../components/header/Header";
+import IUser from "../types/IUser";
 
-function FeedPage() {
+interface FeedProps {
+  user: IUser | undefined;
+  loading: boolean;
+}
+
+function FeedPage(props: FeedProps) {
+  const { user, loading } = props;
+
   return (
     <div className="FeedPage">
-      <Header />
+      <Header user={user} loading={loading} />
       <Feed />
     </div>
   );
