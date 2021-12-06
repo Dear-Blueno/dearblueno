@@ -1,6 +1,8 @@
+import IUser from "../../../../types/IUser";
 import "./NewCommentBox.css";
 
 type NewCommentBoxProps = {
+  user: IUser | undefined;
   firstComment: boolean;
   parentCommentNumber: number;
   show: boolean;

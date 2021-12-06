@@ -8,8 +8,10 @@ import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
 import ProfilePicture from "../../../user/ProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
+import IUser from "../../../../types/IUser";
 
 type ThreadProps = {
+  user: IUser | undefined;
   collapsed: boolean;
   comment: IThread;
   firstThread: boolean;
@@ -28,6 +30,7 @@ function Thread(props: ThreadProps) {
   const nestedComments = (props.comment.children || []).map((comment) => {
     return (
       <Thread
+        user={props.user}
         key={comment.commentNumber}
         collapsed={false}
         comment={comment}
@@ -54,6 +57,7 @@ function Thread(props: ThreadProps) {
             <div className="CommentFooter">
               {show && (
                 <ReactionBar
+                  user={props.user}
                   type="comment"
                   reactions={props.comment.reactions}
                 />
@@ -66,6 +70,7 @@ function Thread(props: ThreadProps) {
         )}
       </div>
       <NewCommentBox
+        user={props.user}
         firstComment={props.firstThread}
         parentCommentNumber={props.comment.commentNumber}
         show={false}

@@ -2,8 +2,11 @@ import "./CommentSection.css";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
 import NewCommentBox from "./NewCommentBox";
+import IUser from "../../../../types/IUser";
+import { useState, useEffect } from "react";
 
 export type CommentSectionProps = {
+  user: IUser | undefined;
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
@@ -25,10 +28,7 @@ const nestComments = (commentList: IThread[]): IThread[] => {
   commentList.forEach((comment) => {
     if (comment.parentCommentNumber !== -1) {
       const parent = commentMap[comment.parentCommentNumber];
-      if (!parent.children.includes(comment)) {
-        parent.children.push(comment);
-      }
-      // (parent.children = parent.children || []).push(comment);
+      (parent.children = parent.children || []).push(comment);
     }
   });
 
@@ -39,10 +39,15 @@ const nestComments = (commentList: IThread[]): IThread[] => {
 };
 
 function CommentSection(props: CommentSectionProps) {
+  const [comments, setComments] = useState<IThread[]>([]);
+  useEffect(() => {
+    setComments(nestComments(props.comments));
+  }, [props.comments]);
   return props.comments.length || props.showCommentBox ? (
     <div className="CommentSection">
-      {nestComments(props.comments).map((comment, index) => (
+      {comments.map((comment, index) => (
         <Thread
+          user={props.user}
           key={comment.commentNumber}
           comment={comment}
           collapsed={false}
@@ -50,6 +55,7 @@ function CommentSection(props: CommentSectionProps) {
         />
       ))}
       <NewCommentBox
+        user={props.user}
         firstComment={props.comments.length === 0}
         parentCommentNumber={-1}
         show={props.showCommentBox}

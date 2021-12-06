@@ -13,8 +13,10 @@ import LikeBWIcon from "../../../../images/likeBW.svg";
 import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
+import IUser from "../../../../types/IUser";
 
 type ReactionBarProps = {
+  user: IUser | undefined;
   type: "comment" | "post";
   reactions: string[][];
 };
