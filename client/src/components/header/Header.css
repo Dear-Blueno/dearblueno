@@ -7,16 +7,15 @@
   background-color: white;
   box-sizing: border-box;
   box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
-  border: 0.1rem solid rgba(0, 0, 0, 1);
+  border: 1px solid rgba(0, 0, 0, 1);
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
 .HeaderUserPicture {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
 }
 
 #HeaderText {
@@ -50,10 +49,10 @@
     box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
   #HeaderText {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
-    transform: translateY(0.1rem);
+    transform: translateY(0.18rem);
   }
   .LogoImage {
     width: 1.6rem;
