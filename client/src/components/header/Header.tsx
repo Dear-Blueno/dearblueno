@@ -1,12 +1,12 @@
 import "./Header.css";
 import HeaderButton from "./HeaderButton";
 import SearchIcon from "../../images/search.svg";
-import FilterIcon from "../../images/filter.svg";
+// import FilterIcon from "../../images/filter.svg";
 import PostIcon from "../../images/post.svg";
-import LogoIcon from "../../images/logo128.png";
+// import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import IUser from "../../types/IUser";
-import { loginBrown, logout } from "../../gateways/AuthGateway";
+import { loginBrown /* logout */ } from "../../gateways/AuthGateway";
 
 interface HeaderProps {
   user: IUser | undefined;
