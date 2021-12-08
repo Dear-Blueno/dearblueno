@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
+import { authCheck, modCheck } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
 
@@ -42,7 +43,7 @@ postRouter.get(
 // (Must be authenticated as a moderator)
 postRouter.get(
   "/all",
-  // modCheck, // TODO: uncomment when authentication is implemented
+  modCheck,
   query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -51,7 +52,7 @@ postRouter.get(
       return;
     }
 
-    const page = req.query?.page || 1;
+    const page = Number(req.query?.page) || 1;
     const posts = await Post.find()
       .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
@@ -88,7 +89,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
 // (Must be authenticated)
 postRouter.post(
   "/",
-  // authCheck, // TODO: uncomment when auth is implemented
+  authCheck,
   body("content").trim().isLength({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -110,7 +111,7 @@ postRouter.post(
 // (Must be authenticated as a moderator)
 postRouter.put(
   "/:id/approve",
-  // modCheck, // TODO: uncomment when auth is implemented
+  modCheck,
   body("approved").toBoolean(),
   param("id").isMongoId(),
   async (req, res) => {
@@ -128,7 +129,7 @@ postRouter.put(
 
     post.approved = req.body.approved;
     post.approvedTime = new Date();
-    // post.approvedBy = (req.user as any)._id; // TODO: uncomment when auth is implemented
+    post.approvedBy = (req.user as any)._id;
     if (!post.postNumber && post.approved) {
       post.postNumber =
         (await Post.countDocuments({
@@ -144,7 +145,7 @@ postRouter.put(
 // (Must be authenticated)
 postRouter.put(
   "/:id/react",
-  // authCheck, // TODO: uncomment when auth is implemented
+  authCheck,
   body("reaction").isInt({ min: 1, max: 6 }),
   body("state").toBoolean(),
   param("id").isInt({ min: 1 }),
@@ -155,7 +156,7 @@ postRouter.put(
       return;
     }
 
-    const post = await Post.findOne({ postNumber: req.params.id });
+    const post = await Post.findOne({ postNumber: Number(req.params.id) });
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -163,7 +164,7 @@ postRouter.put(
 
     const reaction = req.body.reaction;
     const state = req.body.state;
-    const user = (req.user as any) || { _id: "5f3f8f9f8d8f8e0f8b8b8b8b" }; // TODO: simplify when auth is implemented
+    const user = (req.user as any)._id;
 
     const reactions = post.reactions[reaction - 1] || [];
     if (state) {
@@ -182,7 +183,7 @@ postRouter.put(
 // (Must be authenticated)
 postRouter.post(
   "/:id/comment",
-  // authCheck, // TODO: uncomment when auth is implemented
+  authCheck,
   body("content").trim().isLength({ min: 1 }),
   body("parentId").isInt({ min: -1 }),
   param("id").isInt({ min: 1 }),
@@ -193,12 +194,12 @@ postRouter.post(
       return;
     }
 
-    const post = await Post.findOne({ postNumber: req.params.id });
+    const post = await Post.findOne({ postNumber: Number(req.params.id) });
     if (!post) {
       res.status(404).send("Post not found");
       return;
     }
-    const user = (req.user as any) || { _id: "5f3f8f9f8d8f8e0f8b8b8b8b" }; // TODO: simplify when auth is implemented
+    const user = (req.user as any)._id;
 
     const comment = new Comment({
       commentNumber: post.comments.length + 1,
@@ -219,7 +220,7 @@ postRouter.post(
 // (Must be authenticated as a moderator)
 postRouter.put(
   "/:id/comment/:commentId/approve",
-  // modCheck, // TODO: uncomment when auth is implemented
+  modCheck,
   body("approved").toBoolean(),
   param("id").isInt({ min: 1 }),
   param("commentId").isInt({ min: 1 }),
@@ -230,9 +231,9 @@ postRouter.put(
       return;
     }
 
-    const post = await Post.findOne({ postNumber: req.params.id }).populate(
-      "comments"
-    );
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    }).populate("comments");
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -256,7 +257,7 @@ postRouter.put(
 // (Must be authenticated)
 postRouter.put(
   "/:id/comment/:commentId/react",
-  // authCheck, // TODO: uncomment when auth is implemented
+  authCheck,
   body("reaction").isInt({ min: 1, max: 6 }),
   body("state").toBoolean(),
   param("id").isInt({ min: 1 }),
@@ -268,9 +269,9 @@ postRouter.put(
       return;
     }
 
-    const post = await Post.findOne({ postNumber: req.params.id }).populate(
-      "comments"
-    );
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    }).populate("comments");
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -286,7 +287,7 @@ postRouter.put(
 
     const reaction = req.body.reaction;
     const state = req.body.state;
-    const user = (req.user as any) || { _id: "5f3f8f9f8d8f8e0f8b8b8b8b" }; // TODO: simplify when auth is implemented
+    const user = (req.user as any)._id;
 
     const reactions = comment.reactions[reaction - 1] || [];
     if (state) {
