@@ -44,7 +44,7 @@ function Feed(props: FeedProps) {
             key={post.postNumber}
             postNumber={post.postNumber}
             postBody={post.content}
-            postDate={new Date(post.postTime).toLocaleDateString()}
+            postDate={new Date(post.postTime)}
             comments={convertCommentsToThreads(post.comments)}
             reactions={post.reactions}
           />

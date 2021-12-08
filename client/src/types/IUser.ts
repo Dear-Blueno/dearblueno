@@ -1,5 +1,6 @@
 // Non-sensitive user info that can be seen by everyone
 export interface IBasicUser {
+  _id: string;
   googleId: string;
   name: string;
   profilePicture: string;

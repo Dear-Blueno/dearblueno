@@ -14,11 +14,13 @@ import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
 import IUser from "../../../../types/IUser";
+import { reactToPost } from "../../../../gateways/PostGateway";
 
 type ReactionBarProps = {
   user: IUser | undefined;
   type: "comment" | "post";
   reactions: string[][];
+  number: number;
 };
 
 function ReactionBar(props: ReactionBarProps) {
@@ -90,6 +92,12 @@ function ReactionBar(props: ReactionBarProps) {
     reactionCounts.every((count) => count === 0)
   );
 
+  useEffect(() => {
+    for (let i = 0; i < 6; i++) {
+      countUpdaters[i](props.reactions[i] ? props.reactions[i].length : 0);
+    }
+  }, [props.reactions, countUpdaters]);
+
   const showAll = () => {
     setShowIcons(true);
   };
@@ -123,6 +131,35 @@ function ReactionBar(props: ReactionBarProps) {
   useEffect(() => {
     setShowReactText(reactionCounts.every((count) => count === 0));
   }, [reactionCounts]);
+
+  const incrementReactionCount = (reaction: number) => {
+    return () => {
+      if (props.user) {
+        if (props.reactions[reaction]?.includes(props.user._id)) {
+          props.reactions[reaction] = props.reactions[reaction].filter(
+            (id) => id !== props.user?._id
+          );
+          countUpdaters[reaction](props.reactions[reaction].length);
+          reactToPost(props.number, reaction, false).then((response) => {
+            console.log(response);
+          });
+        } else {
+          if (props.reactions[reaction]) {
+            props.reactions[reaction] = [
+              ...props.reactions[reaction],
+              props.user._id,
+            ];
+          } else {
+            props.reactions[reaction] = [props.user._id];
+          }
+          countUpdaters[reaction](props.reactions[reaction].length);
+          reactToPost(props.number, reaction, true).then((response) => {
+            console.log(response);
+          });
+        }
+      }
+    };
+  };
 
   return (
     <div
@@ -159,6 +196,7 @@ function ReactionBar(props: ReactionBarProps) {
             count={reactionCounts[reaction]}
             showIcons={true}
             countSetter={countUpdaters[reaction]}
+            handleClick={incrementReactionCount(reaction)}
           ></ReactionButton>
         );
       })}
@@ -171,6 +209,7 @@ function ReactionBar(props: ReactionBarProps) {
             count={reactionCounts[reaction]}
             showIcons={showIcons}
             countSetter={countUpdaters[reaction]}
+            handleClick={incrementReactionCount(reaction)}
           ></ReactionButton>
         );
       })}

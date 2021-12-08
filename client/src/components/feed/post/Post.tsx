@@ -13,7 +13,7 @@ type PostProps = {
   user: IUser | undefined;
   postNumber: number;
   postBody: string;
-  postDate: string;
+  postDate: Date;
   comments: IThread[];
   reactions: string[][];
 };
@@ -28,6 +28,7 @@ function Post(props: PostProps) {
       <PostBody body={props.postBody}></PostBody>
       <div className="PostFooter">
         <ReactionBar
+          number={props.postNumber}
           user={props.user}
           type={"post"}
           reactions={props.reactions}

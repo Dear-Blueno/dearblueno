@@ -6,7 +6,7 @@ import PostIcon from "../../images/post.svg";
 // import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import IUser from "../../types/IUser";
-import { loginBrown /* logout */ } from "../../gateways/AuthGateway";
+import { loginBrown, logout } from "../../gateways/AuthGateway";
 
 interface HeaderProps {
   user: IUser | undefined;

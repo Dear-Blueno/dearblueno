@@ -2,7 +2,7 @@ import "./PostDate.css";
 import { formatDistanceToNowStrict, isSameDay } from "date-fns";
 
 interface PostDateProps {
-  value: string;
+  value: Date;
 }
 
 function PostDate(props: PostDateProps) {
@@ -36,9 +36,11 @@ function PostDate(props: PostDateProps) {
     }
   };
 
-  const date = isSameDay(new Date(props.value), new Date())
-    ? new Date(props.value).toLocaleTimeString()
-    : formatDuration(formatDistanceToNowStrict(new Date(props.value)));
+  // const date = isSameDay(props.value, new Date())
+  //   ? props.value.toLocaleTimeString()
+  //   : formatDuration(formatDistanceToNowStrict(props.value));
+
+  const date = formatDuration(formatDistanceToNowStrict(props.value));
 
   return (
     <div className="PostDate">

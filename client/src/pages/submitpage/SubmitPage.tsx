@@ -3,8 +3,13 @@ import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./SubmitPage.css";
+import IUser from "../../types/IUser";
 
-function SubmitPage() {
+type SubmitPageProps = {
+  user: IUser | undefined;
+};
+
+function SubmitPage(props: SubmitPageProps) {
   const [submitted, setSubmitted] = useState(false);
 
   return (
@@ -18,7 +23,11 @@ function SubmitPage() {
           />
         </Link>
       )}
-      <SubmitBox submitted={submitted} submittedSetter={setSubmitted} />
+      <SubmitBox
+        user={props.user}
+        submitted={submitted}
+        submittedSetter={setSubmitted}
+      />
     </div>
   );
 }

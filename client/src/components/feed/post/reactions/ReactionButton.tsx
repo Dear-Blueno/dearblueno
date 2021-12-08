@@ -6,6 +6,7 @@ interface ReactionButtonProps {
   count: number;
   showIcons: boolean;
   countSetter: (count: number) => void;
+  handleClick: () => void;
 }
 
 /*This div should be a button that, on click, calls the action prop. */
@@ -21,7 +22,10 @@ function ReactionButton(props: ReactionButtonProps) {
       <img
         className={className + "Image"}
         src={props.count ? props.images[0] : props.images[1]}
-        onClick={() => props.countSetter(props.count + 1)}
+        onClick={() => {
+          props.countSetter(props.count + 1);
+          props.handleClick();
+        }}
         alt="reaction"
       />
       <p className={className + "Count"}>{props.count}</p>

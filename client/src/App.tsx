@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/submit" element={<SubmitPage />} />
+          <Route path="/submit" element={<SubmitPage user={user} />} />
           <Route
             path="/"
             element={<FeedPage user={user} loading={loading} />}

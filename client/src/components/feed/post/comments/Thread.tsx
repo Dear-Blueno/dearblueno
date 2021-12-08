@@ -57,6 +57,7 @@ function Thread(props: ThreadProps) {
             <div className="CommentFooter">
               {show && (
                 <ReactionBar
+                  number={props.comment.commentNumber}
                   user={props.user}
                   type="comment"
                   reactions={props.comment.reactions}

@@ -2,13 +2,33 @@ import "./SubmitBox.css";
 import ConsentBar from "./ConsentBar";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
+import IUser from "../../types/IUser";
+import { useState } from "react";
+import { approvePost, createPost } from "../../gateways/PostGateway";
 
 type SubmitBoxProps = {
+  user: IUser | undefined;
   submitted: boolean;
-  submittedSetter: (arg0: boolean) => void;
+  submittedSetter: (arg: boolean) => void;
 };
 
 function SubmitBox(props: SubmitBoxProps) {
+  const post = (text: string) => {
+    props.submittedSetter(true);
+    createPost(text)
+      .then((response) => {
+        if (response.success && response.payload) {
+          console.log(response.payload);
+          approvePost(response.payload._id, true).then((response) => {
+            console.log(response);
+          });
+        }
+      })
+      .catch(() => {
+        console.log("post failed");
+      });
+  };
+
   return (
     <div className="SubmitBox">
       {!props.submitted && (
@@ -17,7 +37,16 @@ function SubmitBox(props: SubmitBoxProps) {
           <textarea id="TextBox" name="TextBox"></textarea>
           <div className="ConsentAndSubmit">
             <ConsentBar />
-            <p className="Submit" onClick={() => props.submittedSetter(true)}>
+            <p
+              className="Submit"
+              onClick={() => {
+                let element = document.getElementById(
+                  "TextBox"
+                ) as HTMLTextAreaElement;
+                console.log(element.value);
+                post(element.value);
+              }}
+            >
               submit
             </p>
           </div>
