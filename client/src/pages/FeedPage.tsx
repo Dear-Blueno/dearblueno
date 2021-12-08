@@ -9,7 +9,7 @@ type FeedPageProps = {
 function FeedPage(props: FeedPageProps) {
   return (
     <div className="FeedPage">
-      {/* <Header /> */}
+      <Header />
       <Feed user={props.user} />
     </div>
   );
