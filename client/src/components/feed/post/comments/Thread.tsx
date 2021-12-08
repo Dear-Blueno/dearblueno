@@ -8,16 +8,18 @@ import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
 import ProfilePicture from "../../../user/ProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
+import IUser from "../../../../types/IUser";
 
 type ThreadProps = {
+  user: IUser | undefined;
   collapsed: boolean;
   comment: IThread;
+  firstThread: boolean;
 };
 
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
   const [reactions] = useState<string[][]>(props.comment.reactions);
-  const [commentAreaActive, setCommentAreaActive] = useState<boolean>(false);
 
   const toggleShow = () => {
     setShow(!show);
@@ -27,12 +29,17 @@ function Thread(props: ThreadProps) {
 
   const nestedComments = (props.comment.children || []).map((comment) => {
     return (
-      <Thread key={comment.commentNumber} collapsed={false} comment={comment} />
+      <Thread
+        user={props.user}
+        key={comment.commentNumber}
+        collapsed={false}
+        comment={comment}
+        firstThread={false}
+      />
     );
   });
 
-  const className =
-    props.comment.parentCommentNumber < 0 ? "Thread TopLevelThread" : "Thread";
+  const className = props.firstThread ? "Thread FirstThread" : "Thread";
 
   return (
     <div className={className} key={props.comment.commentNumber}>
@@ -50,6 +57,7 @@ function Thread(props: ThreadProps) {
             <div className="CommentFooter">
               {show && (
                 <ReactionBar
+                  user={props.user}
                   type="comment"
                   reactions={props.comment.reactions}
                 />
@@ -62,9 +70,9 @@ function Thread(props: ThreadProps) {
         )}
       </div>
       <NewCommentBox
+        user={props.user}
+        firstComment={props.firstThread}
         parentCommentNumber={props.comment.commentNumber}
-        active={commentAreaActive}
-        setActive={setCommentAreaActive}
         show={false}
       />
     </div>

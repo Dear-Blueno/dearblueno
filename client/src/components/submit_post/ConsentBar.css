@@ -9,3 +9,7 @@
 .ConsentText {
   font-size: 0.8rem;
 }
+
+.ConsentBar:hover {
+  cursor: pointer;
+}

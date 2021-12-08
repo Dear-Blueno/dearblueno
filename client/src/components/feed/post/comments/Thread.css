@@ -25,15 +25,14 @@
   margin-top: 1rem;
 }
 
-.TopLevelThread {
-  margin-left: 0;
+.FirstThread {
   margin-top: 0;
-  margin-bottom: 1rem;
 }
 
 .CommentFooter {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -41,9 +40,6 @@
   .ThreadGrid {
     row-gap: 0.1rem;
     column-gap: 0.5rem;
-  }
-  .TopLevelThread {
-    margin-bottom: 0.5rem;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */

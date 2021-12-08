@@ -1,5 +1,5 @@
 .ReactionBar {
-  display: inline-block;
+  display: inline-flex;
   box-sizing: border-box;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .ReactText {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #8e8e8e;
   user-select: none;
   display: inline-block;

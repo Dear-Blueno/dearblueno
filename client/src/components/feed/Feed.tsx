@@ -5,8 +5,13 @@ import { IThread } from "./post/comments/CommentSection";
 import IPost from "../../types/IPost";
 import { useState, useEffect } from "react";
 import { getPosts } from "../../gateways/PostGateway";
+import IUser from "../../types/IUser";
 
-function Feed() {
+type FeedProps = {
+  user: IUser | undefined;
+};
+
+function Feed(props: FeedProps) {
   const [pageNumber] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
 
@@ -35,6 +40,7 @@ function Feed() {
       {posts.map((post) => {
         return (
           <Post
+            user={props.user}
             key={post.postNumber}
             postNumber={post.postNumber}
             postBody={post.content}

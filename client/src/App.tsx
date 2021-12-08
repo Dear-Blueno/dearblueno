@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import FeedPage from "./pages/FeedPage";
 import SubmitPage from "./pages/submitpage/SubmitPage";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import IUser from "./types/IUser";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { loadAuth } from "./gateways/AuthGateway";
 
 function App() {

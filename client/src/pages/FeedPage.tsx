@@ -13,7 +13,7 @@ function FeedPage(props: FeedProps) {
   return (
     <div className="FeedPage">
       <Header user={user} loading={loading} />
-      <Feed />
+      <Feed user={user} />
     </div>
   );
 }
