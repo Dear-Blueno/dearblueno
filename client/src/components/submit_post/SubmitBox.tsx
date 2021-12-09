@@ -3,7 +3,6 @@ import ConsentBar from "./ConsentBar";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
-import { useState } from "react";
 import { approvePost, createPost } from "../../gateways/PostGateway";
 
 type SubmitBoxProps = {

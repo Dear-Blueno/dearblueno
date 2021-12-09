@@ -3,7 +3,7 @@ import ReactionBar from "../reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
-import NewCommentBox from "./NewCommentBox";
+import NewCommentBox from "./new_comment/NewCommentBox";
 import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
 import ProfilePicture from "../../../user/ProfilePicture";
@@ -15,6 +15,7 @@ type ThreadProps = {
   collapsed: boolean;
   comment: IThread;
   firstThread: boolean;
+  postNumber: number;
 };
 
 function Thread(props: ThreadProps) {
@@ -35,6 +36,7 @@ function Thread(props: ThreadProps) {
         collapsed={false}
         comment={comment}
         firstThread={false}
+        postNumber={props.postNumber}
       />
     );
   });
@@ -73,6 +75,7 @@ function Thread(props: ThreadProps) {
       <NewCommentBox
         user={props.user}
         firstComment={props.firstThread}
+        postNumber={props.postNumber}
         parentCommentNumber={props.comment.commentNumber}
         show={false}
       />

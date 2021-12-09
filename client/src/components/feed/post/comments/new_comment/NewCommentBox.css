@@ -12,6 +12,7 @@
 
 .NewCommentTextArea:focus {
   outline: none;
+  border-color: #000;
 }
 
 .TopLevelCommentBox {

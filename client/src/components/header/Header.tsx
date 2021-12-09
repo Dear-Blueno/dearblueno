@@ -32,7 +32,7 @@ function Header(props: HeaderProps) {
               alt="Profile"
             />
             {/* <p>{user.name}</p> */}
-            {/* <button onClick={logout}>Logout</button> */}
+            <button onClick={logout}>Logout</button>
           </>
         ) : (
           <button onClick={loginBrown}>Login</button>

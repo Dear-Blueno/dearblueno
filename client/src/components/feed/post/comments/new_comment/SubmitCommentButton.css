@@ -1,0 +1,10 @@
+.SubmitCommentButton {
+  margin-left: auto;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  color: #777;
+}
+
+.SubmitCommentButton:hover {
+  text-decoration: underline;
+}
