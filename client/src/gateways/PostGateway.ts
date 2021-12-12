@@ -73,7 +73,7 @@ export async function commentOnPost(
   try {
     const response = await axios.post(`/posts/${postNumber}/comment`, {
       content,
-      parentCommentNumber,
+      parentId: parentCommentNumber,
     });
     if (response.status === 200) {
       return successfulResponse(response.data);

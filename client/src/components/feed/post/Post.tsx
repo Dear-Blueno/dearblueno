@@ -23,16 +23,16 @@ function Post(props: PostProps) {
 
   return (
     <div className="Post">
-      <PostNumber value={props.postNumber}></PostNumber>
-      <PostDate value={props.postDate}></PostDate>
-      <PostBody body={props.postBody}></PostBody>
+      <PostNumber value={props.postNumber} />
+      <PostDate value={props.postDate} />
+      <PostBody body={props.postBody} />
       <div className="PostFooter">
         <ReactionBar
           number={props.postNumber}
           user={props.user}
           type={"post"}
           reactions={props.reactions}
-        ></ReactionBar>
+        />
         <DividerDot />
         <CommentButton type="comment" click={() => setShowCommentBox(true)} />
       </div>

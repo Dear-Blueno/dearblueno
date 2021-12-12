@@ -24,7 +24,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
           autoFocus
           className={textAreaClassName}
           placeholder="Write a comment..."
-        ></textarea>
+        />
       ) : null}
     </div>
   );
