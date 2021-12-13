@@ -107,6 +107,40 @@ export default function setupCron() {
       }
     );
 
+    // Remove the "Top Fan" badge from all users
+    User.updateMany(
+      {
+        badges: "Top Fan",
+      },
+      {
+        $pull: {
+          badges: "Top Fan",
+        },
+      }
+    );
+
+    // Award a "Top Fan" badge to users in the top 5% of xp
+    User.count().then((count) => {
+      // Find the xp of the user at the 5th percentile
+      User.findOne({}, { xp: 1, _id: 0 })
+        .sort({ xp: -1 })
+        .skip(Math.floor(count * 0.05))
+        .then((user) => {
+          const minXp = Math.max(user ? user.xp : 10, 10);
+          // Award the "Top Fan" badge to all users with xp >= the 5th percentile xp
+          User.updateMany(
+            {
+              xp: { $gte: minXp },
+            },
+            {
+              $push: {
+                badges: "Top Fan",
+              },
+            }
+          );
+        });
+    });
+
     console.log("Daily cron job complete! 🎉", new Date().toLocaleString());
   });
 }
