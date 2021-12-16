@@ -50,9 +50,8 @@ authRouter.get(
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_URL,
-    failureRedirect: process.env.CLIENT_URL,
-    failureFlash: true,
+    successRedirect: process.env.CLIENT_URL || "http://localhost:3000",
+    failureRedirect: "/auth/login/unverified",
   })
 );
 
