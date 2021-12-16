@@ -1,7 +1,89 @@
 import cron from "node-cron";
+import { GoogleSpreadsheet } from "google-spreadsheet";
 import User from "../models/User";
+import Post from "../models/Post";
 
-export default function setupCron() {
+export default async function setupCron() {
+  // Setup connection to google spreadsheet
+  const creds = {
+    client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL || "",
+    private_key: process.env.GOOGLE_SHEET_PRIVATE_KEY || "",
+  };
+
+  const verifiedDoc = new GoogleSpreadsheet(
+    process.env.VERIFIED_GOOGLE_SHEET_ID
+  );
+  await verifiedDoc.useServiceAccountAuth(creds);
+
+  const unverifiedDoc = new GoogleSpreadsheet(
+    process.env.UNVERIFIED_GOOGLE_SHEET_ID
+  );
+  await unverifiedDoc.useServiceAccountAuth(creds);
+
+  // Hourly, import posts from Google Sheets
+  cron.schedule("30 * * * *", async () => {
+    console.log("Running hourly cron job! 🚀", new Date().toLocaleString());
+    const startDate = new Date();
+
+    // Load from verified document
+    await verifiedDoc.loadInfo();
+    const verifiedSheet = verifiedDoc.sheetsByIndex[0];
+    const verifiedRows = await verifiedSheet.getRows();
+    // For all rows in the sheet
+    for (const row of verifiedRows) {
+      // Skip if the row is empty
+      if (row._rawData.length === 0) continue;
+
+      // Create a post from the row
+      const postTime = new Date(row.Timestamp);
+      const content = row.Post;
+      const post = new Post({
+        content,
+        postTime,
+        verifiedBrown: true,
+      });
+      await post.save();
+    }
+
+    // Clear the sheet
+    await verifiedSheet.clear();
+    await verifiedSheet.loadCells("A1:B1");
+    verifiedSheet.getCellByA1("A1").value = "Timestamp";
+    verifiedSheet.getCellByA1("B1").value = "Post";
+    await verifiedSheet.saveUpdatedCells();
+
+    // Load from unverified document
+    await unverifiedDoc.loadInfo();
+    const unverifiedSheet = unverifiedDoc.sheetsByIndex[0];
+    const unverifiedRows = await unverifiedSheet.getRows();
+    // For all rows in the sheet
+    for (const row of unverifiedRows) {
+      // Skip if the row is empty
+      if (row._rawData.length === 0) continue;
+
+      // Create a post from the row
+      const postTime = new Date(row.Timestamp);
+      const content = row.Post;
+      const post = new Post({
+        content,
+        postTime,
+        verifiedBrown: false,
+      });
+      await post.save();
+    }
+
+    // Clear the sheet
+    await unverifiedSheet.clear();
+    await unverifiedSheet.loadCells("A1:B1");
+    unverifiedSheet.getCellByA1("A1").value = "Timestamp";
+    unverifiedSheet.getCellByA1("B1").value = "Post";
+    await unverifiedSheet.saveUpdatedCells();
+
+    console.log("Hourly cron job completed! 🎉", new Date().toLocaleString());
+    const completedIn = new Date().getTime() - startDate.getTime();
+    console.log(`Completed in ${completedIn}ms`);
+  });
+
   // Daily at midnight, handle daily streak related stuff
   cron.schedule("0 0 * * *", async () => {
     console.log("Running daily cron job! 🚀", new Date().toLocaleString());
