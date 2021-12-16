@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
+import { IUser } from "../models/User";
 import { authCheck, modCheck } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
@@ -86,10 +87,8 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
 });
 
 // POST request that creates a new post
-// (Must be authenticated)
 postRouter.post(
   "/",
-  authCheck,
   body("content").trim().isLength({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -99,8 +98,11 @@ postRouter.post(
     }
 
     const content = req.body.content;
+    const user = req.user as IUser;
+    const verifiedBrown = user?.verifiedBrown;
     const post = new Post({
       content,
+      verifiedBrown,
     });
     await post.save();
     res.send(post);
