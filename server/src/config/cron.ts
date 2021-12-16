@@ -3,14 +3,15 @@ import User from "../models/User";
 
 export default function setupCron() {
   // Daily at midnight, handle daily streak related stuff
-  cron.schedule("0 0 * * *", () => {
+  cron.schedule("0 0 * * *", async () => {
     console.log("Running daily cron job! 🚀", new Date().toLocaleString());
+    const startDate = new Date();
 
     const today = new Date();
     const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
 
     // Reset streaks for users that have not logged in today
-    User.updateMany(
+    await User.updateMany(
       {
         lastLogin: { $lt: yesterday },
         streakDays: { $gt: 0 },
@@ -23,7 +24,7 @@ export default function setupCron() {
     );
 
     // Increment streaks for users that have logged in today
-    User.updateMany(
+    await User.updateMany(
       {
         lastLogin: { $gte: yesterday },
       },
@@ -36,7 +37,7 @@ export default function setupCron() {
 
     // Award xp to users that have a streak at multiple of 3 days
     // 5 xp every 3 days for streaks up to streak of 15 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: { $mod: [3, 0], $gt: 0, $lt: 15 },
       },
@@ -48,7 +49,7 @@ export default function setupCron() {
     );
 
     // Starting at 15 days, award 10 xp every 3 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: { $mod: [3, 0], $gte: 15 },
       },
@@ -60,7 +61,7 @@ export default function setupCron() {
     );
 
     // Award a "One Week Streak" badge for streaks of 7 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: 7,
       },
@@ -72,7 +73,7 @@ export default function setupCron() {
     );
 
     // Award a "One Month Streak" badge for streaks of 30 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: 30,
       },
@@ -84,7 +85,7 @@ export default function setupCron() {
     );
 
     // Award a "Nice" badge for streaks of 69 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: 69,
       },
@@ -96,7 +97,7 @@ export default function setupCron() {
     );
 
     // Award a "One Year Streak" badge for streaks of 365 days
-    User.updateMany(
+    await User.updateMany(
       {
         streakDays: 365,
       },
@@ -108,7 +109,7 @@ export default function setupCron() {
     );
 
     // Remove the "Top Fan" badge from all users
-    User.updateMany(
+    await User.updateMany(
       {
         badges: "Top Fan",
       },
@@ -120,27 +121,26 @@ export default function setupCron() {
     );
 
     // Award a "Top Fan" badge to users in the top 5% of xp
-    User.count().then((count) => {
-      // Find the xp of the user at the 5th percentile
-      User.findOne({}, { xp: 1, _id: 0 })
-        .sort({ xp: -1 })
-        .skip(Math.floor(count * 0.05))
-        .then((user) => {
-          const minXp = Math.max(user ? user.xp : 10, 10);
-          // Award the "Top Fan" badge to all users with xp >= the 5th percentile xp
-          User.updateMany(
-            {
-              xp: { $gte: minXp },
-            },
-            {
-              $push: {
-                badges: "Top Fan",
-              },
-            }
-          );
-        });
-    });
+    const count = await User.count();
+    // Find the xp of the user at the 5th percentile
+    const user5th = await User.findOne({}, { xp: 1, _id: 0 })
+      .sort({ xp: -1 })
+      .skip(Math.floor(count * 0.05));
+    const minXp = Math.max(user5th ? user5th.xp : 10, 10);
+    // Award the "Top Fan" badge to all users with xp >= the 5th percentile xp
+    await User.updateMany(
+      {
+        xp: { $gte: minXp },
+      },
+      {
+        $push: {
+          badges: "Top Fan",
+        },
+      }
+    );
 
     console.log("Daily cron job complete! 🎉", new Date().toLocaleString());
+    const completedIn = new Date().getTime() - startDate.getTime();
+    console.log(`Completed in ${completedIn}ms`);
   });
 }
