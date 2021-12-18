@@ -146,6 +146,7 @@ export default async function setupCron() {
     await User.updateMany(
       {
         streakDays: 7,
+        badges: { $nin: ["One Week Streak"] },
       },
       {
         $push: {
@@ -158,6 +159,7 @@ export default async function setupCron() {
     await User.updateMany(
       {
         streakDays: 30,
+        badges: { $nin: ["One Month Streak"] },
       },
       {
         $push: {
@@ -170,6 +172,7 @@ export default async function setupCron() {
     await User.updateMany(
       {
         streakDays: 69,
+        badges: { $nin: ["Nice"] },
       },
       {
         $push: {
@@ -182,6 +185,7 @@ export default async function setupCron() {
     await User.updateMany(
       {
         streakDays: 365,
+        badges: { $nin: ["One Year Streak"] },
       },
       {
         $push: {
