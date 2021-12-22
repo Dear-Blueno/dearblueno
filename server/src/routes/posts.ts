@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
 import { IUser } from "../models/User";
-import { authCheck, modCheck } from "../middleware/auth";
+import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
 
@@ -26,9 +26,10 @@ postRouter.get(
       .populate("comments")
       .populate({
         path: "comments",
-        populate: { path: "author" },
-        // select name and profile picture
-        // select: "name profilePicture", // TODO: only select name and profilePicture
+        populate: {
+          path: "author",
+          select: "name profilePicture",
+        },
       });
 
     // don't include comments if they are not approved
@@ -59,7 +60,13 @@ postRouter.get(
       .skip((page - 1) * 10)
       .limit(10)
       .populate("comments")
-      .populate("comments.author");
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "name profilePicture",
+        },
+      });
     res.send(posts);
   }
 );
@@ -74,7 +81,13 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
 
   const post = await Post.findOne({ postNumber: req.params.id })
     .populate("comments")
-    .populate("comments.author");
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "name profilePicture",
+      },
+    });
   if (!post || !post.approved) {
     res.status(404).send("Post not found");
     return;
@@ -89,7 +102,8 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
 // POST request that creates a new post
 postRouter.post(
   "/",
-  body("content").trim().isLength({ min: 1 }),
+  optionalAuth,
+  body("content").trim().isLength({ min: 1, max: 5000 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -98,8 +112,8 @@ postRouter.post(
     }
 
     const content = req.body.content;
-    const user = req.user as IUser;
-    const verifiedBrown = user?.verifiedBrown;
+    const user = req.user as IUser | undefined;
+    const verifiedBrown = user?.verifiedBrown || false;
     const post = new Post({
       content,
       verifiedBrown,
@@ -201,7 +215,7 @@ postRouter.post(
       res.status(404).send("Post not found");
       return;
     }
-    const user = (req.user as any)._id;
+    const user = req.user as IUser;
 
     const comment = new Comment({
       commentNumber: post.comments.length + 1,

@@ -1,6 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import { IUser } from "src/models/User";
 
+// handle optional auth
+export const optionalAuth = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  // If in testing mode, get user from req.body
+  if (process.env.NODE_ENV === "test") {
+    req.user = req.body.user;
+  }
+
+  next();
+};
+
 // check if user is authenticated
 export const authCheck = (req: Request, res: Response, next: NextFunction) => {
   // If in testing mode, get user from req.body
