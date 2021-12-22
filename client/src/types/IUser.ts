@@ -21,6 +21,5 @@ export interface IBasicUser {
 export default interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
-  commentsCount: number;
   moderator: boolean;
 }

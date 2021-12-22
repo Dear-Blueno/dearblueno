@@ -57,10 +57,6 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
-  commentsCount: {
-    type: Number,
-    default: 0,
-  },
   verifiedBrown: {
     type: Boolean,
     default: false,
@@ -98,7 +94,6 @@ export interface IBasicUser {
 export interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
-  commentsCount: number;
   moderator: boolean;
 }
 

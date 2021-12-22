@@ -1,8 +1,41 @@
 import { Router } from "express";
-import { body, param, validationResult } from "express-validator";
+import { body, param, query, validationResult } from "express-validator";
+import { authCheck } from "../middleware/auth";
 import User, { IUser } from "../models/User";
 
 const userRouter = Router();
+
+// GET request that searches for users by name
+userRouter.get(
+  "/search",
+  query("name")
+    .isString()
+    .isLength({ min: 3 })
+    .isAlpha("en-US", { ignore: [" "] }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.query) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    // Search for users by name, case insensitive, and return the first 5 results
+    // Remove sensitive information from the response
+    const users = await User.find({
+      name: { $regex: req.query.name, $options: "i" },
+    })
+      .limit(5)
+      .select("-email -lastLoggedIn -moderator");
+
+    if (!users || users.length === 0) {
+      res.status(404).send("No users found");
+      return;
+    }
+
+    // Send non sensitive user data
+    res.json({ users });
+  }
+);
 
 // GET request that gets a user by id
 userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
@@ -12,77 +45,24 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
     return;
   }
 
-  const user = await User.findOne({ googleId: req.params.id });
+  // Get user by id, remove sensitive information from the response
+  const user = await User.findOne({ googleId: req.params.id }).select(
+    "-email -lastLoggedIn -moderator"
+  );
   if (!user) {
     res.status(404).send("User not found");
     return;
   }
 
   // Send non sensitive user data
-  res.json({
-    user: {
-      googleId: user.googleId,
-      name: user.name,
-      profilePicture: user.profilePicture,
-      bio: user.bio,
-      instagram: user.instagram,
-      twitter: user.twitter,
-      facebook: user.facebook,
-      concentration: user.concentration,
-      createdAt: user.createdAt,
-      xp: user.xp,
-      classYear: user.classYear,
-      streakDays: user.streakDays,
-      verifiedBrown: user.verifiedBrown,
-      badges: user.badges,
-    },
-  });
+  res.json({ user });
 });
 
-// GET request that searches for users by name
-userRouter.get(
-  "/search/:name",
-  param("name").isString().isLength({ min: 2 }).isAlpha(),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
-    const users = await User.find({ name: { $regex: req.params.name } });
-    if (!users) {
-      res.status(404).send("No users found");
-      return;
-    }
-
-    // Send non sensitive user data
-    res.json({
-      users: users.map((user) => {
-        return {
-          googleId: user.googleId,
-          name: user.name,
-          profilePicture: user.profilePicture,
-          bio: user.bio,
-          instagram: user.instagram,
-          twitter: user.twitter,
-          facebook: user.facebook,
-          concentration: user.concentration,
-          createdAt: user.createdAt,
-          xp: user.xp,
-          classYear: user.classYear,
-          streakDays: user.streakDays,
-          verifiedBrown: user.verifiedBrown,
-          badges: user.badges,
-        };
-      }),
-    });
-  }
-);
-
 // PUT request that updates a user's bio profile
+// (Auth required)
 userRouter.put(
   "/profile",
+  authCheck,
   body("bio").optional().isString(),
   body("instagram")
     .optional()
@@ -136,8 +116,10 @@ userRouter.put(
 );
 
 // PUT request that updates a user's profile picture
+// (Auth required)
 userRouter.put(
   "/profilePicture",
+  authCheck,
   body("profilePicture").isURL({
     require_protocol: true,
     protocols: ["https"],
@@ -149,11 +131,16 @@ userRouter.put(
       res.status(400).json({ errors: errors.array() });
       return;
     }
+    // Check if the url is a valid imgur url to an image
+    const profilePicture = req.body.profilePicture as string;
+    const urlRegex = /^https:\/\/i\.imgur\.com\/[a-zA-Z0-9]{5,7}\.png$/;
+    if (!urlRegex.test(profilePicture)) {
+      res.status(400).send("Invalid profile picture url");
+      return;
+    }
 
     const user = req.user as IUser;
-    const { profilePicture } = req.body;
-
-    profilePicture && (user.profilePicture = profilePicture);
+    user.profilePicture = profilePicture;
 
     const newUser = await User.findOneAndUpdate(
       { googleId: user.googleId },
