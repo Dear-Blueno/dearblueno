@@ -8,6 +8,13 @@ To develop locally, you can use the following environment variables (use a `.env
 PORT = 5000
 CLIENT_URL = "http://localhost:3000"
 MONGODB_URI = "mongodb+srv:// ... ?retryWrites=true&w=majority"
+GOOGLE_CLIENT_ID = "... .apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "..."
+SESSION_SECRET = "..."
+VERIFIED_GOOGLE_SHEET_ID = "..."
+UNVERIFIED_GOOGLE_SHEET_ID = "..."
+GOOGLE_SHEET_CLIENT_EMAIL = "...@... .iam.gserviceaccount.com"
+GOOGLE_SHEET_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\n ... \n-----END PRIVATE KEY-----\n"
 ```
 
 ## Getting Started with Express
