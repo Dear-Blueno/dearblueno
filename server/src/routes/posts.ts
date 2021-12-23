@@ -145,7 +145,7 @@ postRouter.put(
 
     post.approved = req.body.approved;
     post.approvedTime = new Date();
-    post.approvedBy = (req.user as any)._id;
+    post.approvedBy = (req.user as IUser)._id;
     if (!post.postNumber && post.approved) {
       post.postNumber =
         (await Post.countDocuments({
@@ -180,7 +180,7 @@ postRouter.put(
 
     const reaction = req.body.reaction;
     const state = req.body.state;
-    const user = (req.user as any)._id;
+    const user = req.user as IUser;
 
     const reactions = post.reactions[reaction - 1] || [];
     if (state) {
@@ -303,7 +303,7 @@ postRouter.put(
 
     const reaction = req.body.reaction;
     const state = req.body.state;
-    const user = (req.user as any)._id;
+    const user = req.user as IUser;
 
     const reactions = comment.reactions[reaction - 1] || [];
     if (state) {

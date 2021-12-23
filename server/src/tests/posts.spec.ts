@@ -550,7 +550,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne();
       expect(post2?.reactions[0].length).toBe(1);
-      expect(post2?.reactions[0][0]).toBe(user._id);
+      expect(post2?.reactions[0][0]).toStrictEqual(user._id);
     });
 
     it("should return 200 if logged in and the post exists and the unreaction is valid", async () => {
@@ -783,14 +783,14 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments[0].reactions[0].length).toBe(1);
-      expect(post2?.comments[0].reactions[0][0]).toBe(user._id);
+      expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
 
       await request(app)
         .put(`/posts/1/comment/1/react`)
         .send({ user, reaction: 1, state: false })
         .expect(200);
 
-      const post3 = await Post.findOne();
+      const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].reactions[0].length).toBe(0);
     });
   });
