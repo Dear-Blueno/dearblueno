@@ -183,6 +183,19 @@ describe("Posts", () => {
       expect(res.body[0].comments[0].author.lastLoggedIn).toBeUndefined();
       expect(res.body[0].comments[0].author.email).toBeUndefined();
     });
+
+    it("should not include sensitive information of posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedBy: modUser._id,
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts").expect(200);
+      expect(res.body[0].approvedBy).toBeUndefined();
+    });
   });
 
   describe("GET /posts/all", () => {
@@ -364,6 +377,19 @@ describe("Posts", () => {
       expect(res.body.comments[0].author.email).toBe(undefined);
       expect(res.body.comments[0].author.moderator).toBe(undefined);
       expect(res.body.comments[0].author.lastLoggedIn).toBe(undefined);
+    });
+
+    it("should not include sensitive information of posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedBy: modUser._id,
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts/1").expect(200);
+      expect(res.body.approvedBy).toBe(undefined);
     });
   });
 

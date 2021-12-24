@@ -23,6 +23,7 @@ postRouter.get(
       .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
       .limit(10)
+      .select("-approvedBy")
       .populate("comments")
       .populate({
         path: "comments",
@@ -80,6 +81,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   }
 
   const post = await Post.findOne({ postNumber: req.params.id })
+    .select("-approvedBy")
     .populate("comments")
     .populate({
       path: "comments",
