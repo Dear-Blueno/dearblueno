@@ -111,10 +111,14 @@ export async function reactToComment(
 
 export async function approvePost(
   postId: string,
-  approved: boolean
+  approved: boolean,
+  contentWarning?: string
 ): Promise<IResponse<IPost>> {
   try {
-    const response = await axios.put(`/posts/${postId}/approve`, { approved });
+    const response = await axios.put(`/posts/${postId}/approve`, {
+      approved,
+      contentWarning,
+    });
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {

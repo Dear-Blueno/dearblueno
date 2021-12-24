@@ -473,6 +473,7 @@ describe("Posts", () => {
       expect(post2?.postNumber).toBe(1);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
+      expect(post2?.contentWarning).toBeUndefined();
     });
 
     it("should return 200 if all valid to unapprove", async () => {
@@ -491,6 +492,25 @@ describe("Posts", () => {
       expect(post2?.approved).toBe(false);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
+    });
+
+    it("should add content warning to post if included in request", async () => {
+      const post = new Post({
+        content: "This is a test post",
+      });
+      await post.save();
+
+      await request(app)
+        .put(`/posts/${post._id}/approve`)
+        .send({
+          user: modUser,
+          approved: true,
+          contentWarning: "This is a test warning",
+        })
+        .expect(200);
+
+      const post2 = await Post.findOne();
+      expect(post2?.contentWarning).toBe("This is a test warning");
     });
   });
 

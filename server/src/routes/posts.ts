@@ -129,6 +129,7 @@ postRouter.put(
   "/:id/approve",
   modCheck,
   body("approved").toBoolean(),
+  body("contentWarning").trim().optional().isLength({ max: 100 }),
   param("id").isMongoId(),
   async (req, res) => {
     const errors = validationResult(req);
@@ -144,6 +145,7 @@ postRouter.put(
     }
 
     post.approved = req.body.approved;
+    post.contentWarning = req.body.contentWarning;
     post.approvedTime = new Date();
     post.approvedBy = (req.user as IUser)._id;
     if (!post.postNumber && post.approved) {
