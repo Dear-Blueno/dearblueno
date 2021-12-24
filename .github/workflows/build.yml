@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   build:
-    name: Build
+    name: Build and Test
 
     runs-on: ubuntu-latest
 
@@ -24,6 +24,11 @@ jobs:
           npm run tsc
           npm run test
           cd ..
+        env:
+          VERIFIED_GOOGLE_SHEET_ID: ${{ secrets.VERIFIED_GOOGLE_SHEET_ID }}
+          UNVERIFIED_GOOGLE_SHEET_ID: ${{ secrets.UNVERIFIED_GOOGLE_SHEET_ID }}
+          GOOGLE_SHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_SHEET_CLIENT_EMAIL }}
+          GOOGLE_SHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEET_PRIVATE_KEY }}
 
       - name: ⛏ Build Frontend
         run: |
