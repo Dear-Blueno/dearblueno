@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
-import { IUser } from "../models/User";
+import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
@@ -64,7 +64,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture googleId",
         },
       });
     res.send(posts);
@@ -85,7 +85,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
       path: "comments",
       populate: {
         path: "author",
-        select: "name profilePicture",
+        select: "name profilePicture googleId",
       },
     });
   if (!post || !post.approved) {
@@ -200,7 +200,7 @@ postRouter.put(
 postRouter.post(
   "/:id/comment",
   authCheck,
-  body("content").trim().isLength({ min: 1 }),
+  body("content").trim().isLength({ min: 1, max: 2000 }).isAscii(),
   body("parentId").isInt({ min: -1 }),
   param("id").isInt({ min: 1 }),
   async (req, res) => {
@@ -210,12 +210,29 @@ postRouter.post(
       return;
     }
 
+    const reqUser = req.user as IUser;
+    const user = await User.findById(reqUser._id);
+    if (!user) {
+      res.status(404).send("User not found");
+      return;
+    }
+    // Check if the user is banned
+    if (user.bannedUntil && user.bannedUntil > new Date()) {
+      res
+        .status(403)
+        .send(
+          `User is banned until ${new Date(
+            user.bannedUntil
+          ).toLocaleDateString()}`
+        );
+      return;
+    }
+
     const post = await Post.findOne({ postNumber: Number(req.params.id) });
     if (!post) {
       res.status(404).send("Post not found");
       return;
     }
-    const user = req.user as IUser;
 
     const comment = new Comment({
       commentNumber: post.comments.length + 1,

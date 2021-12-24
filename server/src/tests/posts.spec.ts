@@ -627,6 +627,33 @@ describe("Posts", () => {
       expect(comment?.parentCommentNumber).toBe(-1);
       expect(comment?.post).toStrictEqual(post._id);
     });
+
+    it("should not be able to post comment if banned", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const bannedUser = new User({
+        googleId: "12345",
+        name: "Banned User",
+        email: "banned@dearblueno.net",
+        profilePicture: "https://i.imgur.com/removed.png",
+        bannedUntil: new Date(Date.now() + 100000),
+      });
+      bannedUser.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({
+          user: bannedUser,
+          content: "This is a test comment",
+          parentId: -1,
+        })
+        .expect(403);
+    });
   });
 
   describe("PUT /posts/:id/comment/:commentId/approve", () => {

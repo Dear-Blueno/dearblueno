@@ -22,4 +22,5 @@ export default interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
   moderator: boolean;
+  bannedUntil?: Date;
 }

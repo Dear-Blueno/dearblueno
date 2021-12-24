@@ -164,6 +164,52 @@ describe("User", () => {
     });
   });
 
+  describe("POST /user/ban", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).post("/user/ban").expect(401);
+    });
+
+    it("should return 401 if user is not moderator", async () => {
+      await request(app).post("/user/ban").send({ user }).expect(401);
+    });
+
+    it("should return 404 if nonexistent target user is provided", async () => {
+      const modUser = new User({
+        googleId: 12345,
+        name: "Mod",
+        email: "mod@dearblueno.net",
+        profilePicture: "https://i.imgur.com/removed.png",
+        moderator: true,
+      });
+      await modUser.save();
+
+      await request(app)
+        .post("/user/ban")
+        .send({ user: modUser, id: 987, duration: 10 })
+        .expect(404);
+    });
+
+    it("should return 200 if valid target user is provided", async () => {
+      const modUser = new User({
+        googleId: 12345,
+        name: "Mod",
+        email: "mod@dearblueno.net",
+        profilePicture: "https://i.imgur.com/removed.png",
+        moderator: true,
+      });
+      await modUser.save();
+
+      await request(app)
+        .post("/user/ban")
+        .send({ user: modUser, id: user.googleId, duration: 10 })
+        .expect(200);
+
+      const newUser = await User.findOne({ googleId: user.googleId });
+      const time = new Date(newUser?.bannedUntil || 0);
+      expect(new Date(time).getTime()).toBeGreaterThan(Date.now());
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });

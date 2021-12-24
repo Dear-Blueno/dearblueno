@@ -45,7 +45,7 @@ Installs the backend dependencies necessary for development.
 Runs the backend in the development mode.\
 Open [http://localhost:5000](http://localhost:5000) to view it in your favorite REST client.
 
-#### `npm run test`
+#### `npm test`
 
 Runs the backend test suites.\
 If you changed the backend code, you should run this script before committing.\

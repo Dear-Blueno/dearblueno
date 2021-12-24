@@ -7,6 +7,10 @@ const authRouter = Router();
 // Return user info
 authRouter.get("/", async (req, res) => {
   if (req.user) {
+    res.status(200).json({
+      success: true,
+      user: req.user,
+    });
     const user = await User.findByIdAndUpdate(
       (req.user as IUser)._id,
       {
@@ -14,10 +18,10 @@ authRouter.get("/", async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({
-      success: true,
-      user,
-    });
+    if (user) {
+      (req.session as any).passport.user = user;
+      req.session.save();
+    }
   } else {
     // The user is not logged in
     res.status(401).json({
