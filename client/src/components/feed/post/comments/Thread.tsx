@@ -3,7 +3,7 @@ import ReactionBar from "../reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useEffect, useState } from "react";
-import NewCommentBox from "./NewCommentBox";
+import NewCommentBox from "./new_comment/NewCommentBox";
 import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
 import ProfilePicture from "../../../user/ProfilePicture";
@@ -15,10 +15,12 @@ type ThreadProps = {
   collapsed: boolean;
   comment: IThread;
   firstThread: boolean;
+  postNumber: number;
 };
 
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
+  const [showReplyBox, setShowReplyBox] = useState(false);
   const [reactions] = useState<string[][]>(props.comment.reactions);
 
   const toggleShow = () => {
@@ -35,6 +37,7 @@ function Thread(props: ThreadProps) {
         collapsed={false}
         comment={comment}
         firstThread={false}
+        postNumber={props.postNumber}
       />
     );
   });
@@ -55,27 +58,28 @@ function Thread(props: ThreadProps) {
           <div className="Comment">
             <p className="CommentBody">{props.comment.content}</p>
             <div className="CommentFooter">
-              {show && (
-                <ReactionBar
-                  number={props.comment.commentNumber}
-                  user={props.user}
-                  type="comment"
-                  reactions={props.comment.reactions}
-                />
-              )}
+              <ReactionBar
+                number={props.comment.commentNumber}
+                user={props.user}
+                type="comment"
+                reactions={props.comment.reactions}
+              />
               <DividerDot />
-              {show && <CommentButton type="reply" click={() => {}} />}
+              <CommentButton type="reply" click={() => setShowReplyBox(true)} />
             </div>
+            {showReplyBox && (
+              <NewCommentBox
+                user={props.user}
+                firstComment={false}
+                postNumber={props.postNumber}
+                parentCommentNumber={props.comment.commentNumber}
+                setShow={setShowReplyBox}
+              />
+            )}
             {nestedComments}
           </div>
         )}
       </div>
-      <NewCommentBox
-        user={props.user}
-        firstComment={props.firstThread}
-        parentCommentNumber={props.comment.commentNumber}
-        show={false}
-      />
     </div>
   );
 }

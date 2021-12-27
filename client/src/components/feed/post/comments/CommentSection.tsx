@@ -1,7 +1,7 @@
 import "./CommentSection.css";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
-import NewCommentBox from "./NewCommentBox";
+import NewCommentBox from "./new_comment/NewCommentBox";
 import IUser from "../../../../types/IUser";
 import { useState, useEffect } from "react";
 
@@ -10,6 +10,7 @@ export type CommentSectionProps = {
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
+  setShowCommentBox: (show: boolean) => void;
 };
 
 export interface IThread extends IComment {
@@ -53,14 +54,18 @@ function CommentSection(props: CommentSectionProps) {
           comment={comment}
           collapsed={false}
           firstThread={index === 0}
+          postNumber={props.postNumber}
         />
       ))}
-      <NewCommentBox
-        user={props.user}
-        firstComment={props.comments.length === 0}
-        parentCommentNumber={-1}
-        show={props.showCommentBox}
-      />
+      {props.showCommentBox && (
+        <NewCommentBox
+          user={props.user}
+          firstComment={props.comments.length === 0}
+          parentCommentNumber={-1}
+          setShow={props.setShowCommentBox}
+          postNumber={props.postNumber}
+        ></NewCommentBox>
+      )}
     </div>
   ) : null;
 }
