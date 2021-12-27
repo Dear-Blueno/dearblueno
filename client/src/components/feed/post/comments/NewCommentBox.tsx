@@ -19,13 +19,13 @@ function NewCommentBox(props: NewCommentBoxProps) {
 
   return (
     <div className="NewCommentBox">
-      {props.show ? (
+      {props.show && (
         <textarea
           autoFocus
           className={textAreaClassName}
           placeholder="Write a comment..."
         />
-      ) : null}
+      )}
     </div>
   );
 }

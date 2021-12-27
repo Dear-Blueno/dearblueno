@@ -41,6 +41,7 @@ function Post(props: PostProps) {
         comments={props.comments}
         postNumber={props.postNumber}
         showCommentBox={showCommentBox}
+        setShowCommentBox={setShowCommentBox}
       />
     </div>
   );

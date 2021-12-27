@@ -10,6 +10,7 @@ export type CommentSectionProps = {
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
+  setShowCommentBox: (show: boolean) => void;
 };
 
 export interface IThread extends IComment {
@@ -56,13 +57,15 @@ function CommentSection(props: CommentSectionProps) {
           postNumber={props.postNumber}
         />
       ))}
-      <NewCommentBox
-        user={props.user}
-        firstComment={props.comments.length === 0}
-        parentCommentNumber={-1}
-        show={props.showCommentBox}
-        postNumber={props.postNumber}
-      ></NewCommentBox>
+      {props.showCommentBox && (
+        <NewCommentBox
+          user={props.user}
+          firstComment={props.comments.length === 0}
+          parentCommentNumber={-1}
+          setShow={props.setShowCommentBox}
+          postNumber={props.postNumber}
+        ></NewCommentBox>
+      )}
     </div>
   ) : null;
 }

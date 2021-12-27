@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { commentOnPost } from "../../../../../gateways/PostGateway";
 import IUser from "../../../../../types/IUser";
 import "./NewCommentBox.css";
@@ -8,7 +9,7 @@ type NewCommentBoxProps = {
   firstComment: boolean;
   postNumber: number;
   parentCommentNumber: number;
-  show: boolean;
+  setShow: (show: boolean) => void;
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
@@ -26,9 +27,6 @@ function NewCommentBox(props: NewCommentBoxProps) {
     if (props.user) {
       const textarea = document.getElementById(id) as HTMLTextAreaElement;
       if (textarea && textarea.value) {
-        console.log(textarea.value);
-        console.log(props.postNumber);
-        console.log(props.parentCommentNumber);
         commentOnPost(
           props.postNumber,
           textarea.value,
@@ -37,21 +35,20 @@ function NewCommentBox(props: NewCommentBoxProps) {
           console.log(response);
         });
         textarea.value = "";
+        props.setShow(false);
       }
     }
   };
 
   return (
     <div className="NewCommentBox">
-      {props.show && (
-        <textarea
-          autoFocus
-          className={textAreaClassName}
-          placeholder="Write a comment..."
-          id={id}
-        ></textarea>
-      )}
-      {props.show && <NewCommentBoxFooter submit={submit} />}
+      <textarea
+        autoFocus
+        className={textAreaClassName}
+        placeholder="Write a comment..."
+        id={id}
+      ></textarea>
+      <NewCommentBoxFooter submit={submit} />
     </div>
   );
 }
