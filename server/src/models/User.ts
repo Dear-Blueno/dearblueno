@@ -49,6 +49,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  bannedUntil: {
+    type: Date,
+    required: false,
+  },
   xp: {
     type: Number,
     default: 0,
@@ -95,6 +99,7 @@ export interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
   moderator: boolean;
+  bannedUntil: Date;
 }
 
 const User = model<IUser>("User", UserSchema);

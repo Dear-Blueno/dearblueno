@@ -4,12 +4,12 @@ import {
   Strategy as GoogleStrategy,
   VerifyCallback,
 } from "passport-google-oauth20";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 
 export default function passportConfig() {
   // Convert the user database model to an id for passport
-  passport.serializeUser((user: any, done) => {
-    done(null, user.id);
+  passport.serializeUser((user, done) => {
+    done(null, (user as IUser)._id);
   });
 
   // Convert the id back to a user database model

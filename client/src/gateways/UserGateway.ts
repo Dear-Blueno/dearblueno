@@ -79,3 +79,22 @@ export async function updateProfilePicture(
     return failureResponse(error);
   }
 }
+
+export async function banUser(
+  googleId: string,
+  banLengthMinutes: number // set to 0 to unban
+): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.put(`/user/ban`, {
+      id: googleId,
+      duration: banLengthMinutes,
+    });
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}

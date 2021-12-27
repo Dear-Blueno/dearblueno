@@ -183,6 +183,19 @@ describe("Posts", () => {
       expect(res.body[0].comments[0].author.lastLoggedIn).toBeUndefined();
       expect(res.body[0].comments[0].author.email).toBeUndefined();
     });
+
+    it("should not include sensitive information of posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedBy: modUser._id,
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts").expect(200);
+      expect(res.body[0].approvedBy).toBeUndefined();
+    });
   });
 
   describe("GET /posts/all", () => {
@@ -365,6 +378,19 @@ describe("Posts", () => {
       expect(res.body.comments[0].author.moderator).toBe(undefined);
       expect(res.body.comments[0].author.lastLoggedIn).toBe(undefined);
     });
+
+    it("should not include sensitive information of posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedBy: modUser._id,
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts/1").expect(200);
+      expect(res.body.approvedBy).toBe(undefined);
+    });
   });
 
   describe("POST /posts", () => {
@@ -473,6 +499,7 @@ describe("Posts", () => {
       expect(post2?.postNumber).toBe(1);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
+      expect(post2?.contentWarning).toBeUndefined();
     });
 
     it("should return 200 if all valid to unapprove", async () => {
@@ -491,6 +518,25 @@ describe("Posts", () => {
       expect(post2?.approved).toBe(false);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
+    });
+
+    it("should add content warning to post if included in request", async () => {
+      const post = new Post({
+        content: "This is a test post",
+      });
+      await post.save();
+
+      await request(app)
+        .put(`/posts/${post._id}/approve`)
+        .send({
+          user: modUser,
+          approved: true,
+          contentWarning: "This is a test warning",
+        })
+        .expect(200);
+
+      const post2 = await Post.findOne();
+      expect(post2?.contentWarning).toBe("This is a test warning");
     });
   });
 
@@ -626,6 +672,33 @@ describe("Posts", () => {
       expect(comment?.commentNumber).toBe(1);
       expect(comment?.parentCommentNumber).toBe(-1);
       expect(comment?.post).toStrictEqual(post._id);
+    });
+
+    it("should not be able to post comment if banned", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const bannedUser = new User({
+        googleId: "12345",
+        name: "Banned User",
+        email: "banned@dearblueno.net",
+        profilePicture: "https://i.imgur.com/removed.png",
+        bannedUntil: new Date(Date.now() + 100000),
+      });
+      bannedUser.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({
+          user: bannedUser,
+          content: "This is a test comment",
+          parentId: -1,
+        })
+        .expect(403);
     });
   });
 

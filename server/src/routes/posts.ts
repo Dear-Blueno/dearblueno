@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
-import { IUser } from "../models/User";
+import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post from "../models/Post";
@@ -23,6 +23,7 @@ postRouter.get(
       .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
       .limit(10)
+      .select("-approvedBy")
       .populate("comments")
       .populate({
         path: "comments",
@@ -64,7 +65,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture googleId",
         },
       });
     res.send(posts);
@@ -80,12 +81,13 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   }
 
   const post = await Post.findOne({ postNumber: req.params.id })
+    .select("-approvedBy")
     .populate("comments")
     .populate({
       path: "comments",
       populate: {
         path: "author",
-        select: "name profilePicture",
+        select: "name profilePicture googleId",
       },
     });
   if (!post || !post.approved) {
@@ -129,6 +131,7 @@ postRouter.put(
   "/:id/approve",
   modCheck,
   body("approved").toBoolean(),
+  body("contentWarning").trim().optional().isLength({ max: 100 }),
   param("id").isMongoId(),
   async (req, res) => {
     const errors = validationResult(req);
@@ -144,6 +147,7 @@ postRouter.put(
     }
 
     post.approved = req.body.approved;
+    post.contentWarning = req.body.contentWarning;
     post.approvedTime = new Date();
     post.approvedBy = (req.user as IUser)._id;
     if (!post.postNumber && post.approved) {
@@ -200,7 +204,7 @@ postRouter.put(
 postRouter.post(
   "/:id/comment",
   authCheck,
-  body("content").trim().isLength({ min: 1 }),
+  body("content").trim().isLength({ min: 1, max: 2000 }).isAscii(),
   body("parentId").isInt({ min: -1 }),
   param("id").isInt({ min: 1 }),
   async (req, res) => {
@@ -210,12 +214,29 @@ postRouter.post(
       return;
     }
 
+    const reqUser = req.user as IUser;
+    const user = await User.findById(reqUser._id);
+    if (!user) {
+      res.status(404).send("User not found");
+      return;
+    }
+    // Check if the user is banned
+    if (user.bannedUntil && user.bannedUntil > new Date()) {
+      res
+        .status(403)
+        .send(
+          `User is banned until ${new Date(
+            user.bannedUntil
+          ).toLocaleDateString()}`
+        );
+      return;
+    }
+
     const post = await Post.findOne({ postNumber: Number(req.params.id) });
     if (!post) {
       res.status(404).send("Post not found");
       return;
     }
-    const user = req.user as IUser;
 
     const comment = new Comment({
       commentNumber: post.comments.length + 1,
