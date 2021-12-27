@@ -59,7 +59,8 @@ function Thread(props: ThreadProps) {
             <p className="CommentBody">{props.comment.content}</p>
             <div className="CommentFooter">
               <ReactionBar
-                number={props.comment.commentNumber}
+                postNumber={props.comment.postNumber}
+                commentNumber={props.comment.commentNumber}
                 user={props.user}
                 type="comment"
                 reactions={props.comment.reactions}

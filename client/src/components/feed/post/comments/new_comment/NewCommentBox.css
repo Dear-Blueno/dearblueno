@@ -1,7 +1,6 @@
 .NewCommentBox {
   grid-area: thread;
   width: 100%;
-  margin-bottom: 0.6rem;
 }
 
 .NewCommentTextArea {

@@ -1,5 +1,5 @@
 import "./PostDate.css";
-import { formatDistanceToNowStrict, isSameDay } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 interface PostDateProps {
   value: Date;

@@ -48,12 +48,12 @@ export async function createPost(content: string): Promise<IResponse<IPost>> {
 export async function reactToPost(
   postNumber: number,
   reaction: number,
-  status: boolean
+  state: boolean
 ): Promise<IResponse<IPost>> {
   try {
     const response = await axios.put(`/posts/${postNumber}/react`, {
       reaction,
-      status,
+      state,
     });
     if (response.status === 200) {
       return successfulResponse(response.data);
@@ -89,14 +89,14 @@ export async function reactToComment(
   postNumber: number,
   commentNumber: number,
   reaction: number,
-  status: boolean
+  state: boolean
 ): Promise<IResponse<IPost>> {
   try {
     const response = await axios.put(
       `/posts/${postNumber}/comment/${commentNumber}/react`,
       {
         reaction,
-        status,
+        state,
       }
     );
     if (response.status === 200) {

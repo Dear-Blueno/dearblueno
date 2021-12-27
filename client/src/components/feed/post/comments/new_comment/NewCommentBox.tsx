@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { commentOnPost } from "../../../../../gateways/PostGateway";
 import IUser from "../../../../../types/IUser";
 import "./NewCommentBox.css";

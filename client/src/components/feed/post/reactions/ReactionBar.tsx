@@ -14,13 +14,14 @@ import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
 import IUser from "../../../../types/IUser";
-import { reactToPost } from "../../../../gateways/PostGateway";
+import { reactToComment, reactToPost } from "../../../../gateways/PostGateway";
 
 type ReactionBarProps = {
   user: IUser | undefined;
   type: "comment" | "post";
   reactions: string[][];
-  number: number;
+  postNumber: number;
+  commentNumber: number | undefined;
 };
 
 function ReactionBar(props: ReactionBarProps) {
@@ -140,9 +141,18 @@ function ReactionBar(props: ReactionBarProps) {
             (id) => id !== props.user?._id
           );
           countUpdaters[reaction](props.reactions[reaction].length);
-          reactToPost(props.number, reaction, false).then((response) => {
-            console.log(response);
-          });
+          if (props.type === "post") {
+            reactToPost(props.postNumber, reaction + 1, false);
+          } else {
+            if (props.commentNumber) {
+              reactToComment(
+                props.postNumber,
+                props.commentNumber,
+                reaction + 1,
+                false
+              );
+            }
+          }
         } else {
           if (props.reactions[reaction]) {
             props.reactions[reaction] = [
@@ -153,9 +163,18 @@ function ReactionBar(props: ReactionBarProps) {
             props.reactions[reaction] = [props.user._id];
           }
           countUpdaters[reaction](props.reactions[reaction].length);
-          reactToPost(props.number, reaction, true).then((response) => {
-            console.log(response);
-          });
+          if (props.type === "post") {
+            reactToPost(props.postNumber, reaction + 1, true);
+          } else {
+            if (props.commentNumber) {
+              reactToComment(
+                props.postNumber,
+                props.commentNumber,
+                reaction + 1,
+                true
+              );
+            }
+          }
         }
       }
     };

@@ -28,7 +28,8 @@ function Post(props: PostProps) {
       <PostBody body={props.postBody} />
       <div className="PostFooter">
         <ReactionBar
-          number={props.postNumber}
+          postNumber={props.postNumber}
+          commentNumber={undefined}
           user={props.user}
           type={"post"}
           reactions={props.reactions}
