@@ -9,6 +9,10 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  verifiedBrown: {
+    type: Boolean,
+    default: true,
+  },
   contentWarning: {
     type: String,
     required: false,
@@ -49,6 +53,7 @@ const PostSchema = new Schema({
 export interface IPost {
   postNumber: number;
   content: string;
+  verifiedBrown: boolean;
   contentWarning: string;
   postTime: Date;
   approvedTime: Date;

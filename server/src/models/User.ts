@@ -57,10 +57,6 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
-  commentsCount: {
-    type: Number,
-    default: 0,
-  },
   verifiedBrown: {
     type: Boolean,
     default: false,
@@ -77,6 +73,7 @@ const UserSchema = new Schema({
 
 // Non-sensitive user info that can be seen by everyone
 export interface IBasicUser {
+  _id: string;
   googleId: string;
   name: string;
   profilePicture: string;
@@ -97,7 +94,6 @@ export interface IBasicUser {
 export interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
-  commentsCount: number;
   moderator: boolean;
 }
 

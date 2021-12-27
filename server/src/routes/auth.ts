@@ -1,22 +1,27 @@
 import { Router } from "express";
 import passport from "passport";
+import User, { IUser } from "../models/User";
 
 const authRouter = Router();
 
 // Return user info
-authRouter.get("/", (req, res) => {
+authRouter.get("/", async (req, res) => {
   if (req.user) {
+    const user = await User.findByIdAndUpdate(
+      (req.user as IUser)._id,
+      {
+        lastLoggedIn: Date.now(),
+      },
+      { new: true }
+    );
     res.status(200).json({
       success: true,
-      message: "Login successful",
-      user: req.user,
-      cookies: req.cookies,
+      user,
     });
   } else {
     // The user is not logged in
     res.status(401).json({
       success: false,
-      message: "Not logged in",
     });
   }
 });
@@ -50,9 +55,8 @@ authRouter.get(
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_URL,
-    failureRedirect: process.env.CLIENT_URL,
-    failureFlash: true,
+    successRedirect: process.env.CLIENT_URL || "http://localhost:3000",
+    failureRedirect: "/auth/login/unverified",
   })
 );
 

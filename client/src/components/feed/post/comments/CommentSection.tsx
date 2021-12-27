@@ -28,7 +28,8 @@ const nestComments = (commentList: IThread[]): IThread[] => {
   commentList.forEach((comment) => {
     if (comment.parentCommentNumber !== -1) {
       const parent = commentMap[comment.parentCommentNumber];
-      (parent.children = parent.children || []).push(comment);
+      parent.children = parent.children || [];
+      parent.children.push(comment);
     }
   });
 

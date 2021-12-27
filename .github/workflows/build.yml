@@ -22,6 +22,7 @@ jobs:
           cd server
           npm ci
           npm run tsc
+          npm run test
           cd ..
 
       - name: ⛏ Build Frontend
