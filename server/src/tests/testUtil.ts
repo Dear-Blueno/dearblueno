@@ -23,3 +23,10 @@ export default async function setupForTests() {
 
   return app;
 }
+
+export async function resetCollections() {
+  // Clear all the data from each collection
+  for (const collection in mongoose.connection.collections) {
+    await mongoose.connection.collections[collection].deleteMany({});
+  }
+}

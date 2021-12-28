@@ -49,6 +49,7 @@ const PostSchema = new Schema({
     ],
   ],
 });
+PostSchema.index({ content: "text" });
 
 export interface IPost {
   postNumber: number;

@@ -148,3 +148,16 @@ export async function approveComment(
     return failureResponse(error);
   }
 }
+
+export async function searchPosts(query: string) {
+  try {
+    const response = await axios.get(`/posts/search?query=${query}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}

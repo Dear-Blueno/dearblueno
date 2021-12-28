@@ -4,7 +4,7 @@ import Post from "../models/Post";
 import Comment from "../models/Comment";
 import User, { IUser } from "../models/User";
 import request from "supertest";
-import setupForTests from "./testUtil";
+import setupForTests, { resetCollections } from "./testUtil";
 
 describe("Posts", () => {
   let app: Express;
@@ -16,7 +16,7 @@ describe("Posts", () => {
   });
 
   beforeEach(async () => {
-    await mongoose.connection.dropDatabase();
+    await resetCollections();
 
     const userModel = new User({
       googleId: "123",
@@ -865,6 +865,113 @@ describe("Posts", () => {
 
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].reactions[0].length).toBe(0);
+    });
+  });
+
+  describe("GET /posts/search", () => {
+    it("should return 400 if no query is included", async () => {
+      await request(app).get("/posts/search").expect(400);
+    });
+
+    it("should return 200 if query is included", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const post2 = new Post({
+        content:
+          "This is a another post that notably doesn't contain the t word",
+        approved: true,
+        postNumber: 2,
+      });
+      await post2.save();
+
+      const res = await request(app)
+        .get("/posts/search?query=test")
+        .expect(200);
+
+      expect(res.body.length).toBe(1);
+      expect(res.body[0].postNumber).toBe(1);
+    });
+
+    it("should not return posts that are not approved", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: false,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/search?query=test")
+        .expect(200);
+
+      expect(res.body.length).toBe(0);
+    });
+
+    it("should sort posts by relevance", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const post2 = new Post({
+        content: "TEST TESTING TESTING TEST TEST test",
+        approved: true,
+        postNumber: 2,
+      });
+      await post2.save();
+
+      const post3 = new Post({
+        content: "test this is second place test",
+        approved: true,
+        postNumber: 3,
+      });
+      await post3.save();
+
+      const res = await request(app)
+        .get("/posts/search?query=test")
+        .expect(200);
+
+      expect(res.body.length).toBe(3);
+      expect(res.body[0].postNumber).toBe(2);
+      expect(res.body[1].postNumber).toBe(3);
+      expect(res.body[2].postNumber).toBe(1);
+    });
+
+    it("should not leak sensitive information about users or posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        approvedBy: modUser._id,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        author: user._id,
+      });
+      await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/search?query=test")
+        .expect(200);
+
+      expect(res.body[0].approvedBy).toBeUndefined();
+      expect(res.body[0].comments[0].author.name).toBe("Bob");
+      expect(res.body[0].comments[0].author.email).toBeUndefined();
     });
   });
 

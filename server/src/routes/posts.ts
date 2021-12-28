@@ -72,6 +72,42 @@ postRouter.get(
   }
 );
 
+// GET request that searches for posts with an index query
+postRouter.get(
+  "/search",
+  query("query").isString().isLength({ min: 3 }).isAscii(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.query) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const searchQuery = req.query.query;
+    const posts = await Post.find({
+      approved: true,
+      $text: { $search: searchQuery, $language: "en", $caseSensitive: false },
+    })
+      .limit(10)
+      .select("-approvedBy")
+      .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "name profilePicture",
+        },
+      });
+
+    // don't include comments if they are not approved
+    posts.forEach((post) => {
+      post.comments = post.comments.filter((comment) => comment.approved);
+    });
+
+    res.send(posts);
+  }
+);
+
 // GET request that gets a single post by id (only approved posts)
 postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   const errors = validationResult(req);

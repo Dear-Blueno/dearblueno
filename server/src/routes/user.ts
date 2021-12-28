@@ -8,10 +8,7 @@ const userRouter = Router();
 // GET request that searches for users by name
 userRouter.get(
   "/search",
-  query("name")
-    .isString()
-    .isLength({ min: 3 })
-    .isAlpha("en-US", { ignore: [" "] }),
+  query("name").isString().isLength({ min: 3 }).isAscii(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty() || !req.query) {
@@ -33,7 +30,7 @@ userRouter.get(
     }
 
     // Send non sensitive user data
-    res.json({ users });
+    res.send(users);
   }
 );
 
@@ -55,7 +52,7 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   }
 
   // Send non sensitive user data
-  res.json({ user });
+  res.send(user);
 });
 
 // PUT request that updates a user's bio profile
@@ -111,7 +108,7 @@ userRouter.put(
       { new: true }
     );
 
-    res.json({ user: newUser });
+    res.send(newUser);
   }
 );
 
@@ -148,7 +145,7 @@ userRouter.put(
       { new: true }
     );
 
-    res.json({ user: newUser });
+    res.send(newUser);
   }
 );
 
@@ -175,7 +172,7 @@ userRouter.post(
     user.bannedUntil = new Date(Date.now() + req.body.duration * 1000 * 60); // minutes to milliseconds
     const updatedUser = await user.save();
 
-    res.json({ user: updatedUser });
+    res.send(updatedUser);
   }
 );
 
