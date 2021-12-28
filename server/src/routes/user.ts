@@ -8,7 +8,10 @@ const userRouter = Router();
 // GET request that searches for users by name
 userRouter.get(
   "/search",
-  query("name").isString().isLength({ min: 3 }).isAscii(),
+  query("name")
+    .isString()
+    .isLength({ min: 3 })
+    .isAlpha(undefined, { ignore: " '-,." }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty() || !req.query) {

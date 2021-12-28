@@ -34,8 +34,8 @@ describe("User", () => {
       const response = await request(app)
         .get(`/user/${user.googleId}`)
         .expect(200);
-      expect(response.body.user.name).toBe(user.name);
-      expect(response.body.user.profilePicture).toBe(user.profilePicture);
+      expect(response.body.name).toBe(user.name);
+      expect(response.body.profilePicture).toBe(user.profilePicture);
     });
 
     it("should return not reveal sensitive information", async () => {
@@ -56,24 +56,23 @@ describe("User", () => {
       await request(app).get("/user/search").expect(400);
       await request(app).get("/user/search?name=").expect(400);
       await request(app).get("/user/search?name=t").expect(400);
-      await request(app).get("/user/search?name=12345").expect(400);
+      await request(app).get("/user/search?name=!\\!\\!").expect(400);
     });
 
     it("should return user if user is found", async () => {
       const response = await request(app)
         .get(`/user/search?name=tom`)
         .expect(200);
-      expect(response.body.users.length).toBe(1);
-      expect(response.body.users[0].name).toBe("Tom");
+      expect(response.body.length).toBe(1);
+      expect(response.body[0].name).toBe("Tom");
     });
 
     it("should return not reveal sensitive information", async () => {
       const response = await request(app)
         .get(`/user/search?name=tom`)
         .expect(200);
-      expect(response.body).toHaveProperty("users");
 
-      const searchedUser = response.body.users[0];
+      const searchedUser = response.body[0];
 
       expect(searchedUser).not.toHaveProperty("email");
       expect(searchedUser).not.toHaveProperty("lastLoggedIn");
