@@ -36,10 +36,6 @@ function PostDate(props: PostDateProps) {
     }
   };
 
-  // const date = isSameDay(props.value, new Date())
-  //   ? props.value.toLocaleTimeString()
-  //   : formatDuration(formatDistanceToNowStrict(props.value));
-
   const date = formatDuration(formatDistanceToNowStrict(props.value));
 
   return (

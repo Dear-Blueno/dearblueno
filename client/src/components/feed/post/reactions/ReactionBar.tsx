@@ -83,76 +83,72 @@ function ReactionBar(props: ReactionBarProps) {
     ],
     []
   );
-  const [showIcons, setShowIcons] = useState(false);
-  const [nonZeroOrder, setNonZeroOrder] = useState<number[]>([]);
-  const [zeroOrder, setZeroOrder] = useState([0, 1, 2, 3, 4, 5]); // These arrays are the real-time order and state of the reactions
 
+  const [showZeroIcons, setShowZeroIcons] = useState(false);
+
+  // These arrays are the real-time order and state of the reactions
+  const [nonZeroOrder, setNonZeroOrder] = useState<number[]>([]);
+  const [zeroOrder, setZeroOrder] = useState<number[]>([]);
+  // these arrays are the display order and state of the reactions, that is updated on leave
   const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState<number[]>([]);
-  const [zeroOrderDisplay, setZeroOrderDisplay] = useState([0, 1, 2, 3, 4, 5]); // these arrays are the display order and state of the reactions, that is updated on leave
+  const [zeroOrderDisplay, setZeroOrderDisplay] = useState<number[]>([]);
+
   const [showReactText, setShowReactText] = useState<boolean>(
     reactionCounts.every((count) => count === 0)
   );
 
-  useEffect(() => {
-    for (let i = 0; i < 6; i++) {
-      countUpdaters[i](props.reactions[i] ? props.reactions[i].length : 0);
+  const updateOrderArrays = () => {
+    const zero = [];
+    const nonZero = [];
+    for (let i = 0; i < reactionCounts.length; i++) {
+      if (reactionCounts[i] === 0) {
+        zero.push(i);
+      } else {
+        nonZero.push(i);
+      }
     }
-  }, [props.reactions, countUpdaters]);
-
-  const showAll = () => {
-    setShowIcons(true);
+    return [zero, nonZero];
   };
 
+  // initialize order arrays once
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    const [zero, nonZero] = updateOrderArrays();
+    setZeroOrder(zero);
+    setNonZeroOrder(nonZero);
+    setZeroOrderDisplay(zero);
+    setNonZeroOrderDisplay(nonZero);
+  }, []);
+
+  const showAll = () => {
+    setShowZeroIcons(true);
+  };
+
+  // when a user hovers off the reaction bar, the display order is updated and zero-count icons are hidden
   const hideAll = () => {
-    setShowIcons(false);
+    setShowZeroIcons(false);
     setNonZeroOrderDisplay(nonZeroOrder);
     setZeroOrderDisplay(zeroOrder);
+    setShowReactText(reactionCounts.every((count) => count === 0));
   };
 
   // update non-display orders when the user clicks on a reaction button
   useEffect(() => {
-    for (let i = 0; i < 6; i++) {
-      if (reactionCounts[i] > 0 && !nonZeroOrder.includes(i)) {
-        setNonZeroOrder((n) => [...n, i]);
-        setZeroOrder((z) => z.filter((x) => x !== i));
-      }
-    }
-    setNonZeroOrder((n) => n.sort((a, b) => a - b));
-  }, [
-    likeCount,
-    heartCount,
-    laughCount,
-    cryCount,
-    angryCount,
-    surpriseCount,
-    reactionCounts,
-    nonZeroOrder,
-  ]);
-
-  useEffect(() => {
-    setShowReactText(reactionCounts.every((count) => count === 0));
+    const [zero, nonZero] = updateOrderArrays();
+    setZeroOrder(zero);
+    setNonZeroOrder(nonZero);
   }, [reactionCounts]);
 
-  const incrementReactionCount = (reaction: number) => {
+  const buttonClick = (reaction: number) => {
     return () => {
       if (props.user) {
-        if (props.reactions[reaction]?.includes(props.user._id)) {
+        const includesUser: boolean = props.reactions[reaction]?.includes(
+          props.user._id
+        );
+        if (includesUser) {
           props.reactions[reaction] = props.reactions[reaction].filter(
             (id) => id !== props.user?._id
           );
-          countUpdaters[reaction](props.reactions[reaction].length);
-          if (props.type === "post") {
-            reactToPost(props.postNumber, reaction + 1, false);
-          } else {
-            if (props.commentNumber) {
-              reactToComment(
-                props.postNumber,
-                props.commentNumber,
-                reaction + 1,
-                false
-              );
-            }
-          }
         } else {
           if (props.reactions[reaction]) {
             props.reactions[reaction] = [
@@ -162,18 +158,18 @@ function ReactionBar(props: ReactionBarProps) {
           } else {
             props.reactions[reaction] = [props.user._id];
           }
-          countUpdaters[reaction](props.reactions[reaction].length);
-          if (props.type === "post") {
-            reactToPost(props.postNumber, reaction + 1, true);
-          } else {
-            if (props.commentNumber) {
-              reactToComment(
-                props.postNumber,
-                props.commentNumber,
-                reaction + 1,
-                true
-              );
-            }
+        }
+        countUpdaters[reaction](props.reactions[reaction].length);
+        if (props.type === "post") {
+          reactToPost(props.postNumber, reaction + 1, !includesUser);
+        } else {
+          if (props.commentNumber) {
+            reactToComment(
+              props.postNumber,
+              props.commentNumber,
+              reaction + 1,
+              !includesUser
+            );
           }
         }
       }
@@ -213,25 +209,22 @@ function ReactionBar(props: ReactionBarProps) {
             key={reaction}
             images={icons[reaction]}
             count={reactionCounts[reaction]}
-            showIcons={true}
-            countSetter={countUpdaters[reaction]}
-            handleClick={incrementReactionCount(reaction)}
+            handleClick={buttonClick(reaction)}
           ></ReactionButton>
         );
       })}
-      {zeroOrderDisplay.map((reaction) => {
-        return (
-          <ReactionButton
-            type={props.type}
-            key={reaction + 6}
-            images={icons[reaction]}
-            count={reactionCounts[reaction]}
-            showIcons={showIcons}
-            countSetter={countUpdaters[reaction]}
-            handleClick={incrementReactionCount(reaction)}
-          ></ReactionButton>
-        );
-      })}
+      {showZeroIcons &&
+        zeroOrderDisplay.map((reaction) => {
+          return (
+            <ReactionButton
+              type={props.type}
+              key={reaction + 6}
+              images={icons[reaction]}
+              count={reactionCounts[reaction]}
+              handleClick={buttonClick(reaction)}
+            ></ReactionButton>
+          );
+        })}
     </div>
   );
 }
