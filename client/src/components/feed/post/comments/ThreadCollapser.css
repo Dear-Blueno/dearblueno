@@ -20,3 +20,7 @@
   height: 100%;
   background-color: #ccc;
 }
+
+.ThreadCollapserLineHover {
+  width: 2px;
+}
