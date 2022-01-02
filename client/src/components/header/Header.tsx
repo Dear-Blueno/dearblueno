@@ -31,8 +31,6 @@ function Header(props: HeaderProps) {
               src={user.profilePicture}
               alt="Profile"
             />
-            {/* <p>{user.name}</p> */}
-            <button onClick={logout}>Logout</button>
           </>
         ) : (
           <button onClick={loginBrown}>Login</button>
@@ -51,7 +49,9 @@ function Header(props: HeaderProps) {
         </Link>
         <HeaderButton action={() => {}} image={SearchIcon} alt="Search" />
       </div>
-      <HeaderUser />
+      <Link to="/profile">
+        <HeaderUser />
+      </Link>
     </div>
   );
 }

@@ -6,7 +6,7 @@ type ThreadCollapserProps = {
 };
 
 function ThreadCollapser(props: ThreadCollapserProps) {
-  const line = useRef<any>(null);
+  const line = useRef<HTMLDivElement>(null);
 
   return (
     <div className="ThreadCollapser">

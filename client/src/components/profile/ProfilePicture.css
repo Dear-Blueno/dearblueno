@@ -1,0 +1,9 @@
+.ProfilePicture {
+  width: 100%;
+}
+
+.ProfilePictureImage {
+  width: 100%;
+  display: block;
+  border: 1px solid black;
+}

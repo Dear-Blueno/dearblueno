@@ -5,6 +5,7 @@ import SubmitPage from "./pages/submitpage/SubmitPage";
 import IUser from "./types/IUser";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { loadAuth } from "./gateways/AuthGateway";
+import ProfilePage from "./pages/profilepage/ProfilePage";
 
 function App() {
   // Auth/user state
@@ -29,6 +30,10 @@ function App() {
           <Route
             path="/"
             element={<FeedPage user={user} loading={loading} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProfilePage user={user} profileUser={user} />}
           />
         </Routes>
       </Router>

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import NewCommentBox from "./new_comment/NewCommentBox";
 import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
-import ProfilePicture from "../../../user/ProfilePicture";
+import CommentProfilePicture from "../../../user/CommentProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
 import IUser from "../../../../types/IUser";
 
@@ -47,7 +47,7 @@ function Thread(props: ThreadProps) {
   return (
     <div className={className} key={props.comment.commentNumber}>
       <div className="ThreadGrid">
-        <ProfilePicture link={props.comment.author.profilePicture} />
+        <CommentProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
         <CommentHeader
           comment={props.comment}
