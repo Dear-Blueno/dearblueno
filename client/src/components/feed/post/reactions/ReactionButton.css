@@ -15,6 +15,11 @@
   margin-right: 0.5rem;
 }
 
+.CommentReactionButton {
+  display: inline-flex;
+  align-items: center;
+}
+
 .CommentReactionButtonImage {
   width: 0.8rem;
   height: 0.8rem;
@@ -27,55 +32,81 @@
 
 .CommentReactionButtonCount {
   float: left;
-  /* margin-top: 0.1rem; */
-  margin-left: 0.1rem;
+  margin-left: 0.2rem;
   margin-right: 0.4rem;
   font-size: 0.8rem;
 }
 
 .PopperContainer {
   background: #fff;
-  z-index: 100;
   border: 1px solid black;
+  z-index: 1;
 }
 
 .PopperContainer[data-show] {
   display: block;
 }
 
-#arrow,
-#arrow::before {
+.DropdownArrow,
+.DropdownArrow::before {
   position: absolute;
   width: 8px;
   height: 8px;
   background: inherit;
   z-index: -1;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
 }
 
-#arrow {
+.DropdownArrow {
   visibility: hidden;
 }
 
-#arrow::before {
+.DropdownArrow::before {
   visibility: visible;
   content: "";
-  transform: translateY(-2px) rotate(45deg);
 }
 
-.PopperContainer[data-popper-placement^="top"] > #arrow {
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
   bottom: -4px;
 }
 
-.PopperContainer[data-popper-placement^="bottom"] > #arrow {
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
+  bottom: -4px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  transform: translateY(-0.17rem) rotate(45deg);
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
   top: -4px;
 }
 
-.PopperContainer[data-popper-placement^="left"] > #arrow {
-  right: -4px;
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
+  top: -4px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transform: translateY(0.17rem) rotate(45deg);
 }
 
-.PopperContainer[data-popper-placement^="right"] > #arrow {
-  left: -4px;
+/* Extra extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 600px) {
+  .PostReactionButtonCount {
+    margin-top: 0.12rem;
+  }
+}
+
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

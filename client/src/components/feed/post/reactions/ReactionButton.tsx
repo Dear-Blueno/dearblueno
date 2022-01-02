@@ -63,7 +63,7 @@ function ReactionButton(props: ReactionButtonProps) {
             if (!isCancelled.current && !inDropdown.current) {
               setShowDropdown(false);
             }
-          }, 100);
+          }, 200);
         }}
       >
         {props.count}
@@ -77,6 +77,11 @@ function ReactionButton(props: ReactionButtonProps) {
           role="tooltip"
           {...attributes.popper}
         >
+          <div
+            className="DropdownArrow"
+            ref={setArrowElement}
+            style={styles.arrow}
+          />
           <ReactionDropdown
             users={["Dylan Hu", "Nicholas Vadasz", "Nicholas Bottone"]}
             leaveAction={() => {
@@ -87,7 +92,6 @@ function ReactionButton(props: ReactionButtonProps) {
               inDropdown.current = true;
             }}
           ></ReactionDropdown>
-          <div id="arrow" ref={setArrowElement} style={styles.arrow} />
         </div>
       )}
     </div>
