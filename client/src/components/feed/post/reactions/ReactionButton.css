@@ -34,10 +34,9 @@
 }
 
 .PopperContainer {
-  background: #333;
-  color: white;
-  z-index: 9999;
-  border: 2px solid #333;
+  background: #fff;
+  z-index: 100;
+  border: 1px solid black;
 }
 
 .PopperContainer[data-show] {
@@ -51,6 +50,8 @@
   height: 8px;
   background: inherit;
   z-index: -1;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
 }
 
 #arrow {
@@ -60,7 +61,7 @@
 #arrow::before {
   visibility: visible;
   content: "";
-  transform: rotate(45deg);
+  transform: translateY(-2px) rotate(45deg);
 }
 
 .PopperContainer[data-popper-placement^="top"] > #arrow {

@@ -1,7 +1,6 @@
 .ReactionDropdown {
-    width: 110px;
-    height: 60px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
 }

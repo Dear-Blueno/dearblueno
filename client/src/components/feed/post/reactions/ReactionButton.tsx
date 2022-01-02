@@ -1,5 +1,5 @@
 import "./ReactionButton.css";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import ReactionDropdown from "./ReactionDropdown";
 
@@ -27,11 +27,22 @@ function ReactionButton(props: ReactionButtonProps) {
           name: "arrow",
           options: { element: arrowElement },
         },
+        {
+          name: "offset",
+          options: { offset: [-10, 10] },
+        },
       ],
     }
   );
   const [showDropdown, setShowDropdown] = useState(false);
-  const [inDropdown, setInDropdown] = useState(false);
+  const inDropdown = useRef(false);
+  const isCancelled = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      isCancelled.current = true;
+    };
+  }, []);
 
   return (
     <div className={className}>
@@ -46,16 +57,14 @@ function ReactionButton(props: ReactionButtonProps) {
       <p
         className={className + "Count"}
         ref={setReferenceElement}
-        onMouseEnter={() => 
-          setShowDropdown(true)
-        }
-        onMouseLeave={() =>
+        onMouseEnter={() => setShowDropdown(true)}
+        onMouseLeave={() => {
           setTimeout(() => {
-            if (!inDropdown) {
+            if (!isCancelled.current && !inDropdown.current) {
               setShowDropdown(false);
             }
-          }, 500)
-        }
+          }, 100);
+        }}
       >
         {props.count}
       </p>
@@ -69,8 +78,14 @@ function ReactionButton(props: ReactionButtonProps) {
           {...attributes.popper}
         >
           <ReactionDropdown
-            leaveAction={() => {setInDropdown(false); setShowDropdown(false)}}
-            enterAction={() => setInDropdown(true)}
+            users={["Dylan Hu", "Nicholas Vadasz", "Nicholas Bottone"]}
+            leaveAction={() => {
+              inDropdown.current = false;
+              setShowDropdown(false);
+            }}
+            enterAction={() => {
+              inDropdown.current = true;
+            }}
           ></ReactionDropdown>
           <div id="arrow" ref={setArrowElement} style={styles.arrow} />
         </div>
