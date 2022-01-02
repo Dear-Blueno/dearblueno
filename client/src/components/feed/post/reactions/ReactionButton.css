@@ -32,3 +32,48 @@
   margin-right: 0.4rem;
   font-size: 0.8rem;
 }
+
+.PopperContainer {
+  background: #333;
+  color: white;
+  z-index: 9999;
+  border: 2px solid #333;
+}
+
+.PopperContainer[data-show] {
+  display: block;
+}
+
+#arrow,
+#arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+#arrow {
+  visibility: hidden;
+}
+
+#arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.PopperContainer[data-popper-placement^="top"] > #arrow {
+  bottom: -4px;
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > #arrow {
+  top: -4px;
+}
+
+.PopperContainer[data-popper-placement^="left"] > #arrow {
+  right: -4px;
+}
+
+.PopperContainer[data-popper-placement^="right"] > #arrow {
+  left: -4px;
+}
