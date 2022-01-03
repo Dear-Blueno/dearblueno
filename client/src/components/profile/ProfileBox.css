@@ -29,7 +29,7 @@
 @media only screen and (min-width: 768px) {
   .ProfileBox {
     width: 45rem;
-    height: 30rem;
+    height: 20rem;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */
@@ -40,11 +40,17 @@
 }
 
 .LeftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   flex: 1;
   height: 100%;
 }
 
 .RightColumn {
+  display: flex;
   flex: 3;
   height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
 }

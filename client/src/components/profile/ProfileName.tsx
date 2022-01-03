@@ -5,11 +5,7 @@ interface ProfileNameProps {
 }
 
 function ProfileName(props: ProfileNameProps) {
-  return (
-    <div className="ProfileName">
-      <h1>{props.name}</h1>
-    </div>
-  );
+  return <div className="ProfileName">{props.name}</div>;
 }
 
 export default ProfileName;
