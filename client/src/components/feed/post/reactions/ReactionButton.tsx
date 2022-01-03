@@ -31,6 +31,13 @@ function ReactionButton(props: ReactionButtonProps) {
           name: "offset",
           options: { offset: [-10, 10] },
         },
+        {
+          name: "flip",
+          options: {
+            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
+            flipVariations: false,
+          },
+        },
       ],
     }
   );
