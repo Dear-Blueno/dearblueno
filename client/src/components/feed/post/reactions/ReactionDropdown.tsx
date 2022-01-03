@@ -1,4 +1,3 @@
-import IUser from "../../../../types/IUser";
 import "./ReactionDropdown.css";
 
 type ReactionDropdownProps = {

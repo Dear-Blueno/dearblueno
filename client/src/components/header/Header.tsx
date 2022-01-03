@@ -6,7 +6,7 @@ import PostIcon from "../../images/post.svg";
 // import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import IUser from "../../types/IUser";
-import { loginBrown, logout } from "../../gateways/AuthGateway";
+import { loginBrown } from "../../gateways/AuthGateway";
 
 interface HeaderProps {
   user: IUser | undefined;
@@ -25,13 +25,13 @@ function Header(props: HeaderProps) {
     return (
       <div className="HeaderUser HeaderButton">
         {user ? (
-          <>
+          <Link to="/profile">
             <img
               className="HeaderUserPicture"
               src={user.profilePicture}
               alt="Profile"
             />
-          </>
+          </Link>
         ) : (
           <button onClick={loginBrown}>Login</button>
         )}
@@ -49,9 +49,7 @@ function Header(props: HeaderProps) {
         </Link>
         <HeaderButton action={() => {}} image={SearchIcon} alt="Search" />
       </div>
-      <Link to="/profile">
-        <HeaderUser />
-      </Link>
+      <HeaderUser />
     </div>
   );
 }

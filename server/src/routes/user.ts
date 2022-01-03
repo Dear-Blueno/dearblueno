@@ -38,7 +38,7 @@ userRouter.get(
 );
 
 // GET request that gets a user by id
-userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
+userRouter.get("/:id", param("id").isMongoId(), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty() || !req.params) {
     res.status(400).json({ errors: errors.array() });
@@ -46,7 +46,7 @@ userRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
   }
 
   // Get user by id, remove sensitive information from the response
-  const user = await User.findOne({ googleId: req.params.id }).select(
+  const user = await User.findById(req.params.id).select(
     "-email -lastLoggedIn -moderator -bannedUntil"
   );
   if (!user) {
@@ -105,11 +105,7 @@ userRouter.put(
     concentration && (user.concentration = concentration);
     classYear && (user.classYear = classYear);
 
-    const newUser = await User.findOneAndUpdate(
-      { googleId: user.googleId },
-      user,
-      { new: true }
-    );
+    const newUser = await User.findByIdAndUpdate(user._id, user, { new: true });
 
     res.send(newUser);
   }
@@ -142,11 +138,7 @@ userRouter.put(
     const user = req.user as IUser;
     user.profilePicture = profilePicture;
 
-    const newUser = await User.findOneAndUpdate(
-      { googleId: user.googleId },
-      user,
-      { new: true }
-    );
+    const newUser = await User.findByIdAndUpdate(user._id, user, { new: true });
 
     res.send(newUser);
   }
@@ -157,7 +149,7 @@ userRouter.put(
 userRouter.post(
   "/ban",
   modCheck,
-  body("id").isInt({ min: 1 }),
+  body("id").isMongoId(),
   body("duration").isInt({ min: 0 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -166,7 +158,7 @@ userRouter.post(
       return;
     }
 
-    const user = await User.findOne({ googleId: req.body.id });
+    const user = await User.findById(req.body.id);
     if (!user) {
       res.status(404).send("User not found");
       return;

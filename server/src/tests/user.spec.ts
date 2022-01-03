@@ -27,19 +27,17 @@ describe("User", () => {
 
   describe("GET /user/:id", () => {
     it("should return 404 if user is not found", async () => {
-      await request(app).get("/user/1").expect(404);
+      await request(app).get("/user/5bb9e9f84186b222c8901149").expect(404);
     });
 
     it("should return user if user is found", async () => {
-      const response = await request(app)
-        .get(`/user/${user.googleId}`)
-        .expect(200);
+      const response = await request(app).get(`/user/${user._id}`).expect(200);
       expect(response.body.name).toBe(user.name);
       expect(response.body.profilePicture).toBe(user.profilePicture);
     });
 
     it("should return not reveal sensitive information", async () => {
-      const response = await request(app).get(`/user/${user.googleId}`);
+      const response = await request(app).get(`/user/${user._id}`);
       expect(response.status).toBe(200);
       expect(response.body).not.toHaveProperty("user.email");
       expect(response.body).not.toHaveProperty("user.lastLoggedIn");
@@ -184,7 +182,7 @@ describe("User", () => {
 
       await request(app)
         .post("/user/ban")
-        .send({ user: modUser, id: 987, duration: 10 })
+        .send({ user: modUser, id: "5bb9e9f84186b222c8901149", duration: 10 })
         .expect(404);
     });
 
@@ -200,7 +198,7 @@ describe("User", () => {
 
       await request(app)
         .post("/user/ban")
-        .send({ user: modUser, id: user.googleId, duration: 10 })
+        .send({ user: modUser, id: user._id, duration: 10 })
         .expect(200);
 
       const newUser = await User.findOne({ googleId: user.googleId });

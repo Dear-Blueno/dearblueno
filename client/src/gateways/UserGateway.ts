@@ -6,11 +6,9 @@ import {
   successfulResponse,
 } from "./GatewayResponses";
 
-export async function getUser(
-  googleId: string
-): Promise<IResponse<IBasicUser>> {
+export async function getUser(_id: string): Promise<IResponse<IBasicUser>> {
   try {
-    const response = await axios.get(`/user/${googleId}`);
+    const response = await axios.get(`/user/${_id}`);
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
@@ -81,12 +79,12 @@ export async function updateProfilePicture(
 }
 
 export async function banUser(
-  googleId: string,
+  _id: string,
   banLengthMinutes: number // set to 0 to unban
 ): Promise<IResponse<IUser>> {
   try {
     const response = await axios.put(`/user/ban`, {
-      id: googleId,
+      id: _id,
       duration: banLengthMinutes,
     });
     if (response.status === 200) {
