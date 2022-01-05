@@ -1,6 +1,7 @@
 import "./ProfilePersonalInfo.css";
 import { MdOutlineSchool, MdOutlineLocationOn } from "react-icons/md";
 import { IoMdBook } from "react-icons/io";
+import ProfilePersonalInfoEntry from "./ProfilePersonalInfoEntry";
 
 interface ProfilePersonalInfoProps {
   year?: string;
@@ -9,11 +10,15 @@ interface ProfilePersonalInfoProps {
 }
 
 function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
+  const contents = [props.hometown, props.year, props.concentration];
+  const icons = [MdOutlineLocationOn, MdOutlineSchool, IoMdBook];
   return (
     <div className="ProfilePersonalInfo">
-      <MdOutlineLocationOn className="SocialButton" size="1.5em" />
-      <MdOutlineSchool className="SocialButton" size="1.5em" />
-      <IoMdBook className="SocialButton" size="1.5em" />
+      {contents.map((content, index) => {
+        return content ? (
+          <ProfilePersonalInfoEntry content={content} icon={icons[index]} />
+        ) : null;
+      })}
     </div>
   );
 }

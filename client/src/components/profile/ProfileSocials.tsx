@@ -1,4 +1,5 @@
 import "./ProfileSocials.css";
+import SocialButton from "./SocialButton";
 import {
   RiFacebookCircleLine,
   RiTwitterLine,
@@ -10,15 +11,30 @@ interface ProfileSocialsProps {
   instagram?: string;
   twitter?: string;
   facebook?: string;
+  linkedin?: string;
 }
 
 function ProfileSocials(props: ProfileSocialsProps) {
+  const links = [
+    props.instagram,
+    props.twitter,
+    props.facebook,
+    props.linkedin,
+  ];
+  const icons = [
+    RiInstagramLine,
+    RiTwitterLine,
+    RiFacebookCircleLine,
+    RiLinkedinBoxLine,
+  ];
+
   return (
     <div className="ProfileSocials">
-      <RiInstagramLine className="SocialButton" size="2em" />
-      <RiTwitterLine className="SocialButton" size="2em" />
-      <RiFacebookCircleLine className="SocialButton" size="2em" />
-      <RiLinkedinBoxLine className="SocialButton" size="2em" />
+      {links.map((link, index) => {
+        return link ? (
+          <SocialButton key={index} link={link} icon={icons[index]} />
+        ) : null;
+      })}
     </div>
   );
 }

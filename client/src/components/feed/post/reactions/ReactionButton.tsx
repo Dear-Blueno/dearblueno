@@ -46,16 +46,20 @@ function ReactionButton(props: ReactionButtonProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
+  const [names, setNames] = useState<string[]>([]);
 
-  // BUG : Needs to fix this backend query with Nick, not sure how we should implement this to match schema
-  // const nameArray = props.reactionArray.map((id) => {
-  //   return getUser(id).then((response) => {
-  //     if (response.success && response.payload) {
-  //       return response.payload.name;
-  //     }
-  //   });
-  // });
-  
+  const getNames = async () => {
+    const newNames: string[] = [];
+    props.reactionArray.forEach(async (id) => {
+      let response = await getUser(id);
+      if (response.message === "OK" && response.payload) {
+        newNames.push(response.payload.name);
+        setNames(newNames);
+      }
+    });
+  };
+
+  // cleanup
   useEffect(() => {
     return () => {
       isCancelled.current = true;
@@ -75,7 +79,14 @@ function ReactionButton(props: ReactionButtonProps) {
       <p
         className={className + "Count"}
         ref={setReferenceElement}
-        onMouseEnter={() => setShowDropdown(true)}
+        onMouseEnter={() => {
+          if (names.length === 0) {
+            getNames();
+            setShowDropdown(true);
+          } else {
+            setShowDropdown(true);
+          }
+        }}
         onMouseLeave={() => {
           setTimeout(() => {
             if (!isCancelled.current && !inDropdown.current) {
@@ -87,7 +98,7 @@ function ReactionButton(props: ReactionButtonProps) {
         {props.count}
       </p>
 
-      {showDropdown && props.count !== 0 && (
+      {names.length !== 0 && showDropdown && (
         <div
           className="PopperContainer"
           ref={setPopperElement}
@@ -101,7 +112,7 @@ function ReactionButton(props: ReactionButtonProps) {
             style={styles.arrow}
           />
           <ReactionDropdown
-            users={props.reactionArray} // Currently only displays the id of the user, not the name
+            users={names}
             leaveAction={() => {
               inDropdown.current = false;
               setShowDropdown(false);

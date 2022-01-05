@@ -23,9 +23,9 @@ function Header(props: HeaderProps) {
     }
 
     return (
-      <div className="HeaderUser HeaderButton">
+      <div className="HeaderUser">
         {user ? (
-          <Link to="/profile">
+          <Link to="/profile" className="HeaderUser HeaderButton">
             <img
               className="HeaderUserPicture"
               src={user.profilePicture}
