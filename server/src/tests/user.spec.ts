@@ -45,6 +45,31 @@ describe("User", () => {
     });
   });
 
+  describe("GET /user/names", () => {
+    it("should return 400 if no ids are provided", async () => {
+      await request(app).get("/user/names").expect(400);
+    });
+
+    it("should return 404 if no users are found", async () => {
+      await request(app)
+        .get("/user/names")
+        .send({ ids: ["5bb9e9f84186b222c8901149"] })
+        .expect(404);
+    });
+
+    it("should return names of users if users are found", async () => {
+      const res = await request(app)
+        .get("/user/names")
+        .send({ ids: [user._id] })
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      expect(res.body[0].name).toBe(user.name);
+      expect(res.body[0]._id).toBe(user._id.toString());
+      expect(res.body[0].profilePicture).toBeUndefined();
+    });
+  });
+
   describe("GET /user/search", () => {
     it("should return 404 if user is not found", async () => {
       await request(app).get("/user/search?name=george").expect(404);
