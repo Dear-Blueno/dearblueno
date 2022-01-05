@@ -2,11 +2,13 @@ import "./ReactionButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import ReactionDropdown from "./ReactionDropdown";
+import { getUser } from "../../../../gateways/UserGateway";
 
 interface ReactionButtonProps {
   type: "comment" | "post";
   images: string[];
   count: number;
+  reactionArray: string[];
   handleClick: () => void;
 }
 
@@ -45,6 +47,15 @@ function ReactionButton(props: ReactionButtonProps) {
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
 
+  // BUG : Needs to fix this backend query with Nick, not sure how we should implement this to match schema
+  // const nameArray = props.reactionArray.map((id) => {
+  //   return getUser(id).then((response) => {
+  //     if (response.success && response.payload) {
+  //       return response.payload.name;
+  //     }
+  //   });
+  // });
+  
   useEffect(() => {
     return () => {
       isCancelled.current = true;
@@ -76,7 +87,7 @@ function ReactionButton(props: ReactionButtonProps) {
         {props.count}
       </p>
 
-      {showDropdown && (
+      {showDropdown && props.count !== 0 && (
         <div
           className="PopperContainer"
           ref={setPopperElement}
@@ -90,7 +101,7 @@ function ReactionButton(props: ReactionButtonProps) {
             style={styles.arrow}
           />
           <ReactionDropdown
-            users={["Dylan Hu", "Nicholas Vadasz", "Nicholas Bottone"]}
+            users={props.reactionArray} // Currently only displays the id of the user, not the name
             leaveAction={() => {
               inDropdown.current = false;
               setShowDropdown(false);

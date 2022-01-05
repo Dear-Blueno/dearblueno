@@ -209,6 +209,7 @@ function ReactionBar(props: ReactionBarProps) {
             key={reaction}
             images={icons[reaction]}
             count={reactionCounts[reaction]}
+            reactionArray={props.reactions[reaction]}
             handleClick={buttonClick(reaction)}
           ></ReactionButton>
         );
@@ -221,6 +222,7 @@ function ReactionBar(props: ReactionBarProps) {
               key={reaction + 6}
               images={icons[reaction]}
               count={reactionCounts[reaction]}
+              reactionArray={props.reactions[reaction]}
               handleClick={buttonClick(reaction)}
             ></ReactionButton>
           );
