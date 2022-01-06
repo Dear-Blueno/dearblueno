@@ -9,8 +9,13 @@ interface SocialButtonProps {
 function SocialButton(props: SocialButtonProps) {
   return (
     <div className="SocialButton">
-      <a href={props.link} target="_blank" rel="noreferrer">
-        <props.icon className="SocialButtonIcon" size="2em" />
+      <a
+        className="SocialButtonLink"
+        href={props.link}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <props.icon className="SocialButtonIcon" size="1.2em" />
       </a>
     </div>
   );

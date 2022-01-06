@@ -21,15 +21,15 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .ProfileBox {
-    width: 35rem;
-    height: 30rem;
+    /* width: 35rem; */
+    /* height: 30rem; */
   }
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .ProfileBox {
-    width: 45rem;
-    height: 20rem;
+    /* width: 45rem; */
+    /* height: 20rem; */
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */
@@ -42,14 +42,14 @@
 .LeftColumn {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
   flex: 1;
   height: 100%;
 }
 
 .RightColumn {
   display: flex;
-  flex: 3;
+  flex: 2;
   height: 100%;
   flex-direction: column;
   gap: 0.5rem;

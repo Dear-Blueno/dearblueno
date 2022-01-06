@@ -2,7 +2,7 @@ import "./ReactionButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import ReactionDropdown from "./ReactionDropdown";
-import { getUser } from "../../../../gateways/UserGateway";
+import { getUsersNames } from "../../../../gateways/UserGateway";
 
 interface ReactionButtonProps {
   type: "comment" | "post";
@@ -49,14 +49,11 @@ function ReactionButton(props: ReactionButtonProps) {
   const [names, setNames] = useState<string[]>([]);
 
   const getNames = async () => {
-    const newNames: string[] = [];
-    props.reactionArray.forEach(async (id) => {
-      let response = await getUser(id);
-      if (response.message === "OK" && response.payload) {
-        newNames.push(response.payload.name);
-        setNames(newNames);
-      }
-    });
+    console.log("getting names");
+    const response = await getUsersNames(props.reactionArray);
+    if (response.message === "OK" && response.payload) {
+      setNames(response.payload.map((user) => user.name));
+    }
   };
 
   // cleanup

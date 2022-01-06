@@ -11,6 +11,12 @@
   /* box-sizing: border-box; */
 }
 
+.HeaderButton:active {
+  background-color: #ccc;
+  transform: translate3d(-0.1rem, 0.1rem, 0);
+  box-shadow: none;
+}
+
 .HeaderButtonImage {
   width: 80%;
   height: 80%;

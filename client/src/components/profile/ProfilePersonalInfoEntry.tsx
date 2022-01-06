@@ -9,7 +9,7 @@ interface ProfilePersonalInfoEntryProps {
 function ProfilePersonalInfoEntry(props: ProfilePersonalInfoEntryProps) {
   return (
     <div className="ProfilePersonalInfoEntry">
-      {<props.icon className="ProfilePersonalInfoEntryIcon" size="1.5em" />}
+      {<props.icon className="ProfilePersonalInfoEntryIcon" size="1.2em" />}
       <p className="ProfilePersonalInfoEntryContent">{props.content}</p>
     </div>
   );

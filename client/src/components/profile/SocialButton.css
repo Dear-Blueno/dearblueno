@@ -1,4 +1,9 @@
 .SocialButtonIcon {
-  margin-right: 0.5rem;
   color: black;
+}
+
+.SocialButtonLink {
+  margin: 0;
+  padding: 0;
+  display: flex;
 }

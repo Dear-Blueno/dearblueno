@@ -1,0 +1,15 @@
+.EditProfileButton {
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid black;
+  color: black;
+  background-color: white;
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  font-family: "Fira Code", monospace;
+}
+
+.EditProfileButton:active {
+  background-color: #ccc;
+  transform: translate3d(-0.1rem, 0.1rem, 0);
+  box-shadow: none;
+}

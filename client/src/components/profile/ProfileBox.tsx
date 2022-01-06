@@ -6,6 +6,7 @@ import ProfileBio from "./ProfileBio";
 import { updateUserProfile } from "../../gateways/UserGateway";
 import ProfileSocials from "./ProfileSocials";
 import ProfilePersonalInfo from "./ProfilePersonalInfo";
+import EditProfileButton from "./EditProfileButton";
 
 type ProfileBoxProps = {
   user: IUser | undefined;
@@ -13,35 +14,38 @@ type ProfileBoxProps = {
 };
 
 function ProfileBox(props: ProfileBoxProps) {
-  console.log(props.user?.twitter);
+  const ownProfile = props.user && props.user._id === props.profileUser?._id;
   return (
     <div className="ProfileBox">
       <div className="LeftColumn">
         <ProfilePicture
           link={props.user ? props.user.profilePicture : ""}
         ></ProfilePicture>
+        <ProfileName name={props.user ? props.user.name : ""} />
+        {ownProfile && <EditProfileButton click={() => {}} />}
+        <ProfileSocials
+          instagram={props.profileUser?.instagram}
+          twitter={props.profileUser?.twitter}
+          facebook={props.profileUser?.facebook}
+        />
+        <ProfileBio bio={props.user?.bio ? props.user.bio : ""} />
         <ProfilePersonalInfo
-          // year={props.user?.classYear}
-          // hometown={props.user.hometown}
-          // concentration={props.user?.concentration}
-          year="2024"
+          year={props.profileUser?.classYear}
           hometown="Westborough, MA"
-          concentration="Computer Science"
+          concentration={props.profileUser?.concentration}
         />
       </div>
       <div className="RightColumn">
-        <ProfileName name={props.user ? props.user.name : ""} />
-        <ProfileSocials
-          // instagram={props.user?.instagram}
-          // twitter={props.user?.twitter}
-          // facebook={props.user?.facebook}
-          instagram="https://www.instagram.com/dylannhu"
-          twitter="https://twitter.com/dylanhu"
-        />
-        <ProfileBio bio={props.user?.bio ? props.user.bio : ""} />
         {/* <button
           onClick={() =>
-            updateUserProfile(undefined, "https://www.instagram.com/dylannhu")
+            updateUserProfile(
+              "Computer Science student with interests in math, physics, and computer graphics.",
+              "https://instagram.com/dylannhu",
+              "https://twitter.com/dylanhu",
+              "https://facebook.com/dylannhu",
+              "Computer Science",
+              "2024"
+            )
           }
         ></button> */}
       </div>
