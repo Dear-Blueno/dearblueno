@@ -1,3 +1,23 @@
 .ProfileBio {
   font-size: 0.8rem;
 }
+
+.ProfileBioTextArea {
+  width: 100%;
+  height: 5rem;
+  font-family: "Fira Code", monospace;
+  font-size: 0.8rem;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+}
+
+.ProfileBioTextArea:focus {
+  outline: 1px solid black;
+}
+
+.ProfileBioEditingHeader {
+  font-size: 0.8rem;
+  font-weight: 600;
+}

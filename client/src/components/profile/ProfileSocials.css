@@ -2,3 +2,37 @@
   display: flex;
   gap: 0.8rem;
 }
+
+.ProfileSocialsEditing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ProfileSocialsEditingEntry {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.SocialInput {
+  width: 100%;
+  border: 1px solid black;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  font-family: "Fira Code", monospace;
+}
+
+.SocialInput:focus {
+  outline: 1px solid black;
+}
+
+.ProfileSocialsIcon {
+  flex-shrink: 0;
+}
+
+.ProfileSocialsEditingHeader {
+  font-size: 0.8rem;
+  font-weight: 600;
+}

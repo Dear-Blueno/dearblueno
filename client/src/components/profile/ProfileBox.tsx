@@ -7,6 +7,7 @@ import { updateUserProfile } from "../../gateways/UserGateway";
 import ProfileSocials from "./ProfileSocials";
 import ProfilePersonalInfo from "./ProfilePersonalInfo";
 import EditProfileButton from "./EditProfileButton";
+import { useState } from "react";
 
 type ProfileBoxProps = {
   user: IUser | undefined;
@@ -15,6 +16,7 @@ type ProfileBoxProps = {
 
 function ProfileBox(props: ProfileBoxProps) {
   const ownProfile = props.user && props.user._id === props.profileUser?._id;
+  const [editing, setEditing] = useState(false);
   return (
     <div className="ProfileBox">
       <div className="LeftColumn">
@@ -22,17 +24,24 @@ function ProfileBox(props: ProfileBoxProps) {
           link={props.user ? props.user.profilePicture : ""}
         ></ProfilePicture>
         <ProfileName name={props.user ? props.user.name : ""} />
-        {ownProfile && <EditProfileButton click={() => {}} />}
+        {ownProfile && !editing && (
+          <EditProfileButton click={() => setEditing(true)} />
+        )}
         <ProfileSocials
           instagram={props.profileUser?.instagram}
           twitter={props.profileUser?.twitter}
           facebook={props.profileUser?.facebook}
+          editing={editing}
         />
-        <ProfileBio bio={props.user?.bio ? props.user.bio : ""} />
+        <ProfileBio
+          editing={editing}
+          bio={props.user?.bio ? props.user.bio : ""}
+        />
         <ProfilePersonalInfo
           year={props.profileUser?.classYear}
           hometown="Westborough, MA"
           concentration={props.profileUser?.concentration}
+          editing={editing}
         />
       </div>
       <div className="RightColumn">

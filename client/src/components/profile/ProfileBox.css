@@ -21,15 +21,13 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .ProfileBox {
-    /* width: 35rem; */
-    /* height: 30rem; */
+    width: 35rem;
   }
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .ProfileBox {
-    /* width: 45rem; */
-    /* height: 20rem; */
+    width: 45rem;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */

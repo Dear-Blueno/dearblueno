@@ -5,3 +5,37 @@
   /* padding: 0.5rem; */
   margin-left: -0.1rem;
 }
+
+.ProfilePersonalInfoEditing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.PersonalInfoIcon {
+  flex-shrink: 0;
+}
+
+.ProfilePersonalInfoEditingEntry {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.PersonalInfoInput {
+  width: 100%;
+  border: 1px solid black;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  font-family: "Fira Code", monospace;
+}
+
+.PersonalInfoInput:focus {
+  outline: 1px solid black;
+}
+
+.ProfilePersonalInfoEditingHeader {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
