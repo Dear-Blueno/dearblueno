@@ -76,11 +76,8 @@
   font-family: "Fira Mono", monospace;
   font-weight: 400;
   margin-bottom: 1rem;
-}
-
-.Submit {
-  font-family: "Fira Mono", monospace;
-  padding-right: 0.5rem;
+  user-select: none;
+  cursor: default;
 }
 
 .ConsentAndSubmit {
@@ -92,7 +89,13 @@
   margin-bottom: 0.6rem;
 }
 
-.Submit:hover {
+.Submit {
+  font-family: "Fira Mono", monospace;
+  padding-right: 0.5rem;
+  user-select: none;
   cursor: pointer;
+}
+
+.Submit:hover {
   text-decoration: underline;
 }

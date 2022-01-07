@@ -25,11 +25,16 @@ function Header(props: HeaderProps) {
     return (
       <div className="HeaderUser">
         {user ? (
-          <Link to="/profile" className="HeaderUser HeaderButton">
+          <Link
+            to="/profile"
+            className="HeaderUser HeaderButton"
+            draggable={false}
+          >
             <img
               className="HeaderUserPicture"
               src={user.profilePicture}
               alt="Profile"
+              draggable={false}
             />
           </Link>
         ) : (
@@ -44,7 +49,7 @@ function Header(props: HeaderProps) {
       <h1 id="HeaderText">Dear Blueno</h1>
       {/* <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" /> */}
       <div className="HeaderButtons">
-        <Link to="/submit">
+        <Link to="/submit" draggable={false}>
           <HeaderButton action={() => {}} image={PostIcon} alt="Post" />
         </Link>
         <HeaderButton action={() => {}} image={SearchIcon} alt="Search" />

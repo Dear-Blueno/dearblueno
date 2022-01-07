@@ -15,6 +15,7 @@
   user-select: none;
   display: inline-block;
   margin-right: 0.4rem;
+  user-select: none;
 }
 
 .ReactText:hover {

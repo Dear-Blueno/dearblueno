@@ -1,3 +1,5 @@
 .DividerDot {
   color: #ccc;
+  user-select: none;
+  cursor: default;
 }

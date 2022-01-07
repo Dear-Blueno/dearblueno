@@ -42,7 +42,6 @@ function SubmitBox(props: SubmitBoxProps) {
                 let element = document.getElementById(
                   "TextBox"
                 ) as HTMLTextAreaElement;
-                console.log(element.value);
                 post(element.value);
               }}
             >

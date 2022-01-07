@@ -72,6 +72,7 @@ function ReactionButton(props: ReactionButtonProps) {
           props.handleClick();
         }}
         alt="reaction"
+        draggable={false}
       />
       <p
         className={className + "Count"}

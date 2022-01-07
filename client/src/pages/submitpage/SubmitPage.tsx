@@ -15,11 +15,12 @@ function SubmitPage(props: SubmitPageProps) {
   return (
     <div className="SubmitPage">
       {window.innerWidth >= 768 && !submitted && (
-        <Link to="/">
+        <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
             src={LogoIcon}
             alt="Blueno Home Button"
+            draggable={false}
           />
         </Link>
       )}

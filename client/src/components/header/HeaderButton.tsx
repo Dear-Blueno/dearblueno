@@ -10,7 +10,12 @@ interface HeaderButtonProps {
 function HeaderButton(props: HeaderButtonProps) {
   return (
     <div className="HeaderButton" onClick={props.action}>
-      <img className="HeaderButtonImage" src={props.image} alt={props.alt} />
+      <img
+        className="HeaderButtonImage"
+        src={props.image}
+        alt={props.alt}
+        draggable={false}
+      />
     </div>
   );
 }

@@ -16,6 +16,8 @@
   color: gray;
   font-size: 0.8rem;
   margin-right: 1rem;
+  user-select: none;
+  cursor: default;
 }
 
 .ExpandThreadButton {

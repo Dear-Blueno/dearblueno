@@ -13,11 +13,12 @@ function ProfilePage(props: ProfilePageProps) {
   return (
     <div className="ProfilePage">
       {window.innerWidth >= 768 && (
-        <Link to="/">
+        <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
             src={LogoIcon}
             alt="Blueno Home Button"
+            draggable={false}
           />
         </Link>
       )}

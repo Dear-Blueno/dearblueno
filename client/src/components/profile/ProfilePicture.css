@@ -7,4 +7,5 @@
   display: block;
   border: 2px solid black;
   box-sizing: border-box;
+  user-select: none;
 }

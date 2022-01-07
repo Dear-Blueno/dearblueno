@@ -14,6 +14,7 @@ function SocialButton(props: SocialButtonProps) {
         href={props.link}
         target="_blank"
         rel="noreferrer"
+        draggable={false}
       >
         <props.icon className="SocialButtonIcon" size="1.2em" />
       </a>

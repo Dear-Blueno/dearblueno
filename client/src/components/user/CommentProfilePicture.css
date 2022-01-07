@@ -2,6 +2,7 @@
   grid-area: pic;
   height: 100%;
   width: 100%;
+  user-select: none;
 }
 .CommentProfilePicture {
   border: 0.5px solid black;

@@ -13,4 +13,5 @@
 .CheckMark {
   width: 80%;
   height: 80%;
+  user-select: none;
 }
