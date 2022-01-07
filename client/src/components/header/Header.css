@@ -51,6 +51,7 @@
     margin-left: 0.5rem;
     padding: 0.3rem;
     box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+    margin-bottom: 0.5rem;
   }
   #HeaderText {
     font-size: 1.5rem;
@@ -133,7 +134,7 @@
     padding: 0.8rem;
   }
   #HeaderText {
-    font-size: 3.2rem;
+    font-size: 3rem;
   }
   .LogoImage {
     width: 3rem;
