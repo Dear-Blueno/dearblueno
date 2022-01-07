@@ -4,14 +4,12 @@ import { IoMdBook } from "react-icons/io";
 import ProfilePersonalInfoEntry from "./ProfilePersonalInfoEntry";
 
 interface ProfilePersonalInfoProps {
-  year?: string;
-  hometown?: string;
-  concentration?: string;
+  contents: (string | undefined)[];
+  refs: React.RefObject<HTMLInputElement>[];
   editing: boolean;
 }
 
 function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
-  const contents = [props.hometown, props.year, props.concentration];
   const icons = [MdOutlineLocationOn, MdOutlineSchool, IoMdBook];
   const placeholders = ["Hometown", "Graduation Year", "Concentration"];
   return (
@@ -21,14 +19,15 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
           <div className="ProfilePersonalInfoEditingHeader">
             Personal Information
           </div>
-          {contents.map((content, index) => {
+          {props.contents.map((content, index) => {
             return (
-              <div className="ProfilePersonalInfoEditingEntry">
+              <div className="ProfilePersonalInfoEditingEntry" key={index}>
                 {icons[index]({
                   className: "PersonalInfoIcon",
                   size: "1.2em",
                 })}
                 <input
+                  ref={props.refs[index]}
                   className="PersonalInfoInput"
                   defaultValue={content}
                   placeholder={placeholders[index]}
@@ -39,7 +38,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
         </div>
       ) : (
         <div className="ProfilePersonalInfo">
-          {contents.map((content, index) => {
+          {props.contents.map((content, index) => {
             return content ? (
               <ProfilePersonalInfoEntry
                 key={index}

@@ -6,8 +6,10 @@ import ProfileBio from "./ProfileBio";
 import { updateUserProfile } from "../../gateways/UserGateway";
 import ProfileSocials from "./ProfileSocials";
 import ProfilePersonalInfo from "./ProfilePersonalInfo";
-import EditProfileButton from "./EditProfileButton";
-import { useState } from "react";
+import ProfileEditButton from "./buttons/ProfileEditButton";
+import ProfileSaveButton from "./buttons/ProfileSaveButton";
+import ProfileCancelButton from "./buttons/ProfileCancelButton";
+import { useState, useRef } from "react";
 
 type ProfileBoxProps = {
   user: IUser | undefined;
@@ -17,6 +19,27 @@ type ProfileBoxProps = {
 function ProfileBox(props: ProfileBoxProps) {
   const ownProfile = props.user && props.user._id === props.profileUser?._id;
   const [editing, setEditing] = useState(false);
+  const instagramInput = useRef<HTMLInputElement>(null);
+  const twitterInput = useRef<HTMLInputElement>(null);
+  const facebookInput = useRef<HTMLInputElement>(null);
+  const linkedinInput = useRef<HTMLInputElement>(null);
+  const bioTextArea = useRef<HTMLTextAreaElement>(null);
+  const hometownInput = useRef<HTMLInputElement>(null);
+  const yearInput = useRef<HTMLInputElement>(null);
+  const concentrationInput = useRef<HTMLInputElement>(null);
+
+  const handleProfileEdit = () => {
+    updateUserProfile(
+      bioTextArea.current?.value,
+      instagramInput.current?.value,
+      twitterInput.current?.value,
+      facebookInput.current?.value,
+      concentrationInput.current?.value,
+      yearInput.current?.value
+    );
+    setEditing(false);
+  };
+
   return (
     <div className="ProfileBox">
       <div className="LeftColumn">
@@ -25,39 +48,39 @@ function ProfileBox(props: ProfileBoxProps) {
         ></ProfilePicture>
         <ProfileName name={props.user ? props.user.name : ""} />
         {ownProfile && !editing && (
-          <EditProfileButton click={() => setEditing(true)} />
+          <ProfileEditButton click={() => setEditing(true)} />
         )}
         <ProfileSocials
-          instagram={props.profileUser?.instagram}
-          twitter={props.profileUser?.twitter}
-          facebook={props.profileUser?.facebook}
+          links={[
+            props.profileUser?.instagram,
+            props.profileUser?.twitter,
+            props.profileUser?.facebook,
+          ]}
+          refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
           editing={editing}
         />
         <ProfileBio
-          editing={editing}
           bio={props.user?.bio ? props.user.bio : ""}
+          editing={editing}
+          bioRef={bioTextArea}
         />
         <ProfilePersonalInfo
-          year={props.profileUser?.classYear}
-          hometown="Westborough, MA"
-          concentration={props.profileUser?.concentration}
+          contents={[
+            "Westborough, MA",
+            props.user?.classYear,
+            props.user?.concentration,
+          ]}
+          refs={[hometownInput, yearInput, concentrationInput]}
           editing={editing}
         />
+        {editing && (
+          <div className="SaveAndCancelButtons">
+            <ProfileSaveButton click={handleProfileEdit} />
+            <ProfileCancelButton click={() => setEditing(false)} />
+          </div>
+        )}
       </div>
-      <div className="RightColumn">
-        {/* <button
-          onClick={() =>
-            updateUserProfile(
-              "Computer Science student with interests in math, physics, and computer graphics.",
-              "https://instagram.com/dylannhu",
-              "https://twitter.com/dylanhu",
-              "https://facebook.com/dylannhu",
-              "Computer Science",
-              "2024"
-            )
-          }
-        ></button> */}
-      </div>
+      <div className="RightColumn"></div>
     </div>
   );
 }

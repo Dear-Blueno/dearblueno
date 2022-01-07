@@ -9,20 +9,12 @@ import {
 import { IconType } from "react-icons/lib";
 
 interface ProfileSocialsProps {
-  instagram?: string;
-  twitter?: string;
-  facebook?: string;
-  linkedin?: string;
+  links: (string | undefined)[];
+  refs: React.RefObject<HTMLInputElement>[];
   editing: boolean;
 }
 
 function ProfileSocials(props: ProfileSocialsProps) {
-  const links = [
-    props.instagram,
-    props.twitter,
-    props.facebook,
-    props.linkedin,
-  ];
   const icons: IconType[] = [
     RiInstagramLine,
     RiTwitterLine,
@@ -36,14 +28,15 @@ function ProfileSocials(props: ProfileSocialsProps) {
       {props.editing ? (
         <div className="ProfileSocialsEditing">
           <div className="ProfileSocialsEditingHeader">Socials</div>
-          {links.map((link, index) => {
+          {props.links.map((link, index) => {
             return (
-              <div className="ProfileSocialsEditingEntry">
+              <div className="ProfileSocialsEditingEntry" key={index}>
                 {icons[index]({
                   className: "ProfileSocialsIcon",
                   size: "1.2em",
                 })}
                 <input
+                  ref={props.refs[index]}
                   className="SocialInput"
                   defaultValue={link}
                   placeholder={iconNames[index]}
@@ -54,7 +47,7 @@ function ProfileSocials(props: ProfileSocialsProps) {
         </div>
       ) : (
         <div className="ProfileSocials">
-          {links.map((link, index) => {
+          {props.links.map((link, index) => {
             return link ? (
               <SocialButton key={index} link={link} icon={icons[index]} />
             ) : null;

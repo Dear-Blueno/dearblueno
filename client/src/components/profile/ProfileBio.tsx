@@ -1,8 +1,9 @@
 import "./ProfileBio.css";
 
 interface ProfileBioProps {
-  editing: boolean;
   bio: string;
+  bioRef: React.RefObject<HTMLTextAreaElement>;
+  editing: boolean;
 }
 
 function ProfileBio(props: ProfileBioProps) {
@@ -12,6 +13,7 @@ function ProfileBio(props: ProfileBioProps) {
         <div className="ProfileBioEditing">
           <div className="ProfileBioEditingHeader">Bio</div>
           <textarea
+            ref={props.bioRef}
             className="ProfileBioTextArea"
             defaultValue={props.bio}
           ></textarea>
