@@ -8,3 +8,10 @@
   padding: 0;
   margin: 0;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .ProfilePage {
+    display: block;
+  }
+}

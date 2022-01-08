@@ -1,11 +1,11 @@
 import "./ProfileBox.css";
 import IUser from "../../types/IUser";
-import ProfilePicture from "../../components/profile/ProfilePicture";
-import ProfileName from "./ProfileName";
-import ProfileBio from "./ProfileBio";
+import ProfilePicture from "./left_column/ProfilePicture";
+import ProfileName from "./left_column/ProfileName";
+import ProfileBio from "./left_column/ProfileBio";
 import { updateUserProfile } from "../../gateways/UserGateway";
-import ProfileSocials from "./ProfileSocials";
-import ProfilePersonalInfo from "./ProfilePersonalInfo";
+import ProfileSocials from "./left_column/ProfileSocials";
+import ProfilePersonalInfo from "./left_column/ProfilePersonalInfo";
 import ProfileEditButton from "./buttons/ProfileEditButton";
 import ProfileSaveButton from "./buttons/ProfileSaveButton";
 import ProfileCancelButton from "./buttons/ProfileCancelButton";
@@ -55,6 +55,7 @@ function ProfileBox(props: ProfileBoxProps) {
             props.profileUser?.instagram,
             props.profileUser?.twitter,
             props.profileUser?.facebook,
+            undefined,
           ]}
           refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
           editing={editing}

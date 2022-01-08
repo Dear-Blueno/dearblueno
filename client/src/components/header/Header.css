@@ -33,14 +33,14 @@
 .LogoImage {
   width: 3rem;
   height: 3rem;
-  margin-right: 0.4rem;
-  vertical-align: middle;
   position: relative;
   user-select: none;
 }
 
 .HeaderButtons {
   margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
 }
 
 /* Extra extra small devices (phones, 400px and down) */

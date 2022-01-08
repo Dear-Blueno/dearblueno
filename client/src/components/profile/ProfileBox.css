@@ -9,13 +9,31 @@
   box-sizing: border-box;
 }
 
+.LeftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+  height: 100%;
+}
+
+.RightColumn {
+  display: flex;
+  flex: 2;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .ProfileBox {
     margin: 0.5rem;
     margin-left: 0.7rem;
-    height: calc(100% - 1rem);
     width: calc(100% - 1rem);
+  }
+  .RightColumn {
+    display: none;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -35,22 +53,6 @@
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-}
-
-.LeftColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  flex: 1;
-  height: 100%;
-}
-
-.RightColumn {
-  display: flex;
-  flex: 2;
-  height: 100%;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .ProfileButton {
@@ -73,4 +75,5 @@
   display: flex;
   gap: 0.5rem;
   width: 100%;
+  margin-top: 0.5rem;
 }

@@ -1,7 +1,7 @@
 .SubmitCommentButton {
   margin-top: 0.5rem;
   cursor: pointer;
-  color: #777;
+  user-select: none;
 }
 
 .SubmitCommentButton:hover {

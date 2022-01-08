@@ -1,8 +1,10 @@
 import "./HeaderButton.css";
+import { IconType } from "react-icons/lib";
 
 interface HeaderButtonProps {
   action: () => void;
-  image: string;
+  icon: IconType | undefined;
+  image?: string;
   alt: string;
 }
 
@@ -10,12 +12,15 @@ interface HeaderButtonProps {
 function HeaderButton(props: HeaderButtonProps) {
   return (
     <div className="HeaderButton" onClick={props.action}>
-      <img
-        className="HeaderButtonImage"
-        src={props.image}
-        alt={props.alt}
-        draggable={false}
-      />
+      {props.icon ? (
+        <props.icon className="HeaderButtonIcon" title={props.alt} />
+      ) : (
+        <img
+          className="HeaderButtonImage"
+          alt={props.alt}
+          src={props.image}
+        ></img>
+      )}
     </div>
   );
 }
