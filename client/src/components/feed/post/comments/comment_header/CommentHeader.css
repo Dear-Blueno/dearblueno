@@ -22,6 +22,7 @@
 
 .ExpandThreadButton {
   font-size: 0.8rem;
+  margin-right: 1rem;
   color: gray;
   display: inline-block;
 }

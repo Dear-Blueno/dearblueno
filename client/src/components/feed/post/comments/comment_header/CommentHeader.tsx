@@ -1,4 +1,5 @@
 import "./CommentHeader.css";
+import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { formatDistanceToNowStrict } from "date-fns";
 
@@ -47,11 +48,14 @@ function CommentHeader(props: CommentHeaderProps) {
           formatDistanceToNowStrict(new Date(props.comment.commentTime))
         )}
       </p>
+
       {props.collapsed && (
         <p className="ExpandThreadButton" onClick={props.expand}>
           expand
         </p>
       )}
+
+      <CommentMenuButton />
     </div>
   );
 }
