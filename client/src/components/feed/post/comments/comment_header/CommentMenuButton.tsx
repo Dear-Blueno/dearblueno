@@ -1,6 +1,8 @@
 import "./CommentMenuButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
+import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import "@reach/dialog/styles.css";
 
 interface CommentMenuButtonProps {}
 
@@ -35,6 +37,14 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   const [clicked, setClicked] = useState(false);
   const actions = ["report", "share", "delete"];
 
+  const [showPopup, setshowPopup] = useState(false); 
+  const openPopup = () => { 
+    setshowPopup(true);
+    setClicked(false);
+  };
+  
+  const closePopup = () => setshowPopup(false);
+
   let refDropdown = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
@@ -50,9 +60,33 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     };
   });
 
+  const reportReasons = ["spam", "inappropriate", "other"];
+
+  const popUp = (
+    <div className="Popup">
+      <DialogOverlay
+        style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
+        isOpen={showPopup}
+        onDismiss={closePopup}
+      >
+        <DialogContent>
+          <p>
+            <strong>REPORT REASON</strong>
+            {reportReasons.map((reason) => (
+              <div className="ReportReason" key={reason}>
+                {reason}
+              </div>
+            ))}
+          </p>
+        </DialogContent>
+      </DialogOverlay>
+    </div>
+  );
+
   return (
     <div className="CommentMenuDropDown" ref={refDropdown}>
       <div className="CommentMenuButton" ref={setReferenceElement}>
+        {popUp}
         <p onClick={() => setClicked(!clicked)}>⋯</p>
         {clicked && (
           <div
@@ -60,7 +94,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             ref={setPopperElement}
             style={styles.popper}
             role="tooltip"
-            onBlur={() => console.log("TEEHEE")}
             {...attributes.popper}
           >
             <div
@@ -70,7 +103,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             />
             <div className="MenuDropdownActions">
               {actions.map((action) => (
-                <p className="MenuDropdownAction" key={action}>
+                <p className="MenuDropdownAction" key={action} onClick={openPopup}>
                   {action}
                 </p>
               ))}
