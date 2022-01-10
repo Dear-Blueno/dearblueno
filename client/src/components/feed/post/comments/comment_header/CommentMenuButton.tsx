@@ -1,8 +1,14 @@
 import "./CommentMenuButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
+import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import "@reach/dialog/styles.css";
+import IUser from "../../../../../types/IUser";
 
-interface CommentMenuButtonProps {}
+interface CommentMenuButtonProps {
+  user?: IUser;
+  commentUser?: IUser;
+}
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
   const [referenceElement, setReferenceElement] = useState<any>(null);
@@ -20,7 +26,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         },
         {
           name: "offset",
-          options: { offset: [10, 10] },
+          options: { offset: [10, 8] },
         },
         {
           name: "flip",
@@ -34,6 +40,14 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   );
   const [clicked, setClicked] = useState(false);
   const actions = ["report", "share", "delete"];
+
+  const [showPopup, setshowPopup] = useState(false);
+  const openPopup = () => {
+    setshowPopup(true);
+    setClicked(false);
+  };
+
+  const closePopup = () => setshowPopup(false);
 
   let refDropdown = useRef<HTMLDivElement>(null);
 
@@ -50,9 +64,33 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     };
   });
 
+  const reportReasons = ["spam", "inappropriate", "other"];
+
+  const popUp = (
+    <div className="Popup">
+      <DialogOverlay
+        style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
+        isOpen={showPopup}
+        onDismiss={closePopup}
+      >
+        <DialogContent>
+          <p>
+            <strong>REPORT REASON</strong>
+            {reportReasons.map((reason) => (
+              <div className="ReportReason" key={reason}>
+                {reason}
+              </div>
+            ))}
+          </p>
+        </DialogContent>
+      </DialogOverlay>
+    </div>
+  );
+
   return (
     <div className="CommentMenuDropdown" ref={refDropdown}>
       <div className="CommentMenuButton" ref={setReferenceElement}>
+        {popUp}
         <div
           className="CommentMenuDropdownText"
           onClick={() => setClicked(!clicked)}
@@ -65,7 +103,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             ref={setPopperElement}
             style={styles.popper}
             role="tooltip"
-            onBlur={() => console.log("TEEHEE")}
             {...attributes.popper}
           >
             <div
@@ -74,11 +111,19 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               style={styles.arrow}
             />
             <div className="MenuDropdownActions">
-              {actions.map((action) => (
-                <p className="MenuDropdownAction" key={action}>
-                  {action}
+              {props.user &&
+              props.commentUser &&
+              props.user._id === props.commentUser._id ? null : (
+                <p className="MenuDropdownAction" onClick={openPopup}>
+                  {actions[0]}
                 </p>
-              ))}
+              )}
+              <p className="MenuDropdownAction">{actions[1]}</p>
+              {props.user &&
+              props.commentUser &&
+              props.user._id === props.commentUser._id ? (
+                <p className="MenuDropdownAction">{actions[2]}</p>
+              ) : null}
             </div>
           </div>
         )}

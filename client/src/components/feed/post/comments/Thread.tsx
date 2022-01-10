@@ -50,6 +50,7 @@ function Thread(props: ThreadProps) {
         <CommentProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
         <CommentHeader
+          user = {props.user}
           comment={props.comment}
           collapsed={!show}
           expand={() => setShow(true)}

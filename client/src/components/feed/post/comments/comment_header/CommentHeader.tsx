@@ -2,8 +2,10 @@ import "./CommentHeader.css";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { formatDistanceToNowStrict } from "date-fns";
+import IUser from "../../../../../types/IUser";
 
 type CommentHeaderProps = {
+  user ?: IUser;
   comment: IThread;
   collapsed: boolean;
   expand: () => void;
@@ -55,7 +57,7 @@ function CommentHeader(props: CommentHeaderProps) {
         </p>
       )}
 
-      <CommentMenuButton />
+      <CommentMenuButton user={props.user} commentUser={props.comment.author}/>
     </div>
   );
 }
