@@ -6,12 +6,18 @@ interface HeaderButtonProps {
   icon: IconType | undefined;
   image?: string;
   alt: string;
+  opacity: number;
+  delay: string;
 }
 
 /*This div should be a button that, on click, calls the action prop. */
 function HeaderButton(props: HeaderButtonProps) {
   return (
-    <div className="HeaderButton" onClick={props.action}>
+    <div
+      className="HeaderButton"
+      onClick={props.action}
+      style={{ opacity: props.opacity, animationDelay: props.delay }}
+    >
       {props.icon ? (
         <props.icon className="HeaderButtonIcon" title={props.alt} />
       ) : (

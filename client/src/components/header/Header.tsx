@@ -5,19 +5,38 @@ import { Link } from "react-router-dom";
 import IUser from "../../types/IUser";
 import { loginBrown } from "../../gateways/AuthGateway";
 import Typist from "react-typist";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 
-interface HeaderProps {
+type HeaderProps = {
   user: IUser | undefined;
-  loading: boolean;
-}
+  setLoading: (loading: boolean) => void;
+};
 
 function Header(props: HeaderProps) {
-  const { user, loading } = props;
+  const { user } = props;
   const [showLogo, setShowLogo] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showPlus, setShowPlus] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSearch(true);
+    }, 1500);
+    setTimeout(() => {
+      setShowPlus(true);
+    }, 1650);
+    setTimeout(() => {
+      setShowProfile(true);
+    }, 1800);
+    setTimeout(() => {
+      props.setLoading(false);
+    }, 2000);
+  }, []);
 
   return (
     <div className="Header">
@@ -32,26 +51,33 @@ function Header(props: HeaderProps) {
         <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" />
       )}
       <div className="HeaderButtons">
-        <HeaderButton action={() => {}} icon={BiSearch} alt="Search" />
+        <HeaderButton
+          action={() => {}}
+          icon={BiSearch}
+          alt="Search"
+          opacity={showSearch ? 1 : 0}
+          delay="1500ms"
+        />
+
         <Link to="/submit" draggable={false}>
-          <HeaderButton action={() => {}} icon={AiOutlinePlus} alt="Post" />
-        </Link>
-        {user ? (
-          <Link to="/profile" draggable={false}>
-            <HeaderButton
-              action={() => {}}
-              icon={undefined}
-              image={user.profilePicture}
-              alt="Profile"
-            />
-          </Link>
-        ) : (
           <HeaderButton
-            action={loginBrown}
-            icon={MdPersonOutline}
-            alt="Login"
+            action={() => {}}
+            icon={AiOutlinePlus}
+            alt="Post"
+            opacity={showPlus ? 1 : 0}
+            delay="1650ms"
           />
-        )}
+        </Link>
+        <Link to={user ? "/profile" : "/"} draggable={false}>
+          <HeaderButton
+            action={user ? () => {} : loginBrown}
+            icon={user ? undefined : MdPersonOutline}
+            image={user ? user.profilePicture : undefined}
+            alt="Profile"
+            opacity={showProfile ? 1 : 0}
+            delay="1800ms"
+          />
+        </Link>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import "./CommentMenuButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
-import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import IUser from "../../../../../types/IUser";
 
@@ -26,7 +26,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         },
         {
           name: "offset",
-          options: { offset: [10, 8] },
+          options: { offset: [8, 8] },
         },
         {
           name: "flip",
@@ -95,7 +95,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
           className="CommentMenuDropdownText"
           onClick={() => setClicked(!clicked)}
         >
-          ▪▪▪
+          •••
         </div>
         {clicked && (
           <div

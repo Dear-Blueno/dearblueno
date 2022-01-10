@@ -1,4 +1,7 @@
 .HeaderButton {
+  animation: ButtonAppear;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
   border: 1px solid black;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   background-color: white;
@@ -9,8 +12,18 @@
   color: black;
 }
 
+@keyframes ButtonAppear {
+  0% {
+    box-shadow: none;
+    transform: translate3d(-0.1rem, 0.1rem, 0);
+  }
+  100% {
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
+
 .HeaderButton:active {
-  background-color: #ccc;
   transform: translate3d(-0.1rem, 0.1rem, 0);
   box-shadow: none;
 }

@@ -1,19 +1,19 @@
 import Feed from "../components/feed/Feed";
 import Header from "../components/header/Header";
 import IUser from "../types/IUser";
-
+import { useState } from "react";
 interface FeedProps {
   user: IUser | undefined;
-  loading: boolean;
 }
 
 function FeedPage(props: FeedProps) {
-  const { user, loading } = props;
+  const { user } = props;
+  const [loading, setLoading] = useState(true);
 
   return (
     <div className="FeedPage">
-      <Header user={user} loading={loading} />
-      <Feed user={user} />
+      <Header user={user} setLoading={setLoading} />
+      <Feed user={user} loading={loading} />
     </div>
   );
 }

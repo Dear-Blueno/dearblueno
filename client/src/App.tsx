@@ -11,7 +11,6 @@ import ProfilePage from "./pages/profilepage/ProfilePage";
 function App() {
   // Auth/user state
   const [user, setUser] = useState<IUser>();
-  const [loading, setLoading] = useState(true);
 
   // Fetch user
   useEffect(() => {
@@ -19,7 +18,6 @@ function App() {
       if (response.success && response.payload) {
         setUser(response.payload);
       }
-      setLoading(false);
     });
   }, []);
 
@@ -28,18 +26,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/submit" element={<SubmitPage user={user} />} />
-          <Route
-            path="/"
-            element={<FeedPage user={user} loading={loading} />}
-          />
+          <Route path="/" element={<FeedPage user={user} />} />
           <Route
             path="/profile"
             element={<ProfilePage user={user} profileUser={user} />}
           />
-          <Route
-            path="/about"
-            element={<AboutPage/>}
-          />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </Router>
     </div>

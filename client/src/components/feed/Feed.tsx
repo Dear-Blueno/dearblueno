@@ -9,6 +9,7 @@ import IUser from "../../types/IUser";
 
 type FeedProps = {
   user: IUser | undefined;
+  loading: boolean;
 };
 
 type FeedContextType = {
@@ -58,7 +59,7 @@ function Feed(props: FeedProps) {
     refreshPosts: refreshPosts,
   };
 
-  return (
+  return !props.loading ? (
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
         {posts.map((post) => {
@@ -76,7 +77,7 @@ function Feed(props: FeedProps) {
         })}
       </div>
     </FeedContext.Provider>
-  );
+  ) : null;
 }
 
 export default Feed;
