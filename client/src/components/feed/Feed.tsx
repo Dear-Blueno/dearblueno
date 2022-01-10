@@ -3,13 +3,21 @@ import "./Feed.css";
 import IComment from "../../types/IComment";
 import { IThread } from "./post/comments/CommentSection";
 import IPost from "../../types/IPost";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import { getPosts } from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 
 type FeedProps = {
   user: IUser | undefined;
 };
+
+type FeedContextType = {
+  user?: IUser;
+  refreshPosts: () => void;
+};
+export const FeedContext = createContext<FeedContextType>({
+  refreshPosts: () => {},
+});
 
 function Feed(props: FeedProps) {
   const [pageNumber] = useState(1);
@@ -35,22 +43,39 @@ function Feed(props: FeedProps) {
     return comments.map(convertToThread);
   };
 
+  const refreshPosts = async () => {
+    console.log("refreshing posts");
+    const response = await getPosts(pageNumber);
+    if (response.success && response.payload) {
+      setPosts(response.payload);
+    } else {
+      console.log("error getting posts", response.message);
+    }
+  };
+
+  const initialContext: FeedContextType = {
+    user: props.user,
+    refreshPosts: refreshPosts,
+  };
+
   return (
-    <div className="Feed">
-      {posts.map((post) => {
-        return (
-          <Post
-            user={props.user}
-            key={post.postNumber}
-            postNumber={post.postNumber}
-            postBody={post.content}
-            postDate={new Date(post.postTime)}
-            comments={convertCommentsToThreads(post.comments)}
-            reactions={post.reactions}
-          />
-        );
-      })}
-    </div>
+    <FeedContext.Provider value={initialContext}>
+      <div className="Feed">
+        {posts.map((post) => {
+          return (
+            <Post
+              user={props.user}
+              key={post.postNumber}
+              postNumber={post.postNumber}
+              postBody={post.content}
+              postDate={new Date(post.postTime)}
+              comments={convertCommentsToThreads(post.comments)}
+              reactions={post.reactions}
+            />
+          );
+        })}
+      </div>
+    </FeedContext.Provider>
   );
 }
 

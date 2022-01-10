@@ -1,5 +1,6 @@
 .CommentHeader {
   display: flex;
+  gap: 1rem;
   flex-direction: row;
   align-items: center;
   grid-area: header;
@@ -8,14 +9,12 @@
 
 .CommentAuthor {
   font-weight: 600;
-  margin-right: 1rem;
   font-size: 0.8rem;
 }
 
 .CommentDate {
   color: gray;
   font-size: 0.8rem;
-  margin-right: 1rem;
   user-select: none;
   cursor: default;
 }

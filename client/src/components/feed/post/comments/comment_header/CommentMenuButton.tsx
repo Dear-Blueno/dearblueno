@@ -12,7 +12,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     referenceElement,
     popperElement,
     {
-      placement: "bottom-start",
+      placement: "bottom-end",
       modifiers: [
         {
           name: "arrow",
@@ -20,7 +20,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         },
         {
           name: "offset",
-          options: { offset: [-10, 10] },
+          options: { offset: [10, 10] },
         },
         {
           name: "flip",
@@ -51,9 +51,14 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   });
 
   return (
-    <div className="CommentMenuDropDown" ref={refDropdown}>
+    <div className="CommentMenuDropdown" ref={refDropdown}>
       <div className="CommentMenuButton" ref={setReferenceElement}>
-        <p onClick={() => setClicked(!clicked)}>⋯</p>
+        <div
+          className="CommentMenuDropdownText"
+          onClick={() => setClicked(!clicked)}
+        >
+          ▪▪▪
+        </div>
         {clicked && (
           <div
             className="PopperContainer"

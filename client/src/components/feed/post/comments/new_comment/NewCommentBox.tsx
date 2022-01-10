@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { commentOnPost } from "../../../../../gateways/PostGateway";
 import IUser from "../../../../../types/IUser";
+import { FeedContext } from "../../../Feed";
 import "./NewCommentBox.css";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
 
@@ -22,19 +24,20 @@ function NewCommentBox(props: NewCommentBoxProps) {
 
   const id = "newCommentTextArea" + props.parentCommentNumber;
 
-  const submit = () => {
+  const refreshPosts = useContext(FeedContext).refreshPosts;
+
+  const submit = async () => {
     if (props.user) {
       const textarea = document.getElementById(id) as HTMLTextAreaElement;
       if (textarea && textarea.value) {
-        commentOnPost(
+        await commentOnPost(
           props.postNumber,
           textarea.value,
           props.parentCommentNumber
-        ).then((response) => {
-          console.log(response);
-        });
+        );
         textarea.value = "";
         props.setShow(false);
+        refreshPosts();
       }
     }
   };

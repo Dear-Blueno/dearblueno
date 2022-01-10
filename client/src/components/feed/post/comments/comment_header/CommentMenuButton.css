@@ -4,6 +4,12 @@
   user-select: none;
 }
 
+.CommentMenuDropdownText {
+  font-size: 0.4rem;
+  color: #aaa;
+  transform: translateY(-0.05rem);
+}
+
 .MenuDropdownActions {
   position: relative;
   text-align: left;
