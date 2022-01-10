@@ -3,8 +3,12 @@ import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
+import IUser from "../../../../../types/IUser";
 
-interface CommentMenuButtonProps {}
+interface CommentMenuButtonProps {
+  user?: IUser;
+  commentUser?: IUser;
+}
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
   const [referenceElement, setReferenceElement] = useState<any>(null);
@@ -22,7 +26,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         },
         {
           name: "offset",
-          options: { offset: [-10, 10] },
+          options: { offset: [-10, 3] },
         },
         {
           name: "flip",
@@ -37,12 +41,12 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   const [clicked, setClicked] = useState(false);
   const actions = ["report", "share", "delete"];
 
-  const [showPopup, setshowPopup] = useState(false); 
-  const openPopup = () => { 
+  const [showPopup, setshowPopup] = useState(false);
+  const openPopup = () => {
     setshowPopup(true);
     setClicked(false);
   };
-  
+
   const closePopup = () => setshowPopup(false);
 
   let refDropdown = useRef<HTMLDivElement>(null);
@@ -102,11 +106,17 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               style={styles.arrow}
             />
             <div className="MenuDropdownActions">
-              {actions.map((action) => (
-                <p className="MenuDropdownAction" key={action} onClick={openPopup}>
-                  {action}
-                </p>
-              ))}
+              {props.user &&
+              props.commentUser &&
+              props.user._id === props.commentUser._id ? null : (
+                <p className="MenuDropdownAction" onClick={openPopup}>{actions[0]}</p>
+              )}
+              <p className="MenuDropdownAction">{actions[1]}</p>
+              {props.user &&
+              props.commentUser &&
+              props.user._id === props.commentUser._id ? (
+                <p className="MenuDropdownAction">{actions[2]}</p>
+              ) : null}
             </div>
           </div>
         )}
