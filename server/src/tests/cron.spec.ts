@@ -13,6 +13,10 @@ describe("Cron", () => {
   beforeAll(async () => {
     await setupForTests();
     dotenv.config();
+
+    const id = process.env.TESTING_GOOGLE_SHEET_ID;
+    process.env.VERIFIED_GOOGLE_SHEET_ID = id;
+    process.env.UNVERIFIED_GOOGLE_SHEET_ID = id;
   });
 
   beforeEach(async () => {
