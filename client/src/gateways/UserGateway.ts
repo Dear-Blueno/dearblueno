@@ -19,22 +19,6 @@ export async function getUser(_id: string): Promise<IResponse<IBasicUser>> {
   }
 }
 
-export async function getUsersNames(
-  ids: string[]
-): Promise<IResponse<IBasicUser[]>> {
-  try {
-    // include array of ids in request body
-    const response = await axios.get("/user/names", { data: { ids } });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data);
-    }
-  } catch (error: any) {
-    return failureResponse(error);
-  }
-}
-
 export async function searchUsers(
   query: string
 ): Promise<IResponse<IBasicUser[]>> {

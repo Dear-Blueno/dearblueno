@@ -37,41 +37,6 @@ userRouter.get(
   }
 );
 
-// GET request that gets the names of several users
-userRouter.get(
-  "/names",
-  body("ids")
-    .isArray({ min: 1 })
-    .custom((ids: string[]) => {
-      for (const id of ids) {
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-          return false;
-        }
-      }
-      return true;
-    }),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.body) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
-    // Get the names of the users
-    const users = await User.find({ _id: { $in: req.body.ids } })
-      .select("name")
-      .lean();
-
-    if (!users || users.length === 0) {
-      res.status(404).send("No users found");
-      return;
-    }
-
-    // Send the names of the users
-    res.send(users);
-  }
-);
-
 // GET request that gets a user by id
 userRouter.get("/:id", param("id").isMongoId(), async (req, res) => {
   const errors = validationResult(req);
