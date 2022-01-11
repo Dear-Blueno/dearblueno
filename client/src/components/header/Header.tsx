@@ -12,7 +12,6 @@ import { MdPersonOutline } from "react-icons/md";
 
 type HeaderProps = {
   user: IUser | undefined;
-  setLoading: (loading: boolean) => void;
 };
 
 function Header(props: HeaderProps) {
@@ -33,9 +32,6 @@ function Header(props: HeaderProps) {
     setTimeout(() => {
       setShowProfile(true);
     }, 1800);
-    setTimeout(() => {
-      props.setLoading(false);
-    }, 2000);
   }, []);
 
   return (

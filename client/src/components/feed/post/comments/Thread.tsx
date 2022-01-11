@@ -2,7 +2,7 @@ import "./Thread.css";
 import ReactionBar from "../reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NewCommentBox from "./new_comment/NewCommentBox";
 import CommentButton from "../CommentButton";
 import DividerDot from "../DividerDot";
@@ -21,13 +21,10 @@ type ThreadProps = {
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
   const [showReplyBox, setShowReplyBox] = useState(false);
-  const [reactions] = useState<string[][]>(props.comment.reactions);
 
   const toggleShow = () => {
     setShow(!show);
   };
-
-  useEffect(() => {}, [reactions]);
 
   const nestedComments = (props.comment.children || []).map((comment) => {
     return (
@@ -50,7 +47,7 @@ function Thread(props: ThreadProps) {
         <CommentProfilePicture link={props.comment.author.profilePicture} />
         {show && <ThreadCollapser collapse={toggleShow} />}
         <CommentHeader
-          user = {props.user}
+          user={props.user}
           comment={props.comment}
           collapsed={!show}
           expand={() => setShow(true)}

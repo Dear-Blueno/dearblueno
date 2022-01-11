@@ -8,8 +8,9 @@ import { getPosts } from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 
 type FeedProps = {
-  user: IUser | undefined;
+  user?: IUser;
   loading: boolean;
+  moderatorView: boolean;
 };
 
 type FeedContextType = {
@@ -21,6 +22,7 @@ export const FeedContext = createContext<FeedContextType>({
 });
 
 function Feed(props: FeedProps) {
+  const [moderatorView, setModeratorView] = useState(props.moderatorView);
   const [pageNumber] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
 
@@ -50,7 +52,7 @@ function Feed(props: FeedProps) {
     if (response.success && response.payload) {
       setPosts(response.payload);
     } else {
-      console.log("error getting posts", response.message);
+      console.log(response.message);
     }
   };
 
@@ -62,19 +64,20 @@ function Feed(props: FeedProps) {
   return (
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
-        {posts.map((post) => {
-          return (
-            <Post
-              user={props.user}
-              key={post.postNumber}
-              postNumber={post.postNumber}
-              postBody={post.content}
-              postDate={new Date(post.postTime)}
-              comments={convertCommentsToThreads(post.comments)}
-              reactions={post.reactions}
-            />
-          );
-        })}
+        {props.moderatorView &&
+          posts.map((post) => {
+            return (
+              <Post
+                user={props.user}
+                key={post.postNumber}
+                postNumber={post.postNumber}
+                postBody={post.content}
+                postDate={new Date(post.postTime)}
+                comments={convertCommentsToThreads(post.comments)}
+                reactions={post.reactions}
+              />
+            );
+          })}
       </div>
     </FeedContext.Provider>
   );
