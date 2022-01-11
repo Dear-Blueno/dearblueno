@@ -2,10 +2,6 @@ import "./ReactionButton.css";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import ReactionDropdown from "./ReactionDropdown";
-import {
-  getPostReactions,
-  getCommentReactions,
-} from "../../../../gateways/PostGateway";
 
 interface ReactionButtonProps {
   type: "comment" | "post";
@@ -13,6 +9,8 @@ interface ReactionButtonProps {
   count: number;
   reactionArray: string[];
   handleClick: () => void;
+  names: string[];
+  handleHover: () => void;
 }
 
 function ReactionButton(props: ReactionButtonProps) {
@@ -49,17 +47,6 @@ function ReactionButton(props: ReactionButtonProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
-  const [names, setNames] = useState<string[]>([]);
-
-  const getNames = async () => {
-    console.log("getting names");
-    // TODO
-    // const response = await getPostReactions(postNumber);
-    // const response = await getCommentReactions(postNumber, commentNumber);
-    // if (response.success && response.payload) {
-    //   setNames(response.payload.map((user) => user.name));
-    // }
-  };
 
   // cleanup
   useEffect(() => {
@@ -83,8 +70,8 @@ function ReactionButton(props: ReactionButtonProps) {
         className={className + "Count"}
         ref={setReferenceElement}
         onMouseEnter={() => {
-          if (names.length === 0) {
-            getNames();
+          if (props.names.length === 0) {
+            props.handleHover();
             setShowDropdown(true);
           } else {
             setShowDropdown(true);
@@ -101,7 +88,7 @@ function ReactionButton(props: ReactionButtonProps) {
         {props.count}
       </p>
 
-      {names.length !== 0 && showDropdown && (
+      {props.names.length !== 0 && showDropdown && (
         <div
           className="PopperContainer"
           ref={setPopperElement}
@@ -115,7 +102,7 @@ function ReactionButton(props: ReactionButtonProps) {
             style={styles.arrow}
           />
           <ReactionDropdown
-            users={names}
+            users={props.names}
             leaveAction={() => {
               inDropdown.current = false;
               setShowDropdown(false);

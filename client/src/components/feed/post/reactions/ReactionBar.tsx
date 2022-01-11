@@ -14,14 +14,19 @@ import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
 import IUser from "../../../../types/IUser";
-import { reactToComment, reactToPost } from "../../../../gateways/PostGateway";
+import {
+  reactToComment,
+  reactToPost,
+  getPostReactions,
+  getCommentReactions,
+} from "../../../../gateways/PostGateway";
 
 type ReactionBarProps = {
-  user: IUser | undefined;
+  user?: IUser;
   type: "comment" | "post";
   reactions: string[][];
   postNumber: number;
-  commentNumber: number | undefined;
+  commentNumber?: number;
 };
 
 function ReactionBar(props: ReactionBarProps) {
@@ -97,6 +102,15 @@ function ReactionBar(props: ReactionBarProps) {
     reactionCounts.every((count) => count === 0)
   );
 
+  const [users, setUsers] = useState<{ _id: string; name: string }[][]>([
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+  ]);
+
   const updateOrderArrays = () => {
     const zero = [];
     const nonZero = [];
@@ -149,6 +163,11 @@ function ReactionBar(props: ReactionBarProps) {
           props.reactions[reaction] = props.reactions[reaction].filter(
             (id) => id !== props.user?._id
           );
+          const newUsers = [...users];
+          newUsers[reaction] = newUsers[reaction].filter(
+            (user) => user._id !== props.user?._id
+          );
+          setUsers(newUsers);
         } else {
           if (props.reactions[reaction]) {
             props.reactions[reaction] = [
@@ -158,6 +177,9 @@ function ReactionBar(props: ReactionBarProps) {
           } else {
             props.reactions[reaction] = [props.user._id];
           }
+          const newUsers = [...users];
+          newUsers[reaction] = [...newUsers[reaction], props.user];
+          setUsers(newUsers);
         }
         countUpdaters[reaction](props.reactions[reaction].length);
         if (props.type === "post") {
@@ -174,6 +196,18 @@ function ReactionBar(props: ReactionBarProps) {
         }
       }
     };
+  };
+
+  const getNames = async () => {
+    console.log("getting names");
+    const response =
+      props.type === "post"
+        ? await getPostReactions(props.postNumber)
+        : await getCommentReactions(props.postNumber, props.commentNumber || 0);
+    console.log(response);
+    if (response.success && response.payload) {
+      setUsers(response.payload);
+    }
   };
 
   return (
@@ -211,6 +245,8 @@ function ReactionBar(props: ReactionBarProps) {
             count={reactionCounts[reaction]}
             reactionArray={props.reactions[reaction]}
             handleClick={buttonClick(reaction)}
+            names={users[reaction].map((user) => user.name)}
+            handleHover={getNames}
           ></ReactionButton>
         );
       })}
@@ -224,6 +260,8 @@ function ReactionBar(props: ReactionBarProps) {
               count={reactionCounts[reaction]}
               reactionArray={props.reactions[reaction]}
               handleClick={buttonClick(reaction)}
+              names={users[reaction].map((user) => user.name)}
+              handleHover={getNames}
             ></ReactionButton>
           );
         })}

@@ -164,7 +164,7 @@ export async function searchPosts(query: string) {
 
 export async function getPostReactions(
   postNumber: number
-): Promise<IResponse<{ _id: string; name: string }[]>> {
+): Promise<IResponse<{ _id: string; name: string }[][]>> {
   try {
     const response = await axios.get(`/posts/${postNumber}/reactions`);
     if (response.status === 200) {
@@ -180,7 +180,7 @@ export async function getPostReactions(
 export async function getCommentReactions(
   postNumber: number,
   commentNumber: number
-): Promise<IResponse<{ _id: string; name: string }[]>> {
+): Promise<IResponse<{ _id: string; name: string }[][]>> {
   try {
     const response = await axios.get(
       `/posts/${postNumber}/comment/${commentNumber}/reactions`

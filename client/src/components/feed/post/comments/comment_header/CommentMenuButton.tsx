@@ -73,7 +73,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         isOpen={showPopup}
         onDismiss={closePopup}
       >
-        <DialogContent>
+        <DialogContent aria-label="Report Dialog">
           <p>
             <strong>REPORT REASON</strong>
             {reportReasons.map((reason) => (
