@@ -8,6 +8,7 @@ interface HeaderButtonProps {
   alt: string;
   opacity: number;
   delay: string;
+  buttonRef?: any;
 }
 
 /*This div should be a button that, on click, calls the action prop. */
@@ -17,6 +18,7 @@ function HeaderButton(props: HeaderButtonProps) {
       className="HeaderButton"
       onClick={props.action}
       style={{ opacity: props.opacity, animationDelay: props.delay }}
+      ref={props.buttonRef}
     >
       {props.icon ? (
         <props.icon className="HeaderButtonIcon" title={props.alt} />
@@ -25,6 +27,7 @@ function HeaderButton(props: HeaderButtonProps) {
           className="HeaderButtonImage"
           alt={props.alt}
           src={props.image}
+          draggable={false}
         ></img>
       )}
     </div>
