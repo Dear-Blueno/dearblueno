@@ -64,20 +64,21 @@ function Feed(props: FeedProps) {
   return (
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
-        {props.moderatorView &&
-          posts.map((post) => {
-            return (
-              <Post
-                user={props.user}
-                key={post.postNumber}
-                postNumber={post.postNumber}
-                postBody={post.content}
-                postDate={new Date(post.postTime)}
-                comments={convertCommentsToThreads(post.comments)}
-                reactions={post.reactions}
-              />
-            );
-          })}
+        {props.moderatorView
+          ? null
+          : posts.map((post) => {
+              return (
+                <Post
+                  user={props.user}
+                  key={post.postNumber}
+                  postNumber={post.postNumber}
+                  postBody={post.content}
+                  postDate={new Date(post.postTime)}
+                  comments={convertCommentsToThreads(post.comments)}
+                  reactions={post.reactions}
+                />
+              );
+            })}
       </div>
     </FeedContext.Provider>
   );
