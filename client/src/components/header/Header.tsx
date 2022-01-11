@@ -158,7 +158,7 @@ function Header(props: HeaderProps) {
                 style={postPopper.styles.arrow}
               />
               <div className="SubmitDropdownActions">
-                <Link to="/submit">
+                <Link to="/submit" className="DropdownAction">
                   <p>Post</p>
                 </Link>
               </div>
@@ -190,22 +190,22 @@ function Header(props: HeaderProps) {
                 style={profilePopper.styles.arrow}
               />
               <div className="ProfileDropdownActions">
-                <Link to="/about" className="ProfileDropdownAction">
+                <Link to="/about" className="DropdownAction">
                   <p>About</p>
                 </Link>
 
                 {user ? (
                   <div>
-                    <Link to="/profile" className="ProfileDropdownAction">
+                    <Link to="/profile" className="DropdownAction">
                       <p>Profile</p>
                     </Link>
-                    <p onClick={logout} className="ProfileDropdownAction">
+                    <p onClick={logout} className="DropdownAction">
                       Logout
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <p onClick={loginBrown} className="ProfileDropdownAction">
+                    <p onClick={loginBrown} className="DropdownAction">
                       Login
                     </p>
                   </div>

@@ -146,7 +146,7 @@
   background: #fff;
   border: 1px solid black;
   z-index: 1;
-  box-shadow: -0.05rem .05rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
 }
 
 .PopperContainer[data-show] {
@@ -201,11 +201,11 @@
   padding: 0.5rem;
 }
 
-.ProfileDropdownAction {
+.DropdownAction {
   color: black;
   text-decoration: underline;
 }
 
-.ProfileDropdownAction:hover {
+.DropdownAction:hover {
   cursor: pointer;
 }
