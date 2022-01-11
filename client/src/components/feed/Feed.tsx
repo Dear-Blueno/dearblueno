@@ -9,7 +9,6 @@ import IUser from "../../types/IUser";
 
 type FeedProps = {
   user?: IUser;
-  loading: boolean;
   moderatorView: boolean;
 };
 

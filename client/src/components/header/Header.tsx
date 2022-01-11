@@ -12,7 +12,8 @@ import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 
 type HeaderProps = {
-  user: IUser | undefined;
+  user?: IUser;
+  moderatorView: boolean;
 };
 
 function Header(props: HeaderProps) {
@@ -70,8 +71,8 @@ function Header(props: HeaderProps) {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
 
-  let refDropdown = useRef<HTMLDivElement>(null);
-  let profileRefDropdown = useRef<HTMLDivElement>(null);
+  const refDropdown = useRef<HTMLDivElement>(null);
+  const profileRefDropdown = useRef<HTMLDivElement>(null);
 
   const handleSubmitClickOutside = (event: any) => {
     if (refDropdown.current && !refDropdown.current.contains(event.target)) {
@@ -186,25 +187,36 @@ function Header(props: HeaderProps) {
                 style={profilePopper.styles.arrow}
               />
               <div className="ProfileDropdownActions">
+                {user && (
+                  <Link to="/profile" className="DropdownAction">
+                    <p>Profile</p>
+                  </Link>
+                )}
+                {user && user.moderator && (
+                  <Link
+                    to={props.moderatorView ? "/" : "/moderator"}
+                    className="DropdownAction"
+                    onClick={() => {
+                      setProfileClicked(false);
+                    }}
+                  >
+                    <p>
+                      {props.moderatorView ? "Back to feed" : "Moderator view"}
+                    </p>
+                  </Link>
+                )}
                 <Link to="/about" className="DropdownAction">
                   <p>About</p>
                 </Link>
-
-                {user ? (
-                  <div>
-                    <Link to="/profile" className="DropdownAction">
-                      <p>Profile</p>
-                    </Link>
-                    <p onClick={logout} className="DropdownAction">
-                      Logout
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    <p onClick={loginBrown} className="DropdownAction">
-                      Login
-                    </p>
-                  </div>
+                {user && (
+                  <p onClick={logout} className="DropdownAction">
+                    Logout
+                  </p>
+                )}
+                {!user && (
+                  <p onClick={loginBrown} className="DropdownAction">
+                    Login
+                  </p>
                 )}
               </div>
             </div>

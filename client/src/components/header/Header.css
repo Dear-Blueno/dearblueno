@@ -203,9 +203,10 @@
 
 .DropdownAction {
   color: black;
-  text-decoration: underline;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .DropdownAction:hover {
-  cursor: pointer;
+  text-decoration: underline;
 }

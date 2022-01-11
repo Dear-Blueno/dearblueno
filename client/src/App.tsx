@@ -36,18 +36,14 @@ function App() {
           </Route>
         </Routes>
         <Routes>
-          <Route path="/" element={<FeedPage user={user} />}>
+          <Route path="/">
             <Route
               path=""
-              element={
-                <Feed user={user} loading={false} moderatorView={false} />
-              }
+              element={<FeedPage user={user} moderatorView={false} />}
             />
             <Route
               path="moderator"
-              element={
-                <Feed user={user} loading={false} moderatorView={true} />
-              }
+              element={<FeedPage user={user} moderatorView={true} />}
             />
           </Route>
         </Routes>
