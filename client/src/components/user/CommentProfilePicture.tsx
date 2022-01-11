@@ -7,7 +7,7 @@ interface CommentProfilePictureProps {
 function CommentProfilePicture(props: CommentProfilePictureProps) {
   return (
     <div className="CommentProfilePicture">
-      <img className="CommentProfilePictureImage" src={props.link} alt="" />
+      <img className="CommentProfilePictureImage" src={props.link} alt="" draggable={false}/>
     </div>
   );
 }
