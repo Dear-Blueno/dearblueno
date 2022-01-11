@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import FeedPage from "./pages/feedpage/FeedPage";
-import Feed from "./components/feed/Feed";
 import SubmitPage from "./pages/submitpage/SubmitPage";
 import AboutPage from "./pages/aboutpage/AboutPage";
 import IUser from "./types/IUser";

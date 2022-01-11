@@ -1,6 +1,5 @@
 import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
-import { Outlet } from "react-router-dom";
 import Feed from "../../components/feed/Feed";
 
 interface FeedProps {

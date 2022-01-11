@@ -23,21 +23,23 @@ function Header(props: HeaderProps) {
   const [showPlus, setShowPlus] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  const [referenceElement, setReferenceElement] = useState<any>(null);
+  const [postReferenceElement, setPostReferenceElement] = useState<any>(null);
   const [profileReferenceElement, setProfileReferenceElement] =
     useState<any>(null);
-  const [popperElement, setPopperElement] = useState<any>(null);
-  const [arrowElement, setArrowElement] = useState<any>(null);
-  const postPopper = usePopper<any>(referenceElement, popperElement, {
+  const [postPopperElement, setPostPopperElement] = useState<any>(null);
+  const [profilePopperElement, setProfilePopperElement] = useState<any>(null);
+  const [postArrowElement, setPostArrowElement] = useState<any>(null);
+  const [profileArrowElement, setProfileArrowElement] = useState<any>(null);
+  const postPopper = usePopper<any>(postReferenceElement, postPopperElement, {
     placement: "bottom-end",
     modifiers: [
       {
         name: "arrow",
-        options: { element: arrowElement },
+        options: { element: postArrowElement },
       },
       {
         name: "offset",
-        options: { offset: [8, 8] },
+        options: { offset: [0, 12] },
       },
       {
         name: "flip",
@@ -48,34 +50,41 @@ function Header(props: HeaderProps) {
       },
     ],
   });
-  const profilePopper = usePopper<any>(profileReferenceElement, popperElement, {
-    placement: "bottom-end",
-    modifiers: [
-      {
-        name: "arrow",
-        options: { element: arrowElement },
-      },
-      {
-        name: "offset",
-        options: { offset: [8, 8] },
-      },
-      {
-        name: "flip",
-        options: {
-          allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
-          flipVariations: false,
+  const profilePopper = usePopper<any>(
+    profileReferenceElement,
+    profilePopperElement,
+    {
+      placement: "bottom-end",
+      modifiers: [
+        {
+          name: "arrow",
+          options: { element: profileArrowElement },
         },
-      },
-    ],
-  });
+        {
+          name: "offset",
+          options: { offset: [0, 12] },
+        },
+        {
+          name: "flip",
+          options: {
+            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
+            flipVariations: false,
+          },
+        },
+      ],
+    }
+  );
   const [submitClicked, setSubmitClicked] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
 
-  const refDropdown = useRef<HTMLDivElement>(null);
+  const postRefDropdown = useRef<HTMLDivElement>(null);
   const profileRefDropdown = useRef<HTMLDivElement>(null);
 
   const handleSubmitClickOutside = (event: any) => {
-    if (refDropdown.current && !refDropdown.current.contains(event.target)) {
+    if (
+      postRefDropdown.current &&
+      !postRefDropdown.current.contains(event.target)
+    ) {
       setSubmitClicked(false);
     }
   };
@@ -132,26 +141,26 @@ function Header(props: HeaderProps) {
           delay="1500ms"
         />
 
-        <div className="SubmitButtonAndDropdown" ref={refDropdown}>
+        <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
           <HeaderButton
             action={() => setSubmitClicked(!submitClicked)}
             icon={AiOutlinePlus}
             alt="Post"
             opacity={showPlus ? 1 : 0}
             delay="1650ms"
-            buttonRef={setReferenceElement}
+            buttonRef={setPostReferenceElement}
           />
           {submitClicked && (
             <div
               className="PopperContainer"
-              ref={setPopperElement}
+              ref={setPostPopperElement}
               style={postPopper.styles.popper}
               role="tooltip"
               {...postPopper.attributes.popper}
             >
               <div
                 className="DropdownArrow"
-                ref={setArrowElement}
+                ref={setPostArrowElement}
                 style={postPopper.styles.arrow}
               />
               <div className="SubmitDropdownActions">
@@ -176,14 +185,14 @@ function Header(props: HeaderProps) {
           {profileClicked && (
             <div
               className="PopperContainer"
-              ref={setPopperElement}
+              ref={setProfilePopperElement}
               style={profilePopper.styles.popper}
               role="tooltip"
               {...profilePopper.attributes.popper}
             >
               <div
                 className="DropdownArrow"
-                ref={setArrowElement}
+                ref={setProfileArrowElement}
                 style={profilePopper.styles.arrow}
               />
               <div className="ProfileDropdownActions">

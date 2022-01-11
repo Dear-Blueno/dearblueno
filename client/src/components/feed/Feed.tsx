@@ -21,7 +21,6 @@ export const FeedContext = createContext<FeedContextType>({
 });
 
 function Feed(props: FeedProps) {
-  const [moderatorView, setModeratorView] = useState(props.moderatorView);
   const [pageNumber] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
 
