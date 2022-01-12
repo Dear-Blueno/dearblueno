@@ -4,6 +4,7 @@
   align-items: center;
   width: 80%;
   margin-top: 0.2rem;
+  user-select: none;
 }
 
 .ConsentText {

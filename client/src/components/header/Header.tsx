@@ -165,8 +165,20 @@ function Header(props: HeaderProps) {
               />
               <div className="SubmitDropdownActions">
                 <Link to="/submit" className="DropdownAction">
-                  <p>Post</p>
+                  <p>Built-in form</p>
                 </Link>
+                <a
+                  className="DropdownAction"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSf3jo-aHL3H4RZZCHUWqsKsG8mttdioJ6N_nHGU_buy3DVeyA/viewform"
+                >
+                  Google form
+                </a>
+                <a
+                  className="DropdownAction"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSdQB5ZqQaSNrrHsuss9k9ejWlFVffzgHQrlrGf7-pXddjyurg/viewform"
+                >
+                  Google form (verified)
+                </a>
               </div>
             </div>
           )}
