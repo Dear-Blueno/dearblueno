@@ -14,14 +14,6 @@ type NewCommentBoxProps = {
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
-  let textAreaClassName = "NewCommentTextArea";
-  if (props.firstComment) {
-    textAreaClassName += " FirstCommentBox";
-  }
-  if (props.parentCommentNumber < 0) {
-    textAreaClassName += " TopLevelCommentBox";
-  }
-
   const id = "newCommentTextArea" + props.parentCommentNumber;
 
   const refreshPosts = useContext(FeedContext).refreshPosts;
@@ -46,7 +38,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
     <div className="NewCommentBox">
       <textarea
         autoFocus
-        className={textAreaClassName}
+        className="NewCommentTextArea"
         placeholder="Write a comment..."
         id={id}
       ></textarea>

@@ -18,8 +18,13 @@
 }
 
 .CommentBodyText {
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.CommentBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .CommentFooter {

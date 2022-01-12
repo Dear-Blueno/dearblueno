@@ -60,20 +60,22 @@ function Thread(props: ThreadProps) {
         {show && (
           <div className="ThreadBody">
             <div className="CommentBody">
-              <p className="CommentBodyText">{props.comment.content}</p>
-              <div className="CommentFooter">
-                <ReactionBar
-                  postNumber={props.comment.postNumber}
-                  commentNumber={props.comment.commentNumber}
-                  user={props.user}
-                  type="comment"
-                  reactions={props.comment.reactions}
-                />
-                <DividerDot />
-                <CommentButton
-                  type="reply"
-                  click={() => setShowReplyBox(true)}
-                />
+              <div className="CommentBodyTextAndFooter">
+                <p className="CommentBodyText">{props.comment.content}</p>
+                <div className="CommentFooter">
+                  <ReactionBar
+                    postNumber={props.comment.postNumber}
+                    commentNumber={props.comment.commentNumber}
+                    user={props.user}
+                    type="comment"
+                    reactions={props.comment.reactions}
+                  />
+                  <DividerDot />
+                  <CommentButton
+                    type="reply"
+                    click={() => setShowReplyBox(true)}
+                  />
+                </div>
               </div>
               {showReplyBox && (
                 <NewCommentBox
