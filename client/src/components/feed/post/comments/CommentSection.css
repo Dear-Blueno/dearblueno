@@ -1,6 +1,7 @@
 .CommentSection {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   margin-top: 0.8rem;
   /* border: 0.01rem solid black; */
   position: relative;

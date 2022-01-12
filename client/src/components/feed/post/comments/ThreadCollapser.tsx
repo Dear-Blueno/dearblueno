@@ -3,6 +3,7 @@ import { useRef } from "react";
 
 type ThreadCollapserProps = {
   collapse: () => void;
+  color: string;
 };
 
 function ThreadCollapser(props: ThreadCollapserProps) {
@@ -20,7 +21,11 @@ function ThreadCollapser(props: ThreadCollapserProps) {
           line.current?.classList.remove("ThreadCollapserLineHover")
         }
       >
-        <div className="ThreadCollapserLine" ref={line}></div>
+        <div
+          className="ThreadCollapserLine"
+          ref={line}
+          style={{ backgroundColor: props.color }}
+        ></div>
       </div>
     </div>
   );
