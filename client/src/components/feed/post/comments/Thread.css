@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: 1.5rem auto;
   grid-template-rows: 1.5rem auto;
-  gap: 0px 0px;
   grid-template-areas:
     "pic header"
     "collapser thread";
@@ -11,23 +10,16 @@
   width: 100%;
 }
 
-.Comment {
+.ThreadBody {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   grid-area: thread;
 }
 
-.CommentBody {
+.CommentBodyText {
   margin-top: 0.4rem;
   margin-bottom: 0.4rem;
-}
-
-.Thread {
-  margin-top: 1rem;
-}
-
-.FirstThread {
-  margin-top: 0;
 }
 
 .CommentFooter {

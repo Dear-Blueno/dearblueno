@@ -14,9 +14,11 @@ type ThreadProps = {
   user: IUser | undefined;
   collapsed: boolean;
   comment: IThread;
-  firstThread: boolean;
   postNumber: number;
+  depth: number;
 };
+
+const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
@@ -33,19 +35,22 @@ function Thread(props: ThreadProps) {
         key={comment.commentNumber}
         collapsed={false}
         comment={comment}
-        firstThread={false}
         postNumber={props.postNumber}
+        depth={props.depth + 1}
       />
     );
   });
 
-  const className = props.firstThread ? "Thread FirstThread" : "Thread";
-
   return (
-    <div className={className} key={props.comment.commentNumber}>
+    <div className="Thread" key={props.comment.commentNumber}>
       <div className="ThreadGrid">
         <CommentProfilePicture link={props.comment.author.profilePicture} />
-        {show && <ThreadCollapser collapse={toggleShow} />}
+        {show && (
+          <ThreadCollapser
+            collapse={toggleShow}
+            color={colors[props.depth <= 4 ? props.depth : 4]}
+          />
+        )}
         <CommentHeader
           user={props.user}
           comment={props.comment}
@@ -53,28 +58,33 @@ function Thread(props: ThreadProps) {
           expand={() => setShow(true)}
         />
         {show && (
-          <div className="Comment">
-            <p className="CommentBody">{props.comment.content}</p>
-            <div className="CommentFooter">
-              <ReactionBar
-                postNumber={props.comment.postNumber}
-                commentNumber={props.comment.commentNumber}
-                user={props.user}
-                type="comment"
-                reactions={props.comment.reactions}
-              />
-              <DividerDot />
-              <CommentButton type="reply" click={() => setShowReplyBox(true)} />
+          <div className="ThreadBody">
+            <div className="CommentBody">
+              <p className="CommentBodyText">{props.comment.content}</p>
+              <div className="CommentFooter">
+                <ReactionBar
+                  postNumber={props.comment.postNumber}
+                  commentNumber={props.comment.commentNumber}
+                  user={props.user}
+                  type="comment"
+                  reactions={props.comment.reactions}
+                />
+                <DividerDot />
+                <CommentButton
+                  type="reply"
+                  click={() => setShowReplyBox(true)}
+                />
+              </div>
+              {showReplyBox && (
+                <NewCommentBox
+                  user={props.user}
+                  firstComment={false}
+                  postNumber={props.postNumber}
+                  parentCommentNumber={props.comment.commentNumber}
+                  setShow={setShowReplyBox}
+                />
+              )}
             </div>
-            {showReplyBox && (
-              <NewCommentBox
-                user={props.user}
-                firstComment={false}
-                postNumber={props.postNumber}
-                parentCommentNumber={props.comment.commentNumber}
-                setShow={setShowReplyBox}
-              />
-            )}
             {nestedComments}
           </div>
         )}

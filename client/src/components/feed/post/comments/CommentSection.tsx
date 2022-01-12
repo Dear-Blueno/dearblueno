@@ -53,8 +53,8 @@ function CommentSection(props: CommentSectionProps) {
           key={comment.commentNumber}
           comment={comment}
           collapsed={false}
-          firstThread={index === 0}
           postNumber={props.postNumber}
+          depth={0}
         />
       ))}
       {props.showCommentBox && (

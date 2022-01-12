@@ -70,12 +70,8 @@ function ReactionButton(props: ReactionButtonProps) {
         className={className + "Count"}
         ref={setReferenceElement}
         onMouseEnter={() => {
-          if (props.names.length === 0) {
-            props.handleHover();
-            setShowDropdown(true);
-          } else {
-            setShowDropdown(true);
-          }
+          props.handleHover();
+          setShowDropdown(true);
         }}
         onMouseLeave={() => {
           setTimeout(() => {

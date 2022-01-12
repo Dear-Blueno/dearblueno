@@ -111,6 +111,8 @@ function ReactionBar(props: ReactionBarProps) {
     [],
   ]);
 
+  const [gotUsers, setGotUsers] = useState<boolean>(false);
+
   const updateOrderArrays = () => {
     const zero = [];
     const nonZero = [];
@@ -199,14 +201,18 @@ function ReactionBar(props: ReactionBarProps) {
   };
 
   const getNames = async () => {
-    console.log("getting names");
-    const response =
-      props.type === "post"
-        ? await getPostReactions(props.postNumber)
-        : await getCommentReactions(props.postNumber, props.commentNumber || 0);
-    console.log(response);
-    if (response.success && response.payload) {
-      setUsers(response.payload);
+    if (!gotUsers) {
+      const response =
+        props.type === "post"
+          ? await getPostReactions(props.postNumber)
+          : await getCommentReactions(
+              props.postNumber,
+              props.commentNumber || 0
+            );
+      if (response.success && response.payload) {
+        setUsers(response.payload);
+        setGotUsers(true);
+      }
     }
   };
 
