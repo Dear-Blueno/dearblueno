@@ -107,7 +107,6 @@ function Header(props: HeaderProps) {
     };
   });
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setTimeout(() => {
       setShowSearch(true);
@@ -118,6 +117,7 @@ function Header(props: HeaderProps) {
     setTimeout(() => {
       setShowProfile(true);
     }, 1800);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

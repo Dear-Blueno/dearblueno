@@ -16,10 +16,10 @@
 .ThreadCollapserLine {
   margin-left: auto;
   margin-right: auto;
-  width: 1.5px;
+  width: 1px;
   height: 100%;
 }
 
 .ThreadCollapserLineHover {
-  width: 3px;
+  width: 2px;
 }

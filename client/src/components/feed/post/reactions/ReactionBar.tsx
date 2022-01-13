@@ -127,13 +127,13 @@ function ReactionBar(props: ReactionBarProps) {
   };
 
   // initialize order arrays once
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const [zero, nonZero] = updateOrderArrays();
     setZeroOrder(zero);
     setNonZeroOrder(nonZero);
     setZeroOrderDisplay(zero);
     setNonZeroOrderDisplay(nonZero);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const showAll = () => {
@@ -153,6 +153,7 @@ function ReactionBar(props: ReactionBarProps) {
     const [zero, nonZero] = updateOrderArrays();
     setZeroOrder(zero);
     setNonZeroOrder(nonZero);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reactionCounts]);
 
   const buttonClick = (reaction: number) => {

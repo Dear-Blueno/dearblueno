@@ -12,8 +12,8 @@ import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef } from "react";
 
 type ProfileBoxProps = {
-  user: IUser | undefined;
-  profileUser: IUser | undefined;
+  user?: IUser;
+  profileUser?: IUser;
 };
 
 function ProfileBox(props: ProfileBoxProps) {
@@ -29,8 +29,13 @@ function ProfileBox(props: ProfileBoxProps) {
   const concentrationInput = useRef<HTMLInputElement>(null);
 
   const handleProfileEdit = () => {
+    if (bioTextArea.current?.value === "") {
+      console.log("bioTextArea.current.value is empty");
+    }
     updateUserProfile(
-      bioTextArea.current?.value,
+      bioTextArea.current?.value === ""
+        ? undefined
+        : bioTextArea.current?.value,
       hometownInput.current?.value,
       instagramInput.current?.value,
       twitterInput.current?.value,
@@ -46,9 +51,9 @@ function ProfileBox(props: ProfileBoxProps) {
     <div className="ProfileBox">
       <div className="LeftColumn">
         <ProfilePicture
-          link={props.user ? props.user.profilePicture : ""}
+          link={props.profileUser ? props.profileUser.profilePicture : ""}
         ></ProfilePicture>
-        <ProfileName name={props.user ? props.user.name : ""} />
+        <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
         {ownProfile && !editing && (
           <ProfileEditButton click={() => setEditing(true)} />
         )}
@@ -57,21 +62,21 @@ function ProfileBox(props: ProfileBoxProps) {
             props.profileUser?.instagram,
             props.profileUser?.twitter,
             props.profileUser?.facebook,
-            undefined,
+            props.profileUser?.linkedin,
           ]}
           refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
           editing={editing}
         />
         <ProfileBio
-          bio={props.user?.bio ? props.user.bio : ""}
+          bio={props.profileUser?.bio ? props.profileUser.bio : ""}
           editing={editing}
           bioRef={bioTextArea}
         />
         <ProfilePersonalInfo
           contents={[
-            "Westborough, MA",
-            props.user?.classYear,
-            props.user?.concentration,
+            props.profileUser?.hometown,
+            props.profileUser?.classYear,
+            props.profileUser?.concentration,
           ]}
           refs={[hometownInput, yearInput, concentrationInput]}
           editing={editing}
