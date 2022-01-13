@@ -148,8 +148,8 @@ postRouter.get(
       return;
     }
 
-    const commentNumber = req.params.commentNumber;
-    const comment = await Comment.findOne({ commentNumber })
+    const { postNumber, commentNumber } = req.params;
+    const comment = await Comment.findOne({ commentNumber, postNumber })
       .select("reactions approved")
       .populate({
         path: "reactions",

@@ -183,7 +183,7 @@ export async function getCommentReactions(
 ): Promise<IResponse<{ _id: string; name: string }[][]>> {
   try {
     const response = await axios.get(
-      `/posts/${postNumber}/comment/${commentNumber}/reactions`
+      `/posts/${postNumber}/comments/${commentNumber}/reactions`
     );
     if (response.status === 200) {
       return successfulResponse(response.data);

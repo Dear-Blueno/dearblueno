@@ -1021,6 +1021,13 @@ describe("Posts", () => {
       });
       await post.save();
 
+      const post2 = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 2,
+      });
+      await post2.save();
+
       const comment = new Comment({
         content: "This is a test comment",
         commentNumber: 1,
@@ -1030,6 +1037,22 @@ describe("Posts", () => {
         reactions: [[user._id]],
       });
       await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      const comment2 = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post2._id,
+        postNumber: 2,
+        author: user._id,
+        reactions: [[modUser._id]],
+      });
+      await comment2.save();
+
+      post2.comments.push(comment2);
+      await post2.save();
 
       const res = await request(app)
         .get("/posts/1/comments/1/reactions")
