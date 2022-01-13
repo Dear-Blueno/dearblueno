@@ -31,9 +31,11 @@ function ProfileBox(props: ProfileBoxProps) {
   const handleProfileEdit = () => {
     updateUserProfile(
       bioTextArea.current?.value,
+      hometownInput.current?.value,
       instagramInput.current?.value,
       twitterInput.current?.value,
       facebookInput.current?.value,
+      linkedinInput.current?.value,
       concentrationInput.current?.value,
       yearInput.current?.value
     );

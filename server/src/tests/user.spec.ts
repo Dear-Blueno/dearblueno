@@ -184,6 +184,7 @@ describe("User", () => {
         .put("/user/profile")
         .send({
           user,
+          hometown: "San Francisco, CA",
           concentration: "Computer Science",
           classYear: "2024",
           instagram: "https://instagram.com/test",
@@ -196,6 +197,11 @@ describe("User", () => {
       const newUser = await User.findOne();
       expect(newUser?.concentration).toBe("Computer Science");
       expect(newUser?.classYear).toBe("2024");
+      expect(newUser?.hometown).toBe("San Francisco, CA");
+      expect(newUser?.instagram).toBe("https://instagram.com/test");
+      expect(newUser?.twitter).toBe("https://twitter.com/test");
+      expect(newUser?.facebook).toBe("https://facebook.com/test");
+      expect(newUser?.bio).toBe("This is a bio");
     });
   });
 

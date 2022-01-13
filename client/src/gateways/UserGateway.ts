@@ -36,18 +36,22 @@ export async function searchUsers(
 
 export async function updateUserProfile(
   bio?: string,
+  hometown?: string,
   instagram?: string,
   twitter?: string,
   facebook?: string,
+  linkedin?: string,
   concentration?: string,
   classYear?: string
 ): Promise<IResponse<IUser>> {
   try {
     const response = await axios.put(`/user/profile`, {
       bio,
+      hometown,
       instagram,
       twitter,
       facebook,
+      linkedin,
       concentration,
       classYear,
     });

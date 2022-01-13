@@ -21,6 +21,10 @@ const UserSchema = new Schema({
     type: String,
     required: false,
   },
+  hometown: {
+    type: String,
+    required: false,
+  },
   instagram: {
     type: String,
     required: false,
@@ -30,6 +34,10 @@ const UserSchema = new Schema({
     required: false,
   },
   facebook: {
+    type: String,
+    required: false,
+  },
+  linkedin: {
     type: String,
     required: false,
   },
@@ -82,9 +90,11 @@ export interface IBasicUser {
   name: string;
   profilePicture: string;
   bio: string;
+  hometown: string;
   instagram: string;
   twitter: string;
   facebook: string;
+  linkedin: string;
   concentration: string;
   classYear: string;
   createdAt: Date;

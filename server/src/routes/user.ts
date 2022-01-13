@@ -64,6 +64,7 @@ userRouter.put(
   "/profile",
   authCheck,
   body("bio").optional().isLength({ max: 300 }),
+  body("hometown").optional().isLength({ max: 100 }),
   body("instagram")
     .optional()
     .isURL({
@@ -88,6 +89,14 @@ userRouter.put(
       host_whitelist: ["facebook.com"],
     })
     .isLength({ max: 200 }),
+  body("linkedin")
+    .optional()
+    .isURL({
+      require_protocol: true,
+      protocols: ["https"],
+      host_whitelist: ["linkedin.com"],
+    })
+    .isLength({ max: 200 }),
   body("concentration").optional().isString().isLength({ max: 100 }),
   body("classYear")
     .optional()
@@ -107,13 +116,23 @@ userRouter.put(
     }
 
     const user = req.user as IUser;
-    const { bio, instagram, twitter, facebook, concentration, classYear } =
-      req.body;
+    const {
+      bio,
+      hometown,
+      instagram,
+      twitter,
+      facebook,
+      linkedin,
+      concentration,
+      classYear,
+    } = req.body;
 
     user.bio = bio;
+    user.hometown = hometown;
     user.instagram = instagram;
     user.twitter = twitter;
     user.facebook = facebook;
+    user.linkedin = linkedin;
     user.concentration = concentration;
     user.classYear = classYear;
 

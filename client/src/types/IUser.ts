@@ -5,9 +5,11 @@ export interface IBasicUser {
   name: string;
   profilePicture: string;
   bio?: string;
+  hometown?: string;
   instagram?: string;
   twitter?: string;
   facebook?: string;
+  linkedin?: string;
   concentration?: string;
   classYear?: string;
   createdAt: Date;
