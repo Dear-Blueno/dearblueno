@@ -207,8 +207,10 @@
   color: black;
   cursor: pointer;
   text-decoration: none;
+  user-select: none;
 }
 
 .DropdownAction:hover {
   text-decoration: underline;
+  user-select: none;
 }
