@@ -10,7 +10,7 @@ userRouter.get(
   "/search",
   query("name")
     .isString()
-    .isLength({ min: 3 })
+    .isLength({ min: 3, max: 20 })
     .isAlpha(undefined, { ignore: " '-,." }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -63,30 +63,42 @@ userRouter.get("/:id", param("id").isMongoId(), async (req, res) => {
 userRouter.put(
   "/profile",
   authCheck,
-  body("bio").optional().isString(),
+  body("bio").optional().isLength({ max: 300 }),
   body("instagram")
     .optional()
     .isURL({
       require_protocol: true,
       protocols: ["https"],
       host_whitelist: ["instagram.com"],
-    }),
+    })
+    .isLength({ max: 200 }),
   body("twitter")
     .optional()
     .isURL({
       require_protocol: true,
       protocols: ["https"],
       host_whitelist: ["twitter.com"],
-    }),
+    })
+    .isLength({ max: 200 }),
   body("facebook")
     .optional()
     .isURL({
       require_protocol: true,
       protocols: ["https"],
       host_whitelist: ["facebook.com"],
-    }),
-  body("concentration").optional().isString(),
-  body("classYear").optional().isInt({ min: 1900, max: 2100 }), // what about .5'ers?
+    })
+    .isLength({ max: 200 }),
+  body("concentration").optional().isString().isLength({ max: 100 }),
+  body("classYear")
+    .optional()
+    .isFloat({
+      min: 1950,
+      max: new Date().getFullYear() + 8,
+    })
+    .custom((value) => {
+      return (value * 2) % 1 === 0;
+    })
+    .isLength({ min: 4, max: 6 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty() || !req.params) {
@@ -98,12 +110,12 @@ userRouter.put(
     const { bio, instagram, twitter, facebook, concentration, classYear } =
       req.body;
 
-    bio && (user.bio = bio);
-    instagram && (user.instagram = instagram);
-    twitter && (user.twitter = twitter);
-    facebook && (user.facebook = facebook);
-    concentration && (user.concentration = concentration);
-    classYear && (user.classYear = classYear);
+    user.bio = bio;
+    user.instagram = instagram;
+    user.twitter = twitter;
+    user.facebook = facebook;
+    user.concentration = concentration;
+    user.classYear = classYear;
 
     const newUser = await User.findByIdAndUpdate(user._id, user, { new: true });
 
@@ -116,11 +128,13 @@ userRouter.put(
 userRouter.put(
   "/profilePicture",
   authCheck,
-  body("profilePicture").isURL({
-    require_protocol: true,
-    protocols: ["https"],
-    host_whitelist: ["i.imgur.com"],
-  }),
+  body("profilePicture")
+    .isURL({
+      require_protocol: true,
+      protocols: ["https"],
+      host_whitelist: ["i.imgur.com"],
+    })
+    .isLength({ max: 200 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty() || !req.params) {

@@ -114,29 +114,65 @@ describe("User", () => {
     it("should return 400 if invalid social links are provided", async () => {
       await request(app)
         .put("/user/profile")
-        .send({ user, instagram: "https://example.com/virus" })
+        .send({
+          user,
+          instagram: "https://example.com/virus",
+        })
         .expect(400);
       await request(app)
         .put("/user/profile")
-        .send({ user, twitter: "https://example.com/virus" })
+        .send({
+          user,
+          twitter: "https://example.com/virus",
+        })
         .expect(400);
       await request(app)
         .put("/user/profile")
-        .send({ user, facebook: "https://example.com/virus" })
+        .send({
+          user,
+          facebook: "https://example.com/virus",
+        })
         .expect(400);
     });
 
     it("should return 400 if invalid class year is provided", async () => {
       await request(app)
         .put("/user/profile")
-        .send({ user, classYear: "not a number" })
+        .send({
+          user,
+          classYear: "not a number",
+        })
         .expect(400);
+
+      await request(app)
+        .put("/user/profile")
+        .send({
+          user,
+          classYear: "2024.2",
+        })
+        .expect(400);
+    });
+
+    it("should return 200 if class year is .5er", async () => {
+      await request(app)
+        .put("/user/profile")
+        .send({
+          user,
+          classYear: "2024.5",
+        })
+        .expect(200);
+
+      const newUser = await User.findOne();
+      expect(newUser?.classYear).toBe("2024.5");
     });
 
     it("should return 200 if valid bio is provided", async () => {
       await request(app)
         .put("/user/profile")
-        .send({ user, bio: "this is a bio" })
+        .send({
+          user,
+          bio: "this is a bio",
+        })
         .expect(200);
 
       const newUser = await User.findOne();
@@ -153,11 +189,13 @@ describe("User", () => {
           instagram: "https://instagram.com/test",
           twitter: "https://twitter.com/test",
           facebook: "https://facebook.com/test",
+          bio: "This is a bio",
         })
         .expect(200);
 
       const newUser = await User.findOne();
       expect(newUser?.concentration).toBe("Computer Science");
+      expect(newUser?.classYear).toBe("2024");
     });
   });
 
