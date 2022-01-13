@@ -61,12 +61,17 @@ function Feed(props: FeedProps) {
 
   const refreshPosts = async () => {
     console.log("refreshing posts");
-    const response = await getPosts(pageNumber);
-    if (response.success && response.payload) {
-      setPosts(response.payload);
-    } else {
-      console.log(response.message);
+    let newPosts: IPost[] = [];
+    for (let i = 0; i < pageNumber; i++) {
+      const response = await getPosts(i + 1);
+      if (response.success && response.payload) {
+        const responsePosts = response.payload;
+        newPosts = [...newPosts, ...responsePosts];
+      } else {
+        console.log("error getting posts", response.message);
+      }
     }
+    setPosts(newPosts);
   };
 
   const initialContext: FeedContextType = {
