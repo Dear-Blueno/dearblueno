@@ -57,7 +57,7 @@ postRouter.get(
 
     const page = Number(req.query?.page) || 1;
     const posts = await Post.find()
-      .sort({ postNumber: "descending" })
+      .sort({ postTime: "descending" })
       .skip((page - 1) * 10)
       .limit(10)
       .populate("comments")
@@ -68,6 +68,50 @@ postRouter.get(
           select: "name profilePicture googleId",
         },
       });
+    res.send(posts);
+  }
+);
+
+// GET request that gets 10 posts paginated in order of oldest (only posts that need review)
+// (Must be authenticated as a moderator)
+postRouter.get(
+  "/mod-feed",
+  modCheck,
+  query("page").optional().isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const page = Number(req.query?.page) || 1;
+    const posts = await Post.find({ needsReview: true })
+      .sort({ postTime: "ascending" })
+      .skip((page - 1) * 10)
+      .limit(10);
+    res.send(posts);
+  }
+);
+
+// GET request that gets 10 comments paginated in order of oldest (only comments that need review)
+// (Must be authenticated as a moderator)
+postRouter.get(
+  "/mod-feed/comments",
+  modCheck,
+  query("page").optional().isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const page = Number(req.query?.page) || 1;
+    const posts = await Comment.find({ needsReview: true })
+      .sort({ commentTime: "ascending" })
+      .skip((page - 1) * 10)
+      .limit(10);
     res.send(posts);
   }
 );
@@ -241,6 +285,7 @@ postRouter.put(
 
     post.approved = req.body.approved;
     post.contentWarning = req.body.contentWarning;
+    post.needsReview = false;
     post.approvedTime = new Date();
     post.approvedBy = (req.user as IUser)._id;
     if (!post.postNumber && post.approved) {
@@ -339,6 +384,8 @@ postRouter.post(
       postNumber: post.postNumber,
       content: req.body.content,
       author: req.body.anonymous ? null : reqUser._id,
+      needsReview: req.body.anonymous,
+      approved: !req.body.anonymous,
     });
     await comment.save();
     post.comments.push(comment);
@@ -379,6 +426,7 @@ postRouter.put(
     }
 
     comment.approved = req.body.approved;
+    comment.needsReview = false;
     await comment.save();
     res.send(comment);
   }

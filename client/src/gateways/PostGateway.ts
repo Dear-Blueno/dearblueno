@@ -19,6 +19,52 @@ export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
   }
 }
 
+export async function getAllPosts(page: number): Promise<IResponse<IPost[]>> {
+  // only for moderators! gets all posts, regardless of approval or review status
+  try {
+    const response = await axios.get(`/posts/all?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function getModFeedPosts(
+  page: number
+): Promise<IResponse<IPost[]>> {
+  // only for moderators! gets posts that need moderation
+  try {
+    const response = await axios.get(`/posts/mod-feed?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function getModFeedComments(
+  page: number
+): Promise<IResponse<IPost[]>> {
+  // only for moderators! gets comments that need moderation
+  try {
+    const response = await axios.get(`/posts/mod-feed/comments?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
 export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   try {
     const response = await axios.get(`/posts/${postNumber}`);

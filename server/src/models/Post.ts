@@ -29,6 +29,10 @@ const PostSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  needsReview: {
+    type: Boolean,
+    default: true,
+  },
   approvedBy: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -62,6 +66,7 @@ export interface IPost {
   postTime: Date;
   approvedTime: Date;
   approved: boolean;
+  needsReview: boolean;
   approvedBy: any;
   comments: any[];
   reactions: any[][];

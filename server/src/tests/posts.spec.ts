@@ -282,6 +282,114 @@ describe("Posts", () => {
     });
   });
 
+  describe("GET /posts/mod-feed", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/posts/mod-feed").expect(401);
+    });
+
+    it("should return 401 if not a mod", async () => {
+      await request(app).get("/posts/mod-feed").send({ user }).expect(401);
+    });
+
+    it("should return an array of needs review posts if logged in as a mod", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: false,
+        needsReview: true,
+      });
+      await post.save();
+
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        needsReview: true,
+      });
+      await post2.save();
+
+      const post3 = new Post({
+        content: "This is yet another test post",
+        postNumber: 3,
+        approved: true,
+        needsReview: false,
+      });
+      await post3.save();
+
+      const res = await request(app)
+        .get("/posts/mod-feed")
+        .send({ user: modUser })
+        .expect(200);
+      expect(res.body.length).toBe(2);
+
+      expect(res.body[1].content).toBe("This is another test post");
+      expect(res.body[1].postNumber).toBe(2);
+      expect(res.body[1].approved).toBe(true);
+
+      expect(res.body[0].content).toBe("This is a test post");
+      expect(res.body[0].postNumber).toBe(1);
+      expect(res.body[0].approved).toBe(false);
+    });
+  });
+
+  describe("GET /posts/mod-feed/comments", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/posts/mod-feed/comments").expect(401);
+    });
+
+    it("should return 401 if not a mod", async () => {
+      await request(app)
+        .get("/posts/mod-feed/comments")
+        .send({ user })
+        .expect(401);
+    });
+
+    it("should return an array of needs review comments if logged in as a mod", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        needsReview: false,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        post: post._id,
+        postNumber: 1,
+        commentNumber: 1,
+        approved: false,
+        needsReview: true,
+      });
+      await comment.save();
+
+      const comment2 = new Comment({
+        content: "This is another test comment",
+        post: post._id,
+        postNumber: 1,
+        commentNumber: 2,
+        approved: true,
+        needsReview: false,
+      });
+      await comment2.save();
+
+      post.comments.push(comment);
+      post.comments.push(comment2);
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/mod-feed/comments")
+        .send({ user: modUser })
+        .expect(200);
+      expect(res.body.length).toBe(1);
+
+      expect(res.body[0].content).toBe("This is a test comment");
+      expect(res.body[0].postNumber).toBe(1);
+      expect(res.body[0].commentNumber).toBe(1);
+      expect(res.body[0].approved).toBe(false);
+    });
+  });
+
   describe("GET /posts/:id", () => {
     it("should return a post if it exists", async () => {
       const post = new Post({
@@ -425,6 +533,7 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
+      expect(post?.needsReview).toBe(true);
       expect(post?.reactions[0].length).toBe(0);
       expect(post?.comments.length).toBe(0);
       expect(post?.verifiedBrown).toBe(false);
@@ -461,6 +570,7 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
+      expect(post?.needsReview).toBe(true);
       expect(post?.comments.length).toBe(0);
       expect(post?.verifiedBrown).toBe(true);
     });
@@ -495,6 +605,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne();
       expect(post2?.approved).toBe(true);
+      expect(post2?.needsReview).toBe(false);
       expect(post2?.postNumber).toBe(1);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
@@ -515,6 +626,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne();
       expect(post2?.approved).toBe(false);
+      expect(post2?.needsReview).toBe(false);
       expect(post2?.approvedBy).toStrictEqual(modUser._id);
       expect(post2?.approvedTime).toBeDefined();
     });
@@ -667,6 +779,7 @@ describe("Posts", () => {
       expect(comment?.author).toStrictEqual(user._id);
       expect(comment?.commentTime).toBeDefined();
       expect(comment?.approved).toBe(true);
+      expect(comment?.needsReview).toBe(false);
       expect(comment?.postNumber).toBe(1);
       expect(comment?.commentNumber).toBe(1);
       expect(comment?.parentCommentNumber).toBe(-1);
@@ -697,7 +810,8 @@ describe("Posts", () => {
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toBe(null);
       expect(comment?.commentTime).toBeDefined();
-      expect(comment?.approved).toBe(true);
+      expect(comment?.approved).toBe(false);
+      expect(comment?.needsReview).toBe(true);
       expect(comment?.postNumber).toBe(1);
       expect(comment?.commentNumber).toBe(1);
       expect(comment?.parentCommentNumber).toBe(-1);
@@ -794,6 +908,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments[0].approved).toBe(true);
+      expect(post2?.comments[0].needsReview).toBe(false);
 
       await request(app)
         .put(`/posts/1/comment/1/approve`)
@@ -802,6 +917,7 @@ describe("Posts", () => {
 
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].approved).toBe(false);
+      expect(post3?.comments[0].needsReview).toBe(false);
     });
   });
 

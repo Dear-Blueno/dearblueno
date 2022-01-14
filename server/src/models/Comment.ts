@@ -35,6 +35,10 @@ const CommentSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  needsReview: {
+    type: Boolean,
+    default: false,
+  },
   reactions: {
     type: [
       [
@@ -57,6 +61,7 @@ export interface IComment {
   author: any;
   commentTime: Date;
   approved: boolean;
+  needsReview: boolean;
   reactions: any[][];
 }
 

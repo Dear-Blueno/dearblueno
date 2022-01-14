@@ -9,6 +9,7 @@ export default interface IPost {
   postTime: Date;
   approvedTime: Date;
   approved: boolean;
+  needsReview: boolean;
   approvedBy: any;
   comments: IComment[];
   reactions: any[][];
