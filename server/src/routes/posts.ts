@@ -299,6 +299,7 @@ postRouter.post(
   authCheck,
   body("content").trim().isLength({ min: 1, max: 2000 }).isAscii(),
   body("parentId").isInt({ min: -1 }),
+  body("anonymous").toBoolean(),
   param("id").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -337,7 +338,7 @@ postRouter.post(
       post: post._id,
       postNumber: post.postNumber,
       content: req.body.content,
-      author: user._id,
+      author: req.body.anonymous ? null : reqUser._id,
     });
     await comment.save();
     post.comments.push(comment);

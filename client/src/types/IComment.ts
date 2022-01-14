@@ -6,7 +6,7 @@ export default interface IComment {
   post: any;
   postNumber: number;
   content: string;
-  author: IUser;
+  author?: IUser;
   commentTime: Date;
   approved: boolean;
   reactions: any[][];

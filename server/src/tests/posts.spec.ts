@@ -673,6 +673,37 @@ describe("Posts", () => {
       expect(comment?.post).toStrictEqual(post._id);
     });
 
+    it("should be able to post anonymous comment", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({
+          user,
+          content: "This is a test comment",
+          parentId: -1,
+          anonymous: true,
+        })
+        .expect(200);
+
+      const post2 = await Post.findOne().populate("comments");
+      expect(post2?.comments.length).toBe(1);
+      const comment = post2?.comments[0];
+      expect(comment?.content).toBe("This is a test comment");
+      expect(comment?.author).toBe(null);
+      expect(comment?.commentTime).toBeDefined();
+      expect(comment?.approved).toBe(true);
+      expect(comment?.postNumber).toBe(1);
+      expect(comment?.commentNumber).toBe(1);
+      expect(comment?.parentCommentNumber).toBe(-1);
+      expect(comment?.post).toStrictEqual(post._id);
+    });
+
     it("should not be able to post comment if banned", async () => {
       const post = new Post({
         content: "This is a test post",

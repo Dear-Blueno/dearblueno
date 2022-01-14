@@ -68,12 +68,14 @@ export async function reactToPost(
 export async function commentOnPost(
   postNumber: number,
   content: string,
-  parentCommentNumber: number
+  parentCommentNumber: number,
+  anonymous?: boolean
 ): Promise<IResponse<IPost>> {
   try {
     const response = await axios.post(`/posts/${postNumber}/comment`, {
       content,
       parentId: parentCommentNumber,
+      anonymous,
     });
     if (response.status === 200) {
       return successfulResponse(response.data);

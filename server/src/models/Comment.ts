@@ -25,7 +25,7 @@ const CommentSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   commentTime: {
     type: Date,
