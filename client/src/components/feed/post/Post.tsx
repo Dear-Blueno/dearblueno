@@ -36,6 +36,8 @@ function Post(props: PostProps) {
         />
         <DividerDot />
         <CommentButton type="comment" click={() => setShowCommentBox(true)} />
+        <DividerDot />
+        <p className="ShareButton">share</p>
       </div>
       <CommentSection
         user={props.user}

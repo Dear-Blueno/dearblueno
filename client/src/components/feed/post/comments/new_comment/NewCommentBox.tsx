@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import { commentOnPost } from "../../../../../gateways/PostGateway";
+import {
+  commentOnPost,
+} from "../../../../../gateways/PostGateway";
 import IUser from "../../../../../types/IUser";
 import { FeedContext } from "../../../Feed";
 import "./NewCommentBox.css";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type NewCommentBoxProps = {
   user: IUser | undefined;
@@ -15,19 +17,19 @@ type NewCommentBoxProps = {
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
-  const id = "newCommentTextArea" + props.parentCommentNumber;
-
   const refreshPosts = useContext(FeedContext).refreshPosts;
   const [anonymous, setAnonymous] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const submit = async () => {
     if (props.user) {
-      const textarea = document.getElementById(id) as HTMLTextAreaElement;
+      const textarea = textAreaRef.current;
       if (textarea && textarea.value) {
         await commentOnPost(
           props.postNumber,
           textarea.value,
-          props.parentCommentNumber
+          props.parentCommentNumber,
+          anonymous
         );
         textarea.value = "";
         props.setShow(false);
@@ -42,9 +44,15 @@ function NewCommentBox(props: NewCommentBoxProps) {
         autoFocus
         className="NewCommentTextArea"
         placeholder="Write a comment..."
-        id={id}
+        ref={textAreaRef}
       ></textarea>
-      <NewCommentBoxFooter submit={submit} anonymous={anonymous} anonymousToggle={() => setAnonymous(!anonymous)}/>
+      <NewCommentBoxFooter
+        submit={submit}
+        anonymous={anonymous}
+        anonymousToggle={() => setAnonymous(!anonymous)}
+        textAreaRef={textAreaRef}
+        setShow={props.setShow}
+      />
     </div>
   );
 }

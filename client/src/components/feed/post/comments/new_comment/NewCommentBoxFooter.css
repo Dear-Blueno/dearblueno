@@ -5,13 +5,17 @@
   justify-content: space-between;
 }
 
-.AnonymousAffirmation {
+.PopupAction {
   text-decoration: underline;
   text-underline-offset: 0.1rem;
 }
 
-.AnonymousAffirmation:hover {
+.PopupAction:hover {
   cursor: pointer;
+}
+
+.AnonymousIcon {
+  margin-top: .5rem;
 }
 
 .AnonymousIcon:hover {
@@ -25,3 +29,18 @@
   flex-direction: column;
 }
 
+.CommentFooterButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.CancelConfirmationOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.CancelConfirmationText {
+  text-align: center;
+}

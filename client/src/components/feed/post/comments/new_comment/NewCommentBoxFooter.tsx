@@ -1,5 +1,5 @@
 import "./NewCommentBoxFooter.css";
-import SubmitCommentButton from "./SubmitCommentButton";
+import CommentFooterButton from "./CommentFooterButton";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
@@ -10,21 +10,36 @@ type NewCommentBoxFooterProps = {
   submit: () => void;
   anonymous: boolean;
   anonymousToggle: () => void;
+  textAreaRef: React.RefObject<HTMLTextAreaElement>;
+  setShow: (show: boolean) => void;
 };
 
 function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
-  const [showPopup, setshowPopup] = useState(false);
-  const openPopup = () => {
-    setshowPopup(true);
+  const [showAnonPopup, setshowAnonPopup] = useState(false);
+  const openAnonPopup = () => {
+    setshowAnonPopup(true);
+  };
+  const closeAnonPopup = () => setshowAnonPopup(false);
+
+  const [showCancelPopup, setshowCancelPopup] = useState(false);
+  const openCancelPopup = () => {
+    setshowCancelPopup(true);
+  };
+  const closeCancelPopup = () => setshowCancelPopup(false);
+
+  const cancelHandler = () => {
+    if (props.textAreaRef.current && props.textAreaRef.current.value) {
+      openCancelPopup();
+    } else {
+      props.setShow(false);
+    }
   };
 
-  const closePopup = () => setshowPopup(false);
-
-  const popUp = (
+  const AnonPopUp = (
     <div className="Popup">
       <DialogOverlay
         style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
-        isOpen={showPopup}
+        isOpen={showAnonPopup}
       >
         <DialogContent aria-label="AnonymousConfirmationBox">
           <p className="AnonymousConfirmationBox">
@@ -37,9 +52,41 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
               not be able to delete this comment if it is published.
             </p>
             <br />
-            <p onClick={closePopup} className="AnonymousAffirmation">
+            <p onClick={closeAnonPopup} className="PopupAction">
               I UNDERSTAND
             </p>
+          </p>
+        </DialogContent>
+      </DialogOverlay>
+    </div>
+  );
+
+  const CancelPopUp = (
+    <div className="Popup">
+      <DialogOverlay
+        style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
+        isOpen={showCancelPopup}
+      >
+        <DialogContent aria-label="CancelConfirmationBox">
+          <p className="CancelConfirmationBox">
+            <p className="CancelConfirmationText">
+              <strong>ARE YOU SURE?</strong>
+            </p>
+            <br />
+            <div className="CancelConfirmationOptions">
+              <p onClick={closeCancelPopup} className="PopupAction">
+                No
+              </p>
+              <p
+                onClick={() => {
+                  closeCancelPopup();
+                  props.setShow(false);
+                }}
+                className="PopupAction"
+              >
+                Yes
+              </p>
+            </div>
           </p>
         </DialogContent>
       </DialogOverlay>
@@ -58,12 +105,16 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
           className="AnonymousIcon"
           onClick={() => {
             props.anonymousToggle();
-            openPopup();
+            openAnonPopup();
           }}
         />
       )}
-      {popUp}
-      <SubmitCommentButton handleClick={props.submit} />
+      {AnonPopUp}
+      {CancelPopUp}
+      <div className="CommentFooterButtonContainer">
+        <CommentFooterButton handleClick={cancelHandler} text="cancel" />
+        <CommentFooterButton handleClick={props.submit} text="submit" />
+      </div>
     </div>
   );
 }

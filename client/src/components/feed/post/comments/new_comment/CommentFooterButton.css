@@ -1,9 +1,9 @@
-.SubmitCommentButton {
+.CommentFooterButton {
   margin-top: 0.5rem;
   cursor: pointer;
   user-select: none;
 }
 
-.SubmitCommentButton:hover {
+.CommentFooterButton:hover {
   text-decoration: underline;
 }

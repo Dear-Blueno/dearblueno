@@ -15,6 +15,19 @@
   user-select: none;
 }
 
+.ShareButton {
+  margin-left: 0.4rem;
+  font-size: 0.7rem;
+  color: #8e8e8e;
+  display: inline-block;
+  user-select: none;
+}
+
+.ShareButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .Post {
