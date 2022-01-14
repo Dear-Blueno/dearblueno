@@ -3,7 +3,7 @@ import ConsentBar from "./ConsentBar";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
-import { approvePost, createPost } from "../../gateways/PostGateway";
+import { createPost } from "../../gateways/PostGateway";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -18,9 +18,6 @@ function SubmitBox(props: SubmitBoxProps) {
       .then((response) => {
         if (response.success && response.payload) {
           console.log(response.payload);
-          approvePost(response.payload._id, true).then((response) => {
-            console.log(response);
-          });
         }
       })
       .catch(() => {
