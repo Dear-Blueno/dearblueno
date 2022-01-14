@@ -25,7 +25,7 @@
   display: inline-block;
   margin: 0;
   vertical-align: middle;
-  transform: translateY(0.2rem);
+  transform: translateY(0.25rem);
   user-select: none;
   cursor: default;
 }

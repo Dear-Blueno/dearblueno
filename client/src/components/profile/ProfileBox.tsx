@@ -29,20 +29,15 @@ function ProfileBox(props: ProfileBoxProps) {
   const concentrationInput = useRef<HTMLInputElement>(null);
 
   const handleProfileEdit = () => {
-    if (bioTextArea.current?.value === "") {
-      console.log("bioTextArea.current.value is empty");
-    }
     updateUserProfile(
-      bioTextArea.current?.value === ""
-        ? undefined
-        : bioTextArea.current?.value,
-      hometownInput.current?.value,
-      instagramInput.current?.value,
-      twitterInput.current?.value,
-      facebookInput.current?.value,
-      linkedinInput.current?.value,
-      concentrationInput.current?.value,
-      yearInput.current?.value
+      bioTextArea.current?.value || undefined,
+      hometownInput.current?.value || undefined,
+      instagramInput.current?.value || undefined,
+      twitterInput.current?.value || undefined,
+      facebookInput.current?.value || undefined,
+      linkedinInput.current?.value || undefined,
+      concentrationInput.current?.value || undefined,
+      yearInput.current?.value || undefined
     );
     setEditing(false);
   };

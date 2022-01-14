@@ -1,10 +1,8 @@
 import Post from "./post/Post";
 import "./Feed.css";
-import IComment from "../../types/IComment";
-import { IThread } from "./post/comments/CommentSection";
 import IPost from "../../types/IPost";
 import { useState, useEffect, useCallback, createContext } from "react";
-import { getPosts } from "../../gateways/PostGateway";
+import { getModFeedPosts, getPosts } from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 
 type FeedProps = {
@@ -23,6 +21,7 @@ export const FeedContext = createContext<FeedContextType>({
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [moderatorPosts, setModeratorPosts] = useState<IPost[]>([]);
 
   const onScroll = useCallback(() => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -31,33 +30,37 @@ function Feed(props: FeedProps) {
     }
   }, [pageNumber]);
 
+  const getMorePosts = useCallback(async () => {
+    const gateway = props.moderatorView ? getModFeedPosts : getPosts;
+    const response = await gateway(pageNumber);
+    if (response.success && response.payload) {
+      return response.payload;
+    } else {
+      console.log("error getting posts", response.message);
+      return [];
+    }
+  }, [props.moderatorView, pageNumber]);
+
   useEffect(() => {
-    getPosts(pageNumber).then((response) => {
-      if (response.success && response.payload) {
-        if (response.payload.length > 0) {
-          setPosts((p) => (response.payload ? [...p, ...response.payload] : p));
-        }
-      } else {
-        console.log("error getting posts", response.message);
-      }
-    });
-  }, [pageNumber]);
+    setPageNumber(1);
+    props.moderatorView ? setPosts([]) : setModeratorPosts([]);
+  }, [props.moderatorView]);
+
+  useEffect(() => {
+    const loadMore = async () => {
+      const newPosts = await getMorePosts();
+      props.moderatorView
+        ? setModeratorPosts((p) => [...p, ...newPosts])
+        : setPosts((p) => [...p, ...newPosts]);
+    };
+    loadMore();
+  }, [props.moderatorView, getMorePosts]);
 
   // only update scroll listener if new posts have loaded
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
-
-  const convertToThread = (comment: IComment) => {
-    const thread = comment as IThread;
-    thread.children = [];
-    return thread;
-  };
-
-  const convertCommentsToThreads = (comments: IComment[]) => {
-    return comments.map(convertToThread);
-  };
 
   const refreshPosts = async () => {
     console.log("refreshing posts");
@@ -83,20 +86,32 @@ function Feed(props: FeedProps) {
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
         {props.moderatorView
-          ? null
-          : posts.map((post) => {
-              return (
-                <Post
-                  user={props.user}
-                  key={post.postNumber}
-                  postNumber={post.postNumber}
-                  postBody={post.content}
-                  postDate={new Date(post.postTime)}
-                  comments={convertCommentsToThreads(post.comments)}
-                  reactions={post.reactions}
-                />
-              );
-            })}
+          ? moderatorPosts.map((post) => (
+              <Post
+                user={props.user}
+                key={post._id}
+                _id={post._id}
+                postNumber={undefined}
+                postBody={post.content}
+                postDate={new Date(post.postTime)}
+                comments={[]}
+                reactions={[]}
+                needsReview={post.needsReview}
+              />
+            ))
+          : posts.map((post) => (
+              <Post
+                user={props.user}
+                key={post.postNumber}
+                _id={undefined}
+                postNumber={post.postNumber}
+                postBody={post.content}
+                postDate={new Date(post.postTime)}
+                comments={post.comments}
+                reactions={post.reactions}
+                needsReview={post.needsReview}
+              />
+            ))}
       </div>
     </FeedContext.Provider>
   );

@@ -5,7 +5,7 @@ import { IThread } from "./CommentSection";
 import { useState } from "react";
 import NewCommentBox from "./new_comment/NewCommentBox";
 import CommentButton from "../CommentButton";
-import DividerDot from "../DividerDot";
+import DividerDot from "../content/DividerDot";
 import CommentProfilePicture from "../../../user/CommentProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
 import IUser from "../../../../types/IUser";
