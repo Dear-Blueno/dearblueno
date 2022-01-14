@@ -16,6 +16,7 @@ type ThreadProps = {
   comment: IThread;
   postNumber: number;
   depth: number;
+  // displayedChildren: number;
 };
 
 const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];

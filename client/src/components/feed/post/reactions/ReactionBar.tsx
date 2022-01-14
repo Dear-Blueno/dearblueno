@@ -181,7 +181,9 @@ function ReactionBar(props: ReactionBarProps) {
             props.reactions[reaction] = [props.user._id];
           }
           const newUsers = [...users];
-          newUsers[reaction] = [...newUsers[reaction], props.user];
+          newUsers[reaction] = newUsers[reaction]
+            ? [...newUsers[reaction], props.user]
+            : [props.user];
           setUsers(newUsers);
         }
         countUpdaters[reaction](props.reactions[reaction].length);
@@ -211,8 +213,14 @@ function ReactionBar(props: ReactionBarProps) {
               props.commentNumber || 0
             );
       if (response.success && response.payload) {
+        for (let i = 0; i < 6; i++) {
+          if (!response.payload[i]) {
+            response.payload[i] = [];
+          }
+        }
         setUsers(response.payload);
         setGotUsers(true);
+        console.log(response.payload);
       }
     }
   };
@@ -268,6 +276,7 @@ function ReactionBar(props: ReactionBarProps) {
               reactionArray={props.reactions[reaction]}
               handleClick={buttonClick(reaction)}
               names={users[reaction].map((user) => user.name)}
+              // names={[]}
               handleHover={getNames}
             ></ReactionButton>
           );

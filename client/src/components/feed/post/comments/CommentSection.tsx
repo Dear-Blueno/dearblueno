@@ -6,7 +6,7 @@ import IUser from "../../../../types/IUser";
 import { useState, useEffect } from "react";
 
 export type CommentSectionProps = {
-  user: IUser | undefined;
+  user?: IUser;
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
@@ -15,9 +15,10 @@ export type CommentSectionProps = {
 
 export interface IThread extends IComment {
   children: IThread[];
+  score: number;
 }
 
-const nestComments = (commentList: IThread[]): IThread[] => {
+const nestComments = (commentList: IThread[]) => {
   const commentMap: { [key: number]: IThread } = {};
 
   // move all the comments into a map of id => comment
@@ -40,10 +41,58 @@ const nestComments = (commentList: IThread[]): IThread[] => {
   });
 };
 
+// simple algorithm to calculate the score of a comment
+// a comment's score consists of:
+// - the number of reactions for the comment and all its children
+// - the number of children the comment has (including children of children)
+const calculateScore = (comment: IThread) => {
+  let reactionCount = 0;
+  for (const reaction of comment.reactions) {
+    if (reaction) {
+      reactionCount += reaction.length;
+    }
+  }
+  let childrenScoreSum = 0;
+  for (const child of comment.children) {
+    calculateScore(child);
+    childrenScoreSum += child.score;
+  }
+  comment.score = reactionCount + comment.children.length + childrenScoreSum;
+};
+
+const calculateScores = (commentList: IThread[]) => {
+  commentList.forEach((comment) => {
+    calculateScore(comment);
+  });
+};
+
+const sortComment = (comment: IThread) => {
+  if (comment.children) {
+    comment.children.sort((a, b) => {
+      return b.score - a.score;
+    });
+    comment.children.forEach((child) => {
+      sortComment(child);
+    });
+  }
+};
+
+const sortComments = (commentList: IThread[]) => {
+  commentList.forEach((comment) => {
+    sortComment(comment);
+  });
+  commentList.sort((a, b) => {
+    return b.score - a.score;
+  });
+};
+
 function CommentSection(props: CommentSectionProps) {
   const [comments, setComments] = useState<IThread[]>([]);
   useEffect(() => {
-    setComments(nestComments(props.comments));
+    const threads = nestComments(props.comments);
+    calculateScores(threads);
+    sortComments(threads);
+    setComments(threads);
   }, [props.comments]);
   return props.comments.length || props.showCommentBox ? (
     <div className="CommentSection">
