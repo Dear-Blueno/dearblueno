@@ -213,14 +213,8 @@ function ReactionBar(props: ReactionBarProps) {
               props.commentNumber || 0
             );
       if (response.success && response.payload) {
-        for (let i = 0; i < 6; i++) {
-          if (!response.payload[i]) {
-            response.payload[i] = [];
-          }
-        }
         setUsers(response.payload);
         setGotUsers(true);
-        console.log(response.payload);
       }
     }
   };

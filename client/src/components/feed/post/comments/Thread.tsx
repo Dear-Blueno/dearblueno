@@ -45,7 +45,9 @@ function Thread(props: ThreadProps) {
   return (
     <div className="Thread" key={props.comment.commentNumber}>
       <div className="ThreadGrid">
-        <CommentProfilePicture link={props.comment.author.profilePicture} />
+        <CommentProfilePicture
+          link={props.comment.author?.profilePicture ?? ""}
+        />
         {show && (
           <ThreadCollapser
             collapse={toggleShow}

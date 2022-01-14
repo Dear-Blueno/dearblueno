@@ -5,7 +5,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import IUser from "../../../../../types/IUser";
 
 type CommentHeaderProps = {
-  user ?: IUser;
+  user?: IUser;
   comment: IThread;
   collapsed: boolean;
   expand: () => void;
@@ -44,7 +44,7 @@ function CommentHeader(props: CommentHeaderProps) {
 
   return (
     <div className="CommentHeader">
-      <p className="CommentAuthor">{props.comment.author.name}</p>
+      <p className="CommentAuthor">{props.comment.author ?? "Anonymous"}</p>
       <p className="CommentDate">
         {formatDuration(
           formatDistanceToNowStrict(new Date(props.comment.commentTime))
@@ -57,7 +57,7 @@ function CommentHeader(props: CommentHeaderProps) {
         </p>
       )}
 
-      <CommentMenuButton user={props.user} commentUser={props.comment.author}/>
+      <CommentMenuButton user={props.user} commentUser={props.comment.author} />
     </div>
   );
 }
