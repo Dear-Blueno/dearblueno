@@ -62,11 +62,11 @@ function Feed(props: FeedProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
 
-  const refreshPosts = async () => {
-    console.log("refreshing posts");
+  const refreshPosts = useCallback(async () => {
+    const gateway = props.moderatorView ? getModFeedPosts : getPosts;
     let newPosts: IPost[] = [];
     for (let i = 0; i < pageNumber; i++) {
-      const response = await getPosts(i + 1);
+      const response = await gateway(i + 1);
       if (response.success && response.payload) {
         const responsePosts = response.payload;
         newPosts = [...newPosts, ...responsePosts];
@@ -74,8 +74,8 @@ function Feed(props: FeedProps) {
         console.log("error getting posts", response.message);
       }
     }
-    setPosts(newPosts);
-  };
+    props.moderatorView ? setModeratorPosts(newPosts) : setPosts(newPosts);
+  }, [props.moderatorView, pageNumber]);
 
   const initialContext: FeedContextType = {
     user: props.user,
@@ -103,7 +103,7 @@ function Feed(props: FeedProps) {
               <Post
                 user={props.user}
                 key={post.postNumber}
-                _id={undefined}
+                _id={post._id}
                 postNumber={post.postNumber}
                 postBody={post.content}
                 postDate={new Date(post.postTime)}

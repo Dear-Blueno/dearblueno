@@ -6,13 +6,16 @@ import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
 import CommentButton from "./CommentButton";
 import CommentSection, { IThread } from "./comments/CommentSection";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import IUser from "../../../types/IUser";
 import IComment from "../../../types/IComment";
+import ApproveOrDeny from "./moderator/ApproveOrDeny";
+import { approvePost } from "../../../gateways/PostGateway";
+import { FeedContext } from "../Feed";
 
 type PostProps = {
   user: IUser | undefined;
-  _id?: string;
+  _id: string;
   postNumber?: number;
   postBody: string;
   postDate: Date;
@@ -28,7 +31,15 @@ const convertToThread = (comment: IComment) => {
 };
 
 function Post(props: PostProps) {
+  const feedContext = useContext(FeedContext);
   const [showCommentBox, setShowCommentBox] = useState(false);
+
+  const approveOrDeny = async (bool: boolean) => {
+    const response = await approvePost(props._id, bool);
+    if (response.success) {
+      feedContext.refreshPosts();
+    }
+  };
 
   return (
     <div className="Post">
@@ -38,7 +49,14 @@ function Post(props: PostProps) {
       />
       <PostDate value={props.postDate} />
       <PostBody body={props.postBody} />
-      {props.needsReview ? null : (
+      {props.needsReview ? (
+        <ApproveOrDeny
+          approve={() => approveOrDeny(true)}
+          deny={() => {
+            approveOrDeny(false);
+          }}
+        />
+      ) : (
         <div className="PostFooter">
           <ReactionBar
             postNumber={props.postNumber ?? 0}
