@@ -44,7 +44,9 @@ function CommentHeader(props: CommentHeaderProps) {
 
   return (
     <div className="CommentHeader">
-      <p className="CommentAuthor">{props.comment.author ?? "Anonymous"}</p>
+      <p className="CommentAuthor">
+        {props.comment.author?.name ?? "Anonymous"}
+      </p>
       <p className="CommentDate">
         {formatDuration(
           formatDistanceToNowStrict(new Date(props.comment.commentTime))
