@@ -35,14 +35,17 @@ const CommentSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  reactions: [
-    [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
+  reactions: {
+    type: [
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
     ],
-  ],
+    default: [[], [], [], [], [], []],
+  },
 });
 
 export interface IComment {

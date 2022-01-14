@@ -40,14 +40,17 @@ const PostSchema = new Schema({
       ref: "Comment",
     },
   ],
-  reactions: [
-    [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
+  reactions: {
+    type: [
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
     ],
-  ],
+    default: [[], [], [], [], [], []],
+  },
 });
 PostSchema.index({ content: "text" });
 

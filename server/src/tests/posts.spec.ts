@@ -148,7 +148,7 @@ describe("Posts", () => {
         content: "This is a test post",
         postNumber: 1,
         approved: true,
-        reactions: [[user._id]],
+        reactions: [[user._id], [], [], [], [], []],
       });
       await post.save();
 
@@ -162,7 +162,7 @@ describe("Posts", () => {
         content: "This is a test post",
         postNumber: 1,
         approved: true,
-        reactions: [[user._id]],
+        reactions: [[user._id], [], [], [], [], []],
       });
       await post.save();
 
@@ -357,7 +357,7 @@ describe("Posts", () => {
         content: "This is a test post",
         postNumber: 1,
         approved: true,
-        reactions: [[user._id]],
+        reactions: [[user._id], [], [], [], [], []],
       });
       await post.save();
 
@@ -425,7 +425,7 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
-      expect(post?.reactions.length).toBe(0);
+      expect(post?.reactions[0].length).toBe(0);
       expect(post?.comments.length).toBe(0);
       expect(post?.verifiedBrown).toBe(false);
     });
@@ -443,7 +443,7 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
-      expect(post?.reactions.length).toBe(0);
+      expect(post?.reactions[0].length).toBe(0);
       expect(post?.comments.length).toBe(0);
       expect(post?.verifiedBrown).toBe(false);
     });
@@ -461,7 +461,6 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
-      expect(post?.reactions.length).toBe(0);
       expect(post?.comments.length).toBe(0);
       expect(post?.verifiedBrown).toBe(true);
     });
@@ -578,7 +577,7 @@ describe("Posts", () => {
         .expect(400);
 
       const post2 = await Post.findOne();
-      expect(post2?.reactions.length).toBe(0);
+      expect(post2?.reactions[0].length).toBe(0);
     });
 
     it("should return 200 if logged in and the post exists and the reaction is valid", async () => {
@@ -989,13 +988,12 @@ describe("Posts", () => {
         content: "This is a test post",
         approved: true,
         postNumber: 1,
-        reactions: [[user._id]],
+        reactions: [[user._id], [], [], [], [], []],
       });
       await post.save();
 
       const res = await request(app).get("/posts/1/reactions").expect(200);
 
-      expect(res.body.length).toBe(1);
       expect(res.body[0].length).toBe(1);
       expect(res.body[0][0]._id).toBe(user._id.toString());
       expect(res.body[0][0].name).toBe("Bob");
@@ -1034,7 +1032,7 @@ describe("Posts", () => {
         post: post._id,
         postNumber: 1,
         author: user._id,
-        reactions: [[user._id]],
+        reactions: [[user._id], [], [], [], [], []],
       });
       await comment.save();
 
@@ -1047,7 +1045,7 @@ describe("Posts", () => {
         post: post2._id,
         postNumber: 2,
         author: user._id,
-        reactions: [[modUser._id]],
+        reactions: [[], [modUser._id], [], [], [], []],
       });
       await comment2.save();
 
@@ -1058,12 +1056,22 @@ describe("Posts", () => {
         .get("/posts/1/comments/1/reactions")
         .expect(200);
 
-      expect(res.body.length).toBe(1);
       expect(res.body[0].length).toBe(1);
       expect(res.body[0][0]._id).toBe(user._id.toString());
       expect(res.body[0][0].name).toBe("Bob");
       expect(res.body[0][0].email).toBeUndefined();
       expect(res.body[0][0].profilePicture).toBeUndefined();
+
+      const res2 = await request(app)
+        .get("/posts/2/comments/1/reactions")
+        .expect(200);
+
+      expect(res2.body[0].length).toBe(0);
+      expect(res2.body[1].length).toBe(1);
+      expect(res2.body[1][0]._id).toBe(modUser._id.toString());
+      expect(res2.body[1][0].name).toBe("Mod");
+      expect(res2.body[1][0].email).toBeUndefined();
+      expect(res2.body[1][0].profilePicture).toBeUndefined();
     });
   });
 
