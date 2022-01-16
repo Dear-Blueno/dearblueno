@@ -102,7 +102,6 @@ function CommentSection(props: CommentSectionProps) {
           key={comment.commentNumber}
           comment={comment}
           collapsed={false}
-          postNumber={props.postNumber}
           depth={0}
         />
       ))}

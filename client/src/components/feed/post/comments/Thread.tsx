@@ -11,10 +11,9 @@ import CommentHeader from "./comment_header/CommentHeader";
 import IUser from "../../../../types/IUser";
 
 type ThreadProps = {
-  user: IUser | undefined;
+  user?: IUser;
   collapsed: boolean;
   comment: IThread;
-  postNumber: number;
   depth: number;
   // displayedChildren: number;
 };
@@ -36,7 +35,6 @@ function Thread(props: ThreadProps) {
         key={comment.commentNumber}
         collapsed={false}
         comment={comment}
-        postNumber={props.postNumber}
         depth={props.depth + 1}
       />
     );
@@ -84,7 +82,7 @@ function Thread(props: ThreadProps) {
                 <NewCommentBox
                   user={props.user}
                   firstComment={false}
-                  postNumber={props.postNumber}
+                  postNumber={props.comment.postNumber}
                   parentCommentNumber={props.comment.commentNumber}
                   setShow={setShowReplyBox}
                 />

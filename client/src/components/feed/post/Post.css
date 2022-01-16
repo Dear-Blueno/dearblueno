@@ -1,11 +1,24 @@
 .Post {
+  animation: PostAppear;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-out;
   width: 100%;
-  margin-bottom: 1rem;
   padding: 1rem;
   background-color: #ffffff;
   box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
+}
+
+@keyframes PostAppear {
+  0% {
+    box-shadow: none;
+    transform: translate3d(-0.2rem, 0.2rem, 0);
+  }
+  100% {
+    box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
 }
 
 .PostFooter {

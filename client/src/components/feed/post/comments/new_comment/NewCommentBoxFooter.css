@@ -15,7 +15,7 @@
 }
 
 .AnonymousIcon {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .AnonymousIcon:hover {
@@ -38,7 +38,7 @@
 .CancelConfirmationOptions {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .CancelConfirmationText {

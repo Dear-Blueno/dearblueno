@@ -9,9 +9,14 @@ function CommentProfilePicture(props: CommentProfilePictureProps) {
   return (
     <div className="CommentProfilePicture">
       {props.link ? (
-      <img className="CommentProfilePictureImage" src={props.link} alt="" draggable={false}/>
+        <img
+          className="CommentProfilePictureImage"
+          src={props.link}
+          alt=""
+          draggable={false}
+        />
       ) : (
-      <MdPersonOutline className="CommentProfilePictureImage" />
+        <MdPersonOutline className="CommentProfilePictureImage" />
       )}
     </div>
   );
