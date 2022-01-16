@@ -9,6 +9,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #d5ebff;
+  -ms-overflow-style: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 textarea,

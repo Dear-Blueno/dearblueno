@@ -75,7 +75,6 @@ function Feed(props: FeedProps) {
 
   // move posts from posts array to displayedPosts array
   const updateDisplayedPosts = useCallback(() => {
-    console.log("updateDisplayedPosts");
     const postArray = props.moderatorView ? moderatorPosts : posts;
     if (!loading && postArray.length > 0) {
       const postSetter = props.moderatorView

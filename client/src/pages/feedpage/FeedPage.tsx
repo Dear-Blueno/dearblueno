@@ -1,3 +1,4 @@
+import "./FeedPage.css";
 import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import Feed from "../../components/feed/Feed";
