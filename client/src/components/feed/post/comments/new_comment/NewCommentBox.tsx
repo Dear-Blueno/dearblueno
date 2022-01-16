@@ -1,12 +1,9 @@
-import { useContext } from "react";
-import {
-  commentOnPost,
-} from "../../../../../gateways/PostGateway";
+import { commentOnPost } from "../../../../../gateways/PostGateway";
 import IUser from "../../../../../types/IUser";
 import { FeedContext } from "../../../Feed";
 import "./NewCommentBox.css";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 type NewCommentBoxProps = {
   user: IUser | undefined;
@@ -17,7 +14,7 @@ type NewCommentBoxProps = {
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
-  const refreshPosts = useContext(FeedContext).refreshPosts;
+  const refreshPost = useContext(FeedContext).refreshPost;
   const [anonymous, setAnonymous] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -33,7 +30,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
         );
         textarea.value = "";
         props.setShow(false);
-        refreshPosts();
+        refreshPost(props.postNumber);
       }
     }
   };

@@ -9,7 +9,7 @@ import {
   useRef,
   createContext,
 } from "react";
-import { getModFeedPosts, getPosts } from "../../gateways/PostGateway";
+import { getModFeedPosts, getPosts, getPost } from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 import IComment from "../../types/IComment";
 
@@ -21,9 +21,11 @@ type FeedProps = {
 type FeedContextType = {
   user?: IUser;
   refreshPosts: () => void;
+  refreshPost: (postId: number) => void;
 };
 export const FeedContext = createContext<FeedContextType>({
   refreshPosts: () => {},
+  refreshPost: () => {},
 });
 
 function Feed(props: FeedProps) {
@@ -122,9 +124,35 @@ function Feed(props: FeedProps) {
     setDisplayedPostIndex(newPosts.length);
   }, [props.moderatorView, pageNumber]);
 
+  const refreshPost = useCallback(
+    async (postNumber: number) => {
+      const response = await getPost(postNumber);
+      if (response.success && response.payload) {
+        const post = response.payload;
+        const postArray = props.moderatorView ? moderatorPosts : posts;
+        const index = postArray.findIndex((p) => p._id === post._id);
+        if (index !== -1) {
+          const postSetter = props.moderatorView ? setModeratorPosts : setPosts;
+          postSetter((p) => {
+            p[index] = post;
+            return [...p];
+          });
+        }
+        props.moderatorView
+          ? setModeratorDisplayedPosts(moderatorPosts)
+          : setDisplayedPosts(posts);
+      } else {
+        console.log("error getting posts", response.message);
+      }
+    },
+
+    [props.moderatorView, posts, moderatorPosts]
+  );
+
   const initialContext: FeedContextType = {
     user: props.user,
     refreshPosts: refreshPosts,
+    refreshPost: refreshPost,
   };
 
   return (
