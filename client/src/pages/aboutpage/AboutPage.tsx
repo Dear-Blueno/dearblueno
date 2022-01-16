@@ -1,6 +1,7 @@
 import "./AboutPage.css";
 import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
+import Collapsible from "react-collapsible";
 
 type AboutPageProps = {};
 
@@ -42,15 +43,50 @@ function AboutPage(props: AboutPageProps) {
 
         <div className="AboutPageSection">
           <h3 className="SectionHeader">FAQ</h3>
-          <p>
-            Lorem ipsum dolor sit amet. Et facere accusantium ex reiciendis
-          </p>
+          <div className="Accordion">
+            <Collapsible
+              trigger=" Why isn't my comment showing up?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                Your comment may not be showing up for multiple reasons. If your
+                comment was submitted anonymously, the moderators may have not
+                got around to reviewing it yet, or it may been denied.
+                Otherwise, your comment may have been automatically deleted by
+                our anti-spam system for containing potentially dangerous
+                content. Finally, your comment may have been manually removed by
+                a moderators for violating our community guidelines.
+              </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Why isn't my post showing up?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                If your post is not showing up, it either means that it has not yet
+                been approved by our moderators, or it was rejected for not being
+                compliant with our community guidelines. To familiarize yourself
+                with our community guidelines, please visit the top of the About Page.{" "}
+              </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Who runs Dear Blueno?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                No one.
+              </p>
+            </Collapsible>
+          </div>
         </div>
         <div className="AboutPageSection">
           <h3 className="SectionHeader">CONTACT</h3>
           <p>
-            For any questions/comments regarding the website, bugs, or
-            business inquires, please contact us at{" "}
+            For any questions/comments regarding the website, bugs, or business
+            inquires, please contact us at{" "}
             <a href="mailto:developers@dearblueno.net" className="EmailLink">
               developers@dearblueno.net
             </a>

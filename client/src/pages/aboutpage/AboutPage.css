@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   padding: 2rem;
   background-color: #ffffff;
   box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
@@ -14,7 +14,7 @@
 .AboutPageSection {
   display: flex;
   flex-direction: column;
-  gap: .2rem;
+  gap: 0.2rem;
 }
 
 .EmailLink {
@@ -26,6 +26,38 @@
   cursor: pointer;
 }
 
+
+.Collapsible__trigger {
+  padding-bottom: .5%;
+  font-weight: 600;
+  display: block;
+  position: relative;
+  padding-left: 2.5%;
+  user-select: none;
+}
+
+.Collapsible__trigger {
+  cursor: pointer;
+  display: block;
+}
+
+.Collapsible__trigger::after {
+  color: rgba(0, 0, 0, 1);
+  content: ">";
+  position: absolute;
+  right: 98.5%;
+  bottom: 18%;
+  display: block;
+  transition: transform 100ms;
+}
+
+.Collapsible__trigger.is-open::after {
+  transform: rotateZ(90deg);
+}
+
+.FAQAnswer {
+  margin-bottom: .3rem;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
