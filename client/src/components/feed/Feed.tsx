@@ -71,11 +71,11 @@ function Feed(props: FeedProps) {
   // only update scroll listener if new posts have loaded
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts, moderatorPosts]);
+  }, [posts, moderatorPosts, onScroll]);
 
   // move posts from posts array to displayedPosts array
   const updateDisplayedPosts = useCallback(() => {
+    console.log("updateDisplayedPosts");
     const postArray = props.moderatorView ? moderatorPosts : posts;
     if (!loading && postArray.length > 0) {
       const postSetter = props.moderatorView
@@ -120,6 +120,7 @@ function Feed(props: FeedProps) {
     props.moderatorView
       ? setModeratorDisplayedPosts(newPosts)
       : setDisplayedPosts(newPosts);
+    setDisplayedPostIndex(newPosts.length);
   }, [props.moderatorView, pageNumber]);
 
   const initialContext: FeedContextType = {
