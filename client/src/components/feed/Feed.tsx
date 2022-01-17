@@ -54,9 +54,11 @@ function Feed(props: FeedProps) {
   useEffect(() => {
     const loadMore = async () => {
       const newPosts = await getMorePosts();
-      props.moderatorView
-        ? setModeratorPosts((p) => [...p, ...newPosts])
-        : setPosts((p) => [...p, ...newPosts]);
+      if (newPosts.length > 0) {
+        props.moderatorView
+          ? setModeratorPosts((p) => [...p, ...newPosts])
+          : setPosts((p) => [...p, ...newPosts]);
+      }
       setLoading(false);
     };
     loadMore();
@@ -64,11 +66,16 @@ function Feed(props: FeedProps) {
 
   // scroll action
   const onScroll = useCallback(() => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      setPageNumber(pageNumber + 1);
+    const postArray = props.moderatorView ? moderatorPosts : posts;
+    if (displayedPostIndex === postArray.length - 1) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setPageNumber((n) => n + 1);
+        window.removeEventListener("scroll", onScroll);
+      }
+    } else {
       window.removeEventListener("scroll", onScroll);
     }
-  }, [pageNumber]);
+  }, [displayedPostIndex, posts, moderatorPosts, props.moderatorView]);
 
   // only update scroll listener if new posts have loaded
   useEffect(() => {
