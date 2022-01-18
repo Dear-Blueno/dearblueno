@@ -14,6 +14,7 @@
   .Feed {
     width: calc(100% - 1rem);
     margin-left: 0.5rem;
+    gap: 0.5rem;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
