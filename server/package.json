@@ -4,7 +4,7 @@
   "description": "Backend server for the Dear Blueno web app",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts",
+    "start": "nodemon --exec npx ts-node src/index.ts",
     "tsc": "tsc --outDir dist",
     "test": "jest --runInBand",
     "coverage": "jest --coverage --runInBand"
