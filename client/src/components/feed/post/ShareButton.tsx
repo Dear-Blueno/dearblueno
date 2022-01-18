@@ -1,5 +1,5 @@
 import "./ShareButton.css";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { usePopper } from "react-popper";
 
 type ShareButtonProps = {
