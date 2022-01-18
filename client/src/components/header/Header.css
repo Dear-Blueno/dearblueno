@@ -41,7 +41,6 @@
   vertical-align: middle;
   transform: translateY(0.25rem);
   user-select: none;
-  cursor: default;
 }
 
 .LogoImage {
@@ -228,3 +227,11 @@
   text-decoration: underline;
   user-select: none;
 }
+
+.RefreshHeaderLink {
+  display: flex;
+  color: black;
+  align-items: center;
+  cursor: pointer;
+}
+

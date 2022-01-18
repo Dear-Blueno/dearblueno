@@ -122,16 +122,18 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="Header">
-      <Typist
-        cursor={{ show: false }}
-        avgTypingDelay={120}
-        onTypingDone={() => setShowLogo(true)}
-      >
-        <h1 id="HeaderText">Dear Blueno</h1>
-      </Typist>
-      {showLogo && (
-        <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" />
-      )}
+      <Link to="/" className="RefreshHeaderLink" draggable={false}>
+        <Typist
+          cursor={{ show: false }}
+          avgTypingDelay={120}
+          onTypingDone={() => setShowLogo(true)}
+        >
+          <h1 id="HeaderText">Dear Blueno</h1>
+        </Typist>
+        {showLogo && (
+          <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" draggable={false} />
+        )}
+      </Link>
       <div className="HeaderButtons">
         <HeaderButton
           action={() => {}}

@@ -4,7 +4,7 @@ import PostDate from "./content/PostDate";
 import PostNumber from "./content/PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
-import CommentButton from "./CommentButton";
+import CommentButton from "./comments/CommentButton";
 import CommentSection, { IThread } from "./comments/CommentSection";
 import { useState, useContext } from "react";
 import IUser from "../../../types/IUser";
@@ -12,6 +12,7 @@ import IComment from "../../../types/IComment";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
 import { FeedContext } from "../Feed";
+import ShareButton from "./ShareButton";
 
 type PostProps = {
   user: IUser | undefined;
@@ -68,7 +69,7 @@ function Post(props: PostProps) {
           <DividerDot />
           <CommentButton type="comment" click={() => setShowCommentBox(true)} />
           <DividerDot />
-          <p className="ShareButton">share</p>
+          <ShareButton postNumber={props.postNumber} />
         </div>
       )}
       {!props.needsReview && (

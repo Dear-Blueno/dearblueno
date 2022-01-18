@@ -39,7 +39,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     }
   );
   const [clicked, setClicked] = useState(false);
-  const actions = ["report", "share", "delete"];
+  const [copied, setCopied] = useState(false);
 
   const [showPopup, setshowPopup] = useState(false);
   const openPopup = () => {
@@ -87,6 +87,17 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     </div>
   );
 
+  const shareAction = () => {
+    navigator.clipboard.writeText(
+      "https://dearblueno.net/comment/ + necessary data"
+    );
+    setCopied(true);
+    setTimeout(() => {
+      setClicked(false);
+      setCopied(false);
+    }, 1000);
+  };
+
   return (
     <div className="CommentMenuDropdown" ref={refDropdown}>
       <div className="CommentMenuButton" ref={setReferenceElement}>
@@ -111,19 +122,26 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               style={styles.arrow}
             />
             <div className="MenuDropdownActions">
-              {props.user &&
-              props.commentUser &&
-              props.user._id === props.commentUser._id ? null : (
-                <p className="MenuDropdownAction" onClick={openPopup}>
-                  {actions[0]}
-                </p>
+              {!copied && (
+                <>
+                  {props.user &&
+                  props.commentUser &&
+                  props.user._id === props.commentUser._id ? null : (
+                    <p className="MenuDropdownAction" onClick={openPopup}>
+                      report
+                    </p>
+                  )}
+                  <p className="MenuDropdownAction" onClick={shareAction}>
+                    share
+                  </p>
+                  {props.user &&
+                  props.commentUser &&
+                  props.user._id === props.commentUser._id ? (
+                    <p className="MenuDropdownAction">delete</p>
+                  ) : null}
+                </>
               )}
-              <p className="MenuDropdownAction">{actions[1]}</p>
-              {props.user &&
-              props.commentUser &&
-              props.user._id === props.commentUser._id ? (
-                <p className="MenuDropdownAction">{actions[2]}</p>
-              ) : null}
+              {copied && <p>copied</p>}
             </div>
           </div>
         )}

@@ -4,7 +4,7 @@ import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useState } from "react";
 import NewCommentBox from "./new_comment/NewCommentBox";
-import CommentButton from "../CommentButton";
+import CommentButton from "../comments/CommentButton";
 import DividerDot from "../content/DividerDot";
 import CommentProfilePicture from "../../../user/CommentProfilePicture";
 import CommentHeader from "./comment_header/CommentHeader";
