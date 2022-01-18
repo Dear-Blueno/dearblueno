@@ -131,14 +131,14 @@ userRouter.put(
       user._id,
       {
         $set: {
-          bio,
-          hometown,
-          instagram,
-          twitter,
-          facebook,
-          linkedin,
-          concentration,
-          classYear,
+          bio: bio || null,
+          hometown: hometown || null,
+          instagram: instagram || null,
+          twitter: twitter || null,
+          facebook: facebook || null,
+          linkedin: linkedin || null,
+          concentration: concentration || null,
+          classYear: classYear || null,
         },
       },
       { new: true }

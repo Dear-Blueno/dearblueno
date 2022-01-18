@@ -203,6 +203,45 @@ describe("User", () => {
       expect(newUser?.facebook).toBe("https://facebook.com/test");
       expect(newUser?.bio).toBe("This is a bio");
     });
+
+    it("should clear fields if undefined is provided", async () => {
+      await request(app)
+        .put("/user/profile")
+        .send({
+          user,
+          hometown: "San Francisco, CA",
+          concentration: "Computer Science",
+          classYear: "2024",
+          instagram: "https://instagram.com/test",
+          twitter: "https://twitter.com/test",
+          facebook: "https://facebook.com/test",
+          bio: "This is a bio",
+        })
+        .expect(200);
+
+      await request(app)
+        .put("/user/profile")
+        .send({
+          user,
+          hometown: undefined,
+          concentration: undefined,
+          classYear: undefined,
+          instagram: undefined,
+          twitter: undefined,
+          facebook: undefined,
+          bio: undefined,
+        })
+        .expect(200);
+
+      const newUser = await User.findOne();
+      expect(newUser?.concentration).toBe(null);
+      expect(newUser?.classYear).toBe(null);
+      expect(newUser?.hometown).toBe(null);
+      expect(newUser?.instagram).toBe(null);
+      expect(newUser?.twitter).toBe(null);
+      expect(newUser?.facebook).toBe(null);
+      expect(newUser?.bio).toBe(null);
+    });
   });
 
   describe("POST /user/ban", () => {
