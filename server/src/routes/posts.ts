@@ -98,7 +98,7 @@ postRouter.get(
 // (Must be authenticated as a moderator)
 postRouter.get(
   "/mod-feed/comments",
-  // modCheck, FIXME
+  modCheck,
   query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
