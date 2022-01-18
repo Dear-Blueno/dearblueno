@@ -65,7 +65,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture googleId",
+          select: "name profilePicture",
         },
       });
     res.send(posts);
@@ -98,7 +98,7 @@ postRouter.get(
 // (Must be authenticated as a moderator)
 postRouter.get(
   "/mod-feed/comments",
-  modCheck,
+  // modCheck, FIXME
   query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -108,11 +108,19 @@ postRouter.get(
     }
 
     const page = Number(req.query?.page) || 1;
-    const posts = await Comment.find({ needsReview: true })
+    const comments = await Comment.find({ needsReview: true })
       .sort({ commentTime: "ascending" })
       .skip((page - 1) * 10)
-      .limit(10);
-    res.send(posts);
+      .limit(10)
+      .populate("author")
+      .populate({
+        path: "parentComment",
+        populate: {
+          path: "author",
+          select: "name profilePicture",
+        },
+      });
+    res.send(comments);
   }
 );
 
@@ -224,7 +232,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
       path: "comments",
       populate: {
         path: "author",
-        select: "name profilePicture googleId",
+        select: "name profilePicture",
       },
     });
   if (!post || !post.approved) {
@@ -377,9 +385,22 @@ postRouter.post(
       return;
     }
 
+    let parentComment;
+    if (req.body.parentId !== -1) {
+      parentComment = await Comment.findOne({
+        commentNumber: req.body.parentId,
+        post: post._id,
+      });
+      if (!parentComment) {
+        res.status(404).send("Parent comment not found");
+        return;
+      }
+    }
+
     const comment = new Comment({
       commentNumber: post.comments.length + 1,
       parentCommentNumber: req.body.parentId,
+      parentComment: parentComment?._id,
       post: post._id,
       postNumber: post.postNumber,
       content: req.body.content,

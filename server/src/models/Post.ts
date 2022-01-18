@@ -59,6 +59,7 @@ const PostSchema = new Schema({
 PostSchema.index({ content: "text" });
 
 export interface IPost {
+  _id: string;
   postNumber: number;
   content: string;
   verifiedBrown: boolean;

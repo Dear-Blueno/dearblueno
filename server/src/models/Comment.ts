@@ -9,6 +9,11 @@ const CommentSchema = new Schema({
     type: Number,
     default: -1,
   },
+  parentComment: {
+    type: Schema.Types.ObjectId,
+    ref: "Comment",
+    required: false,
+  },
   post: {
     type: Schema.Types.ObjectId,
     ref: "Post",
@@ -53,8 +58,10 @@ const CommentSchema = new Schema({
 });
 
 export interface IComment {
+  _id: string;
   commentNumber: number;
   parentCommentNumber: number;
+  parentComment: any;
   post: any;
   postNumber: number;
   content: string;
