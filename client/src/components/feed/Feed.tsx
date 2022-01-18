@@ -12,6 +12,7 @@ import {
 import { getModFeedPosts, getPosts, getPost } from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 import IComment from "../../types/IComment";
+import ModeratorSelection from "./post/moderator/ModeratorSelection";
 
 type FeedProps = {
   user?: IUser;
@@ -39,6 +40,10 @@ function Feed(props: FeedProps) {
   >([]);
   const [displayedPostIndex, setDisplayedPostIndex] = useState(0);
   const [moderatorComments, setModeratorComments] = useState<IComment[]>([]);
+  const [moderatorDisplayedComments, setModeratorDisplayedComments] = useState<
+    IComment[]
+  >([]);
+  const [showModeratorPosts, setShowModeratorSelection] = useState(true);
 
   const getMorePosts = useCallback(async () => {
     const gateway = props.moderatorView ? getModFeedPosts : getPosts;
@@ -165,7 +170,14 @@ function Feed(props: FeedProps) {
   return (
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
+        {props.moderatorView && (
+          <ModeratorSelection
+            selection={showModeratorPosts}
+            toggle={() => setShowModeratorSelection((selection) => !selection)}
+          />
+        )}
         {!loading &&
+          showModeratorPosts &&
           (props.moderatorView
             ? moderatorDisplayedPosts.map((post) => (
                 <Post
@@ -187,7 +199,7 @@ function Feed(props: FeedProps) {
                   _id={post._id}
                   postNumber={post.postNumber}
                   postBody={post.content}
-                  postDate={new Date(post.postTime)}
+                  postDate={new Date(post.approvedTime)}
                   comments={post.comments}
                   reactions={post.reactions}
                   needsReview={post.needsReview}
