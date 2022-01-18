@@ -29,15 +29,16 @@ function ProfileBox(props: ProfileBoxProps) {
   const concentrationInput = useRef<HTMLInputElement>(null);
 
   const handleProfileEdit = () => {
+    console.log((twitterInput.current?.value || undefined) === undefined);
     updateUserProfile(
-      bioTextArea.current?.value || undefined,
-      hometownInput.current?.value || undefined,
+      bioTextArea.current?.value,
+      hometownInput.current?.value,
       instagramInput.current?.value || undefined,
       twitterInput.current?.value || undefined,
       facebookInput.current?.value || undefined,
       linkedinInput.current?.value || undefined,
-      concentrationInput.current?.value || undefined,
-      yearInput.current?.value || undefined
+      concentrationInput.current?.value,
+      yearInput.current?.value
     );
     setEditing(false);
   };

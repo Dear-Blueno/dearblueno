@@ -9,15 +9,15 @@ type ApproveOrDenyProps = {
 function ApproveOrDeny(props: ApproveOrDenyProps) {
   return (
     <div className="ApproveOrDeny">
-      <div
+      <button
         className="ApproveOrDenyButton ApproveButton"
         onClick={props.approve}
       >
         <FaCheck />
-      </div>
-      <div className="ApproveOrDenyButton DenyButton" onClick={props.deny}>
+      </button>
+      <button className="ApproveOrDenyButton DenyButton" onClick={props.deny}>
         <FaTimes />
-      </div>
+      </button>
     </div>
   );
 }
