@@ -127,16 +127,22 @@ userRouter.put(
       classYear,
     } = req.body;
 
-    user.bio = bio;
-    user.hometown = hometown;
-    user.instagram = instagram;
-    user.twitter = twitter;
-    user.facebook = facebook;
-    user.linkedin = linkedin;
-    user.concentration = concentration;
-    user.classYear = classYear;
-
-    const newUser = await User.findByIdAndUpdate(user._id, user, { new: true });
+    const newUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        $set: {
+          bio,
+          hometown,
+          instagram,
+          twitter,
+          facebook,
+          linkedin,
+          concentration,
+          classYear,
+        },
+      },
+      { new: true }
+    );
 
     res.send(newUser);
   }
