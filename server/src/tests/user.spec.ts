@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import User, { IUser } from "../models/User";
 import request from "supertest";
 import setupForTests from "./testUtil";
+import Comment from "../models/Comment";
+import Post from "../models/Post";
 
 describe("User", () => {
   let app: Express;
@@ -287,6 +289,63 @@ describe("User", () => {
       const newUser = await User.findOne({ googleId: user.googleId });
       const time = new Date(newUser?.bannedUntil || 0);
       expect(new Date(time).getTime()).toBeGreaterThan(Date.now());
+    });
+  });
+
+  describe("GET /user/:id/comments", () => {
+    it("should return 400 if invalid id is provided", async () => {
+      await request(app).get("/user/12345/comments").expect(400);
+    });
+
+    it("should return 404 if nonexistent user is provided", async () => {
+      await request(app)
+        .get("/user/5bb9e9f84186b222c8901149/comments")
+        .expect(404);
+    });
+
+    it("should return 200 if valid user is provided", async () => {
+      const post = new Post({
+        content: "This is a post",
+        approved: true,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        author: user._id,
+        commentNumber: 1,
+        parentCommentNumber: -1,
+        post: post._id,
+        postNumber: 1,
+        content: "This is a comment",
+        approved: true,
+      });
+      await comment.save();
+
+      const response = await request(app).get(`/user/${user._id}/comments`);
+      expect(response.body.length).toBe(1);
+      expect(response.body[0].content).toBe("This is a comment");
+    });
+
+    it("should only return approved comments", async () => {
+      const post = new Post({
+        content: "This is a post",
+        approved: true,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        author: user._id,
+        commentNumber: 1,
+        parentCommentNumber: -1,
+        post: post._id,
+        postNumber: 1,
+        content: "This is a comment",
+        approved: false,
+      });
+      await comment.save();
+
+      const response = await request(app).get(`/user/${user._id}/comments`);
+      expect(response.body.length).toBe(0);
     });
   });
 

@@ -112,7 +112,11 @@ postRouter.get(
       .sort({ commentTime: "ascending" })
       .skip((page - 1) * 10)
       .limit(10)
-      .populate("author")
+      .populate({
+        path: "author",
+        select: "name profilePicture",
+      })
+      .populate("post")
       .populate({
         path: "parentComment",
         populate: {
