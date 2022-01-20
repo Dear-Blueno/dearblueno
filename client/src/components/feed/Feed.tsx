@@ -1,18 +1,25 @@
 import Post from "./post/Post";
 import "./Feed.css";
 import IPost from "../../types/IPost";
-import {
+import React, {
   useState,
   useEffect,
   useLayoutEffect,
   useCallback,
   useRef,
   createContext,
+  useMemo,
 } from "react";
-import { getModFeedPosts, getPosts, getPost } from "../../gateways/PostGateway";
+import {
+  getModFeedPosts,
+  getPosts,
+  getPost,
+  getModFeedComments,
+} from "../../gateways/PostGateway";
 import IUser from "../../types/IUser";
 import IComment from "../../types/IComment";
 import ModeratorSelection from "./post/moderator/ModeratorSelection";
+import ContextThread from "./post/comments/ContextThread";
 
 type FeedProps = {
   user?: IUser;
@@ -30,6 +37,8 @@ export const FeedContext = createContext<FeedContextType>({
 });
 
 function Feed(props: FeedProps) {
+  const [feedElements, setFeedElements] = useState<HTMLDivElement[]>([]);
+  const [feedList, setFeedList] = useState<(IPost | IComment)[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -45,8 +54,17 @@ function Feed(props: FeedProps) {
   >([]);
   const [showModeratorPosts, setShowModeratorSelection] = useState(true);
 
-  const getMorePosts = useCallback(async () => {
-    const gateway = props.moderatorView ? getModFeedPosts : getPosts;
+  const getMoreFeedElements = useCallback(async () => {
+    let gateway;
+    if (props.moderatorView) {
+      if (showModeratorPosts) {
+        gateway = getModFeedPosts;
+      } else {
+        gateway = getModFeedComments;
+      }
+    } else {
+      gateway = getPosts;
+    }
     const response = await gateway(pageNumber);
     if (response.success && response.payload) {
       return response.payload;
@@ -54,11 +72,11 @@ function Feed(props: FeedProps) {
       console.log("error getting posts", response.message);
       return [];
     }
-  }, [props.moderatorView, pageNumber]);
+  }, [props.moderatorView, pageNumber, showModeratorPosts]);
 
   useEffect(() => {
     const loadMore = async () => {
-      const newPosts = await getMorePosts();
+      const newPosts = await getMoreFeedElements();
       if (newPosts.length > 0) {
         props.moderatorView
           ? setModeratorPosts((p) => [...p, ...newPosts])
@@ -67,7 +85,7 @@ function Feed(props: FeedProps) {
       setLoading(false);
     };
     loadMore();
-  }, [props.moderatorView, getMorePosts]);
+  }, [props.moderatorView, getMoreFeedElements]);
 
   // scroll action
   const onScroll = useCallback(() => {
@@ -170,41 +188,49 @@ function Feed(props: FeedProps) {
   return (
     <FeedContext.Provider value={initialContext}>
       <div className="Feed">
-        {props.moderatorView && (
-          <ModeratorSelection
-            selection={showModeratorPosts}
-            toggle={() => setShowModeratorSelection((selection) => !selection)}
-          />
+        {props.moderatorView ? (
+          <>
+            <ModeratorSelection
+              selection={showModeratorPosts}
+              toggle={() =>
+                setShowModeratorSelection((selection) => !selection)
+              }
+            />
+            {!loading &&
+              (showModeratorPosts
+                ? moderatorDisplayedPosts.map((post) => (
+                    <Post
+                      user={props.user}
+                      key={post._id}
+                      _id={post._id}
+                      postNumber={undefined}
+                      postBody={post.content}
+                      postDate={new Date(post.postTime)}
+                      comments={[]}
+                      reactions={[]}
+                      needsReview={post.needsReview}
+                    />
+                  ))
+                : moderatorDisplayedComments.map((comment) => (
+                    <ContextThread thread={comment} />
+                  )))}
+          </>
+        ) : (
+          !loading &&
+          displayedPosts.map((post) => (
+            <Post
+              user={props.user}
+              key={post.postNumber}
+              _id={post._id}
+              postNumber={post.postNumber}
+              postBody={post.content}
+              postDate={new Date(post.approvedTime)}
+              comments={post.comments}
+              reactions={post.reactions}
+              needsReview={post.needsReview}
+            />
+          ))
         )}
-        {!loading &&
-          showModeratorPosts &&
-          (props.moderatorView
-            ? moderatorDisplayedPosts.map((post) => (
-                <Post
-                  user={props.user}
-                  key={post._id}
-                  _id={post._id}
-                  postNumber={undefined}
-                  postBody={post.content}
-                  postDate={new Date(post.postTime)}
-                  comments={[]}
-                  reactions={[]}
-                  needsReview={post.needsReview}
-                />
-              ))
-            : displayedPosts.map((post) => (
-                <Post
-                  user={props.user}
-                  key={post.postNumber}
-                  _id={post._id}
-                  postNumber={post.postNumber}
-                  postBody={post.content}
-                  postDate={new Date(post.approvedTime)}
-                  comments={post.comments}
-                  reactions={post.reactions}
-                  needsReview={post.needsReview}
-                />
-              )))}
       </div>
     </FeedContext.Provider>
   );

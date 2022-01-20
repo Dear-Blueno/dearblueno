@@ -37,6 +37,11 @@
   font-size: 1rem;
 }
 
+.ModeratorSelectionButton:active {
+  transform: translate3d(-0.1rem, 0.1rem, 0);
+  box-shadow: none;
+}
+
 .Selected {
   transform: translate3d(-0.1rem, 0.1rem, 0);
   box-shadow: none;
