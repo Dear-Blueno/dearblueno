@@ -1,0 +1,40 @@
+.ProfileHoverCard {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  padding: 0.8rem;
+}
+
+.HoverCardSideCol {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 0.25rem;
+  font-size: x-small;
+}
+
+.HoverCardName {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.HoverCardImage {
+  box-sizing: border-box;
+  width: 70px;
+  height: 70px;
+  border: 1px solid black;
+}
+
+.SocialIcon {
+  margin-top: 0.25rem;
+  width: 20px;
+  height: 20px;
+  color: black;
+  cursor: pointer;
+}
+
+.SocialBar {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}

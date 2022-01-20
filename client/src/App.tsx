@@ -31,6 +31,8 @@ function App() {
             element={<FeedPage user={user} moderatorView={false} />}
           />
           <Route path="/post/:postNumber" element={<PostPage user={user} />} />
+          <Route path="/profile/:profileUserID" element={<ProfilePage user={user} />} />
+
           <Route
             path="/profile"
             element={<ProfilePage user={user} profileUser={user} />}

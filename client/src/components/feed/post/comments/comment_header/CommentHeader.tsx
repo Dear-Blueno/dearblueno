@@ -3,6 +3,12 @@ import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { formatDistanceToNowStrict } from "date-fns";
 import IUser from "../../../../../types/IUser";
+import IBasicUser from "../../../../../types/IUser";
+import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { usePopper } from "react-popper";
+import { getUser } from "../../../../../gateways/UserGateway";
+import ProfileHoverCard from "./ProfileHoverCard";
 
 type CommentHeaderProps = {
   user?: IUser;
@@ -42,11 +48,108 @@ function CommentHeader(props: CommentHeaderProps) {
     }
   };
 
+  const [referenceElement, setReferenceElement] = useState<any>(null);
+  const [popperElement, setPopperElement] = useState<any>(null);
+  const [arrowElement, setArrowElement] = useState<any>(null);
+  const { styles, attributes } = usePopper<any>(
+    referenceElement,
+    popperElement,
+    {
+      placement: "top",
+      modifiers: [
+        {
+          name: "arrow",
+          options: { element: arrowElement },
+        },
+        {
+          name: "offset",
+          options: { offset: [8, 20] },
+        },
+        {
+          name: "flip",
+          options: {
+            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
+            flipVariations: true,
+          },
+        },
+      ],
+    }
+  );
+  const [showCard, setShowCard] = useState(false);
+  const [hoverUser, setHoverUser] = useState<IBasicUser>();
+  const inDropdown = useRef(false);
+  const isCancelled = useRef(false);
+
+  // cleanup
+  useEffect(() => {
+    return () => {
+      isCancelled.current = true;
+    };
+  }, []);
+
+  const getHoverUser = async () => {
+    if (!hoverUser && props.comment.author) {
+      const response = await getUser(props.comment.author._id);
+      if (response.success && response.payload) {
+        setHoverUser(response.payload as IBasicUser);
+      }
+    }
+  };
+
   return (
     <div className="CommentHeader">
-      <p className="CommentAuthor">
-        {props.comment.author?.name ?? "Anonymous"}
-      </p>
+      {props.comment.author ? (
+        <Link
+          to={`/profile/${props.comment.author?._id}`}
+          className="ProfileLink"
+        >
+          <p
+            className="CommentAuthor"
+            ref={setReferenceElement}
+            onMouseEnter={() => {
+              getHoverUser();
+              setShowCard(true);
+            }}
+            onMouseLeave={() => {
+              setTimeout(() => {
+                if (!isCancelled.current && !inDropdown.current) {
+                  setShowCard(false);
+                }
+              }, 200);
+            }}
+          >
+            {props.comment.author?.name ?? "Anonymous"}
+          </p>
+        </Link>
+      ) : (
+        <p className="CommentAuthor">Anonymous</p>
+      )}
+      {hoverUser && showCard && (
+        <div
+          className="PopperContainer"
+          ref={setPopperElement}
+          style={styles.popper}
+          role="tooltip"
+          {...attributes.popper}
+        >
+          <div
+            className="DropdownArrow"
+            ref={setArrowElement}
+            style={styles.arrow}
+          />
+          <ProfileHoverCard
+            hoverUser={hoverUser}
+            leaveAction={() => {
+              inDropdown.current = false;
+              setShowCard(false);
+            }}
+            enterAction={() => {
+              inDropdown.current = true;
+            }}
+          />
+        </div>
+      )}
+
       <p className="CommentDate">
         {formatDuration(
           formatDistanceToNowStrict(new Date(props.comment.commentTime))
@@ -58,7 +161,6 @@ function CommentHeader(props: CommentHeaderProps) {
           expand
         </p>
       )}
-
       <CommentMenuButton user={props.user} commentUser={props.comment.author} />
     </div>
   );
