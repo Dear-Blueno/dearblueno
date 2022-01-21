@@ -1,4 +1,5 @@
 import axios from "axios";
+import IComment from "../types/IComment";
 import IPost from "../types/IPost";
 import {
   failureResponse,
@@ -51,7 +52,7 @@ export async function getModFeedPosts(
 
 export async function getModFeedComments(
   page: number
-): Promise<IResponse<IPost[]>> {
+): Promise<IResponse<IComment[]>> {
   // only for moderators! gets comments that need moderation
   try {
     const response = await axios.get(`/posts/mod-feed/comments?page=${page}`);

@@ -30,6 +30,7 @@ function Feed(props: FeedProps) {
   }, []);
 
   useEffect(() => {
+    console.log(pageNumber);
     const loadMore = async () => {
       const response = await props.getMore(pageNumber);
       if (response) {
@@ -86,7 +87,7 @@ function Feed(props: FeedProps) {
 
   //   [props.moderatorView, posts, moderatorPosts]
   // );
-
+  console.log(props);
   return <div className="Feed">{props.children}</div>;
 }
 

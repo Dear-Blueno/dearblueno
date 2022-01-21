@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getPosts } from "../../gateways/PostGateway";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
+import Header from "../header/Header";
 import Feed from "./Feed";
 import Post from "./post/Post";
 
@@ -26,16 +27,19 @@ function MainFeed(props: MainFeedProps) {
   };
 
   return (
-    <Feed user={props.user} getMore={getMore}>
-      {posts.map((post, index) => (
-        <Post
-          key={index}
-          post={post}
-          user={props.user}
-          delay={index * 80 + "ms"}
-        />
-      ))}
-    </Feed>
+    <>
+      <Header user={props.user} moderatorView={false} />
+      <Feed user={props.user} getMore={getMore}>
+        {posts.map((post, index) => (
+          <Post
+            key={index}
+            post={post}
+            user={props.user}
+            delay={index * 80 + "ms"}
+          />
+        ))}
+      </Feed>
+    </>
   );
 }
 
