@@ -5,7 +5,7 @@ import IPost from "../../types/IPost";
 import { useParams } from "react-router-dom";
 import { getPost } from "../../gateways/PostGateway";
 import { useEffect, useState } from "react";
-import Post from "../../components/feed/post/Post";
+import Post from "../../components/feeds/post/Post";
 
 interface PostProps {
   user?: IUser;
@@ -30,18 +30,7 @@ function PostPage(props: PostProps) {
     <>
       <Header user={user} moderatorView={false} />
       <div className="PostPage">
-        {post && (
-          <Post
-            user={props.user}
-            _id={post._id}
-            postNumber={post.postNumber}
-            postBody={post.content}
-            postDate={new Date(post.approvedTime)}
-            comments={post.comments}
-            reactions={post.reactions}
-            needsReview={post.needsReview}
-          />
-        )}
+        {post && <Post user={props.user} post={post} />}
       </div>
     </>
   );

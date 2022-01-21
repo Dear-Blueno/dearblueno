@@ -2,6 +2,8 @@
   animation: PostAppear;
   animation-duration: 0.4s;
   animation-timing-function: ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
   width: 100%;
   padding: 1rem;
   background-color: #ffffff;
@@ -12,10 +14,12 @@
 
 @keyframes PostAppear {
   0% {
+    opacity: 1;
     box-shadow: none;
     transform: translate3d(-0.2rem, 0.2rem, 0);
   }
   100% {
+    opacity: 1;
     box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
     transform: none;
   }
