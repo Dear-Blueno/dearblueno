@@ -9,13 +9,21 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  gap: 0.25rem;
   font-size: x-small;
+  gap: 0.3rem;
 }
 
 .HoverCardName {
   font-weight: bold;
   font-size: medium;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.HoverCardName:hover {
+  text-decoration: underline;
+  text-underline-offset: .075rem;
 }
 
 .HoverCardImage {
@@ -26,7 +34,6 @@
 }
 
 .SocialIcon {
-  margin-top: 0.25rem;
   width: 20px;
   height: 20px;
   color: black;
@@ -34,6 +41,7 @@
 }
 
 .SocialBar {
+  margin-top: 0.2rem;
   display: flex;
   flex-direction: row;
   gap: 0.5rem;

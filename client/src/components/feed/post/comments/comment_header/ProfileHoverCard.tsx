@@ -1,7 +1,7 @@
 import "./ProfileHoverCard.css";
 import React, { useState, useEffect } from "react";
 import { IBasicUser } from "../../../../../types/IUser";
-import { getUser } from "../../../../../gateways/UserGateway";
+import { Link } from "react-router-dom";
 import {
   RiFacebookCircleLine,
   RiTwitterLine,
@@ -42,7 +42,9 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
         className="HoverCardImage"
       />
       <div className="HoverCardSideCol">
-        <p className="HoverCardName">{props.hoverUser?.name}</p>
+        <Link to={`/profile/${props.hoverUser?._id}`} className="HoverCardName">
+          <p>{props.hoverUser?.name}</p>
+        </Link>
         <div className="SocialBar">
           {props.hoverUser?.instagram && (
             <a

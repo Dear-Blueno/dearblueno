@@ -77,6 +77,7 @@ function CommentHeader(props: CommentHeaderProps) {
   );
   const [showCard, setShowCard] = useState(false);
   const [hoverUser, setHoverUser] = useState<IBasicUser>();
+  const isHovering = useRef(false);
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
 
@@ -107,10 +108,16 @@ function CommentHeader(props: CommentHeaderProps) {
             className="CommentAuthor"
             ref={setReferenceElement}
             onMouseEnter={() => {
+              isHovering.current = true;
               getHoverUser();
-              setShowCard(true);
+              setTimeout(() => {
+                if (isHovering.current) {
+                  setShowCard(true);
+                }
+              }, 400);
             }}
             onMouseLeave={() => {
+              isHovering.current = false;
               setTimeout(() => {
                 if (!isCancelled.current && !inDropdown.current) {
                   setShowCard(false);
