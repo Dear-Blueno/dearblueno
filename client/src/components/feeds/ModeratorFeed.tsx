@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getModFeedComments,
   getModFeedPosts,
@@ -6,7 +6,6 @@ import {
 import IComment from "../../types/IComment";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
-import Header from "../header/Header";
 import Feed from "./Feed";
 import ContextThread from "./post/comments/ContextThread";
 import ModeratorSelection from "./post/moderator/ModeratorSelection";
@@ -21,43 +20,52 @@ function ModeratorFeed(props: ModeratorFeedProps) {
   const [comments, setComments] = useState<IComment[]>([]);
   const [showModeratorPosts, setShowModeratorPosts] = useState(true);
 
-  const getMorePosts = async (nextPageNumber: number): Promise<boolean> => {
-    const response = await getModFeedPosts(nextPageNumber);
-    if (response.success && response.payload) {
-      if (response.payload.length > 0) {
-        setPosts([...posts, ...response.payload]);
-        return true;
+  const getMorePosts = useCallback(
+    async (nextPageNumber: number): Promise<boolean> => {
+      const response = await getModFeedPosts(nextPageNumber);
+      if (response.success && response.payload) {
+        if (response.payload.length > 0) {
+          setPosts((p) => [...p, ...(response.payload as IPost[])]);
+          return true;
+        }
+      } else {
+        console.log(response.message);
       }
-    } else {
-      console.log(response.message);
-    }
-    return false;
-  };
+      return false;
+    },
+    []
+  );
 
-  const getMoreComments = async (nextPageNumber: number): Promise<boolean> => {
-    const response = await getModFeedComments(nextPageNumber);
-    if (response.success && response.payload) {
-      if (response.payload.length > 0) {
-        setComments([...comments, ...response.payload]);
-        return true;
+  const getMoreComments = useCallback(
+    async (nextPageNumber: number): Promise<boolean> => {
+      const response = await getModFeedComments(nextPageNumber);
+      if (response.success && response.payload) {
+        if (response.payload.length > 0) {
+          setComments((c) => [...c, ...(response.payload as IComment[])]);
+          return true;
+        }
+      } else {
+        console.log(response.message);
       }
-    } else {
-      console.log(response.message);
-    }
-    return false;
-  };
+      return false;
+    },
+    []
+  );
+
+  useEffect(() => {
+    showModeratorPosts ? setComments([]) : setPosts([]);
+  }, [showModeratorPosts]);
 
   return (
     <>
-      <Header user={props.user} moderatorView={true} />
-      <ModeratorSelection
-        selection={showModeratorPosts}
-        toggle={() => setShowModeratorPosts((selection) => !selection)}
-      />
       <Feed
         user={props.user}
         getMore={showModeratorPosts ? getMorePosts : getMoreComments}
       >
+        <ModeratorSelection
+          selection={showModeratorPosts}
+          toggle={() => setShowModeratorPosts((selection) => !selection)}
+        />
         {showModeratorPosts
           ? posts.map((post, index) => (
               <Post

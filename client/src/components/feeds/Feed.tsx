@@ -21,6 +21,10 @@ export const FeedContext = createContext<FeedContextType>({
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
 
+  useEffect(() => {
+    setPageNumber(1);
+  }, [props.getMore]);
+
   // scroll action
   const onScroll = useCallback(() => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -30,7 +34,6 @@ function Feed(props: FeedProps) {
   }, []);
 
   useEffect(() => {
-    console.log(pageNumber);
     const loadMore = async () => {
       const response = await props.getMore(pageNumber);
       if (response) {
@@ -42,7 +45,7 @@ function Feed(props: FeedProps) {
       window.removeEventListener("scroll", onScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumber, onScroll]);
+  }, [pageNumber, onScroll, props.getMore]);
 
   // const refreshPosts = useCallback(async () => {
   //   const gateway = props.moderatorView ? getModFeedPosts : getPosts;
@@ -87,7 +90,6 @@ function Feed(props: FeedProps) {
 
   //   [props.moderatorView, posts, moderatorPosts]
   // );
-  console.log(props);
   return <div className="Feed">{props.children}</div>;
 }
 

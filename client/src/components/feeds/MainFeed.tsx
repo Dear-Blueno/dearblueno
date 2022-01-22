@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getPosts } from "../../gateways/PostGateway";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
-import Header from "../header/Header";
 import Feed from "./Feed";
 import Post from "./post/Post";
 
@@ -13,22 +12,24 @@ type MainFeedProps = {
 function MainFeed(props: MainFeedProps) {
   const [posts, setPosts] = useState<IPost[]>([]);
 
-  const getMore = async (nextPageNumber: number): Promise<boolean> => {
-    const response = await getPosts(nextPageNumber);
-    if (response.success && response.payload) {
-      if (response.payload.length > 0) {
-        setPosts([...posts, ...response.payload]);
-        return true;
+  const getMore = useCallback(
+    async (nextPageNumber: number): Promise<boolean> => {
+      const response = await getPosts(nextPageNumber);
+      if (response.success && response.payload) {
+        if (response.payload.length > 0) {
+          setPosts((p) => [...p, ...(response.payload as IPost[])]);
+          return true;
+        }
+      } else {
+        console.log(response.message);
       }
-    } else {
-      console.log(response.message);
-    }
-    return false;
-  };
+      return false;
+    },
+    []
+  );
 
   return (
     <>
-      <Header user={props.user} moderatorView={false} />
       <Feed user={props.user} getMore={getMore}>
         {posts.map((post, index) => (
           <Post
