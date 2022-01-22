@@ -168,7 +168,7 @@ function CommentHeader(props: CommentHeaderProps) {
           expand
         </p>
       )}
-      <CommentMenuButton user={props.user} commentUser={props.comment.author} />
+      <CommentMenuButton user={props.user} commentUser={props.comment.author} reported={props.comment.needsReview}/>
     </div>
   );
 }

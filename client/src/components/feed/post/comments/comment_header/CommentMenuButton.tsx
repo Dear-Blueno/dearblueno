@@ -8,6 +8,7 @@ import IUser from "../../../../../types/IUser";
 interface CommentMenuButtonProps {
   user?: IUser;
   commentUser?: IUser;
+  reported: Boolean;
 }
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
@@ -77,7 +78,11 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
           <p>
             <strong>REPORT REASON</strong>
             {reportReasons.map((reason) => (
-              <div className="ReportReason" key={reason}>
+              <div
+                className="ReportReason"
+                key={reason}
+                onClick={() => {closePopup(); props.reported = true;}}
+              >
                 {reason}
               </div>
             ))}

@@ -47,6 +47,7 @@ function ReactionButton(props: ReactionButtonProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
+  const isHovering = useRef(false);
 
   // cleanup
   useEffect(() => {
@@ -70,10 +71,16 @@ function ReactionButton(props: ReactionButtonProps) {
         className={className + "Count"}
         ref={setReferenceElement}
         onMouseEnter={() => {
+          isHovering.current = true;
           props.handleHover();
-          setShowDropdown(true);
+          setTimeout(() => {
+            if (isHovering.current) {
+              setShowDropdown(true);
+            }
+          }, 400);
         }}
         onMouseLeave={() => {
+          isHovering.current = false;
           setTimeout(() => {
             if (!isCancelled.current && !inDropdown.current) {
               setShowDropdown(false);
