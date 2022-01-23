@@ -5,14 +5,18 @@ import "./ContextThread.css";
 import Thread from "./Thread";
 import CommentProfilePicture from "../../../user/CommentProfilePicture";
 
-type ContextThreadProps = {
+export type ContextThreadProps = {
   user?: IUser;
   thread: IComment;
+  delay?: string;
 };
 
 function ContextThread(props: ContextThreadProps) {
   return (
-    <div className="ContextThread">
+    <div
+      className="ContextThread"
+      style={{ animationDelay: props.delay ?? "0" }}
+    >
       <div className="ContextThreadHeader">
         <CommentProfilePicture link={props.thread.author?.profilePicture} />
       </div>

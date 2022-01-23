@@ -13,16 +13,12 @@ import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
 import { FeedContext } from "../Feed";
 import ShareButton from "./ShareButton";
+import IPost from "../../../types/IPost";
 
-type PostProps = {
-  user: IUser | undefined;
-  _id: string;
-  postNumber?: number;
-  postBody: string;
-  postDate: Date;
-  comments: IComment[];
-  reactions: string[][];
-  needsReview: boolean;
+export type PostProps = {
+  user?: IUser;
+  post: IPost;
+  delay?: string;
 };
 
 const convertToThread = (comment: IComment) => {
@@ -36,21 +32,29 @@ function Post(props: PostProps) {
   const [showCommentBox, setShowCommentBox] = useState(false);
 
   const approveOrDeny = async (bool: boolean) => {
-    const response = await approvePost(props._id, bool);
+    const response = await approvePost(props.post._id, bool);
     if (response.success) {
       feedContext.refreshPosts();
     }
   };
 
   return (
-    <div className="Post">
+    <div className="Post" style={{ animationDelay: props.delay ?? "0" }}>
       <PostNumber
-        number={props.postNumber}
-        _id={props.needsReview ? props._id : undefined}
+        number={props.post.postNumber}
+        _id={props.post.needsReview ? props.post._id : undefined}
       />
-      <PostDate value={props.postDate} />
-      <PostBody body={props.postBody} />
-      {props.needsReview ? (
+      <PostDate
+        value={
+          new Date(
+            props.post.needsReview
+              ? props.post.postTime
+              : props.post.approvedTime
+          )
+        }
+      />
+      <PostBody body={props.post.content} />
+      {props.post.needsReview ? (
         <ApproveOrDeny
           approve={() => approveOrDeny(true)}
           deny={() => {
@@ -60,23 +64,23 @@ function Post(props: PostProps) {
       ) : (
         <div className="PostFooter">
           <ReactionBar
-            postNumber={props.postNumber ?? 0}
+            postNumber={props.post.postNumber ?? 0}
             commentNumber={undefined}
             user={props.user}
             type={"post"}
-            reactions={props.reactions}
+            reactions={props.post.reactions}
           />
           <DividerDot />
           <CommentButton type="comment" click={() => setShowCommentBox(true)} />
           <DividerDot />
-          <ShareButton postNumber={props.postNumber} />
+          <ShareButton postNumber={props.post.postNumber} />
         </div>
       )}
-      {!props.needsReview && (
+      {!props.post.needsReview && (
         <CommentSection
           user={props.user}
-          comments={props.comments.map(convertToThread)}
-          postNumber={props.postNumber ?? 0}
+          comments={props.post.comments.map(convertToThread)}
+          postNumber={props.post.postNumber ?? 0}
           showCommentBox={showCommentBox}
           setShowCommentBox={setShowCommentBox}
         />
