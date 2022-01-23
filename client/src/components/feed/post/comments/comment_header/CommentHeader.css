@@ -10,6 +10,12 @@
 .CommentAuthor {
   font-weight: 600;
   font-size: 0.8rem;
+  color: black;
+}
+
+.ProfileLink {
+  color: black;
+  text-decoration: none;
 }
 
 .CommentDate {
@@ -29,3 +35,5 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+

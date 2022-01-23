@@ -1,6 +1,7 @@
 import IUser from "./IUser";
 
 export default interface IComment {
+  _id: string;
   commentNumber: number;
   parentCommentNumber: number;
   parentComment?: any;
@@ -10,5 +11,6 @@ export default interface IComment {
   author?: IUser;
   commentTime: Date;
   approved: boolean;
+  needsReview: boolean;
   reactions: any[][];
 }

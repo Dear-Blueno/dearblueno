@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
+import Comment from "../models/Comment";
 import { authCheck, modCheck } from "../middleware/auth";
 import User, { IUser } from "../models/User";
 
@@ -209,5 +210,36 @@ userRouter.post(
     res.send(updatedUser);
   }
 );
+
+// GET request that gets all the comments made by a user
+userRouter.get("/:id/comments", param("id").isMongoId(), async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty() || !req.params) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404).send("User not found");
+    return;
+  }
+
+  const comments = await Comment.find({ author: user._id, approved: true })
+    .populate({
+      path: "author",
+      select: "name profilePicture",
+    })
+    .populate("post")
+    .populate({
+      path: "parentComment",
+      populate: {
+        path: "author",
+        select: "name profilePicture",
+      },
+    });
+
+  res.send(comments);
+});
 
 export default userRouter;

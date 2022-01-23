@@ -100,3 +100,16 @@ export async function banUser(
     return failureResponse(error);
   }
 }
+
+export async function getUserComments(_id: string) {
+  try {
+    const response = await axios.get(`/user/${_id}/comments`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}

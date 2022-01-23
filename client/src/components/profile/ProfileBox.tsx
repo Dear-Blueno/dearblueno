@@ -1,5 +1,6 @@
 import "./ProfileBox.css";
 import IUser from "../../types/IUser";
+import { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
 import ProfileBio from "./left_column/ProfileBio";
@@ -13,7 +14,7 @@ import { useState, useRef } from "react";
 
 type ProfileBoxProps = {
   user?: IUser;
-  profileUser?: IUser;
+  profileUser?: IBasicUser;
 };
 
 function ProfileBox(props: ProfileBoxProps) {
