@@ -1,72 +1,35 @@
 import "./ShareButton.css";
-import { useState } from "react";
-import { usePopper } from "react-popper";
+import ReactTooltip from "react-tooltip";
 
 type ShareButtonProps = {
   postNumber?: number;
 };
 
 function ShareButton(props: ShareButtonProps) {
-  const [referenceElement, setReferenceElement] = useState<any>(null);
-  const [popperElement, setPopperElement] = useState<any>(null);
-  const [arrowElement, setArrowElement] = useState<any>(null);
-  const { styles, attributes } = usePopper<any>(
-    referenceElement,
-    popperElement,
-    {
-      placement: "bottom-end",
-      modifiers: [
-        {
-          name: "arrow",
-          options: { element: arrowElement },
-        },
-        {
-          name: "offset",
-          options: { offset: [8, 8] },
-        },
-        {
-          name: "flip",
-          options: {
-            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
-            flipVariations: false,
-          },
-        },
-      ],
-    }
-  );
-  const [clicked, setClicked] = useState(false);
-
-  const timedOpen = () => {
-    navigator.clipboard.writeText("https://dearblueno.net/post/" + props.postNumber);
-    setClicked(true);
-    setTimeout(() => {
-      setClicked(false);
-    }, 1000);
-  };
-
   return (
-    <div className="ShareButton" ref={setReferenceElement}>
-      <p className="ShareButton" onClick={timedOpen}>
+    <div className="ShareButton">
+      <p className="ShareButton" data-tip data-for="share" data-event="click">
         share
       </p>
-      {clicked && (
-        <div
-          className="PopperContainer"
-          ref={setPopperElement}
-          style={styles.popper}
-          role="tooltip"
-          {...attributes.popper}
-        >
-          <div
-            className="DropdownArrow"
-            ref={setArrowElement}
-            style={styles.arrow}
-          />
-          <div className="MenuDropdownActions">
-            <p>Copied to Clipboard!</p>
-          </div>
+      <ReactTooltip
+        id="share"
+        place="bottom"
+        effect="solid"
+        className="ShareTooltip"
+        type="light"
+        border={true}
+        borderColor="black"
+        afterShow={() => {
+          navigator.clipboard.writeText(
+            "https://dearblueno.net/post/" + props.postNumber
+          );
+          setTimeout(ReactTooltip.hide, 1000);
+        }}
+      >
+        <div className="ShareButtonTextContainer">
+          <p>Copied to Clipboard!</p>
         </div>
-      )}
+      </ReactTooltip>
     </div>
   );
 }
