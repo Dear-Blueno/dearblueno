@@ -243,3 +243,18 @@ export async function getCommentReactions(
     return failureResponse(error);
   }
 }
+
+export async function deleteComment(postNumber: number, commentNumber: number) {
+  try {
+    const response = await axios.delete(
+      `/posts/${postNumber}/comment/${commentNumber}`
+    );
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}

@@ -1222,6 +1222,78 @@ describe("Posts", () => {
     });
   });
 
+  describe("DELETE /posts/:postNumber/comment/:commentNumber", () => {
+    it("should return 400 if commentNumber is malformed", async () => {
+      await request(app)
+        .delete("/posts/1/comment/abc")
+        .send({ user })
+        .expect(400);
+    });
+
+    it("should return 404 if the comment does not exist", async () => {
+      await request(app)
+        .delete("/posts/1/comment/1")
+        .send({ user })
+        .expect(404);
+    });
+
+    it("should return 403 if you attempt to delete a comment you did not create", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        author: modUser._id,
+      });
+      await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      await request(app)
+        .delete("/posts/1/comment/1")
+        .send({ user })
+        .expect(403);
+    });
+
+    it("should return 200 if the comment exists", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        author: user._id,
+      });
+      await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      await request(app)
+        .delete("/posts/1/comment/1")
+        .send({ user })
+        .expect(200);
+
+      const res = await Post.findById(post._id).populate("comments");
+      expect(res?.comments[0].approved).toBe(false);
+      expect(res?.comments[0].needsReview).toBe(false);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });

@@ -506,4 +506,42 @@ postRouter.put(
   }
 );
 
+// DELETE request that deletes a comment
+// (Must be authenticated)
+postRouter.delete(
+  "/:postNumber/comment/:commentNumber",
+  authCheck,
+  param("postNumber").isInt({ min: 1 }),
+  param("commentNumber").isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const comment = await Comment.findOne({
+      commentNumber: req.params.commentNumber,
+      postNumber: req.params.postNumber,
+    });
+    if (!comment) {
+      res.status(404).send("Comment not found");
+      return;
+    }
+
+    const user = req.user as IUser;
+    if (user._id.toString() !== comment.author.toString()) {
+      res.status(403).send("You are not the author of this comment");
+      return;
+    }
+
+    // Mark the comment as unapproved and not needing review
+    comment.approved = false;
+    comment.needsReview = false;
+    await comment.save();
+
+    res.send(comment);
+  }
+);
+
 export default postRouter;
