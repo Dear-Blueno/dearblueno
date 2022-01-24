@@ -1292,6 +1292,49 @@ describe("Posts", () => {
       expect(res?.comments[0].approved).toBe(false);
       expect(res?.comments[0].needsReview).toBe(false);
     });
+
+    it("should replace comment content if comment has replies", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        author: user._id,
+      });
+      await comment.save();
+
+      const comment2 = new Comment({
+        content: "This is a test reply comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        author: user._id,
+        parentComment: comment._id,
+        parentCommentNumber: 1,
+      });
+      await comment2.save();
+
+      post.comments.push(comment, comment2);
+      await post.save();
+
+      await request(app)
+        .delete("/posts/1/comment/1")
+        .send({ user })
+        .expect(200);
+
+      const res = await Post.findById(post._id).populate("comments");
+      expect(res?.comments[0].approved).toBe(true);
+      expect(res?.comments[0].content).toBe("[deleted]");
+      expect(res?.comments[0].author).toBeFalsy();
+      expect(res?.comments[1].content).toBe("This is a test reply comment");
+    });
   });
 
   afterAll(async () => {

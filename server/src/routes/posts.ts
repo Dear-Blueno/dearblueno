@@ -535,9 +535,21 @@ postRouter.delete(
       return;
     }
 
-    // Mark the comment as unapproved and not needing review
-    comment.approved = false;
-    comment.needsReview = false;
+    const childCommentCount = await Comment.countDocuments({
+      parentComment: comment._id,
+    });
+
+    if (childCommentCount > 0) {
+      // Replace the comment content with [deleted]
+      comment.content = "[deleted]";
+      comment.author = null;
+      comment.needsReview = false;
+    } else {
+      // Mark the comment as unapproved and not needing review
+      comment.approved = false;
+      comment.needsReview = false;
+    }
+
     await comment.save();
 
     res.send(comment);
