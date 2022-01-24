@@ -71,7 +71,7 @@ userRouter.put(
     .isURL({
       require_protocol: true,
       protocols: ["https"],
-      host_whitelist: ["instagram.com"],
+      host_whitelist: ["instagram.com", "www.instagram.com"],
     })
     .isLength({ max: 200 }),
   body("twitter")
@@ -79,7 +79,7 @@ userRouter.put(
     .isURL({
       require_protocol: true,
       protocols: ["https"],
-      host_whitelist: ["twitter.com"],
+      host_whitelist: ["twitter.com", "www.twitter.com"],
     })
     .isLength({ max: 200 }),
   body("facebook")
@@ -87,7 +87,7 @@ userRouter.put(
     .isURL({
       require_protocol: true,
       protocols: ["https"],
-      host_whitelist: ["facebook.com"],
+      host_whitelist: ["facebook.com", "www.facebook.com"],
     })
     .isLength({ max: 200 }),
   body("linkedin")
@@ -95,7 +95,7 @@ userRouter.put(
     .isURL({
       require_protocol: true,
       protocols: ["https"],
-      host_whitelist: ["linkedin.com"],
+      host_whitelist: ["linkedin.com", "www.linkedin.com"],
     })
     .isLength({ max: 200 }),
   body("concentration").optional().isString().isLength({ max: 100 }),
@@ -169,7 +169,8 @@ userRouter.put(
     }
     // Check if the url is a valid imgur url to an image
     const profilePicture = req.body.profilePicture as string;
-    const urlRegex = /^https:\/\/i\.imgur\.com\/[a-zA-Z0-9]{5,7}\.png$/;
+    const urlRegex =
+      /^https:\/\/i\.imgur\.com\/[a-zA-Z0-9]{5,7}\.(?:png|jpg|jpeg)$/;
     if (!urlRegex.test(profilePicture)) {
       res.status(400).send("Invalid profile picture url");
       return;

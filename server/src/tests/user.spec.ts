@@ -189,7 +189,7 @@ describe("User", () => {
           hometown: "San Francisco, CA",
           concentration: "Computer Science",
           classYear: "2024",
-          instagram: "https://instagram.com/test",
+          instagram: "https://www.instagram.com/test",
           twitter: "https://twitter.com/test",
           facebook: "https://facebook.com/test",
           bio: "This is a bio",
@@ -200,7 +200,7 @@ describe("User", () => {
       expect(newUser?.concentration).toBe("Computer Science");
       expect(newUser?.classYear).toBe("2024");
       expect(newUser?.hometown).toBe("San Francisco, CA");
-      expect(newUser?.instagram).toBe("https://instagram.com/test");
+      expect(newUser?.instagram).toBe("https://www.instagram.com/test");
       expect(newUser?.twitter).toBe("https://twitter.com/test");
       expect(newUser?.facebook).toBe("https://facebook.com/test");
       expect(newUser?.bio).toBe("This is a bio");
