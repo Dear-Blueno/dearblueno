@@ -15,6 +15,7 @@ type ThreadProps = {
   collapsed: boolean;
   comment: IThread;
   depth: number;
+  postNumber?: number;
   // displayedChildren: number;
 };
 
@@ -36,6 +37,7 @@ function Thread(props: ThreadProps) {
         collapsed={false}
         comment={comment}
         depth={props.depth + 1}
+        postNumber={props.postNumber}
       />
     );
   });
@@ -57,6 +59,7 @@ function Thread(props: ThreadProps) {
           comment={props.comment}
           collapsed={!show}
           expand={() => setShow(true)}
+          postNumber={props.postNumber}
         />
         {show && (
           <div className="ThreadBody">

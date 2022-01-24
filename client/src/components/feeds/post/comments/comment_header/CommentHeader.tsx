@@ -15,6 +15,7 @@ type CommentHeaderProps = {
   comment: IThread;
   collapsed: boolean;
   expand: () => void;
+  postNumber?: number;
 };
 
 function CommentHeader(props: CommentHeaderProps) {
@@ -80,7 +81,7 @@ function CommentHeader(props: CommentHeaderProps) {
   const isHovering = useRef(false);
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
-
+  
   // cleanup
   useEffect(() => {
     return () => {
@@ -168,7 +169,13 @@ function CommentHeader(props: CommentHeaderProps) {
           expand
         </p>
       )}
-      <CommentMenuButton user={props.user} commentUser={props.comment.author} reported={props.comment.needsReview}/>
+      <CommentMenuButton
+        user={props.user}
+        commentUser={props.comment.author}
+        reported={props.comment.needsReview}
+        commentNumber={props.comment.commentNumber}
+        postNumber={props.postNumber ?? 0}
+      />
     </div>
   );
 }

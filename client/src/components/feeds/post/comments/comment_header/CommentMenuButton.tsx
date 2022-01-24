@@ -4,9 +4,12 @@ import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import IUser from "../../../../../types/IUser";
+import { deleteComment } from "../../../../../gateways/PostGateway";
 
 interface CommentMenuButtonProps {
   user?: IUser;
+  commentNumber: number;
+  postNumber: number;
   commentUser?: IUser;
   reported: Boolean;
 }
@@ -50,6 +53,12 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
 
   const closePopup = () => setshowPopup(false);
 
+  const [showDeletePopup, setshowDeletePopup] = useState(false);
+  const openDeletePopup = () => {
+    setshowDeletePopup(true);
+  };
+  const closeDeletePopup = () => setshowDeletePopup(false);
+
   let refDropdown = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
@@ -92,6 +101,39 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     </div>
   );
 
+  const deletePopUp = (
+    <div className="Popup">
+      <DialogOverlay
+        style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
+        isOpen={showDeletePopup}
+        onDismiss={closeDeletePopup}
+      >
+        <DialogContent aria-label="Delete Dialog">
+        <p className="DeleteBox">
+            <p className="DeleteConfirmationText">
+              <strong>ARE YOU SURE?</strong>
+            </p>
+            <br />
+            <div className="DeleteConfirmationOptions">
+              <p onClick={closeDeletePopup} className="PopupAction">
+                No
+              </p>
+              <p
+                onClick={() => {
+                  closeDeletePopup();
+                  deleteComment(props.postNumber, props.commentNumber);
+                }}
+                className="PopupAction"
+              >
+                Yes
+              </p>
+            </div>
+          </p>
+        </DialogContent>
+      </DialogOverlay>
+    </div>
+  );
+
   const shareAction = () => {
     navigator.clipboard.writeText(
       "https://dearblueno.net/comment/ + necessary data"
@@ -107,6 +149,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     <div className="CommentMenuDropdown" ref={refDropdown}>
       <div className="CommentMenuButton" ref={setReferenceElement}>
         {popUp}
+        {deletePopUp}
         <div
           className="CommentMenuDropdownText"
           onClick={() => setClicked(!clicked)}
@@ -142,12 +185,12 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                   {props.user &&
                   props.commentUser &&
                   props.user._id === props.commentUser._id ? (
-                    <p className="MenuDropdownAction">delete</p>
+                    <p className="MenuDropdownAction" onClick={() => {openDeletePopup();}}>delete</p>
                   ) : null}
                 </>
               )}
               {copied && <p>copied</p>}
-            </div>
+            </div>  
           </div>
         )}
       </div>

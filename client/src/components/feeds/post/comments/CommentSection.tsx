@@ -103,6 +103,7 @@ function CommentSection(props: CommentSectionProps) {
           comment={comment}
           collapsed={false}
           depth={0}
+          postNumber={props.postNumber}
         />
       ))}
       {props.showCommentBox && (

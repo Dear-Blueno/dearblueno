@@ -89,3 +89,15 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.DeleteBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DeleteConfirmationOptions {
+  display: flex;
+  flex-direction: row;
+  gap: 6rem;
+}
