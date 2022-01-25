@@ -113,6 +113,7 @@ function CommentSection(props: CommentSectionProps) {
           depth={0}
           postNumber={props.postNumber}
           setComments={setComments}
+          inContext={false}
         />
       ))}
       {showTopLevelCommentBox && (

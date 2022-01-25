@@ -17,6 +17,7 @@ type ThreadProps = {
   depth: number;
   postNumber?: number;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
+  inContext: boolean;
   // displayedChildren: number;
 };
 
@@ -40,6 +41,7 @@ function Thread(props: ThreadProps) {
         depth={props.depth + 1}
         postNumber={props.postNumber}
         setComments={props.setComments}
+        inContext={props.inContext}
       />
     );
   });
@@ -50,7 +52,7 @@ function Thread(props: ThreadProps) {
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
         />
-        {show && (
+        {show && !props.inContext && (
           <ThreadCollapser
             collapse={toggleShow}
             color={colors[props.depth <= 4 ? props.depth : 4]}
@@ -62,28 +64,31 @@ function Thread(props: ThreadProps) {
           collapsed={!show}
           expand={() => setShow(true)}
           postNumber={props.postNumber}
+          inContext={props.inContext}
         />
         {show && (
           <div className="ThreadBody">
             <div className="CommentBody">
               <div className="CommentBodyTextAndFooter">
                 <p className="CommentBodyText">{props.comment.content}</p>
-                <div className="CommentFooter">
-                  <ReactionBar
-                    postNumber={props.comment.postNumber}
-                    commentNumber={props.comment.commentNumber}
-                    user={props.user}
-                    type="comment"
-                    reactions={props.comment.reactions}
-                  />
-                  <DividerDot />
-                  <CommentButton
-                    type="reply"
-                    click={() => setShowReplyBox(true)}
-                  />
-                </div>
+                {!props.inContext && (
+                  <div className="CommentFooter">
+                    <ReactionBar
+                      postNumber={props.comment.postNumber}
+                      commentNumber={props.comment.commentNumber}
+                      user={props.user}
+                      type="comment"
+                      reactions={props.comment.reactions}
+                    />
+                    <DividerDot />
+                    <CommentButton
+                      type="reply"
+                      click={() => setShowReplyBox(true)}
+                    />
+                  </div>
+                )}
               </div>
-              {showReplyBox && (
+              {showReplyBox && !props.inContext && (
                 <NewCommentBox
                   user={props.user}
                   firstComment={false}
