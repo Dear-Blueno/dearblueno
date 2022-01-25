@@ -1,6 +1,5 @@
 import "./ProfileBox.css";
-import IUser from "../../types/IUser";
-import { IBasicUser } from "../../types/IUser";
+import IUser, { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
 import ProfileBio from "./left_column/ProfileBio";
@@ -32,14 +31,14 @@ function ProfileBox(props: ProfileBoxProps) {
   const handleProfileEdit = () => {
     console.log((twitterInput.current?.value || undefined) === undefined);
     updateUserProfile(
-      bioTextArea.current?.value,
-      hometownInput.current?.value,
+      bioTextArea.current?.value || undefined,
+      hometownInput.current?.value || undefined,
       instagramInput.current?.value || undefined,
       twitterInput.current?.value || undefined,
       facebookInput.current?.value || undefined,
       linkedinInput.current?.value || undefined,
-      concentrationInput.current?.value,
-      yearInput.current?.value
+      concentrationInput.current?.value || undefined,
+      yearInput.current?.value || undefined
     );
     setEditing(false);
   };

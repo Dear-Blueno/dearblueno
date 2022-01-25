@@ -1088,6 +1088,13 @@ describe("Posts", () => {
       expect(res.body[0].postNumber).toBe(2);
       expect(res.body[1].postNumber).toBe(3);
       expect(res.body[2].postNumber).toBe(1);
+
+      const res2 = await request(app)
+        .get("/posts/search?query=test post")
+        .expect(200);
+
+      expect(res2.body.length).toBe(3);
+      expect(res2.body[0].postNumber).toBe(1);
     });
 
     it("should not leak sensitive information about users or posts", async () => {

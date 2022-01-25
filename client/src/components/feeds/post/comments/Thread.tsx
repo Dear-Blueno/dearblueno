@@ -9,6 +9,7 @@ import DividerDot from "components/feeds/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
 import IUser from "types/IUser";
+import Linkify from "linkify-react";
 
 type ThreadProps = {
   user?: IUser;
@@ -70,7 +71,9 @@ function Thread(props: ThreadProps) {
           <div className="ThreadBody">
             <div className="CommentBody">
               <div className="CommentBodyTextAndFooter">
-                <p className="CommentBodyText">{props.comment.content}</p>
+                <Linkify>
+                  <p className="CommentBodyText">{props.comment.content}</p>
+                </Linkify>
                 {!props.inContext && (
                   <div className="CommentFooter">
                     <ReactionBar

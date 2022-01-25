@@ -5,7 +5,7 @@
 
 This is the repository for the website for Dear Blueno, the anonymous post board for students and community members at Brown University in Providence.
 
-This open-source project is built on the MERN stack ([MongoDB](https://www.mongodb.com/), [Express.js](http://expressjs.com/), [React.js](https://reactjs.org/), [Node.js](https://nodejs.org/)). We also use [TypeScript](https://www.typescriptlang.org/), [NodeMailer](https://nodemailer.com/), [Mongoose.js](http://mongoosejs.com/), [Passport.js](https://www.passportjs.org/), [google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/), and [node-cron](https://nodecron.com/).
+This open-source project is built on the MERN stack ([MongoDB](https://www.mongodb.com/), [Express.js](http://expressjs.com/), [React.js](https://reactjs.org/), [Node.js](https://nodejs.org/)). We also use [TypeScript](https://www.typescriptlang.org/), [Mongoose.js](http://mongoosejs.com/), [Passport.js](https://www.passportjs.org/), [google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/), and [node-cron](https://nodecron.com/).
 
 ## License and Contributing
 
