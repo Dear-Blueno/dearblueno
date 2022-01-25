@@ -90,7 +90,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               <div
                 className="ReportReason"
                 key={reason}
-                onClick={() => {closePopup(); props.reported = true;}}
+                onClick={() => {closePopup();}}
               >
                 {reason}
               </div>

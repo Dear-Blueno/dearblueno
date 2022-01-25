@@ -1,0 +1,70 @@
+.SearchHeaderCover {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  justify-content: space-between;
+  align-self: baseline;
+  align-items: center;
+  z-index: 999;
+  background: #fff;
+}
+
+.InputBox {
+  border: none;
+  width: 89%;
+  font-size: large;
+}
+
+.CloseButton {
+  align-self: center;
+  margin-bottom: 0.3rem;
+}
+
+/* Extra extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 600px) {
+  .SearchHeaderCover {
+    width: calc(100% - 1.8rem);
+  }
+
+  .InputBox {
+    font-size: x-small;
+    padding: 0rem;
+    padding-left: .2rem;
+  }
+}
+
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 600px) {
+  .SearchHeaderCover {
+    width: calc(100% - 1rem);
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .SearchHeaderCover {
+    width: calc(100% - 1rem);
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .SearchHeaderCover {
+    width: 45rem;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .SearchHeaderCover {
+    width: 45rem;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .SearchHeaderCover {
+    width: calc(45rem - 1.4rem);
+  }
+
+  .CloseButton {
+    margin-top: 0.1rem;
+  }
+}

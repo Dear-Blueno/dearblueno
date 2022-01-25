@@ -6,8 +6,8 @@ interface HeaderButtonProps {
   icon: IconType | undefined;
   image?: string;
   alt: string;
-  opacity: number;
-  delay: string;
+  opacity?: number;
+  delay?: string;
   buttonRef?: any;
 }
 
@@ -17,7 +17,7 @@ function HeaderButton(props: HeaderButtonProps) {
     <div
       className="HeaderButton"
       onClick={props.action}
-      style={{ opacity: props.opacity, animationDelay: props.delay }}
+      style={{ opacity: props.opacity ?? 1 , animationDelay: props.delay ?? "0ms" }}
       ref={props.buttonRef}
     >
       {props.icon ? (

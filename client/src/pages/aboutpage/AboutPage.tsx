@@ -22,11 +22,11 @@ function AboutPage(props: AboutPageProps) {
         <div className="AboutPageSection">
           <h3 className="SectionHeader">COMMUNITY GUIDELINES</h3>
           <p>
-            Lorem ipsum dolor sit amet. Et facere accusantium ex reiciendis
-            aspernatur qui sapiente galisum in illo expedita ut impedit
-            quibusdam. Qui omnis mollitia et quia facilis ea quam debitis. Et
-            maiores velit eum eaque iure aut veritatis tenetur 33 veniam placeat
-            ea illum excepturi.
+            1. Be respectful to other users.<br/>
+            2. Do not post the personal information of others.<br/>
+            3. Racism, sexism, homophobia, antisemitism, and other forms of bigotry are not tolerated.<br/>
+            4. Do not spam.<br/>
+            5. Do not post illegal or potentially dangerous content.<br/>
           </p>
         </div>
 

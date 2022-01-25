@@ -35,6 +35,12 @@
   gap: 1rem;
 }
 
+.CancelConfirmationBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
 .CancelConfirmationOptions {
   display: flex;
   flex-direction: row;

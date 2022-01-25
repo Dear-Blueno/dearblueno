@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  z-index: 1;
 }
 
 @keyframes HeaderAppear {
@@ -235,3 +236,23 @@
   cursor: pointer;
 }
 
+.SearchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0.8rem;
+  margin-top: 0.2rem;
+  width: 87%;
+}
+
+.InputBox {
+  height: 1.5rem;
+  width: 100%;
+  font-size: large;
+  padding: 0.7rem;
+  font-family: "Fira Code", monospace;
+}
+
+.InputBox:focus {
+  outline: none;
+}

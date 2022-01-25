@@ -10,10 +10,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
+import SearchHeaderCover from "./SearchHeaderCover";
 
 type HeaderProps = {
   user?: IUser;
   moderatorView: boolean;
+  searching: boolean;
+  setSearching: (searching: boolean) => void;
+  setSearchQuery: (searchQuery: string) => void;
 };
 
 function Header(props: HeaderProps) {
@@ -22,7 +26,6 @@ function Header(props: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
   const [showPlus, setShowPlus] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
   const [postReferenceElement, setPostReferenceElement] = useState<any>(null);
   const [profileReferenceElement, setProfileReferenceElement] =
     useState<any>(null);
@@ -122,6 +125,7 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="Header">
+      {props.searching && <SearchHeaderCover setSearching={props.setSearching} setSearchQuery={props.setSearchQuery}/>}
       <Link to="/" className="RefreshHeaderLink" draggable={false}>
         <Typist
           cursor={{ show: false }}
@@ -131,18 +135,24 @@ function Header(props: HeaderProps) {
           <h1 id="HeaderText">Dear Blueno</h1>
         </Typist>
         {showLogo && (
-          <img className="LogoImage" src={LogoIcon} alt="8-bit Blueno" draggable={false} />
+          <img
+            className="LogoImage"
+            src={LogoIcon}
+            alt="8-bit Blueno"
+            draggable={false}
+          />
         )}
       </Link>
       <div className="HeaderButtons">
         <HeaderButton
-          action={() => {}}
+          action={() => {
+            props.setSearching(true);
+          }}
           icon={BiSearch}
           alt="Search"
           opacity={showSearch ? 1 : 0}
           delay="1500ms"
         />
-
         <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
           <HeaderButton
             action={() => setSubmitClicked(!submitClicked)}
@@ -185,7 +195,6 @@ function Header(props: HeaderProps) {
             </div>
           )}
         </div>
-
         <div className="ProfileButtonAndDropdown" ref={profileRefDropdown}>
           <HeaderButton
             action={() => setProfileClicked(!profileClicked)}

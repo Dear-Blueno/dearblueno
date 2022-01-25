@@ -15,6 +15,8 @@ function PostPage(props: PostProps) {
   const { user } = props;
   const { postNumber } = useParams();
   const [post, setPost] = useState<IPost>();
+  const [searching, setSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     getPost(Number(postNumber)).then((response) => {
@@ -28,7 +30,7 @@ function PostPage(props: PostProps) {
 
   return (
     <>
-      <Header user={user} moderatorView={false} />
+      <Header user={user} moderatorView={false} searching={searching} setSearching={setSearching} setSearchQuery={setSearchQuery}/>
       <div className="PostPage">
         {post && <Post user={props.user} post={post} />}
       </div>
