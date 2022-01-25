@@ -73,6 +73,7 @@ function ModeratorFeed(props: ModeratorFeedProps) {
                 post={post}
                 user={props.user}
                 delay={index * 80 + "ms"}
+                setFeed={setPosts}
               />
             ))
           : comments.map((comment, index) => (

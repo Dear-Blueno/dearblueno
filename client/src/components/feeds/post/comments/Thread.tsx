@@ -1,14 +1,14 @@
 import "./Thread.css";
-import ReactionBar from "../reactions/ReactionBar";
+import ReactionBar from "components/feeds/post/reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useState } from "react";
-import NewCommentBox from "./new_comment/NewCommentBox";
+import NewCommentBox from "components/feeds/post/comments/new_comment/NewCommentBox";
 import CommentButton from "./CommentButton";
-import DividerDot from "../content/DividerDot";
-import CommentProfilePicture from "../../../user/CommentProfilePicture";
-import CommentHeader from "./comment_header/CommentHeader";
-import IUser from "../../../../types/IUser";
+import DividerDot from "components/feeds/post/content/DividerDot";
+import CommentProfilePicture from "components/user/CommentProfilePicture";
+import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
+import IUser from "types/IUser";
 
 type ThreadProps = {
   user?: IUser;
@@ -16,6 +16,7 @@ type ThreadProps = {
   comment: IThread;
   depth: number;
   postNumber?: number;
+  setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
   // displayedChildren: number;
 };
 
@@ -38,6 +39,7 @@ function Thread(props: ThreadProps) {
         comment={comment}
         depth={props.depth + 1}
         postNumber={props.postNumber}
+        setComments={props.setComments}
       />
     );
   });
@@ -88,6 +90,7 @@ function Thread(props: ThreadProps) {
                   postNumber={props.comment.postNumber}
                   parentCommentNumber={props.comment.commentNumber}
                   setShow={setShowReplyBox}
+                  setComments={props.setComments ?? (() => {})}
                 />
               )}
             </div>

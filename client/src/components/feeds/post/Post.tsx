@@ -6,12 +6,11 @@ import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
 import CommentButton from "./comments/CommentButton";
 import CommentSection, { IThread } from "./comments/CommentSection";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import IUser from "../../../types/IUser";
 import IComment from "../../../types/IComment";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
-import { FeedContext } from "../Feed";
 import ShareButton from "./ShareButton";
 import IPost from "../../../types/IPost";
 
@@ -19,6 +18,7 @@ export type PostProps = {
   user?: IUser;
   post: IPost;
   delay?: string;
+  setFeed?: React.Dispatch<React.SetStateAction<IPost[]>>;
 };
 
 const convertToThread = (comment: IComment) => {
@@ -28,13 +28,12 @@ const convertToThread = (comment: IComment) => {
 };
 
 function Post(props: PostProps) {
-  const feedContext = useContext(FeedContext);
   const [showCommentBox, setShowCommentBox] = useState(false);
 
   const approveOrDeny = async (bool: boolean) => {
     const response = await approvePost(props.post._id, bool);
-    if (response.success) {
-      feedContext.refreshPosts();
+    if (response.success && props.setFeed) {
+      props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
     }
   };
 
@@ -82,7 +81,6 @@ function Post(props: PostProps) {
           comments={props.post.comments.map(convertToThread)}
           postNumber={props.post.postNumber ?? 0}
           showCommentBox={showCommentBox}
-          setShowCommentBox={setShowCommentBox}
         />
       )}
     </div>

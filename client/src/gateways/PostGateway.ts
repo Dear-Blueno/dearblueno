@@ -117,7 +117,7 @@ export async function commentOnPost(
   content: string,
   parentCommentNumber: number,
   anonymous?: boolean
-): Promise<IResponse<IPost>> {
+): Promise<IResponse<IComment>> {
   try {
     const response = await axios.post(`/posts/${postNumber}/comment`, {
       content,

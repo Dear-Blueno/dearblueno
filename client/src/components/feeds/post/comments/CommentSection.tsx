@@ -10,7 +10,6 @@ export type CommentSectionProps = {
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
-  setShowCommentBox: (show: boolean) => void;
 };
 
 export interface IThread extends IComment {
@@ -88,12 +87,21 @@ const sortComments = (commentList: IThread[]) => {
 
 function CommentSection(props: CommentSectionProps) {
   const [comments, setComments] = useState<IThread[]>([]);
+  const [showTopLevelCommentBox, setShowTopLevelCommentBox] = useState(
+    props.showCommentBox
+  );
+
   useEffect(() => {
     const threads = nestComments(props.comments);
     calculateScores(threads);
     sortComments(threads);
     setComments(threads);
   }, [props.comments]);
+
+  useEffect(() => {
+    setShowTopLevelCommentBox(props.showCommentBox);
+  }, [props.showCommentBox]);
+
   return props.comments.length || props.showCommentBox ? (
     <div className="CommentSection">
       {comments.map((comment, index) => (
@@ -104,15 +112,17 @@ function CommentSection(props: CommentSectionProps) {
           collapsed={false}
           depth={0}
           postNumber={props.postNumber}
+          setComments={setComments}
         />
       ))}
-      {props.showCommentBox && (
+      {showTopLevelCommentBox && (
         <NewCommentBox
           user={props.user}
           firstComment={props.comments.length === 0}
           parentCommentNumber={-1}
-          setShow={props.setShowCommentBox}
+          setShow={setShowTopLevelCommentBox}
           postNumber={props.postNumber}
+          setComments={setComments}
         ></NewCommentBox>
       )}
     </div>

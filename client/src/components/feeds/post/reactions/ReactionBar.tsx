@@ -157,47 +157,54 @@ function ReactionBar(props: ReactionBarProps) {
   }, [reactionCounts]);
 
   const buttonClick = (reaction: number) => {
-    return () => {
+    return async () => {
       if (props.user) {
         const includesUser: boolean = props.reactions[reaction]?.includes(
           props.user._id
         );
-        if (includesUser) {
-          props.reactions[reaction] = props.reactions[reaction].filter(
-            (id) => id !== props.user?._id
-          );
-          const newUsers = [...users];
-          newUsers[reaction] = newUsers[reaction].filter(
-            (user) => user._id !== props.user?._id
-          );
-          setUsers(newUsers);
-        } else {
-          if (props.reactions[reaction]) {
-            props.reactions[reaction] = [
-              ...props.reactions[reaction],
-              props.user._id,
-            ];
-          } else {
-            props.reactions[reaction] = [props.user._id];
-          }
-          const newUsers = [...users];
-          newUsers[reaction] = newUsers[reaction]
-            ? [...newUsers[reaction], props.user]
-            : [props.user];
-          setUsers(newUsers);
-        }
-        countUpdaters[reaction](props.reactions[reaction].length);
+        let response;
         if (props.type === "post") {
-          reactToPost(props.postNumber, reaction + 1, !includesUser);
+          response = await reactToPost(
+            props.postNumber,
+            reaction + 1,
+            !includesUser
+          );
         } else {
           if (props.commentNumber) {
-            reactToComment(
+            response = await reactToComment(
               props.postNumber,
               props.commentNumber,
               reaction + 1,
               !includesUser
             );
           }
+        }
+        if (response && response.success) {
+          if (includesUser) {
+            props.reactions[reaction] = props.reactions[reaction].filter(
+              (id) => id !== props.user?._id
+            );
+            const newUsers = [...users];
+            newUsers[reaction] = newUsers[reaction].filter(
+              (user) => user._id !== props.user?._id
+            );
+            setUsers(newUsers);
+          } else {
+            if (props.reactions[reaction]) {
+              props.reactions[reaction] = [
+                ...props.reactions[reaction],
+                props.user._id,
+              ];
+            } else {
+              props.reactions[reaction] = [props.user._id];
+            }
+            const newUsers = [...users];
+            newUsers[reaction] = newUsers[reaction]
+              ? [...newUsers[reaction], props.user]
+              : [props.user];
+            setUsers(newUsers);
+          }
+          countUpdaters[reaction](props.reactions[reaction].length);
         }
       }
     };
