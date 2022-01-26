@@ -78,7 +78,8 @@
 
 .ProfileComments {
   display: flex;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   max-height: 30rem;
   flex-direction: column;
   gap: 0.8rem;

@@ -1,8 +1,7 @@
 import "./ProfilePage.css";
 import LogoIcon from "../../images/logo128.png";
 import { Link, useParams } from "react-router-dom";
-import IUser from "../../types/IUser";
-import { IBasicUser } from "../../types/IUser";
+import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
 import { useEffect, useState } from "react";
