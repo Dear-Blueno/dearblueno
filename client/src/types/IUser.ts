@@ -3,6 +3,8 @@ export interface IBasicUser {
   _id: string;
   googleId: string;
   name: string;
+  givenName: string;
+  familyName: string;
   profilePicture: string;
   bio?: string;
   hometown?: string;

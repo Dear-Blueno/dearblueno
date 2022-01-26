@@ -42,7 +42,8 @@ export default function passportConfig() {
         }
 
         // Extract user information from the profile
-        const { sub, name, email, picture } = profile._json;
+        const { sub, name, email, picture, given_name, family_name } =
+          profile._json;
 
         // Verify user if from brown.edu domain
         const verifiedBrown = profile._json.hd === "brown.edu";
@@ -53,6 +54,8 @@ export default function passportConfig() {
             { googleId: sub },
             {
               name,
+              givenName: given_name,
+              familyName: family_name,
               email,
               profilePicture: picture,
               lastLoggedIn: new Date(),
@@ -68,6 +71,8 @@ export default function passportConfig() {
           const user = await new User({
             googleId: sub,
             name,
+            givenName: given_name,
+            familyName: family_name,
             email,
             profilePicture: picture,
             verifiedBrown,
