@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { loadAuth } from "./gateways/AuthGateway";
 import ProfilePage from "./pages/profilepage/ProfilePage";
 import PostPage from "./pages/postpage/PostPage";
+import SearchPage from "pages/searchpage/SearchPage";
 
 function App() {
   // Auth/user state
@@ -38,7 +39,8 @@ function App() {
             element={<ProfilePage user={user} profileUser={user} />}
           />
           <Route path="/submit" element={<SubmitPage user={user} />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/about" element={<AboutPage user={user}/>} />
+          <Route path="/search" element={<SearchPage />} />
           <Route
             path="/moderator"
             element={<FeedPage user={user} moderatorView={true} />}

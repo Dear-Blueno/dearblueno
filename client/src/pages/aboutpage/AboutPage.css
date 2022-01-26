@@ -26,9 +26,8 @@
   cursor: pointer;
 }
 
-
 .Collapsible__trigger {
-  padding-bottom: .5%;
+  padding-bottom: 0.5%;
   font-weight: 600;
   display: block;
   position: relative;
@@ -56,7 +55,7 @@
 }
 
 .FAQAnswer {
-  margin-bottom: .3rem;
+  margin-bottom: 0.3rem;
 }
 
 /* Extra small devices (phones, 600px and down) */

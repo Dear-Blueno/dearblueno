@@ -6,6 +6,7 @@
   box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
+  margin-top: 0;
 }
 
 .PreSubmitContent {
@@ -42,9 +43,10 @@
 @media only screen and (max-width: 600px) {
   .SubmitBox {
     margin: 0.5rem;
-    margin-left: 0.7rem;
+    margin-left: 0.5rem;
     height: calc(100% - 1rem);
     width: calc(100% - 1rem);
+    margin-top: 0;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */

@@ -42,7 +42,7 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
         isOpen={showAnonPopup}
       >
         <DialogContent aria-label="AnonymousConfirmationBox">
-          <p className="AnonymousConfirmationBox">
+          <div className="AnonymousConfirmationBox">
             <strong>THIS IS ANONYMOUS</strong>
             <br />
             <p className="AnonymousConfirmationText">
@@ -55,7 +55,7 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
             <p onClick={closeAnonPopup} className="PopupAction">
               I UNDERSTAND
             </p>
-          </p>
+          </div>
         </DialogContent>
       </DialogOverlay>
     </div>

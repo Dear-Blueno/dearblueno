@@ -2,9 +2,9 @@ import "./SearchHeaderCover.css";
 import HeaderButton from "./HeaderButton";
 import { GrFormClose } from "react-icons/gr";
 import { useDebouncedCallback } from "use-debounce";
+import { Link } from "react-router-dom";
 
 type SearchHeaderCoverProps = {
-  setSearching: (searching: boolean) => void;
   setSearchQuery: (searchQuery: string) => void;
 };
 
@@ -29,11 +29,13 @@ function SearchHeaderCover(props: SearchHeaderCoverProps) {
         }}
       />
       <div className="CloseButton">
-        <HeaderButton
-          action={() => props.setSearching(false)}
-          icon={GrFormClose}
-          alt="Close Search"
-        />
+        <Link to="/">
+          <HeaderButton
+            icon={GrFormClose}
+            alt="Close Search"
+            action={() => {}}
+          />
+        </Link>
       </div>
     </div>
   );

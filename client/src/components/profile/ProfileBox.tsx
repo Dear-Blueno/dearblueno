@@ -12,6 +12,7 @@ import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/feeds/post/comments/ContextThread";
+import Header from "../../components/header/Header";
 
 type ProfileBoxProps = {
   user?: IUser;
@@ -63,45 +64,51 @@ function ProfileBox(props: ProfileBoxProps) {
   };
 
   return (
-    <div className="ProfileBox">
-      <div className="LeftColumn">
-        <ProfilePicture
-          link={props.profileUser ? props.profileUser.profilePicture : ""}
-        ></ProfilePicture>
-        <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
-        {ownProfile && !editing && (
-          <ProfileEditButton click={() => setEditing(true)} />
-        )}
-        <ProfileSocials
-          links={[
-            props.profileUser?.instagram,
-            props.profileUser?.twitter,
-            props.profileUser?.facebook,
-            props.profileUser?.linkedin,
-          ]}
-          refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
-          editing={editing}
-        />
-        <ProfileBio
-          bio={props.profileUser?.bio ? props.profileUser.bio : ""}
-          editing={editing}
-          bioRef={bioTextArea}
-        />
-        <ProfilePersonalInfo
-          contents={[
-            props.profileUser?.hometown,
-            props.profileUser?.classYear,
-            props.profileUser?.concentration,
-          ]}
-          refs={[hometownInput, yearInput, concentrationInput]}
-          editing={editing}
-        />
-        {editing && (
-          <div className="SaveAndCancelButtons">
-            <ProfileSaveButton click={handleProfileEdit} />
-            <ProfileCancelButton click={() => setEditing(false)} />
-          </div>
-        )}
+    <>
+      {window.innerWidth < 768 && (
+        <Header user={props.user} moderatorView={false} />
+      )}
+      <div className="ProfileBox">
+        <div className="LeftColumn">
+          <ProfilePicture
+            link={props.profileUser ? props.profileUser.profilePicture : ""}
+          ></ProfilePicture>
+          <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
+          {ownProfile && !editing && (
+            <ProfileEditButton click={() => setEditing(true)} />
+          )}
+          <ProfileSocials
+            links={[
+              props.profileUser?.instagram,
+              props.profileUser?.twitter,
+              props.profileUser?.facebook,
+              props.profileUser?.linkedin,
+            ]}
+            refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
+            editing={editing}
+          />
+          <ProfileBio
+            bio={props.profileUser?.bio ? props.profileUser.bio : ""}
+            editing={editing}
+            bioRef={bioTextArea}
+          />
+          <ProfilePersonalInfo
+            contents={[
+              props.profileUser?.hometown,
+              props.profileUser?.classYear,
+              props.profileUser?.concentration,
+            ]}
+            refs={[hometownInput, yearInput, concentrationInput]}
+            editing={editing}
+          />
+          {editing && (
+            <div className="SaveAndCancelButtons">
+              <ProfileSaveButton click={handleProfileEdit} />
+              <ProfileCancelButton click={() => setEditing(false)} />
+            </div>
+          )}
+        </div>
+        <div className="RightColumn"></div>
       </div>
       <div className="RightColumn">
         <div className="ProfileComments">
@@ -119,7 +126,7 @@ function ProfileBox(props: ProfileBoxProps) {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

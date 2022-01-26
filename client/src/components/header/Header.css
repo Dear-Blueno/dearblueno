@@ -83,7 +83,7 @@
 @media only screen and (min-width: 600px) {
   .Header {
     width: calc(100% - 1rem);
-    margin-left: 0.5rem;
+    margin-left: 0.6rem;
     padding: 0.4rem;
   }
   #HeaderText {

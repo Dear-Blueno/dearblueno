@@ -1,12 +1,15 @@
 .SearchHeaderCover {
+  margin-top: 0.9rem;
   display: flex;
   flex-direction: row;
-  position: absolute;
   justify-content: space-between;
-  align-self: baseline;
+  align-self: center;
   align-items: center;
-  z-index: 999;
   background: #fff;
+  padding: 0.55rem;
+  box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  margin-bottom: 1rem;
 }
 
 .InputBox {
@@ -24,12 +27,17 @@
 @media only screen and (max-width: 600px) {
   .SearchHeaderCover {
     width: calc(100% - 1.8rem);
+    margin-top: 0.5rem;
+    padding: 0.3rem;
+    padding-bottom: 0rem;
+    margin-bottom: 0.5rem;
   }
 
   .InputBox {
-    font-size: x-small;
+    font-size: 0.8rem;
     padding: 0rem;
-    padding-left: .2rem;
+    padding-left: 0.2rem;
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -50,6 +58,10 @@
 @media only screen and (min-width: 768px) {
   .SearchHeaderCover {
     width: 45rem;
+  }
+
+  .InputBox {
+    margin-bottom: 0rem;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */

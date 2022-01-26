@@ -2,8 +2,12 @@ import "./AboutPage.css";
 import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
+import Header from "../../components/header/Header";
+import IUser from "../../types/IUser";
 
-type AboutPageProps = {};
+type AboutPageProps = {
+  user: IUser | undefined;
+};
 
 function AboutPage(props: AboutPageProps) {
   return (
@@ -17,6 +21,9 @@ function AboutPage(props: AboutPageProps) {
             draggable={false}
           />
         </Link>
+      )}
+      {window.innerWidth < 768 && (
+        <Header user={props.user} moderatorView={false} />
       )}
       <div className="AboutPagePost">
         <div className="AboutPageSection">
@@ -53,8 +60,8 @@ function AboutPage(props: AboutPageProps) {
                 Your comment may not be showing up for multiple reasons. If your
                 comment was submitted anonymously, the moderators may have not
                 got around to reviewing it yet, or it may been denied.
-                Otherwise, your comment may have been automatically deleted by
-                our anti-spam system for containing potentially dangerous
+                Otherwise, your comment may have been automatically deleted
+                for containing potentially dangerous
                 content. Finally, your comment may have been manually removed by
                 a moderators for violating our community guidelines.
               </p>
@@ -85,7 +92,7 @@ function AboutPage(props: AboutPageProps) {
         <div className="AboutPageSection">
           <h3 className="SectionHeader">CONTACT</h3>
           <p>
-            For any questions/comments regarding the website, bugs, or business
+            For any questions/comments regarding the website, suggestions, feedback, bugs, or business
             inquires, please contact us at{" "}
             <a href="mailto:developers@dearblueno.net" className="EmailLink">
               developers@dearblueno.net

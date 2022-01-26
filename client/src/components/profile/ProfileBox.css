@@ -9,6 +9,12 @@
   box-sizing: border-box;
 }
 
+.HomeButtonProfile {
+  font-size: 1.8rem;
+  color: black;
+  user-select: none;
+}
+
 .LeftColumn {
   display: flex;
   flex-direction: column;
@@ -30,7 +36,7 @@
 @media only screen and (max-width: 600px) {
   .ProfileBox {
     margin: 0.5rem;
-    margin-left: 0.7rem;
+    margin-left: 0.5rem;
     width: calc(100% - 1rem);
   }
   .RightColumn {

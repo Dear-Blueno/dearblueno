@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
+import Header from "../../components/header/Header";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -26,43 +27,48 @@ function SubmitBox(props: SubmitBoxProps) {
   };
 
   return (
-    <div className="SubmitBox">
-      {!props.submitted && (
-        <div className="PreSubmitContent">
-          <h2 className="SubmitBoxHeaderText">post anonymously</h2>
-          <textarea id="TextBox" name="TextBox"></textarea>
-          <div className="ConsentAndSubmit">
-            <ConsentBar />
-            <p
-              className="Submit"
-              onClick={() => {
-                let element = document.getElementById(
-                  "TextBox"
-                ) as HTMLTextAreaElement;
-                post(element.value);
-              }}
-            >
-              submit
-            </p>
+    <>
+      {window.innerWidth < 768 && !props.submitted && (
+        <Header user={props.user} moderatorView={false} />
+      )}
+      <div className="SubmitBox">
+        {!props.submitted && (
+          <div className="PreSubmitContent">
+            <h2 className="SubmitBoxHeaderText">post anonymously</h2>
+            <textarea id="TextBox" name="TextBox"></textarea>
+            <div className="ConsentAndSubmit">
+              <ConsentBar />
+              <p
+                className="Submit"
+                onClick={() => {
+                  let element = document.getElementById(
+                    "TextBox"
+                  ) as HTMLTextAreaElement;
+                  post(element.value);
+                }}
+              >
+                submit
+              </p>
+            </div>
           </div>
-        </div>
-      )}
-      {props.submitted && (
-        <div className="PostSubmitContent">
-          <h2 className="ReturnText">
-            Your post has been submitted and will be reviewed by moderators
-            shortly. Thank you.{" "}
-          </h2>
-          <Link to="/">
-            <img
-              className="ReturnButton"
-              src={LogoIcon}
-              alt="Blueno Home Button"
-            />
-          </Link>
-        </div>
-      )}
-    </div>
+        )}
+        {props.submitted && (
+          <div className="PostSubmitContent">
+            <h2 className="ReturnText">
+              Your post has been submitted and will be reviewed by moderators
+              shortly. Thank you.{" "}
+            </h2>
+            <Link to="/">
+              <img
+                className="ReturnButton"
+                src={LogoIcon}
+                alt="Blueno Home Button"
+              />
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

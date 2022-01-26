@@ -10,14 +10,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
-import SearchHeaderCover from "./SearchHeaderCover";
 
 type HeaderProps = {
   user?: IUser;
   moderatorView: boolean;
-  searching: boolean;
-  setSearching: (searching: boolean) => void;
-  setSearchQuery: (searchQuery: string) => void;
 };
 
 function Header(props: HeaderProps) {
@@ -125,12 +121,6 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="Header">
-      {props.searching && (
-        <SearchHeaderCover
-          setSearching={props.setSearching}
-          setSearchQuery={props.setSearchQuery}
-        />
-      )}
       <Link to="/" className="RefreshHeaderLink" draggable={false}>
         <Typist
           cursor={{ show: false }}
@@ -149,15 +139,15 @@ function Header(props: HeaderProps) {
         )}
       </Link>
       <div className="HeaderButtons">
-        <HeaderButton
-          action={() => {
-            props.setSearching(true);
-          }}
-          icon={BiSearch}
-          alt="Search"
-          opacity={showSearch ? 1 : 0}
-          delay="1500ms"
-        />
+        <Link to="/search">
+          <HeaderButton
+            action={() => {}}
+            icon={BiSearch}
+            alt="Search"
+            opacity={showSearch ? 1 : 0}
+            delay="1500ms"
+          />
+        </Link>
         <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
           <HeaderButton
             action={() => setSubmitClicked(!submitClicked)}

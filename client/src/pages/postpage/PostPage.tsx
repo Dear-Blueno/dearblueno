@@ -30,13 +30,7 @@ function PostPage(props: PostProps) {
 
   return (
     <>
-      <Header
-        user={user}
-        moderatorView={false}
-        searching={searching}
-        setSearching={setSearching}
-        setSearchQuery={setSearchQuery}
-      />
+      <Header user={user} moderatorView={false} />
       <div className="PostPage">
         {post && <Post user={props.user} post={post} />}
       </div>
