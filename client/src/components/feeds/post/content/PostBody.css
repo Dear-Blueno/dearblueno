@@ -9,7 +9,13 @@
 
 .PostBodyTextHidden {
   padding: 0.4rem;
+  white-space: pre-line;
 }
+
+.PostBodyText {
+  white-space: pre-line;
+}
+
 
 .ContentContainer {
   position: relative;
