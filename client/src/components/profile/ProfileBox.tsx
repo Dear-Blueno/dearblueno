@@ -46,14 +46,89 @@ function ProfileBox(props: ProfileBoxProps) {
     }
   }, [props.profileUser]);
 
+  const handleInstagram = (link: string | undefined) => {
+    if (!link || link === "") {
+      return undefined;
+    } else if (link.startsWith("https://www.instagram.com/")) {
+      return link;
+    } else if (link.startsWith("http://www.instagram.com/")) {
+      return link.replace("http://", "https://");
+    } else if (link.startsWith("www.instagram.com/")) {
+      return "https://" + link;
+    } else if (link.startsWith("instagram.com/")) {
+      return "https://" + link;
+    } else if (link.startsWith("@")) {
+      return link.replace("@", "https://www.instagram.com/");
+    }
+    return "https://www.instagram.com/" + link;
+  };
+
+  const handleTwitter = (link: string | undefined) => {
+    if (!link || link === "") {
+      return undefined;
+    } else if (link.startsWith("https://www.twitter.com/")) {
+      return link;
+    } else if (link.startsWith("http://www.twitter.com/")) {
+      return link.replace("http://", "https://");
+    } else if (link.startsWith("www.twitter.com/")) {
+      return "https://" + link;
+    } else if (link.startsWith("twitter.com/")) {
+      return "https://" + link;
+    } else if (link.startsWith("@")) {
+      return link.replace("@", "https://www.twitter.com/");
+    }
+    return "https://www.twitter.com/" + link;
+  };
+
+  const handleLinkedIn = (link: string | undefined) => {
+    if (!link || link === "") {
+      return undefined;
+    } else if (link.startsWith("https://www.linkedin.com/in/")) {
+      return link;
+    } else if (link.startsWith("http://www.linkedin.com/in/")) {
+      return link.replace("http://", "https://");
+    } else if (link.startsWith("https://www.linkedin.com/")) {
+      return link.replace(
+        "https://www.linkedin.com/",
+        "http://www.linkedin.com/in/"
+      );
+    } else if (link.startsWith("www.linkedin.com/in/")) {
+      return "https://" + link;
+    } else if (link.startsWith("linkedin.com/in/")) {
+      return "https://" + link;
+    } else if (link.startsWith("@")) {
+      return link.replace("@", "http://www.linkedin.com/in/");
+    } else if (link.startsWith("in/")) {
+      return "http://www.linkedin.com/" + link;
+    } else if (link.startsWith("/in/")) {
+      return "http://www.linkedin.com" + link;
+    }
+    return "http://www.linkedin.com/in/" + link;
+  };
+
+  const handleFacebook = (link: string | undefined) => {
+    if (!link || link === "") {
+      return undefined;
+    } else if (link.startsWith("https://www.facebook.com/")) {
+      return link;
+    } else if (link.startsWith("http://www.facebook.com/")) {
+      return link.replace("http://", "https://");
+    } else if (link.startsWith("www.facebook.com/")) {
+      return "https://" + link;
+    } else if (link.startsWith("facebook.com/")) {
+      return "https://" + link;
+    } 
+    return "https://www.facebook.com/" + link;
+  };
+
   const handleProfileEdit = async () => {
     const response = await updateUserProfile(
       bioTextArea.current?.value || undefined,
       hometownInput.current?.value || undefined,
-      instagramInput.current?.value || undefined,
-      twitterInput.current?.value || undefined,
-      facebookInput.current?.value || undefined,
-      linkedinInput.current?.value || undefined,
+      handleInstagram(instagramInput.current?.value),
+      handleTwitter(twitterInput.current?.value),
+      handleFacebook(facebookInput.current?.value),
+      handleLinkedIn(linkedinInput.current?.value),
       concentrationInput.current?.value || undefined,
       yearInput.current?.value || undefined
     );
