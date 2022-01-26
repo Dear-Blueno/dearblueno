@@ -125,7 +125,12 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="Header">
-      {props.searching && <SearchHeaderCover setSearching={props.setSearching} setSearchQuery={props.setSearchQuery}/>}
+      {props.searching && (
+        <SearchHeaderCover
+          setSearching={props.setSearching}
+          setSearchQuery={props.setSearchQuery}
+        />
+      )}
       <Link to="/" className="RefreshHeaderLink" draggable={false}>
         <Typist
           cursor={{ show: false }}
@@ -220,7 +225,10 @@ function Header(props: HeaderProps) {
               />
               <div className="ProfileDropdownActions">
                 {user && (
-                  <Link to="/profile" className="DropdownAction">
+                  <Link
+                    to={"/profile/" + props.user?._id}
+                    className="DropdownAction"
+                  >
                     <p>Profile</p>
                   </Link>
                 )}

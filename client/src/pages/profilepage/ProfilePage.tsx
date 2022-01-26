@@ -8,7 +8,7 @@ import { getUser } from "../../gateways/UserGateway";
 import { useEffect, useState } from "react";
 
 type ProfilePageProps = {
-  user: IUser | undefined;
+  user?: IUser;
   profileUser?: IUser;
 };
 
@@ -44,7 +44,8 @@ function ProfilePage(props: ProfilePageProps) {
       )}
       <ProfileBox
         user={props.user}
-        profileUser={props.profileUser ? props.profileUser : profileUser}
+        profileUser={profileUser}
+        setProfileUser={setProfileUser}
       ></ProfileBox>
     </div>
   );

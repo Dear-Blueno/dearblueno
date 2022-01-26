@@ -23,6 +23,7 @@
   height: 100%;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -76,4 +77,18 @@
   gap: 0.5rem;
   width: 100%;
   margin-top: 0.5rem;
+}
+
+.ProfileComments {
+  display: flex;
+  overflow: scroll;
+  max-height: 30rem;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.ProfileCommentsHeader {
+  font-size: 1.2rem;
 }

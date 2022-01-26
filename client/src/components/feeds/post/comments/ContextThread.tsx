@@ -31,11 +31,17 @@ function ContextThread(props: ContextThreadProps) {
           <>
             <div className="ContextThreadParentPicture">
               <CommentProfilePicture
-                link={props.thread.author?.profilePicture}
+                link={
+                  props.thread.parentComment.author
+                    ? props.thread.parentComment.author.profilePicture
+                    : undefined
+                }
               />
             </div>
             <div className="ContextThreadReplyAuthor">
-              {props.thread.parentComment.author.name ?? "Anonymous"}
+              {props.thread.parentComment.author
+                ? props.thread.parentComment.author.name
+                : "Anonymous"}
             </div>
             <div className="ContextThreadReplyText">
               <Linkify>{props.thread.parentComment.content}</Linkify>
