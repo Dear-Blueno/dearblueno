@@ -8,12 +8,18 @@ type ShareButtonProps = {
 function ShareButton(props: ShareButtonProps) {
   return (
     <div className="ShareButton">
-      <p className="ShareButton" data-tip data-for="share" data-event="click">
+      <p
+        className="ShareButton"
+        data-tip
+        data-for={"share" + props.postNumber}
+        data-event="click"
+      >
         share
       </p>
+
       <ReactTooltip
-        id="share"
-        place="bottom"
+        id={"share" + props.postNumber}
+        place="top"
         effect="solid"
         className="ShareTooltip"
         type="light"
@@ -27,7 +33,7 @@ function ShareButton(props: ShareButtonProps) {
         }}
       >
         <div className="ShareButtonTextContainer">
-          <p>Copied to Clipboard!</p>
+          Link copied to clipboard!
         </div>
       </ReactTooltip>
     </div>
