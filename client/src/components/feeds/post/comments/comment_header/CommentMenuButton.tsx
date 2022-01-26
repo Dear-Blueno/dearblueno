@@ -4,6 +4,7 @@ import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import IUser from "../../../../../types/IUser";
+import { IThread } from "../CommentSection";
 import { deleteComment } from "../../../../../gateways/PostGateway";
 
 interface CommentMenuButtonProps {
@@ -12,6 +13,7 @@ interface CommentMenuButtonProps {
   postNumber: number;
   commentUser?: IUser;
   reported: Boolean;
+  setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
 }
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
@@ -90,7 +92,9 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               <div
                 className="ReportReason"
                 key={reason}
-                onClick={() => {closePopup();}}
+                onClick={() => {
+                  closePopup();
+                }}
               >
                 {reason}
               </div>
@@ -109,7 +113,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         onDismiss={closeDeletePopup}
       >
         <DialogContent aria-label="Delete Dialog">
-        <p className="DeleteBox">
+          <p className="DeleteBox">
             <p className="DeleteConfirmationText">
               <strong>ARE YOU SURE?</strong>
             </p>
@@ -119,9 +123,56 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                 No
               </p>
               <p
-                onClick={() => {
+                onClick={async () => {
                   closeDeletePopup();
-                  deleteComment(props.postNumber, props.commentNumber);
+
+                  const response = await deleteComment(
+                    props.postNumber,
+                    props.commentNumber
+                  );
+                  console.log(props.setComments);
+                  if (response.success && props.setComments) {
+                    props.setComments((comments) => {
+                      const newComments = comments;
+                      const deletedParent = findParentOfComment(
+                        newComments,
+                        props.commentNumber
+                      );
+                      if (deletedParent) {
+                        const deleted = deletedParent.children.find(
+                          (child) => child.commentNumber === props.commentNumber
+                        );
+                        if (deleted) {
+                          deletedParent.children.splice(
+                            deletedParent.children.indexOf(deleted, 1),
+                            1
+                          );
+                        }
+                      } else {
+                        const deleted = newComments.find(
+                          (comment) =>
+                            comment.commentNumber === props.commentNumber
+                        );
+                        if (deleted) {
+                          newComments.splice(
+                            newComments.indexOf(deleted, 1),
+                            1
+                          );
+                          const deleted = newComments.find(
+                            (comment) =>
+                              comment.commentNumber === props.commentNumber
+                          );
+                          if (deleted) {
+                            newComments.splice(
+                              newComments.indexOf(deleted, 1),
+                              1
+                            );
+                          }
+                        }
+                      }
+                      return newComments;
+                    });
+                  }
                 }}
                 className="PopupAction"
               >
@@ -143,6 +194,29 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
       setClicked(false);
       setCopied(false);
     }, 1000);
+  };
+
+  const findParentOfComment = (
+    comments: IThread[],
+    commentNumber: number
+  ): IThread | undefined => {
+    comments.forEach((comment) => {
+      if (comment.children) {
+        if (
+          comment.children.find(
+            (child) => child.commentNumber === commentNumber
+          )
+        ) {
+          return comment;
+        } else {
+          const parent = findParentOfComment(comment.children, commentNumber);
+          if (parent) {
+            return parent;
+          }
+        }
+      }
+    });
+    return undefined;
   };
 
   return (
@@ -185,12 +259,19 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                   {props.user &&
                   props.commentUser &&
                   props.user._id === props.commentUser._id ? (
-                    <p className="MenuDropdownAction" onClick={() => {openDeletePopup();}}>delete</p>
+                    <p
+                      className="MenuDropdownAction"
+                      onClick={() => {
+                        openDeletePopup();
+                      }}
+                    >
+                      delete
+                    </p>
                   ) : null}
                 </>
               )}
               {copied && <p>copied</p>}
-            </div>  
+            </div>
           </div>
         )}
       </div>

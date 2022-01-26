@@ -31,8 +31,8 @@ const convertToThread = (comment: IComment) => {
 function Post(props: PostProps) {
   const [showCommentBox, setShowCommentBox] = useState(false);
 
-  const approveOrDeny = async (bool: boolean) => {
-    const response = await approvePost(props.post._id, bool);
+  const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
+    const response = await approvePost(props.post._id, bool, contentWarningString);
     if (response.success && props.setFeed) {
       props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
     }
@@ -47,7 +47,7 @@ function Post(props: PostProps) {
             _id={props.post.needsReview ? props.post._id : undefined}
           />
           {props.post.contentWarning && (
-            <ContentWarning ContentWarningText="abuse" />
+            <ContentWarning ContentWarningText={props.post.contentWarning} />
           )}
         </div>
         <PostDate
@@ -63,9 +63,9 @@ function Post(props: PostProps) {
       <PostBody body={props.post.content} showContent={!props.post.contentWarning}/>
       {props.post.needsReview ? (
         <ApproveOrDeny
-          approve={() => approveOrDeny(true)}
-          deny={() => {
-            approveOrDeny(false);
+          approve={(contentWarningString: string) => approveOrDeny(true, contentWarningString)}
+          deny={(contentWarningString: string) => {
+            approveOrDeny(false, contentWarningString);
           }}
         />
       ) : (

@@ -17,6 +17,7 @@ type CommentHeaderProps = {
   expand: () => void;
   postNumber?: number;
   inContext: boolean;
+  setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
 };
 
 function CommentHeader(props: CommentHeaderProps) {
@@ -177,6 +178,7 @@ function CommentHeader(props: CommentHeaderProps) {
           reported={props.comment.needsReview}
           commentNumber={props.comment.commentNumber}
           postNumber={props.postNumber ?? 0}
+          setComments={props.setComments}
         />
       )}
     </div>

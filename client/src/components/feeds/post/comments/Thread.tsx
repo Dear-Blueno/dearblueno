@@ -66,6 +66,7 @@ function Thread(props: ThreadProps) {
           expand={() => setShow(true)}
           postNumber={props.postNumber}
           inContext={props.inContext}
+          setComments={props.setComments}
         />
         {show && (
           <div className="ThreadBody">
