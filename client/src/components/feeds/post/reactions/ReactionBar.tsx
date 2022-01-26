@@ -170,49 +170,42 @@ function ReactionBar(props: ReactionBarProps) {
         const includesUser: boolean = props.reactions[reaction]?.includes(
           props.user._id
         );
-        let response;
-        if (props.type === "post") {
-          response = await reactToPost(
-            props.postNumber,
-            reaction + 1,
-            !includesUser
+        if (includesUser) {
+          props.reactions[reaction] = props.reactions[reaction].filter(
+            (id) => id !== props.user?._id
           );
+          const newUsers = [...users];
+          newUsers[reaction] = newUsers[reaction].filter(
+            (user) => user._id !== props.user?._id
+          );
+          setUsers(newUsers);
+        } else {
+          if (props.reactions[reaction]) {
+            props.reactions[reaction] = [
+              ...props.reactions[reaction],
+              props.user._id,
+            ];
+          } else {
+            props.reactions[reaction] = [props.user._id];
+          }
+          const newUsers = [...users];
+          newUsers[reaction] = newUsers[reaction]
+            ? [...newUsers[reaction], props.user]
+            : [props.user];
+          setUsers(newUsers);
+        }
+        countUpdaters[reaction](props.reactions[reaction].length);
+        if (props.type === "post") {
+          await reactToPost(props.postNumber, reaction + 1, !includesUser);
         } else {
           if (props.commentNumber) {
-            response = await reactToComment(
+            await reactToComment(
               props.postNumber,
               props.commentNumber,
               reaction + 1,
               !includesUser
             );
           }
-        }
-        if (response && response.success) {
-          if (includesUser) {
-            props.reactions[reaction] = props.reactions[reaction].filter(
-              (id) => id !== props.user?._id
-            );
-            const newUsers = [...users];
-            newUsers[reaction] = newUsers[reaction].filter(
-              (user) => user._id !== props.user?._id
-            );
-            setUsers(newUsers);
-          } else {
-            if (props.reactions[reaction]) {
-              props.reactions[reaction] = [
-                ...props.reactions[reaction],
-                props.user._id,
-              ];
-            } else {
-              props.reactions[reaction] = [props.user._id];
-            }
-            const newUsers = [...users];
-            newUsers[reaction] = newUsers[reaction]
-              ? [...newUsers[reaction], props.user]
-              : [props.user];
-            setUsers(newUsers);
-          }
-          countUpdaters[reaction](props.reactions[reaction].length);
         }
       }
     };
@@ -249,14 +242,18 @@ function ReactionBar(props: ReactionBarProps) {
         hideAll();
       }}
     >
-       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
+      <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       {showReactText && (
         <p
           className="ReactText"
-          onClick={props.user ? () => {
-            setShowReactText(false);
-            showAll();
-          } : openPopup}
+          onClick={
+            props.user
+              ? () => {
+                  setShowReactText(false);
+                  showAll();
+                }
+              : openPopup
+          }
         >
           react
         </p>
