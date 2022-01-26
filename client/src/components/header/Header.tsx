@@ -172,19 +172,19 @@ function Header(props: HeaderProps) {
               />
               <div className="SubmitDropdownActions">
                 <Link to="/submit" className="DropdownAction">
-                  <p>Post with Built-in Form</p>
+                  <p>Post with built-in form</p>
                 </Link>
                 <a
                   className="DropdownAction"
                   href="https://forms.gle/NE5Gnr4Y9BWBXs327"
                 >
-                  Post with Google Form (Non-Brown)
+                  Post with Google Form (non-Brown)
                 </a>
                 <a
                   className="DropdownAction"
                   href="https://forms.gle/Cpa5XEYr3mCpcjBS7"
                 >
-                  Post with Google Form (Brown Verified)
+                  Post with Google Form (Verified Brown)
                 </a>
               </div>
             </div>
