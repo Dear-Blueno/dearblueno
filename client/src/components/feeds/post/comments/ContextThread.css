@@ -30,17 +30,17 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 0.5rem;
+  gap: 0.5rem;
 }
 
-.ContextThreadReplyPicture {
+.ContextThreadParentPicture {
   width: 1.2rem;
   height: 1.2rem;
   line-height: 0;
-  margin-left: 0.5rem;
 }
 
 .ContextThreadHorizontalLine {
-  width: 4rem;
+  width: 2rem;
   height: 0.1rem;
   background-color: #ccc;
   margin-top: 0.5rem;
@@ -56,4 +56,25 @@
   margin-top: 0.35rem;
   margin-bottom: 0.5rem;
   margin-left: 0.7rem;
+}
+
+.ContextThreadReplyAuthor {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: black;
+}
+
+.ContextThreadPostNumber {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.ContextThreadPostContent {
+  font-size: 0.8rem;
+  color: black;
+}
+
+.ApproveOrDenyContainer {
+  margin-top: 1rem;
 }

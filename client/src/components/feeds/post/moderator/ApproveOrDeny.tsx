@@ -1,5 +1,5 @@
 import "./ApproveOrDeny.css";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 type ApproveOrDenyProps = {
@@ -20,11 +20,16 @@ function ApproveOrDeny(props: ApproveOrDenyProps) {
       />
       <button
         className="ApproveOrDenyButton ApproveButton"
-        onClick={() => props.approve(contentWarningInputRef.current?.value ?? "")}
+        onClick={() =>
+          props.approve(contentWarningInputRef.current?.value ?? "")
+        }
       >
         <FaCheck />
       </button>
-      <button className="ApproveOrDenyButton DenyButton" onClick={() => props.deny(contentWarningInputRef.current?.value ?? "")}>
+      <button
+        className="ApproveOrDenyButton DenyButton"
+        onClick={() => props.deny(contentWarningInputRef.current?.value ?? "")}
+      >
         <FaTimes />
       </button>
     </div>

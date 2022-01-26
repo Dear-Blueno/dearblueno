@@ -179,13 +179,13 @@ export async function approvePost(
 }
 
 export async function approveComment(
-  postId: number,
-  commentId: number,
+  postNumber: number,
+  commentNumber: number,
   approved: boolean
 ): Promise<IResponse<IPost>> {
   try {
     const response = await axios.put(
-      `/posts/${postId}/comment/${commentId}/approve`,
+      `/posts/${postNumber}/comment/${commentNumber}/approve`,
       { approved }
     );
     if (response.status === 200) {

@@ -11,9 +11,11 @@ type MainFeedProps = {
 
 function MainFeed(props: MainFeedProps) {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const getMore = useCallback(
     async (nextPageNumber: number): Promise<boolean> => {
+      setPageNumber(nextPageNumber);
       const response = await getPosts(nextPageNumber);
       if (response.success && response.payload) {
         if (response.payload.length > 0) {
@@ -36,7 +38,7 @@ function MainFeed(props: MainFeedProps) {
             key={index}
             post={post}
             user={props.user}
-            delay={index * 80 + "ms"}
+            delay={(index - 10 * (pageNumber - 1)) * 80 + "ms"}
           />
         ))}
       </Feed>

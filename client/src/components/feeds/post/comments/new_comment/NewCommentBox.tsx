@@ -14,17 +14,17 @@ type NewCommentBoxProps = {
   setComments: React.Dispatch<React.SetStateAction<IThread[]>>;
 };
 
-const findParent = (
+export const findComment = (
   comments: IThread[],
-  parentCommentNumber: number
+  commentNumber: number
 ): IThread | undefined => {
   for (const comment of comments) {
-    if (comment.commentNumber === parentCommentNumber) {
+    if (comment.commentNumber === commentNumber) {
       return comment;
     }
-    const parent = findParent(comment.children, parentCommentNumber);
-    if (parent) {
-      return parent;
+    const found = findComment(comment.children, commentNumber);
+    if (found) {
+      return found;
     }
   }
   return undefined;
@@ -52,8 +52,11 @@ function NewCommentBox(props: NewCommentBoxProps) {
             if (response.payload) {
               const comment = response.payload as IThread;
               comment.children = [];
-              comment.author = props.user;
-              const parent = findParent(newComments, props.parentCommentNumber);
+              comment.author = anonymous ? undefined : props.user;
+              const parent = findComment(
+                newComments,
+                props.parentCommentNumber
+              );
               if (parent) {
                 parent.children.push(comment);
               } else {

@@ -6,6 +6,7 @@ import "@reach/dialog/styles.css";
 import IUser from "../../../../../types/IUser";
 import { IThread } from "../CommentSection";
 import { deleteComment } from "../../../../../gateways/PostGateway";
+import { findComment } from "../new_comment/NewCommentBox";
 
 interface CommentMenuButtonProps {
   user?: IUser;
@@ -133,42 +134,14 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                   console.log(props.setComments);
                   if (response.success && props.setComments) {
                     props.setComments((comments) => {
-                      const newComments = comments;
-                      const deletedParent = findParentOfComment(
+                      const newComments = [...comments];
+                      const deleted = findComment(
                         newComments,
                         props.commentNumber
                       );
-                      if (deletedParent) {
-                        const deleted = deletedParent.children.find(
-                          (child) => child.commentNumber === props.commentNumber
-                        );
-                        if (deleted) {
-                          deletedParent.children.splice(
-                            deletedParent.children.indexOf(deleted, 1),
-                            1
-                          );
-                        }
-                      } else {
-                        const deleted = newComments.find(
-                          (comment) =>
-                            comment.commentNumber === props.commentNumber
-                        );
-                        if (deleted) {
-                          newComments.splice(
-                            newComments.indexOf(deleted, 1),
-                            1
-                          );
-                          const deleted = newComments.find(
-                            (comment) =>
-                              comment.commentNumber === props.commentNumber
-                          );
-                          if (deleted) {
-                            newComments.splice(
-                              newComments.indexOf(deleted, 1),
-                              1
-                            );
-                          }
-                        }
+                      if (deleted) {
+                        deleted.author = undefined;
+                        deleted.content = "[deleted]";
                       }
                       return newComments;
                     });
@@ -194,29 +167,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
       setClicked(false);
       setCopied(false);
     }, 1000);
-  };
-
-  const findParentOfComment = (
-    comments: IThread[],
-    commentNumber: number
-  ): IThread | undefined => {
-    comments.forEach((comment) => {
-      if (comment.children) {
-        if (
-          comment.children.find(
-            (child) => child.commentNumber === commentNumber
-          )
-        ) {
-          return comment;
-        } else {
-          const parent = findParentOfComment(comment.children, commentNumber);
-          if (parent) {
-            return parent;
-          }
-        }
-      }
-    });
-    return undefined;
   };
 
   return (

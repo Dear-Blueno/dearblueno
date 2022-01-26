@@ -1,13 +1,12 @@
 import "./FeedPage.css";
 import Header from "../../components/header/Header";
-import SearchHeaderCover from "../../components/header/SearchHeaderCover";
 import IUser from "../../types/IUser";
 import IPost from "../../types/IPost";
 import MainFeed from "../../components/feeds/MainFeed";
 import ModeratorFeed from "../../components/feeds/ModeratorFeed";
 import SearchFeed from "../../components/feeds/SearchFeed";
 import { searchPosts } from "../../gateways/PostGateway";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface FeedPageProps {
   user?: IUser;

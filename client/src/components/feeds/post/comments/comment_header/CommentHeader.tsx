@@ -128,11 +128,13 @@ function CommentHeader(props: CommentHeaderProps) {
               }, 200);
             }}
           >
-            {props.comment.author?.name ?? "Anonymous"}
+            {props.comment.author.name}
           </p>
         </Link>
       ) : (
-        <p className="CommentAuthor">Anonymous</p>
+        <p className="CommentAuthor">
+          {props.comment.content === "[deleted]" ? "[deleted]" : "Anonymous"}
+        </p>
       )}
       {hoverUser && showCard && (
         <div

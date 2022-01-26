@@ -1,6 +1,5 @@
 import "./SearchFeed.css";
-import { useState, useCallback, useEffect } from "react";
-import { searchPosts, getPosts } from "../../gateways/PostGateway";
+import { useState, useCallback } from "react";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
 import Feed from "./Feed";
@@ -22,28 +21,27 @@ function SearchFeed(props: SearchFeedProps) {
       }
       return true;
     },
-    []
+    [props.results.length]
   );
 
   return (
     <>
-        {(props.results.length > 0) ? (
-      <Feed user={props.user} getMore={getMore}>
-        {props.results.slice(0, pageNumber * 10).map((post, index) => (
-          <Post
-            key={index}
-            post={post}
-            user={props.user}
-            delay={index * 80 + "ms"}
-          />
-        ))}
-      </Feed>
-  ) : (
-    <div className="NoResults">
-        <h1 className="NoResultsText">no results found</h1>
-    </div>
-  )
-  }
+      {props.results.length > 0 ? (
+        <Feed user={props.user} getMore={getMore}>
+          {props.results.slice(0, pageNumber * 10).map((post, index) => (
+            <Post
+              key={index}
+              post={post}
+              user={props.user}
+              delay={index * 80 + "ms"}
+            />
+          ))}
+        </Feed>
+      ) : (
+        <div className="NoResults">
+          <h1 className="NoResultsText">no results found</h1>
+        </div>
+      )}
     </>
   );
 }
