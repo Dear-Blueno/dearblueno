@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import { logger } from "../index";
 
 export default function mongoConnection() {
   // Connect to MongoDB
   mongoose.connect(process.env.MONGODB_URI || "", () => {
-    console.log("Connected to MongoDB!");
+    logger.info("Connected to MongoDB!");
   });
   // Init the mongoose models
   require("../models/User");

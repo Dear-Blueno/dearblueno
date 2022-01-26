@@ -2,32 +2,33 @@ import cron from "node-cron";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import User from "../models/User";
 import Post from "../models/Post";
+import { logger } from "../index";
 
 export default async function setupCron() {
   // Hourly, import posts from Google Sheets
   cron.schedule("30 * * * *", async () => {
     const startDate = new Date();
-    console.log("Running hourly cron job! 🚀", startDate.toLocaleString());
+    logger.info("Running hourly cron job! 🚀", startDate.toLocaleString());
 
     await hourlyJob();
 
     const endDate = new Date();
-    console.log("Hourly cron job completed! 🎉", endDate.toLocaleString());
+    logger.info("Hourly cron job completed! 🎉", endDate.toLocaleString());
     const completedIn = endDate.getTime() - startDate.getTime();
-    console.log(`Completed in ${completedIn}ms`);
+    logger.info(`Completed in ${completedIn}ms`);
   });
 
   // Daily at midnight, handle daily streak related stuff
   cron.schedule("0 0 * * *", async () => {
     const startDate = new Date();
-    console.log("Running daily cron job! 🚀", startDate.toLocaleString());
+    logger.info("Running daily cron job! 🚀", startDate.toLocaleString());
 
     await dailyJob();
 
     const endDate = new Date();
-    console.log("Daily cron job completed! 🎉", endDate.toLocaleString());
+    logger.info("Daily cron job completed! 🎉", endDate.toLocaleString());
     const completedIn = endDate.getTime() - startDate.getTime();
-    console.log(`Completed in ${completedIn}ms`);
+    logger.info(`Completed in ${completedIn}ms`);
   });
 }
 

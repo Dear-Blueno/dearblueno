@@ -7,6 +7,7 @@ import session from "express-session";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
+import log4js from "log4js";
 
 import mongoConnection from "./config/mongo";
 import passportConfig from "./config/passport";
@@ -33,6 +34,17 @@ app.use(
     credentials: true,
   })
 );
+
+log4js.configure({
+  appenders: {
+    out: { type: "stdout" },
+    app: { type: "file", filename: "logs/app.log" },
+  },
+  categories: {
+    default: { appenders: ["out", "app"], level: "info" },
+  },
+});
+export const logger = log4js.getLogger();
 
 // Setup MongoDB
 mongoConnection();
@@ -70,5 +82,5 @@ setupCron();
 // Start Express server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  logger.info(`Server listening on port ${port}`);
 });
