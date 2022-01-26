@@ -254,7 +254,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
 postRouter.post(
   "/",
   optionalAuth,
-  body("content").trim().isLength({ min: 1, max: 5000 }),
+  body("content").isString().trim().isLength({ min: 1, max: 5000 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -354,7 +354,7 @@ postRouter.put(
 postRouter.post(
   "/:id/comment",
   authCheck,
-  body("content").trim().isLength({ min: 1, max: 2000 }).isAscii(),
+  body("content").isString().trim().isLength({ min: 1, max: 2000 }),
   body("parentId").isInt({ min: -1 }),
   body("anonymous").toBoolean(),
   param("id").isInt({ min: 1 }),
