@@ -97,13 +97,13 @@ function ProfileBox(props: ProfileBoxProps) {
     } else if (link.startsWith("linkedin.com/in/")) {
       return "https://" + link;
     } else if (link.startsWith("@")) {
-      return link.replace("@", "http://www.linkedin.com/in/");
+      return link.replace("@", "https://www.linkedin.com/in/");
     } else if (link.startsWith("in/")) {
-      return "http://www.linkedin.com/" + link;
+      return "https://www.linkedin.com/" + link;
     } else if (link.startsWith("/in/")) {
-      return "http://www.linkedin.com" + link;
+      return "https://www.linkedin.com" + link;
     }
-    return "http://www.linkedin.com/in/" + link;
+    return "https://www.linkedin.com/in/" + link;
   };
 
   const handleFacebook = (link: string | undefined) => {
