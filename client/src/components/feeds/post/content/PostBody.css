@@ -3,6 +3,39 @@
   margin-bottom: 0.6rem;
 }
 
+.PostBodyHidden {
+  margin: -0.3rem;
+  margin-bottom: 0.1rem;
+}
+
+.PostBodyText {
+  margin: 0 0.1rem;
+}
+
+.PostBodyTextHidden {
+  padding: 0.4rem;
+}
+
+.ContentContainer {
+  position: relative;
+}
+
+.Foreground {
+  position: absolute;
+  backdrop-filter: blur(4px);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+.Foreground:hover {
+  backdrop-filter: blur(3.2px);
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .PostBody {

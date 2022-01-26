@@ -12,6 +12,22 @@
   box-sizing: border-box;
 }
 
+.PostHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.NumberAndWarning {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: -0.6rem;
+}
+
 @keyframes PostAppear {
   0% {
     opacity: 1;

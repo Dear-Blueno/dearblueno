@@ -51,7 +51,7 @@ function SubmitBox(props: SubmitBoxProps) {
         <div className="PostSubmitContent">
           <h2 className="ReturnText">
             Your post has been submitted and will be reviewed by moderators
-            shortly. Thank you. **DEMO ONLY - NO POSTS ARE ACCEPTED**{" "}
+            shortly. Thank you.{" "}
           </h2>
           <Link to="/">
             <img

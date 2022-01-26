@@ -1,4 +1,5 @@
 import "./Post.css";
+import ContentWarning from "./ContentWarning";
 import PostBody from "./content/PostBody";
 import PostDate from "./content/PostDate";
 import PostNumber from "./content/PostNumber";
@@ -39,20 +40,27 @@ function Post(props: PostProps) {
 
   return (
     <div className="Post" style={{ animationDelay: props.delay ?? "0" }}>
-      <PostNumber
-        number={props.post.postNumber}
-        _id={props.post.needsReview ? props.post._id : undefined}
-      />
-      <PostDate
-        value={
-          new Date(
-            props.post.needsReview
-              ? props.post.postTime
-              : props.post.approvedTime
-          )
-        }
-      />
-      <PostBody body={props.post.content} />
+      <div className="PostHeader">
+        <div className="NumberAndWarning">
+          <PostNumber
+            number={props.post.postNumber}
+            _id={props.post.needsReview ? props.post._id : undefined}
+          />
+          {props.post.contentWarning && (
+            <ContentWarning ContentWarningText="abuse" />
+          )}
+        </div>
+        <PostDate
+          value={
+            new Date(
+              props.post.needsReview
+                ? props.post.postTime
+                : props.post.approvedTime
+            )
+          }
+        />
+      </div>
+      <PostBody body={props.post.content} showContent={!props.post.contentWarning}/>
       {props.post.needsReview ? (
         <ApproveOrDeny
           approve={() => approveOrDeny(true)}
