@@ -46,7 +46,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     }
   );
   const [clicked, setClicked] = useState(false);
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
   const [showPopup, setshowPopup] = useState(false);
   const openPopup = () => {
@@ -158,16 +158,16 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     </div>
   );
 
-  const shareAction = () => {
-    navigator.clipboard.writeText(
-      "https://dearblueno.net/comment/ + necessary data"
-    );
-    setCopied(true);
-    setTimeout(() => {
-      setClicked(false);
-      setCopied(false);
-    }, 1000);
-  };
+  // const shareAction = () => {
+  //   navigator.clipboard.writeText(
+  //     "https://dearblueno.net/comment/ + necessary data"
+  //   );
+  //   setCopied(true);
+  //   setTimeout(() => {
+  //     setClicked(false);
+  //     setCopied(false);
+  //   }, 1000);
+  // };
 
   return (
     <div className="CommentMenuDropdown" ref={refDropdown}>
@@ -194,33 +194,33 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               style={styles.arrow}
             />
             <div className="MenuDropdownActions">
-              {!copied && (
-                <>
-                  {props.user &&
-                  props.commentUser &&
-                  props.user._id === props.commentUser._id ? null : (
-                    <p className="MenuDropdownAction" onClick={openPopup}>
-                      report
-                    </p>
-                  )}
-                  <p className="MenuDropdownAction" onClick={shareAction}>
-                    share
+              {/* {!copied && ( */}
+              <>
+                {props.user &&
+                props.commentUser &&
+                props.user._id === props.commentUser._id ? null : (
+                  <p className="MenuDropdownAction" onClick={openPopup}>
+                    report
                   </p>
-                  {props.user &&
-                  props.commentUser &&
-                  props.user._id === props.commentUser._id ? (
-                    <p
-                      className="MenuDropdownAction"
-                      onClick={() => {
-                        openDeletePopup();
-                      }}
-                    >
-                      delete
-                    </p>
-                  ) : null}
-                </>
-              )}
-              {copied && <p>copied</p>}
+                )}
+                {/* <p className="MenuDropdownAction" onClick={shareAction}>
+                    share
+                  </p> */}
+                {props.user &&
+                props.commentUser &&
+                props.user._id === props.commentUser._id ? (
+                  <p
+                    className="MenuDropdownAction"
+                    onClick={() => {
+                      openDeletePopup();
+                    }}
+                  >
+                    delete
+                  </p>
+                ) : null}
+              </>
+              {/* )} */}
+              {/* {copied && <p>copied</p>} */}
             </div>
           </div>
         )}

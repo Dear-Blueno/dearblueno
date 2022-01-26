@@ -46,65 +46,65 @@ function AboutPage(props: AboutPageProps) {
         <div className="AboutPageSection">
           <h3 className="SectionHeader">PRIVACY POLICY</h3>
           <div className="PrivPolicy">
-          <p className="PrivSection">
-            The developers of dearblueno.net are committed to privacy. On posts and anonymous
-            comments, no information whatsoever is linked to an individual's
-            identity. It is impossible for anyone, even the developers of dearblueno.net,
-            to know who the original poster is.
-          </p>
-          <p className="PrivSection">
-            Since all users must login with Google, we do receive some of your
-            existing Google account details, such as email address, profile
-            picture, and name. We have absolutely no way of changing this
-            information, nor do we have the ability to obtain any overly
-            sensitive information from Google. For more information regarding
-            how Google handles your information, please visit{" "}
-            <a
-              href="https://policies.google.com/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Google's Privacy Policy.
-            </a>
-          </p>
-          <p className="PrivSection">
-            Depending on the extent by which you interact with the site, our
-            servers may also receive general device information such as your
-            operating system and browser type. This information is not linked to
-            your identity.
-          </p>
-          <p className="PrivSection">
-            For content optimization, we make use of the Cloudflare content delivery
-            network and ImgBB image embeds. For web and
-            mobile analytics, we make use of Cloudflare web analytics.
-            For user account registration and authentication, we make
-            use of Google OAuth2. For more information regarding how Cloudflare 
-            handles your information, please visit{" "}
-            <a
-              href="https://www.cloudflare.com/privacy/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Cloudflare's Privacy Policy.
-            </a>
-          </p>
-          <p className="PrivSection">
-            All personal data, as described above, is stored in a database on
-            our servers. This data is not sold, sent, or shared with anyone
-            else.
-          </p>
-          <p className="PrivSection">
-            As part of our commitment to transparency, the entirety of our
-            code is open source. It can be found at this {" "}
-            <a
-              href="https://github.com/dear-blueno"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              github repository 
-            </a>
-            {" "}and is licensed under the AGPLv3 license.
-          </p>
+            <p className="PrivSection">
+              The developers of dearblueno.net are committed to privacy. On
+              posts and anonymous comments, no information whatsoever is linked
+              to an individual's identity. It is impossible for anyone, even the
+              developers of dearblueno.net, to know who the original poster is.
+            </p>
+            <p className="PrivSection">
+              Since all users must login with Google, we do receive some of your
+              existing Google account details, such as email address, profile
+              picture, and name. We have absolutely no way of changing this
+              information, nor do we have the ability to obtain any overly
+              sensitive information from Google. For more information regarding
+              how Google handles your information, please visit{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Google's Privacy Policy.
+              </a>
+            </p>
+            <p className="PrivSection">
+              Depending on the extent by which you interact with the site, our
+              servers may also receive general device information such as your
+              operating system and browser type. This information is not linked
+              to your identity.
+            </p>
+            <p className="PrivSection">
+              For content optimization, we make use of the Cloudflare content
+              delivery network and ImgBB image embeds. For web and mobile
+              analytics, we make use of Cloudflare web analytics. For user
+              account registration and authentication, we make use of Google
+              OAuth2. For more information regarding how Cloudflare handles your
+              information, please visit{" "}
+              <a
+                href="https://www.cloudflare.com/privacy/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Cloudflare's Privacy Policy.
+              </a>
+            </p>
+            <p className="PrivSection">
+              All personal data, as described above, is stored in a database on
+              our servers. This data is not sold, sent, or shared with anyone
+              else.
+            </p>
+            <p className="PrivSection">
+              As part of our commitment to transparency, the entirety of our
+              code is open source. It can be found at this{" "}
+              <a
+                href="https://github.com/Dear-Blueno"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                github repository
+              </a>{" "}
+              and is licensed under the AGPLv3 license.
+            </p>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ function AboutPage(props: AboutPageProps) {
                 community guidelines.
               </p>
             </Collapsible>
-            
+
             <Collapsible
               trigger="Why isn't my post showing up?"
               className="FAQQuestion"
@@ -146,10 +146,11 @@ function AboutPage(props: AboutPageProps) {
               transitionTime={100}
             >
               <p className="FAQAnswer">
-                No. dearblueno.net was created by a group of Brown University students
-                following the deletion of the DB Facebook Group. While we did reach out
-                to the original DB and BBA mods, we unfortunately did not receive a response. 
-                dearblueno.net is a community-based project, and we hope to have the opportunity to
+                No. dearblueno.net was created by a group of Brown University
+                students following the deletion of the DB Facebook Group. While
+                we did reach out to the original DB and BBA mods, we
+                unfortunately did not receive a response. dearblueno.net is a
+                community-based project, and we hope to have the opportunity to
                 work with the DB and BBA mods in the future.
               </p>
             </Collapsible>
