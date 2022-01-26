@@ -1,6 +1,4 @@
 .PostReactionButtonImage {
-  width: 1.2rem;
-  height: 1.2rem;
   float: left;
   user-select: none;
   cursor: pointer;
@@ -89,25 +87,21 @@
 }
 
 /* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 46rem) {
+  .PostReactionButtonImage {
+    width: 1rem;
+    height: 1rem;
+  }
   .PostReactionButtonCount {
-    margin-top: 0.12rem;
+    margin-left: 0.1rem;
+    margin-right: 0.3rem;
+    margin-top: -0.03rem;
   }
 }
-
-/* Extra small devices (phones, 400px and up) */
-@media only screen and (min-width: 600px) {
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 46rem) {
+  .PostReactionButtonImage {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }

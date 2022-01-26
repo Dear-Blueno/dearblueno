@@ -1,5 +1,5 @@
 .ReactionBar {
-  display: inline-flex;
+  display: flex;
   box-sizing: border-box;
 }
 

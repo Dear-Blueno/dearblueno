@@ -1,17 +1,68 @@
 .Post {
-  animation: PostAppear;
-  animation-duration: 0.4s;
-  animation-timing-function: ease-out;
   opacity: 0;
-  animation-fill-mode: forwards;
   width: 100%;
   padding: 1rem;
   background-color: #ffffff;
-  box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
 }
 
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .Post {
+    animation: PostAppear1;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    padding: 0.5rem;
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  }
+  .NumberAndWarning {
+    margin-top: -0.3rem;
+  }
+}
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+  .Post {
+    animation: PostAppear2;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    padding: 1rem;
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  }
+  .NumberAndWarning {
+    margin-top: -0.6rem;
+  }
+  .PostFooter {
+    margin-top: 0.5rem;
+  }
+}
+
+@keyframes PostAppear1 {
+  0% {
+    opacity: 1;
+    box-shadow: none;
+    transform: translate3d(-0.1rem, 0.1rem, 0);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
+@keyframes PostAppear2 {
+  0% {
+    opacity: 1;
+    box-shadow: none;
+    transform: translate3d(-0.2rem, 0.2rem, 0);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
 .PostHeader {
   display: flex;
   flex-direction: row;
@@ -25,20 +76,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: -0.6rem;
-}
-
-@keyframes PostAppear {
-  0% {
-    opacity: 1;
-    box-shadow: none;
-    transform: translate3d(-0.2rem, 0.2rem, 0);
-  }
-  100% {
-    opacity: 1;
-    box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
-    transform: none;
-  }
 }
 
 .PostFooter {
@@ -59,27 +96,4 @@
 .ShareButton:hover {
   text-decoration: underline;
   cursor: pointer;
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  .Post {
-    padding: 0.5rem;
-    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
-  }
-  .PostFooter {
-    margin-left: 0.1rem;
-  }
-}
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
 }

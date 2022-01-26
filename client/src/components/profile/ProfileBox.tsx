@@ -108,22 +108,21 @@ function ProfileBox(props: ProfileBoxProps) {
             </div>
           )}
         </div>
-        <div className="RightColumn"></div>
-      </div>
-      <div className="RightColumn">
-        <div className="ProfileComments">
-          {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <ContextThread
-                user={props.user}
-                key={comment._id}
-                thread={comment}
-                delay={index * 80 + "ms"}
-              />
-            ))
-          ) : (
-            <p className="ProfileCommentsEmpty">No comments yet!</p>
-          )}
+        <div className="RightColumn">
+          <div className="ProfileComments">
+            {comments.length > 0 ? (
+              comments.map((comment, index) => (
+                <ContextThread
+                  user={props.user}
+                  key={comment._id}
+                  thread={comment}
+                  delay={index * 80 + "ms"}
+                />
+              ))
+            ) : (
+              <p className="ProfileCommentsEmpty">No comments yet!</p>
+            )}
+          </div>
         </div>
       </div>
     </>
