@@ -91,3 +91,8 @@
 .ContextThreadModeratorLink {
   text-decoration: underline;
 }
+
+.ContextThreadReplyText {
+  font-size: 0.8rem;
+  color: black;
+}

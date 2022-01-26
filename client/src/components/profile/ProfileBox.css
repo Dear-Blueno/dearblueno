@@ -46,7 +46,6 @@
 @media only screen and (min-width: 46rem) {
   .ProfileBox {
     margin: 0.5rem;
-    margin-top: 0;
     width: 45rem;
     box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
     flex-direction: row;
