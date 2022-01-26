@@ -12,11 +12,19 @@ function PostBody(props: PostBodyProps) {
   const className = showContent ? "PostBody" : "PostBodyHidden";
 
   return (
-    <div className={className} >
+    <div className={className}>
       <div className="ContentContainer">
-        {!showContent && <div className="Foreground" title="Click to show" onClick={() => setShowContent(true)}/>}
-        <Linkify tagName="p">
-          <p className={showContent ? "PostBodyText" : "PostBodyTextHidden"}>{props.body}</p>
+        {!showContent && (
+          <div
+            className="Foreground"
+            title="Click to show"
+            onClick={() => setShowContent(true)}
+          />
+        )}
+        <Linkify>
+          <p className={showContent ? "PostBodyText" : "PostBodyTextHidden"}>
+            {props.body}
+          </p>
         </Linkify>
       </div>
     </div>

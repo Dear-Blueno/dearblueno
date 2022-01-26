@@ -3,9 +3,6 @@ import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import MainFeed from "../../components/feeds/MainFeed";
 import ModeratorFeed from "../../components/feeds/ModeratorFeed";
-import SearchFeed from "../../components/feeds/SearchFeed";
-import { searchPosts } from "../../gateways/PostGateway";
-import { useState, useEffect } from "react";
 
 interface FeedPageProps {
   user?: IUser;

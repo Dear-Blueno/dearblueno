@@ -20,6 +20,7 @@ import {
   getPostReactions,
   getCommentReactions,
 } from "../../../../gateways/PostGateway";
+import LoginPopup from "../LoginPopup";
 
 type ReactionBarProps = {
   user?: IUser;
@@ -125,6 +126,13 @@ function ReactionBar(props: ReactionBarProps) {
     }
     return [zero, nonZero];
   };
+
+  const [showPopup, setshowPopup] = useState(false);
+  const openPopup = () => {
+    setshowPopup(true);
+  };
+
+  const closePopup = () => setshowPopup(false);
 
   // initialize order arrays once
   useEffect(() => {
@@ -241,13 +249,14 @@ function ReactionBar(props: ReactionBarProps) {
         hideAll();
       }}
     >
+       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       {showReactText && (
         <p
           className="ReactText"
-          onClick={() => {
+          onClick={props.user ? () => {
             setShowReactText(false);
             showAll();
-          }}
+          } : openPopup}
         >
           react
         </p>
@@ -260,7 +269,7 @@ function ReactionBar(props: ReactionBarProps) {
             images={icons[reaction]}
             count={reactionCounts[reaction]}
             reactionArray={props.reactions[reaction]}
-            handleClick={buttonClick(reaction)}
+            handleClick={props.user ? buttonClick(reaction) : openPopup}
             names={users[reaction].map((user) => user.name)}
             handleHover={getNames}
           ></ReactionButton>

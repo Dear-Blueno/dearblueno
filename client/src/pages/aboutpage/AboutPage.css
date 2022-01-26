@@ -53,6 +53,12 @@
   transform: rotateZ(90deg);
 }
 
+.PrivPolicy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .FAQAnswer {
   margin-bottom: 0.3rem;
 }

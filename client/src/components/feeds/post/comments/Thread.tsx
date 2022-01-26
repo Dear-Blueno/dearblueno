@@ -8,6 +8,7 @@ import CommentButton from "./CommentButton";
 import DividerDot from "components/feeds/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
+import LoginPopup from "../LoginPopup";
 import IUser from "types/IUser";
 import Linkify from "linkify-react";
 
@@ -47,12 +48,20 @@ function Thread(props: ThreadProps) {
     );
   });
 
+  const [showPopup, setshowPopup] = useState(false);
+  const openPopup = () => {
+    setshowPopup(true);
+  };
+
+  const closePopup = () => setshowPopup(false);
+
   return (
     <div className="Thread" key={props.comment.commentNumber}>
       <div className="ThreadGrid">
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
         />
+        <LoginPopup showPopup={showPopup} closePopup={closePopup} />
         {show && !props.inContext && (
           <ThreadCollapser
             collapse={toggleShow}
@@ -87,7 +96,9 @@ function Thread(props: ThreadProps) {
                     <DividerDot />
                     <CommentButton
                       type="reply"
-                      click={() => setShowReplyBox(true)}
+                      click={
+                        props.user ? () => setShowReplyBox(true) : openPopup
+                      }
                     />
                   </div>
                 )}

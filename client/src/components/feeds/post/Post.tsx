@@ -14,6 +14,7 @@ import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
 import ShareButton from "./ShareButton";
 import IPost from "../../../types/IPost";
+import LoginPopup from "./LoginPopup";
 
 export type PostProps = {
   user?: IUser;
@@ -30,6 +31,12 @@ const convertToThread = (comment: IComment) => {
 
 function Post(props: PostProps) {
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const [showPopup, setshowPopup] = useState(false);
+  const openPopup = () => {
+    setshowPopup(true);
+  };
+
+  const closePopup = () => setshowPopup(false);
 
   const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
     const response = await approvePost(
@@ -44,6 +51,7 @@ function Post(props: PostProps) {
 
   return (
     <div className="Post" style={{ animationDelay: props.delay ?? "0" }}>
+      <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       <div className="PostHeader">
         <div className="NumberAndWarning">
           <PostNumber
@@ -88,7 +96,10 @@ function Post(props: PostProps) {
             reactions={props.post.reactions}
           />
           <DividerDot />
-          <CommentButton type="comment" click={() => setShowCommentBox(true)} />
+          <CommentButton
+            type="comment"
+            click={props.user ? () => setShowCommentBox(true) : openPopup}
+          />
           <DividerDot />
           <ShareButton postNumber={props.post.postNumber} />
         </div>

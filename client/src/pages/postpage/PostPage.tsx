@@ -15,9 +15,7 @@ function PostPage(props: PostProps) {
   const { user } = props;
   const { postNumber } = useParams();
   const [post, setPost] = useState<IPost>();
-  const [searching, setSearching] = useState(false);
-  const [, setSearchQuery] = useState("");
-
+  
   useEffect(() => {
     getPost(Number(postNumber)).then((response) => {
       if (response.success && response.payload) {
