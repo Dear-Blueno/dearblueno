@@ -7,7 +7,6 @@
   align-items: center;
   background: #fff;
   padding: 0.55rem;
-  box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   margin-bottom: 1rem;
 }
@@ -24,15 +23,15 @@
 }
 
 /* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 46rem) {
   .SearchHeaderCover {
     width: calc(100% - 1.8rem);
     margin-top: 0.5rem;
     padding: 0.3rem;
     padding-bottom: 0rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
+    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
   }
-
   .InputBox {
     font-size: 0.8rem;
     padding: 0rem;
@@ -42,41 +41,9 @@
 }
 
 /* Extra small devices (phones, 400px and up) */
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 46rem) {
   .SearchHeaderCover {
-    width: calc(100% - 1rem);
-  }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  .SearchHeaderCover {
-    width: calc(100% - 1rem);
-  }
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  .SearchHeaderCover {
-    width: 45rem;
-  }
-
-  .InputBox {
-    margin-bottom: 0rem;
-  }
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  .SearchHeaderCover {
-    width: 45rem;
-  }
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  .SearchHeaderCover {
-    width: calc(45rem - 1.4rem);
-  }
-
-  .CloseButton {
-    margin-top: 0.1rem;
+    width: calc(45rem - 1.27rem);
+    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
   }
 }

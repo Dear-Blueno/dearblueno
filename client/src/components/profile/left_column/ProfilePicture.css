@@ -9,3 +9,14 @@
   box-sizing: border-box;
   user-select: none;
 }
+
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ProfilePictureImage {
+    width: 30%;
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+}

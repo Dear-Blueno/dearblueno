@@ -7,8 +7,17 @@
   user-select: none;
 }
 
-.ConsentText {
-  font-size: 0.8rem;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 46rem) {
+  .ConsentText {
+    font-size: 2vw;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 46rem) {
+  .ConsentText {
+    font-size: 0.8rem;
+  }
 }
 
 .ConsentBar:hover {

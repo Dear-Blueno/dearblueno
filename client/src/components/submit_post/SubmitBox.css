@@ -3,7 +3,6 @@
   padding: 1rem;
   padding-bottom: 0.6rem;
   background-color: #ffffff;
-  box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
   margin-top: 0;
@@ -40,34 +39,23 @@
 }
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 46rem) {
   .SubmitBox {
     margin: 0.5rem;
     margin-left: 0.5rem;
     height: calc(100% - 1rem);
     width: calc(100% - 1rem);
     margin-top: 0;
+    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  .SubmitBox {
-    width: 35rem;
-    height: 30rem;
-  }
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 46rem) {
   .SubmitBox {
     width: 45rem;
-    height: 30rem;
+    height: 35rem;
+    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
   }
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
 }
 
 #TextBox:focus {
