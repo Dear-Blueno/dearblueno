@@ -2,16 +2,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100vh;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ProfileBox {
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
   .ProfilePage {
-    display: block;
+    justify-content: center;
   }
 }

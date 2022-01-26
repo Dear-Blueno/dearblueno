@@ -59,11 +59,14 @@ function SubmitBox(props: SubmitBoxProps) {
               shortly. Thank you.{" "}
             </h2>
             <Link to="/">
-              <img
-                className="ReturnButton"
-                src={LogoIcon}
-                alt="Blueno Home Button"
-              />
+              <div className="ReturnButton">
+                <img
+                  className="ReturnButtonImage"
+                  src={LogoIcon}
+                  alt="Blueno Home Button"
+                />
+                Return to Main Feed
+              </div>
             </Link>
           </div>
         )}

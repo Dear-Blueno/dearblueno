@@ -1,8 +1,11 @@
 .NoResults {
-    align-items: center;
+  align-items: center;
 }
 
 .NoResultsText {
-    color: #8e8e8e;
-    text-align: center;
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #8e8e8e;
+  text-align: center;
 }
