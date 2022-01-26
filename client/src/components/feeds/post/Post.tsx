@@ -32,7 +32,11 @@ function Post(props: PostProps) {
   const [showCommentBox, setShowCommentBox] = useState(false);
 
   const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
-    const response = await approvePost(props.post._id, bool, contentWarningString);
+    const response = await approvePost(
+      props.post._id,
+      bool,
+      contentWarningString
+    );
     if (response.success && props.setFeed) {
       props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
     }
@@ -60,10 +64,15 @@ function Post(props: PostProps) {
           }
         />
       </div>
-      <PostBody body={props.post.content} showContent={!props.post.contentWarning}/>
+      <PostBody
+        body={props.post.content}
+        showContent={!props.post.contentWarning}
+      />
       {props.post.needsReview ? (
         <ApproveOrDeny
-          approve={(contentWarningString: string) => approveOrDeny(true, contentWarningString)}
+          approve={(contentWarningString: string) =>
+            approveOrDeny(true, contentWarningString)
+          }
           deny={(contentWarningString: string) => {
             approveOrDeny(false, contentWarningString);
           }}

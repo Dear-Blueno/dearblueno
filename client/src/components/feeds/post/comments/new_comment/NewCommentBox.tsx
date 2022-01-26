@@ -53,6 +53,9 @@ function NewCommentBox(props: NewCommentBoxProps) {
               const comment = response.payload as IThread;
               comment.children = [];
               comment.author = anonymous ? undefined : props.user;
+              if (anonymous) {
+                comment.content = "[under review]";
+              }
               const parent = findComment(
                 newComments,
                 props.parentCommentNumber

@@ -83,6 +83,7 @@ function ModeratorFeed(props: ModeratorFeedProps) {
                 user={props.user}
                 delay={index * 80 + "ms"}
                 moderatorView={true}
+                setFeed={setComments}
               />
             ))}
       </Feed>

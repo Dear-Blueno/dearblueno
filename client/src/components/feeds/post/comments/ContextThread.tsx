@@ -13,6 +13,7 @@ export type ContextThreadProps = {
   thread: IComment;
   delay?: string;
   moderatorView?: boolean;
+  setFeed?: React.Dispatch<React.SetStateAction<IComment[]>>;
 };
 
 function ContextThread(props: ContextThreadProps) {
@@ -68,16 +69,24 @@ function ContextThread(props: ContextThreadProps) {
                 props.thread.commentNumber,
                 true
               );
-              if (response.success) {
+              if (response.success && props.setFeed) {
+                props.setFeed((comments) =>
+                  comments.filter((c) => c._id !== props.thread._id)
+                );
               }
             }}
-            deny={() =>
-              approveComment(
+            deny={async () => {
+              const response = await approveComment(
                 props.thread.postNumber,
                 props.thread.commentNumber,
                 false
-              )
-            }
+              );
+              if (response.success && props.setFeed) {
+                props.setFeed((comments) =>
+                  comments.filter((c) => c._id !== props.thread._id)
+                );
+              }
+            }}
           />
         </div>
       )}
