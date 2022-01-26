@@ -78,3 +78,16 @@
 .ApproveOrDenyContainer {
   margin-top: 1rem;
 }
+
+.ContextThreadLink {
+  color: black;
+  text-decoration: none;
+}
+
+.ContextThreadModeratorLinkContainer {
+  margin-top: 0.5rem;
+}
+
+.ContextThreadModeratorLink {
+  text-decoration: underline;
+}

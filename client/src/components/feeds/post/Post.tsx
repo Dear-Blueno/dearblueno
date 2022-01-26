@@ -70,6 +70,7 @@ function Post(props: PostProps) {
       />
       {props.post.needsReview ? (
         <ApproveOrDeny
+          type="post"
           approve={(contentWarningString: string) =>
             approveOrDeny(true, contentWarningString)
           }

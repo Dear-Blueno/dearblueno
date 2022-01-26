@@ -5,6 +5,7 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 type ApproveOrDenyProps = {
   approve: (contentWarningString: string) => void;
   deny: (contentWarningString: string) => void;
+  type: "post" | "comment";
 };
 
 function ApproveOrDeny(props: ApproveOrDenyProps) {
@@ -12,12 +13,14 @@ function ApproveOrDeny(props: ApproveOrDenyProps) {
 
   return (
     <div className="ApproveOrDeny">
-      <input
-        className="ApproveDenyBox"
-        ref={contentWarningInputRef}
-        type="text"
-        placeholder="Content Warning"
-      />
+      {props.type === "post" && (
+        <input
+          className="ApproveDenyBox"
+          ref={contentWarningInputRef}
+          type="text"
+          placeholder="Content Warning"
+        />
+      )}
       <button
         className="ApproveOrDenyButton ApproveButton"
         onClick={() =>
