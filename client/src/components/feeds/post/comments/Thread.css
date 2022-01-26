@@ -19,6 +19,7 @@
 
 .CommentBodyText {
   margin-bottom: 0.2rem;
+  white-space: pre-line;
 }
 
 .CommentBody {
