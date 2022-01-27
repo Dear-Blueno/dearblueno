@@ -2,18 +2,20 @@ import cron from "node-cron";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import User from "../models/User";
 import Post from "../models/Post";
-import { logger } from "../index";
+import log4js from "log4js";
+
+const logger = log4js.getLogger("cron");
 
 export default async function setupCron() {
   // Hourly, import posts from Google Sheets
   cron.schedule("30 * * * *", async () => {
     const startDate = new Date();
-    logger.info("Running hourly cron job! 🚀", startDate.toLocaleString());
+    logger.info("Running hourly cron job! 🚀");
 
     await hourlyJob();
 
     const endDate = new Date();
-    logger.info("Hourly cron job completed! 🎉", endDate.toLocaleString());
+    logger.info("Hourly cron job completed! 🎉");
     const completedIn = endDate.getTime() - startDate.getTime();
     logger.info(`Completed in ${completedIn}ms`);
   });
@@ -21,12 +23,12 @@ export default async function setupCron() {
   // Daily at midnight, handle daily streak related stuff
   cron.schedule("0 0 * * *", async () => {
     const startDate = new Date();
-    logger.info("Running daily cron job! 🚀", startDate.toLocaleString());
+    logger.info("Running daily cron job! 🚀");
 
     await dailyJob();
 
     const endDate = new Date();
-    logger.info("Daily cron job completed! 🎉", endDate.toLocaleString());
+    logger.info("Daily cron job completed! 🎉");
     const completedIn = endDate.getTime() - startDate.getTime();
     logger.info(`Completed in ${completedIn}ms`);
   });

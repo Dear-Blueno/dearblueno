@@ -44,7 +44,7 @@ log4js.configure({
     default: { appenders: ["out", "app"], level: "info" },
   },
 });
-export const logger = log4js.getLogger();
+const logger = log4js.getLogger("app");
 
 // Setup MongoDB
 mongoConnection();
