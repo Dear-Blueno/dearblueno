@@ -10,10 +10,22 @@
 .PostBodyTextHidden {
   padding: 0.4rem;
   white-space: pre-line;
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
 }
 
 .PostBodyText {
   white-space: pre-line;
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
 }
 
 
