@@ -27,6 +27,15 @@ function AboutPage(props: AboutPageProps) {
       )}
       <div className="AboutPagePost">
         <div className="AboutPageSection">
+          <h3 className="SectionHeader">DISCLAIMER</h3>
+          <p className="PrivSection">
+            The approval or denial of submitted content is determined by the
+            moderators. Actions taken upon submitted content are in no way
+            reflective of the views, opinions, or feelings of the moderator
+            team, nor the developers.
+          </p>
+        </div>
+        <div className="AboutPageSection">
           <h3 className="SectionHeader">COMMUNITY GUIDELINES</h3>
           <p>
             1. Be respectful to other users.
@@ -39,6 +48,9 @@ function AboutPage(props: AboutPageProps) {
             4. Do not spam.
             <br />
             5. Do not post illegal or potentially dangerous content.
+            <br />
+            6. Posts that contain irrelevant, low-effort content, such as single
+            words, may be denied.
             <br />
           </p>
         </div>
@@ -122,7 +134,7 @@ function AboutPage(props: AboutPageProps) {
                 got around to reviewing it yet, or it may been denied.
                 Otherwise, your comment may have been automatically deleted for
                 containing potentially dangerous content. Finally, your comment
-                may have been manually removed by a moderators for violating our
+                may have been manually removed by a moderator for violating our
                 community guidelines.
               </p>
             </Collapsible>
@@ -139,6 +151,28 @@ function AboutPage(props: AboutPageProps) {
                 yourself with our community guidelines, please visit the top of
                 the About Page.{" "}
               </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Why are their different submit forms?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <div className="FAQAnswer">
+                <p>
+                  There are 3 kinds of submit forms we support: built-in,
+                  verified Google Form, and unverified Google Form. Our built-in
+                  submit form performs a check to see if the user is logged in
+                  with a Brown email. If so, the post is deemed "verified" upon
+                  submission, but no information tying the post to the user is
+                  stored.
+                </p>
+                <p>
+                  The Google Forms are provided for those who perhaps do not
+                  feel comfortable using a form built in to our site, or simply
+                  prefer the experience of typing in a Google Form.
+                </p>
+                <p>No form posseses any advantage over the others.</p>
+              </div>
             </Collapsible>
             <Collapsible
               trigger="Is this related to the DB Facebook Group?"

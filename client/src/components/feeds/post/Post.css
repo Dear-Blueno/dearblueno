@@ -7,6 +7,11 @@
   box-sizing: border-box;
 }
 
+.VerifiedBrown {
+  margin-left: 0.5rem;
+  color: #97592c;
+}
+
 /* Mobile */
 @media only screen and (max-width: 46rem) {
   .Post {

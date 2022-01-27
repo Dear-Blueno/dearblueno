@@ -15,6 +15,7 @@ import { approvePost } from "../../../gateways/PostGateway";
 import ShareButton from "./ShareButton";
 import IPost from "../../../types/IPost";
 import LoginPopup from "./LoginPopup";
+import { RiShieldCheckFill } from "react-icons/ri";
 
 export type PostProps = {
   user?: IUser;
@@ -58,6 +59,12 @@ function Post(props: PostProps) {
             number={props.post.postNumber}
             _id={props.post.needsReview ? props.post._id : undefined}
           />
+          {props.post.verifiedBrown ? (
+            <RiShieldCheckFill
+              className="VerifiedBrown"
+              title="Verified Brown"
+            />
+          ) : null}
           {props.post.contentWarning && (
             <ContentWarning ContentWarningText={props.post.contentWarning} />
           )}

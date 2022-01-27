@@ -60,7 +60,11 @@
 }
 
 .FAQAnswer {
-  margin-bottom: 0.3rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Extra small devices (phones, 600px and down) */
