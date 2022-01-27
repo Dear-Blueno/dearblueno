@@ -3,19 +3,13 @@
   margin-bottom: 0.6rem;
 }
 
-.PostBodyHidden {
-  margin: -0.3rem;
+.PostBodyTextHidden {
+  filter: blur(5px);
+  cursor: pointer;
 }
 
-.PostBodyTextHidden {
-  padding: 0.4rem;
-  white-space: pre-line;
-  overflow-wrap: break-word;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
+.PostBodyTextHidden:hover {
+  filter: blur(3px);
 }
 
 .PostBodyText {
@@ -28,7 +22,6 @@
   word-break: break-word;
 }
 
-
 .ContentContainer {
   position: relative;
 }
@@ -36,6 +29,7 @@
 .Foreground {
   position: absolute;
   backdrop-filter: blur(4px);
+  filter: blur(1.5rem);
   height: 100%;
   width: 100%;
   display: flex;

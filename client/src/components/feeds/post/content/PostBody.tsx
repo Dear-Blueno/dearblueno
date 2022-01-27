@@ -9,24 +9,18 @@ interface PostBodyProps {
 
 function PostBody(props: PostBodyProps) {
   const [showContent, setShowContent] = useState(props.showContent);
-  const className = showContent ? "PostBody" : "PostBodyHidden";
 
   return (
-    <div className={className}>
-      <div className="ContentContainer">
-        {!showContent && (
-          <div
-            className="Foreground"
-            title="Click to show"
-            onClick={() => setShowContent(true)}
-          />
-        )}
-        <Linkify>
-          <p className={showContent ? "PostBodyText" : "PostBodyTextHidden"}>
-            {props.body}
-          </p>
-        </Linkify>
-      </div>
+    <div className="PostBody">
+      <Linkify>
+        <p
+          className={"PostBodyText " + (!showContent ? "PostBodyTextHidden" : "")}
+          onClick={() => setShowContent(true)}
+          title={showContent ? "" : "Click to reveal"}
+        >
+          {props.body}
+        </p>
+      </Linkify>
     </div>
   );
 }
