@@ -58,6 +58,9 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
     }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    },
   })
 );
 app.use(cookieParser());
