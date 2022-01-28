@@ -82,6 +82,7 @@
     width: calc(100% - 1rem);
     margin-left: 0.5rem;
     box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
+    padding: 1.5rem;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */

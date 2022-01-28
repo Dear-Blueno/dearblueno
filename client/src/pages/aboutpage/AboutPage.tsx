@@ -28,15 +28,10 @@ function AboutPage(props: AboutPageProps) {
         <Header user={props.user} moderatorView={false} />
       )}
       <div className="AboutPagePost">
-        <div className="AboutPageSection">
-          <h3 className="SectionHeader">DISCLAIMER</h3>
-          <p className="PrivSection">
-            The approval or denial of submitted content is determined by the
-            moderators. Actions taken upon submitted content are in no way
-            reflective of the views, opinions, or feelings of the moderator
-            team, nor the developers.
-          </p>
+        <div className="AboutPagePostHeader">
+          <h1>About</h1>
         </div>
+        <hr />
         <div className="AboutPageSection">
           <h3 className="SectionHeader">COMMUNITY GUIDELINES</h3>
           <p>
@@ -55,6 +50,97 @@ function AboutPage(props: AboutPageProps) {
             words, may be denied.
             <br />
           </p>
+        </div>
+
+        <div className="AboutPageSection">
+          <h3 className="SectionHeader">FAQ</h3>
+          <div className="Accordion">
+            <Collapsible
+              trigger=" Why isn't my comment showing up?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                Your comment may not be showing up for multiple reasons. If your
+                comment was submitted anonymously, the moderators may have not
+                got around to reviewing it yet, or it may been denied.
+                Otherwise, your comment may have been automatically deleted for
+                containing potentially dangerous content. Finally, your comment
+                may have been manually removed by a moderator for violating our
+                community guidelines.
+              </p>
+            </Collapsible>
+
+            <Collapsible
+              trigger="Why isn't my post showing up?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                If your post is not showing up, it either means that it has not
+                yet been approved by our moderators, or it was rejected for not
+                being compliant with our community guidelines. To familiarize
+                yourself with our community guidelines, please visit the top of
+                the About Page.{" "}
+              </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Why are there different submit forms?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <div className="FAQAnswer">
+                <p>
+                  There are 3 kinds of submit forms we support: built-in,
+                  verified Google Form, and unverified Google Form. Our built-in
+                  submit form performs a check to see if the user is logged in
+                  with a Brown email. If so, the post is deemed "verified" upon
+                  submission, but no information tying the post to the user is
+                  stored.
+                </p>
+                <p>
+                  The Google Forms are provided for those who perhaps do not
+                  feel comfortable using a form built in to our site, or simply
+                  prefer the experience of typing in a Google Form.
+                </p>
+                <p>No form posseses any advantage over the others.</p>
+              </div>
+            </Collapsible>
+            <Collapsible
+              trigger="How do I submit an anonymous comment?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="AnonAnswer">
+                Clicking the {<AiOutlineEye className="AboutPageIcon" />} icon
+                at the bottom left of a new comment box will toggle a comment to
+                be anonymous. Clicking the{" "}
+                {<AiOutlineEyeInvisible className="AboutPageIcon" />} icon that
+                now appears will return it to being public.
+              </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Is this related to the DB Facebook Group?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">
+                No. dearblueno.net was created by a group of Brown University
+                students following the deletion of the DB Facebook Group. While
+                we did reach out to the original DB and BBA mods, we
+                unfortunately did not receive a response. dearblueno.net is a
+                community-based project, and we hope to have the opportunity to
+                work with the DB and BBA mods in the future.
+              </p>
+            </Collapsible>
+            <Collapsible
+              trigger="Who runs Dear Blueno?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="FAQAnswer">¯\_(ツ)_/¯</p>
+            </Collapsible>
+          </div>
         </div>
 
         <div className="AboutPageSection">
@@ -121,94 +207,6 @@ function AboutPage(props: AboutPageProps) {
             </p>
           </div>
         </div>
-
-        <div className="AboutPageSection">
-          <h3 className="SectionHeader">FAQ</h3>
-          <div className="Accordion">
-            <Collapsible
-              trigger=" Why isn't my comment showing up?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <p className="FAQAnswer">
-                Your comment may not be showing up for multiple reasons. If your
-                comment was submitted anonymously, the moderators may have not
-                got around to reviewing it yet, or it may been denied.
-                Otherwise, your comment may have been automatically deleted for
-                containing potentially dangerous content. Finally, your comment
-                may have been manually removed by a moderator for violating our
-                community guidelines.
-              </p>
-            </Collapsible>
-
-            <Collapsible
-              trigger="Why isn't my post showing up?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <p className="FAQAnswer">
-                If your post is not showing up, it either means that it has not
-                yet been approved by our moderators, or it was rejected for not
-                being compliant with our community guidelines. To familiarize
-                yourself with our community guidelines, please visit the top of
-                the About Page.{" "}
-              </p>
-            </Collapsible>
-            <Collapsible
-              trigger="Why are there different submit forms?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <div className="FAQAnswer">
-                <p>
-                  There are 3 kinds of submit forms we support: built-in,
-                  verified Google Form, and unverified Google Form. Our built-in
-                  submit form performs a check to see if the user is logged in
-                  with a Brown email. If so, the post is deemed "verified" upon
-                  submission, but no information tying the post to the user is
-                  stored.
-                </p>
-                <p>
-                  The Google Forms are provided for those who perhaps do not
-                  feel comfortable using a form built in to our site, or simply
-                  prefer the experience of typing in a Google Form.
-                </p>
-                <p>No form posseses any advantage over the others.</p>
-              </div>
-            </Collapsible>
-            <Collapsible
-              trigger="How do I submit an anonymous comment?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <p className="AnonAnswer">
-                Clicking the {<AiOutlineEye className="AboutPageIcon"/>} icon at the bottom left of a new comment box will toggle a comment to be anonymous.
-                Clicking the {<AiOutlineEyeInvisible className="AboutPageIcon"/>} icon that now appears will return it to being public. 
-              </p>
-            </Collapsible>
-            <Collapsible
-              trigger="Is this related to the DB Facebook Group?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <p className="FAQAnswer">
-                No. dearblueno.net was created by a group of Brown University
-                students following the deletion of the DB Facebook Group. While
-                we did reach out to the original DB and BBA mods, we
-                unfortunately did not receive a response. dearblueno.net is a
-                community-based project, and we hope to have the opportunity to
-                work with the DB and BBA mods in the future.
-              </p>
-            </Collapsible>
-            <Collapsible
-              trigger="Who runs Dear Blueno?"
-              className="FAQQuestion"
-              transitionTime={100}
-            >
-              <p className="FAQAnswer">¯\_(ツ)_/¯</p>
-            </Collapsible>
-          </div>
-        </div>
         <div className="AboutPageSection">
           <h3 className="SectionHeader">CONTACT</h3>
           <p>
@@ -218,6 +216,15 @@ function AboutPage(props: AboutPageProps) {
               developers@dearblueno.net
             </a>
             .
+          </p>
+        </div>
+        <div className="AboutPageSection">
+          <h3 className="SectionHeader">DISCLAIMER</h3>
+          <p className="PrivSection">
+            The approval or denial of submitted content is determined by the
+            moderators. Actions taken upon submitted content are in no way
+            reflective of the views, opinions, or feelings of the moderator
+            team, nor the developers.
           </p>
         </div>
       </div>
