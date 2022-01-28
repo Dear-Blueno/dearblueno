@@ -1,4 +1,5 @@
 import "./ProfileBio.css";
+import Linkify from "linkify-react";
 
 interface ProfileBioProps {
   bio: string;
@@ -12,6 +13,7 @@ function ProfileBio(props: ProfileBioProps) {
       {props.editing ? (
         <div className="ProfileBioEditing">
           <div className="ProfileBioEditingHeader">Bio</div>
+
           <textarea
             ref={props.bioRef}
             className="ProfileBioTextArea"
@@ -19,7 +21,9 @@ function ProfileBio(props: ProfileBioProps) {
           ></textarea>
         </div>
       ) : (
-        <p>{props.bio}</p>
+        <Linkify>
+          <p>{props.bio}</p>
+        </Linkify>
       )}
     </div>
   );
