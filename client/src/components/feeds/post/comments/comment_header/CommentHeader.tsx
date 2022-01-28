@@ -2,6 +2,7 @@ import "./CommentHeader.css";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { formatDistanceToNowStrict } from "date-fns";
+import { BsCode } from "react-icons/bs";
 import IUser from "../../../../../types/IUser";
 import IBasicUser from "../../../../../types/IUser";
 import { Link } from "react-router-dom";
@@ -161,6 +162,10 @@ function CommentHeader(props: CommentHeaderProps) {
           />
         </div>
       )}
+
+      {props.comment.author?._id === "61f343cfa90eee523f25f222" ? (
+        <BsCode className="DevBadge" title="Verified Developer" />
+      ) : null}
 
       <p className="CommentDate">
         {formatDuration(

@@ -36,4 +36,10 @@
   cursor: pointer;
 }
 
-
+.DevBadge {
+  margin-left: -0.6rem;
+  font-size: .7rem;
+  background-color: #62c6e6;
+  color: white;
+  border-radius: 2px;
+}
