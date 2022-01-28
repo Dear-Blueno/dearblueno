@@ -155,7 +155,7 @@ function AboutPage(props: AboutPageProps) {
               </p>
             </Collapsible>
             <Collapsible
-              trigger="Why are their different submit forms?"
+              trigger="Why are there different submit forms?"
               className="FAQQuestion"
               transitionTime={100}
             >

@@ -8,6 +8,7 @@ import Post from "./post/Post";
 type SearchFeedProps = {
   user?: IUser;
   results: IPost[];
+  hasResults: boolean | undefined;
 };
 
 function SearchFeed(props: SearchFeedProps) {
@@ -26,7 +27,7 @@ function SearchFeed(props: SearchFeedProps) {
 
   return (
     <>
-      {props.results.length > 0 ? (
+      {props.results.length > 0 || props.hasResults ? (
         <Feed user={props.user} getMore={getMore}>
           {props.results.slice(0, pageNumber * 10).map((post, index) => (
             <Post
