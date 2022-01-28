@@ -67,6 +67,15 @@
   gap: 0.5rem;
 }
 
+.AnonAnswer {
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.AboutPageIcon {
+  transform: translateY(.1rem);
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 46rem) {
   .AboutPagePost {

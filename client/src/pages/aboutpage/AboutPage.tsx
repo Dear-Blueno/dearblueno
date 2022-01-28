@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
 import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
+import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 type AboutPageProps = {
   user: IUser | undefined;
@@ -173,6 +175,16 @@ function AboutPage(props: AboutPageProps) {
                 </p>
                 <p>No form posseses any advantage over the others.</p>
               </div>
+            </Collapsible>
+            <Collapsible
+              trigger="How do I submit an anonymous comment?"
+              className="FAQQuestion"
+              transitionTime={100}
+            >
+              <p className="AnonAnswer">
+                Clicking the {<AiOutlineEye className="AboutPageIcon"/>} icon at the bottom left of a new comment box will toggle a comment to be anonymous.
+                Clicking the {<AiOutlineEyeInvisible className="AboutPageIcon"/>} icon that now appears will return it to being public. 
+              </p>
             </Collapsible>
             <Collapsible
               trigger="Is this related to the DB Facebook Group?"
