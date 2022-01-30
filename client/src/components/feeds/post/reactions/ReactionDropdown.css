@@ -1,0 +1,8 @@
+.ReactionDropdown {
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  z-index: 2;
+}

@@ -1,0 +1,12 @@
+.ShareButtonTextContainer {
+  background-color: white;
+  border-radius: none;
+  opacity: 1;
+}
+
+.ShareTooltip {
+  box-shadow: -0.05rem 0.05rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  padding: 0.4rem 0.6rem !important;
+}

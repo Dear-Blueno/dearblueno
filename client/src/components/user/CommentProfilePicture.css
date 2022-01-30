@@ -1,0 +1,10 @@
+.CommentProfilePictureImage {
+  grid-area: pic;
+  height: 100%;
+  width: 100%;
+  user-select: none;
+}
+.CommentProfilePicture {
+  border: 1px solid black;
+  /* box-shadow: -0.04rem 0.05rem 0rem 0.01rem rgba(0, 0, 0, 1); */
+}

@@ -1,0 +1,53 @@
+.NewCommentBoxFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.PopupAction {
+  text-decoration: underline;
+  text-underline-offset: 0.1rem;
+}
+
+.PopupAction:hover {
+  cursor: pointer;
+}
+
+.AnonymousIcon {
+  margin-top: 0.5rem;
+}
+
+.AnonymousIcon:hover {
+  cursor: pointer;
+}
+
+.AnonymousConfirmationBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.CommentFooterButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.CancelConfirmationBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
+.CancelConfirmationOptions {
+  display: flex;
+  flex-direction: row;
+  gap: 6rem;
+}
+
+.CancelConfirmationText {
+  text-align: center;
+}

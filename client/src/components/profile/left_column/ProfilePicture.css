@@ -1,0 +1,22 @@
+.ProfilePicture {
+  width: 100%;
+}
+
+.ProfilePictureImage {
+  width: 100%;
+  display: block;
+  border: 2px solid black;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ProfilePictureImage {
+    width: 30%;
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+}

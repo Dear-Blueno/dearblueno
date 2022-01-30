@@ -1,0 +1,9 @@
+.CommentFooterButton {
+  margin-top: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.CommentFooterButton:hover {
+  text-decoration: underline;
+}

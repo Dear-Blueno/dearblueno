@@ -1,0 +1,92 @@
+.ProfileBox {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+}
+
+.HomeButtonProfile {
+  font-size: 1.8rem;
+  color: black;
+  user-select: none;
+}
+
+.LeftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+  height: 100%;
+}
+
+.RightColumn {
+  display: flex;
+  flex: 2;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ProfileBox {
+    margin: 0.5rem;
+    margin-top: 0;
+    width: calc(100% - 1rem);
+    flex-direction: column;
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+  .ProfileBox {
+    margin: 0.5rem;
+    width: 45rem;
+    box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
+    flex-direction: row;
+  }
+}
+
+.ProfileButton {
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid black;
+  color: black;
+  background-color: white;
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  font-family: "Fira Code", monospace;
+}
+
+.ProfileButton:active {
+  background-color: #ccc;
+  transform: translate3d(-0.1rem, 0.1rem, 0);
+  box-shadow: none;
+}
+
+.SaveAndCancelButtons {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.ProfileComments {
+  display: flex;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 30rem;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-left: -0.3rem;
+}
+
+.ProfileCommentsHeader {
+  font-size: 1.2rem;
+}

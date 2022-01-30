@@ -1,0 +1,25 @@
+.ThreadCollapser {
+  height: calc(100% - 0.3rem);
+  width: 1.5rem;
+  grid-area: collapser;
+  padding-top: 0.2rem;
+}
+
+.ThreadCollapserClickable {
+  width: 50%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.ThreadCollapserLine {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1px;
+  height: 100%;
+}
+
+.ThreadCollapserLineHover {
+  width: 2px;
+}

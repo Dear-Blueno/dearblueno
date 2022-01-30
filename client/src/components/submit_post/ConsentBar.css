@@ -1,0 +1,25 @@
+.ConsentBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 80%;
+  margin-top: 0.2rem;
+  user-select: none;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 46rem) {
+  .ConsentText {
+    font-size: 2vw;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 46rem) {
+  .ConsentText {
+    font-size: 0.8rem;
+  }
+}
+
+.ConsentBar:hover {
+  cursor: pointer;
+}

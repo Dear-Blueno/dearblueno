@@ -1,0 +1,24 @@
+.ReactionBar {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.CommentReactionBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ReactText {
+  font-size: 0.7rem;
+  color: #8e8e8e;
+  user-select: none;
+  display: inline-block;
+  margin-right: 0.4rem;
+  user-select: none;
+}
+
+.ReactText:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

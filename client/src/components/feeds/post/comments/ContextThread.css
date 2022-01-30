@@ -1,0 +1,98 @@
+.ContextThread {
+  animation: ContextThreadAppear;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  width: 100%;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+}
+
+@keyframes ContextThreadAppear {
+  0% {
+    opacity: 1;
+    box-shadow: none;
+    transform: translate3d(-0.2rem, 0.2rem, 0);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
+
+.ContextThreadHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.ContextThreadParentPicture {
+  width: 1.2rem;
+  height: 1.2rem;
+  line-height: 0;
+}
+
+.ContextThreadHorizontalLine {
+  width: 2rem;
+  height: 0.1rem;
+  background-color: #ccc;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.8rem;
+}
+
+.ContextThreadVerticalLine {
+  position: absolute;
+  width: 0.1rem;
+  height: 0.8rem;
+  background-color: #ccc;
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.7rem;
+}
+
+.ContextThreadReplyAuthor {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: black;
+}
+
+.ContextThreadPostNumber {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.ContextThreadPostContent {
+  font-size: 0.8rem;
+  color: black;
+}
+
+.ApproveOrDenyContainer {
+  margin-top: 1rem;
+}
+
+.ContextThreadLink {
+  color: black;
+  text-decoration: none;
+}
+
+.ContextThreadModeratorLinkContainer {
+  margin-top: 0.5rem;
+}
+
+.ContextThreadModeratorLink {
+  text-decoration: underline;
+}
+
+.ContextThreadReplyText {
+  font-size: 0.8rem;
+  color: black;
+}

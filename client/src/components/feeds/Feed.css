@@ -1,0 +1,25 @@
+.Feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 46rem) {
+  .Feed {
+    width: calc(100% - 1rem);
+    margin-left: 0.5rem;
+    gap: 0.3rem;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 46rem) {
+  .Feed {
+    width: 45rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

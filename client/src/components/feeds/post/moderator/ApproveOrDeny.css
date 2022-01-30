@@ -1,0 +1,29 @@
+.ApproveOrDeny {
+  display: flex;
+  gap: 1rem;
+  height: 2rem;
+  margin-left: 0.15rem;
+}
+
+.ApproveOrDenyButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  border: 1px solid black;
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.ApproveOrDenyButton:active {
+  transform: translate3d(-0.1rem, 0.1rem, 0);
+  box-shadow: none;
+}
+
+.ApproveButton {
+  background-color: #4caf50;
+}
+
+.DenyButton {
+  background-color: #f44336;
+}

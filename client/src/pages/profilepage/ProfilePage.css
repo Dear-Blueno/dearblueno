@@ -1,0 +1,23 @@
+.ProfilePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+}
+
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ProfileBox {
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+  .ProfilePage {
+    justify-content: center;
+  }
+}

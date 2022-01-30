@@ -1,0 +1,68 @@
+{
+  "name": "dear-blueno-client",
+  "version": "0.1.0",
+  "description": "Frontend client for the Dear Blueno web app",
+  "dependencies": {
+    "@popperjs/core": "^2.11.2",
+    "@reach/dialog": "^0.16.2",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "axios": "^0.24.0",
+    "date-fns": "^2.26.0",
+    "linkify-react": "^3.0.4",
+    "linkifyjs": "^3.0.5",
+    "react": "^17.0.2",
+    "react-collapsible": "^2.8.4",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-popper": "^2.2.5",
+    "react-router-dom": "^6.0.2",
+    "react-scripts": "4.0.3",
+    "react-tooltip": "^4.2.21",
+    "react-typist": "^2.0.5",
+    "tslib": "^2.3.1",
+    "typescript": "^4.1.2",
+    "use-debounce": "^7.0.1",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dear-Blueno/dearblueno.git"
+  },
+  "keywords": [
+    "blueno",
+    "brown",
+    "university"
+  ],
+  "author": "Dear Blueno Team",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Dear-Blueno/dearblueno/issues"
+  },
+  "homepage": "https://dearblueno.net/"
+}

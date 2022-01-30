@@ -1,0 +1,62 @@
+.ThreadGrid {
+  display: grid;
+  grid-template-columns: 1.5rem auto;
+  grid-template-rows: 1.5rem auto;
+  grid-template-areas:
+    "pic header"
+    "collapser thread";
+  column-gap: 0.4rem;
+  row-gap: 0.4rem;
+  width: 100%;
+}
+
+.ThreadBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  grid-area: thread;
+}
+
+.CommentBodyText {
+  margin-bottom: 0.2rem;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+
+.CommentBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.CommentFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  grid-area: thread;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .ThreadGrid {
+    row-gap: 0.1rem;
+    column-gap: 0.5rem;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

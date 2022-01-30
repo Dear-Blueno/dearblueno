@@ -1,0 +1,7 @@
+.PostDate {
+  margin: 0 0 0.6em 0;
+  color: #999;
+  float: right;
+  user-select: none;
+  cursor: default;
+}

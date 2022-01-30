@@ -1,0 +1,107 @@
+.PostReactionButtonImage {
+  float: left;
+  user-select: none;
+  cursor: pointer;
+}
+
+.PostReactionButtonCount {
+  margin-top: 0.05rem;
+  float: left;
+  margin-left: 0.2rem;
+  margin-right: 0.5rem;
+  user-select: none;
+  cursor: default;
+}
+
+.CommentReactionButton {
+  display: inline-flex;
+  align-items: center;
+}
+
+.CommentReactionButtonImage {
+  width: 0.8rem;
+  height: 0.8rem;
+  float: left;
+  user-select: none;
+  cursor: pointer;
+}
+
+.CommentReactionButtonCount {
+  float: left;
+  margin-left: 0.2rem;
+  margin-right: 0.4rem;
+  font-size: 0.8rem;
+  user-select: none;
+  cursor: default;
+}
+
+.PopperContainer {
+  background: #fff;
+  border: 1px solid black;
+  z-index: 1;
+  /* box-shadow: -0.1rem 0.rem 0rem 0.03rem rgba(0, 0, 0, 1); */
+}
+
+.PopperContainer[data-show] {
+  display: block;
+}
+
+.DropdownArrow,
+.DropdownArrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  z-index: -1;
+}
+
+.DropdownArrow {
+  visibility: hidden;
+}
+
+.DropdownArrow::before {
+  visibility: visible;
+  content: "";
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
+  bottom: -4px;
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
+  bottom: -4px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  transform: translateY(-0.17rem) rotate(45deg);
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
+  top: -4px;
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
+  top: -4px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transform: translateY(0.17rem) rotate(45deg);
+}
+
+/* Extra extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 46rem) {
+  .PostReactionButtonImage {
+    width: 1rem;
+    height: 1rem;
+  }
+  .PostReactionButtonCount {
+    margin-left: 0.1rem;
+    margin-right: 0.3rem;
+    margin-top: -0.03rem;
+  }
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 46rem) {
+  .PostReactionButtonImage {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}

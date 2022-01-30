@@ -1,0 +1,57 @@
+.HomeButton {
+  width: 3rem;
+  height: 3rem;
+  float: left;
+}
+
+.HomeButtonImage {
+  width: 80%;
+  height: 80%;
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
+/* Extra extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
+  .HomeButton {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}
+
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
+  .HomeButton {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .HomeButton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .HomeButton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .HomeButton {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .HomeButton {
+    width: 3rem;
+    height: 3rem;
+  }
+}

@@ -1,0 +1,45 @@
+.CommentHeader {
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  align-items: center;
+  grid-area: header;
+  flex-wrap: wrap;
+}
+
+.CommentAuthor {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.ProfileLink {
+  color: black;
+  text-decoration: none;
+}
+
+.CommentDate {
+  color: gray;
+  font-size: 0.8rem;
+  user-select: none;
+  cursor: default;
+}
+
+.ExpandThreadButton {
+  font-size: 0.7rem;
+  color: gray;
+  display: inline-block;
+}
+
+.ExpandThreadButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.DevBadge {
+  margin-left: -0.6rem;
+  font-size: .7rem;
+  background-color: #62c6e6;
+  color: white;
+  border-radius: 2px;
+}

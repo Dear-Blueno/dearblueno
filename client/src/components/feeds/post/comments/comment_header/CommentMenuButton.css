@@ -1,0 +1,117 @@
+.CommentMenuButton {
+  cursor: pointer;
+  color: #8e8e8e;
+  user-select: none;
+}
+
+.CommentMenuDropdownText {
+  font-size: 0.5rem;
+  color: #aaa;
+}
+
+.MenuDropdownActions {
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  z-index: 2;
+  color: black;
+  font-size: 0.7rem;
+}
+
+.MenuDropdownAction:hover {
+  text-decoration: underline;
+}
+
+.PopperContainer {
+  background: #fff;
+  border: 1px solid black;
+  z-index: 1;
+  /* box-shadow: -0.05rem .05rem 0rem 0.03rem rgba(0, 0, 0, 1); */
+}
+
+.PopperContainer[data-show] {
+  display: block;
+}
+
+.DropdownArrow,
+.DropdownArrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  z-index: -1;
+}
+
+.DropdownArrow {
+  visibility: hidden;
+}
+
+.DropdownArrow::before {
+  visibility: visible;
+  content: "";
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
+  bottom: -4px;
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
+  bottom: -4px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  transform: translateY(-0.17rem) rotate(45deg);
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
+  top: -4px;
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
+  top: -4px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transform: translateY(0.17rem) rotate(45deg);
+}
+
+[data-reach-dialog-content] {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10% !important;
+  border: 1px solid black;
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+}
+
+
+@media only screen and (max-width: 600px) {
+  [data-reach-dialog-content] {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60% !important;
+    border: 1px solid black;
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  }
+}
+
+
+.ReportReason:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.DeleteBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DeleteConfirmationOptions {
+  display: flex;
+  flex-direction: row;
+  gap: 6rem;
+}

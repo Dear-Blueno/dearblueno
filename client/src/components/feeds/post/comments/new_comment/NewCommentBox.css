@@ -1,0 +1,64 @@
+.NewCommentBox {
+  grid-area: thread;
+  width: 100%;
+}
+
+.NewCommentTextArea {
+  width: calc(100% - 1rem - 2px);
+  height: 3rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  font-family: "Fira Code", monospace;
+  resize: vertical;
+  margin-bottom: -0.3rem;
+}
+
+.NewCommentTextArea:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.FirstCommentBox {
+  margin-top: 0;
+}
+
+/* Extra extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .NewCommentTemporaryInput,
+  .NewCommentTextArea {
+    padding: 0.3rem;
+    font-size: 0.8rem;
+  }
+  .TopLevelCommentBox {
+    width: calc(100% - 0.5rem - 4px);
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .NewCommentTemporaryInput,
+  .NewCommentTextArea {
+    font-size: 0.85rem;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .NewCommentTemporaryInput,
+  .NewCommentTextArea {
+    font-size: 0.85rem;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .NewCommentTemporaryInput,
+  .NewCommentTextArea {
+    font-size: 0.9rem;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .NewCommentTemporaryInput,
+  .NewCommentTextArea {
+    font-size: 0.9rem;
+  }
+}

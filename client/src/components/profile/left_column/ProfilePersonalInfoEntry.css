@@ -1,0 +1,9 @@
+.ProfilePersonalInfoEntry {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ProfilePersonalInfoEntryContent {
+  font-size: 0.7rem;
+}

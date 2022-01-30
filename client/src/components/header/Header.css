@@ -1,0 +1,215 @@
+.Header {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  box-sizing: border-box;
+  border: 0.1rem solid rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+}
+
+.HeaderUserPicture {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+#HeaderText {
+  font-family: "Courier Prime", monospace;
+  font-weight: 400;
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+  transform: translateY(0.25rem);
+  user-select: none;
+}
+
+.LogoImage {
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+  user-select: none;
+}
+
+.HeaderButtons {
+  margin-left: auto;
+  display: flex;
+}
+
+@keyframes HeaderAppear1 {
+  0% {
+    box-shadow: none;
+    transform: translate3d(-0.1rem, 0.1rem, 0);
+  }
+  100% {
+    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
+
+@keyframes HeaderAppear2 {
+  0% {
+    box-shadow: none;
+    transform: translate3d(-0.2rem, 0.2rem, 0);
+  }
+  100% {
+    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
+    transform: none;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .Header {
+    animation: HeaderAppear1;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    margin-top: 0.5rem;
+    width: calc(100% - 1rem);
+    margin-left: 0.5rem;
+    padding: 0.3rem;
+    margin-bottom: 0.3rem;
+    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
+  }
+  #HeaderText {
+    font-size: 6vw;
+    transform: translateY(0.5vw);
+  }
+  .LogoImage {
+    width: 6vw;
+    height: 6vw;
+  }
+}
+
+/* Larger than mobile */
+@media only screen and (min-width: 46rem) {
+  .Header {
+    animation: HeaderAppear2;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    margin-top: 0.5rem;
+    width: 45rem;
+    margin-left: auto;
+    padding: 0.5rem;
+    margin-bottom: 0.8rem;
+    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
+  }
+  #HeaderText {
+    font-size: 3rem;
+    transform: translateY(0.25rem);
+  }
+  .LogoImage {
+    width: 3rem;
+    height: 3rem;
+    transform: translateY(-0.1rem);
+  }
+  .HeaderButtons {
+    gap: 0.2rem;
+  }
+}
+
+.PopperContainer {
+  background: #fff;
+  border: 1px solid black;
+  z-index: 1;
+  box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+}
+
+.PopperContainer[data-show] {
+  display: block;
+}
+
+.DropdownArrow,
+.DropdownArrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  z-index: -1;
+}
+
+.DropdownArrow {
+  visibility: hidden;
+}
+
+.DropdownArrow::before {
+  visibility: visible;
+  content: "";
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
+  bottom: -4px;
+}
+
+.PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
+  bottom: -4px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  transform: translateY(-0.17rem) rotate(45deg);
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
+  top: -4px;
+}
+
+.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
+  top: -4px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transform: translateY(0.17rem) rotate(45deg);
+}
+
+.SubmitDropdownActions {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.ProfileDropdownActions {
+  padding: 0.5rem;
+}
+
+.DropdownAction {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.DropdownAction:hover {
+  text-decoration: underline;
+  user-select: none;
+}
+
+.RefreshHeaderLink {
+  display: flex;
+  color: black;
+  align-items: center;
+  cursor: pointer;
+}
+
+.SearchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0.8rem;
+  margin-top: 0.2rem;
+  width: 87%;
+}
+
+.InputBox {
+  height: 1.5rem;
+  width: 100%;
+  font-size: large;
+  padding: 0.7rem;
+  font-family: "Fira Code", monospace;
+}
+
+.InputBox:focus {
+  outline: none;
+}
