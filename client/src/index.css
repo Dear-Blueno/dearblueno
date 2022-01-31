@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  font-family: "Fira Code", monospace;
+  font-family: "Inconsolata", monospace;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,43 +29,23 @@ input[type="submit"],
 .input-checkbox {
   -webkit-appearance: none;
   border-radius: 0;
+  font-family: "Inconsolata", monospace;
+}
+
+button {
+  font-family: "Inconsolata", monospace;
 }
 
 /* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 46rem) {
   body {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
 /* Extra small devices (phones, 400px and up) */
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 46rem) {
   body {
-    font-size: 0.8rem;
-  }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  body {
-    font-size: 0.85rem;
-  }
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  body {
-    font-size: 0.85rem;
-  }
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  body {
-    font-size: 0.9rem;
-  }
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  body {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }

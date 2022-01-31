@@ -35,7 +35,6 @@
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
   font-size: 1rem;
-  font-family: "Fira Code", monospace;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -63,7 +62,6 @@
 }
 
 .SubmitBoxHeaderText {
-  font-family: "Fira Mono", monospace;
   font-weight: 400;
   margin-bottom: 1rem;
   user-select: none;
@@ -80,7 +78,6 @@
 }
 
 .Submit {
-  font-family: "Fira Mono", monospace;
   padding-right: 0.5rem;
   user-select: none;
   cursor: pointer;

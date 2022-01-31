@@ -27,6 +27,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
                   size: "1.2em",
                 })}
                 <input
+                  type={"text"}
                   ref={props.refs[index]}
                   className="PersonalInfoInput"
                   defaultValue={content}

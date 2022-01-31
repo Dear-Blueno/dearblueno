@@ -21,7 +21,6 @@
   border: 1px solid black;
   padding: 0.4rem;
   box-sizing: border-box;
-  font-family: "Fira Code", monospace;
 }
 
 .SocialInput:focus {
