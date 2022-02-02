@@ -395,7 +395,7 @@ postRouter.post(
         commentNumber: req.body.parentId,
         post: post._id,
       });
-      if (!parentComment) {
+      if (!parentComment || !parentComment.approved) {
         res.status(404).send("Parent comment not found");
         return;
       }

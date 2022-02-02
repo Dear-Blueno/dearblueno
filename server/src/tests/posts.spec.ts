@@ -844,6 +844,30 @@ describe("Posts", () => {
         })
         .expect(403);
     });
+
+    it("should not be able to post comment in reply to unapproved comment", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: false,
+        commentNumber: 1,
+        post: post._id,
+        parentCommentNumber: -1,
+        postNumber: 1,
+      });
+      await comment.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({ user, content: "This is a test comment!!", parentId: 1 })
+        .expect(404);
+    });
   });
 
   describe("PUT /posts/:id/comment/:commentId/approve", () => {
