@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
 import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
-import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type AboutPageProps = {
   user: IUser | undefined;
@@ -103,7 +102,7 @@ function AboutPage(props: AboutPageProps) {
                   feel comfortable using a form built in to our site, or simply
                   prefer the experience of typing in a Google Form.
                 </p>
-                <p>No form posseses any advantage over the others.</p>
+                <p>No form possesses any advantage over the others.</p>
               </div>
             </Collapsible>
             <Collapsible
@@ -147,18 +146,23 @@ function AboutPage(props: AboutPageProps) {
           <h3 className="SectionHeader">PRIVACY POLICY</h3>
           <div className="PrivPolicy">
             <p className="PrivSection">
-              The developers of dearblueno.net are committed to privacy. On
-              posts and anonymous comments, no information whatsoever is linked
-              to an individual's identity. It is impossible for anyone, even the
-              developers of dearblueno.net, to know who the original poster is.
+              The developers of dearblueno.net ("we", "us", "our") are committed
+              to privacy. On posts and anonymous comments, no information
+              whatsoever is linked to an individual's identity. It is impossible
+              for anyone, even the developers of dearblueno.net, to know who the
+              original poster is.
             </p>
             <p className="PrivSection">
-              Since all users must login with Google, we do receive some of your
-              existing Google account details, such as email address, profile
-              picture, and name. We have absolutely no way of changing this
-              information, nor do we have the ability to obtain any overly
-              sensitive information from Google. For more information regarding
-              how Google handles your information, please visit{" "}
+              For user account registration and authentication, we make use of
+              Google OAuth2. When you choose to login to an account, we store a
+              cookie with a user session id that allows us to keep you signed-in
+              to your account across multiple visits in the same browser. For
+              users that choose to login with Google, we receive some basic
+              Google account details, including your email address, profile
+              picture, and name. We cannot modify these Google account details,
+              nor do we receive any sensitive information from Google, such as
+              passwords. For more information regarding how Google handles your
+              information, please visit{" "}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -168,18 +172,15 @@ function AboutPage(props: AboutPageProps) {
               </a>
             </p>
             <p className="PrivSection">
-              Depending on the extent by which you interact with the site, our
-              servers may also receive general device information such as your
-              operating system and browser type. This information is not linked
-              to your identity.
-            </p>
-            <p className="PrivSection">
               For content optimization, we make use of the Cloudflare content
               delivery network and ImgBB image embeds. For web and mobile
-              analytics, we make use of Cloudflare web analytics. For user
-              account registration and authentication, we make use of Google
-              OAuth2. For more information regarding how Cloudflare handles your
-              information, please visit{" "}
+              analytics, we make use of Cloudflare Web Analytics. Cloudflare Web
+              Analytics is a privacy-friendly analytics platform that tracks
+              general device information such as your operating system and
+              browser type, but does not use a "tracking beacon" or any cookies.
+              Thus, this analytic information is not linked to your account or
+              identity. For more information regarding how Cloudflare handles
+              your information, please visit{" "}
               <a
                 href="https://www.cloudflare.com/privacy/"
                 target="_blank"
@@ -189,9 +190,9 @@ function AboutPage(props: AboutPageProps) {
               </a>
             </p>
             <p className="PrivSection">
-              All personal data, as described above, is stored in a database on
-              our servers. This data is not sold, sent, or shared with anyone
-              else.
+              All data needed to operate dearblueno.net, as described above, is
+              stored in a database on our servers. We do not and will not sell
+              or share your data with third parties.
             </p>
             <p className="PrivSection">
               As part of our commitment to transparency, the entirety of our
@@ -201,7 +202,7 @@ function AboutPage(props: AboutPageProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                github repository
+                GitHub repository
               </a>{" "}
               and is licensed under the AGPLv3 license.
             </p>

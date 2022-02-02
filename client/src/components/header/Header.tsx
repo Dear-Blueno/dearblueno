@@ -148,7 +148,17 @@ function Header(props: HeaderProps) {
             delay="1500ms"
           />
         </Link>
-        <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
+        <Link to="/submit">
+          <HeaderButton
+            action={() => {}}
+            icon={AiOutlinePlus}
+            alt="Post"
+            opacity={showSearch ? 1 : 0}
+            delay="1650ms"
+          />
+        </Link>
+        {/* TODO: Remove all this */}
+        {/* <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
           <HeaderButton
             action={() => setSubmitClicked(!submitClicked)}
             icon={AiOutlinePlus}
@@ -174,22 +184,10 @@ function Header(props: HeaderProps) {
                 <Link to="/submit" className="DropdownAction">
                   <p>Post with built-in form</p>
                 </Link>
-                <a
-                  className="DropdownAction"
-                  href="https://forms.gle/NE5Gnr4Y9BWBXs327"
-                >
-                  Post with Google Form (non-Brown)
-                </a>
-                <a
-                  className="DropdownAction"
-                  href="https://forms.gle/Cpa5XEYr3mCpcjBS7"
-                >
-                  Post with Google Form (Verified Brown)
-                </a>
               </div>
             </div>
           )}
-        </div>
+        </div> */}
         <div className="ProfileButtonAndDropdown" ref={profileRefDropdown}>
           <HeaderButton
             action={() => setProfileClicked(!profileClicked)}
