@@ -22,33 +22,10 @@ function Header(props: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
   const [showPlus, setShowPlus] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [postReferenceElement, setPostReferenceElement] = useState<any>(null);
   const [profileReferenceElement, setProfileReferenceElement] =
     useState<any>(null);
-  const [postPopperElement, setPostPopperElement] = useState<any>(null);
   const [profilePopperElement, setProfilePopperElement] = useState<any>(null);
-  const [postArrowElement, setPostArrowElement] = useState<any>(null);
   const [profileArrowElement, setProfileArrowElement] = useState<any>(null);
-  const postPopper = usePopper<any>(postReferenceElement, postPopperElement, {
-    placement: "bottom-end",
-    modifiers: [
-      {
-        name: "arrow",
-        options: { element: postArrowElement },
-      },
-      {
-        name: "offset",
-        options: { offset: [0, 12] },
-      },
-      {
-        name: "flip",
-        options: {
-          allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
-          flipVariations: false,
-        },
-      },
-    ],
-  });
   const profilePopper = usePopper<any>(
     profileReferenceElement,
     profilePopperElement,
@@ -73,20 +50,9 @@ function Header(props: HeaderProps) {
       ],
     }
   );
-  const [submitClicked, setSubmitClicked] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
 
-  const postRefDropdown = useRef<HTMLDivElement>(null);
   const profileRefDropdown = useRef<HTMLDivElement>(null);
-
-  const handleSubmitClickOutside = (event: any) => {
-    if (
-      postRefDropdown.current &&
-      !postRefDropdown.current.contains(event.target)
-    ) {
-      setSubmitClicked(false);
-    }
-  };
 
   const handleProfileClickOutside = (event: any) => {
     if (
@@ -98,10 +64,8 @@ function Header(props: HeaderProps) {
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleSubmitClickOutside, true);
     document.addEventListener("click", handleProfileClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleSubmitClickOutside, true);
       document.removeEventListener("click", handleProfileClickOutside, true);
     };
   });
@@ -153,7 +117,7 @@ function Header(props: HeaderProps) {
             action={() => {}}
             icon={AiOutlinePlus}
             alt="Post"
-            opacity={showSearch ? 1 : 0}
+            opacity={showPlus ? 1 : 0}
             delay="1650ms"
           />
         </Link>
