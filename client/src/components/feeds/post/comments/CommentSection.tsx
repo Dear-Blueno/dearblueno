@@ -10,6 +10,7 @@ export type CommentSectionProps = {
   postNumber: number;
   comments: IThread[];
   showCommentBox: boolean;
+  contentWarning: string;
 };
 
 export interface IThread extends IComment {
@@ -114,6 +115,7 @@ function CommentSection(props: CommentSectionProps) {
           postNumber={props.postNumber}
           setComments={setComments}
           inContext={false}
+          contentWarning={props.contentWarning}
         />
       ))}
       {showTopLevelCommentBox && (
