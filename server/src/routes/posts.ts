@@ -401,6 +401,12 @@ postRouter.post(
       }
     }
 
+    // If the comment is not anonymous, award the user some XP
+    if (!req.body.anonymous) {
+      user.xp += 2;
+      await user.save();
+    }
+
     const comment = new Comment({
       commentNumber: post.comments.length + 1,
       parentCommentNumber: req.body.parentId,
@@ -493,12 +499,19 @@ postRouter.put(
     const state = req.body.state;
     const user = req.user as IUser;
 
+    // If the commenter is not anonymous, award / take-away some XP from the commenter
+    const commenter = comment.author;
+    if (commenter && reaction <= 3) {
+      await User.findByIdAndUpdate(commenter, {
+        $inc: { xp: state ? 1 : -1 },
+      });
+    }
+
     const reactions = comment.reactions[reaction - 1] || [];
-    if (state) {
-      !reactions.includes(user._id) && reactions.push(user._id);
-    } else {
-      reactions.includes(user._id) &&
-        reactions.splice(reactions.indexOf(user._id), 1);
+    if (state && !reactions.includes(user._id)) {
+      reactions.push(user._id);
+    } else if (reactions.includes(user._id)) {
+      reactions.splice(reactions.indexOf(user._id), 1);
     }
     comment.reactions[reaction - 1] = reactions;
     await comment.save();
@@ -551,6 +564,15 @@ postRouter.delete(
     }
 
     await comment.save();
+
+    // Take away previously awarded XP
+    let xpDecr = -2;
+    for (let i = 0; i < 3; i++) {
+      xpDecr -= comment.reactions[i].length;
+    }
+    await User.findByIdAndUpdate(comment.author, {
+      $inc: { xp: xpDecr },
+    });
 
     res.send(comment);
   }
