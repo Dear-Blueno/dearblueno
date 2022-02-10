@@ -29,7 +29,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture badges",
         },
       });
 
@@ -65,7 +65,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture badges",
         },
       });
     res.send(posts);
@@ -114,14 +114,14 @@ postRouter.get(
       .limit(10)
       .populate({
         path: "author",
-        select: "name profilePicture",
+        select: "name profilePicture badges",
       })
       .populate("post")
       .populate({
         path: "parentComment",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture badges",
         },
       });
     res.send(comments);
@@ -151,7 +151,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture badges",
         },
       });
 
@@ -236,7 +236,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
       path: "comments",
       populate: {
         path: "author",
-        select: "name profilePicture",
+        select: "name profilePicture badges",
       },
     });
   if (!post || !post.approved) {
