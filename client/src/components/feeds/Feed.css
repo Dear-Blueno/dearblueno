@@ -23,3 +23,34 @@
     margin-right: auto;
   }
 }
+
+.FeedLoading {
+  text-align: center;
+  padding-block: 2em;
+}
+
+.FeedLoadingDot {
+  animation: 1s infinite ease feed-loading-dot;
+  opacity: 0;
+}
+.FeedLoadingDot + .FeedLoadingDot {
+  animation-delay: 0.1s;
+}
+.FeedLoadingDot + .FeedLoadingDot + .FeedLoadingDot {
+  animation-delay: 0.2s;
+}
+
+@keyframes feed-loading-dot {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
