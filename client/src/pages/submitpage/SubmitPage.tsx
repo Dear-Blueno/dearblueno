@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./SubmitPage.css";
 import IUser from "../../types/IUser";
+import { useIsMobile } from "hooks/is-mobile";
 
 type SubmitPageProps = {
   user: IUser | undefined;
@@ -14,7 +15,7 @@ function SubmitPage(props: SubmitPageProps) {
 
   return (
     <div className="SubmitPage">
-      {window.innerWidth >= 768 && !submitted && (
+      {!useIsMobile() && !submitted && (
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"

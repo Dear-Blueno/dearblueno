@@ -5,6 +5,7 @@ import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
 import { useEffect, useState } from "react";
+import { useIsMobile } from "hooks/is-mobile";
 
 type ProfilePageProps = {
   user?: IUser;
@@ -35,7 +36,7 @@ function ProfilePage(props: ProfilePageProps) {
 
   return (
     <div className="ProfilePage">
-      {window.innerWidth >= 768 && (
+      {!useIsMobile() && (
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"

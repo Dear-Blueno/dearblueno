@@ -5,15 +5,19 @@ import Collapsible from "react-collapsible";
 import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useIsMobile } from "hooks/is-mobile";
 
 type AboutPageProps = {
   user: IUser | undefined;
 };
 
 function AboutPage(props: AboutPageProps) {
+  const isMobile = useIsMobile();
   return (
     <div className="AboutPage">
-      {window.innerWidth >= 768 && (
+      {isMobile ? (
+        <Header user={props.user} moderatorView={false} />
+      ) : (
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
@@ -22,9 +26,6 @@ function AboutPage(props: AboutPageProps) {
             draggable={false}
           />
         </Link>
-      )}
-      {window.innerWidth < 768 && (
-        <Header user={props.user} moderatorView={false} />
       )}
       <div className="AboutPagePost">
         <div className="AboutPagePostHeader">

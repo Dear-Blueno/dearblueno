@@ -5,6 +5,7 @@ import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
 import Header from "../../components/header/Header";
+import { useIsMobile } from "hooks/is-mobile";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -28,7 +29,7 @@ function SubmitBox(props: SubmitBoxProps) {
 
   return (
     <>
-      {window.innerWidth < 768 && !props.submitted && (
+      {useIsMobile() && !props.submitted && (
         <Header user={props.user} moderatorView={false} />
       )}
       <div className="SubmitBox">

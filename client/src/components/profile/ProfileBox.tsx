@@ -13,6 +13,7 @@ import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/feeds/post/comments/ContextThread";
 import Header from "../../components/header/Header";
+import { useIsMobile } from "hooks/is-mobile";
 
 type ProfileBoxProps = {
   user?: IUser;
@@ -117,7 +118,7 @@ function ProfileBox(props: ProfileBoxProps) {
       return "https://" + link;
     } else if (link.startsWith("facebook.com/")) {
       return "https://" + link;
-    } 
+    }
     return "https://www.facebook.com/" + link;
   };
 
@@ -140,9 +141,7 @@ function ProfileBox(props: ProfileBoxProps) {
 
   return (
     <>
-      {window.innerWidth < 768 && (
-        <Header user={props.user} moderatorView={false} />
-      )}
+      {useIsMobile() && <Header user={props.user} moderatorView={false} />}
       <div className="ProfileBox">
         <div className="LeftColumn">
           <ProfilePicture
