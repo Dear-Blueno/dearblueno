@@ -1,0 +1,49 @@
+.NotFoundPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* center this div */
+  height: 100vh;
+  width: 100vw;
+}
+
+.BluenoGif {
+  width: 10rem;
+  height: 10rem;
+  margin-bottom: 0.2rem;
+}
+
+.NotFoundText {
+  font-family: "Fira Code", monospace;
+  text-align: center;
+  padding: 0 40% 0 40%;
+}
+
+@media only screen and (max-width: 46rem) {
+  .NotFoundText {
+    font-size: 1.5rem;
+    padding: 0 15% 0 15%;
+  }
+
+  .BluenoGif {
+    width: 7rem;
+    height: 7rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .NotFoundLink {
+    width: 12rem;
+  }
+}
+
+.NotFoundLink {
+  font-family: "Fira Code", monospace;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
+}

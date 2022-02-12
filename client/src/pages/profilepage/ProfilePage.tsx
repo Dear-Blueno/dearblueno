@@ -14,6 +14,8 @@ type ProfilePageProps = {
 function ProfilePage(props: ProfilePageProps) {
   const { profileUserID } = useParams();
   const [profileUser, setProfileUser] = useState<IBasicUser>();
+  const [profileUserStatus, setProfileUserStatus] =
+    useState<string>("loading...");
 
   useEffect(() => {
     console.log("profileUserID", profileUserID);
@@ -22,8 +24,10 @@ function ProfilePage(props: ProfilePageProps) {
         console.log(response);
         if (response.success && response.payload) {
           setProfileUser(response.payload);
+          setProfileUserStatus("");
         } else {
           console.log(response.message);
+          setProfileUserStatus(response.message.toString() + " :(");
         }
       });
     }
@@ -41,11 +45,15 @@ function ProfilePage(props: ProfilePageProps) {
           />
         </Link>
       )}
-      <ProfileBox
-        user={props.user}
-        profileUser={profileUser}
-        setProfileUser={setProfileUser}
-      ></ProfileBox>
+      {profileUser ? (
+        <ProfileBox
+          user={props.user}
+          profileUser={profileUser}
+          setProfileUser={setProfileUser}
+        ></ProfileBox>
+      ) : (
+        <p className="ProfilePageStatus">{profileUserStatus}</p>
+      )}
     </div>
   );
 }

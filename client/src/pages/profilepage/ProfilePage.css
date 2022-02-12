@@ -9,9 +9,14 @@
   overflow-y: scroll;
 }
 
+.ProfilePageStatus {
+  align-self: center;
+}
+
 /* Mobile */
 @media only screen and (max-width: 46rem) {
-  .ProfileBox {
+  .ProfilePageStatus {
+    margin-top: 2rem;
   }
 }
 
