@@ -74,7 +74,6 @@ function Header(props: HeaderProps) {
   });
 
   useEffect(() => {
-    debugger;
     setTimeout(() => {
       setShowSearch(true);
     }, 1500);
