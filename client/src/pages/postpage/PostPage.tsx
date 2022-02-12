@@ -1,5 +1,4 @@
 import "./PostPage.css";
-import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import IPost from "../../types/IPost";
 import { useParams } from "react-router-dom";
@@ -12,7 +11,6 @@ interface PostProps {
 }
 
 function PostPage(props: PostProps) {
-  const { user } = props;
   const { postNumber } = useParams();
   const [post, setPost] = useState<IPost>();
   const [postStatus, setPostStatus] = useState<string>("loading...");
@@ -31,7 +29,6 @@ function PostPage(props: PostProps) {
 
   return (
     <>
-      <Header user={user} moderatorView={false} />
       <div className="PostPage">
         {post ? (
           <Post user={props.user} post={post} />

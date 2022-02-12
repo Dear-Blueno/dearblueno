@@ -1,10 +1,7 @@
 import SubmitBox from "../../components/submit_post/SubmitBox";
-import LogoIcon from "../../images/logo128.png";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./SubmitPage.css";
 import IUser from "../../types/IUser";
-import { useIsMobile } from "hooks/is-mobile";
 
 type SubmitPageProps = {
   user: IUser | undefined;
@@ -15,16 +12,6 @@ function SubmitPage(props: SubmitPageProps) {
 
   return (
     <div className="SubmitPage">
-      {!useIsMobile() && !submitted && (
-        <Link to="/" draggable={false}>
-          <img
-            className="BluenoHomeButton"
-            src={LogoIcon}
-            alt="Blueno Home Button"
-            draggable={false}
-          />
-        </Link>
-      )}
       <SubmitBox
         user={props.user}
         submitted={submitted}

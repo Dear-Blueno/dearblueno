@@ -12,8 +12,6 @@ import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/feeds/post/comments/ContextThread";
-import Header from "../../components/header/Header";
-import { useIsMobile } from "hooks/is-mobile";
 
 type ProfileBoxProps = {
   user?: IUser;
@@ -141,7 +139,6 @@ function ProfileBox(props: ProfileBoxProps) {
 
   return (
     <>
-      {useIsMobile() && <Header user={props.user} moderatorView={false} />}
       <div className="ProfileBox">
         <div className="LeftColumn">
           <ProfilePicture

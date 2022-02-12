@@ -1,32 +1,15 @@
 import "./AboutPage.css";
-import LogoIcon from "../../images/logo128.png";
-import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
-import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useIsMobile } from "hooks/is-mobile";
 
 type AboutPageProps = {
   user: IUser | undefined;
 };
 
 function AboutPage(props: AboutPageProps) {
-  const isMobile = useIsMobile();
   return (
     <div className="AboutPage">
-      {isMobile ? (
-        <Header user={props.user} moderatorView={false} />
-      ) : (
-        <Link to="/" draggable={false}>
-          <img
-            className="BluenoHomeButton"
-            src={LogoIcon}
-            alt="Blueno Home Button"
-            draggable={false}
-          />
-        </Link>
-      )}
       <div className="AboutPagePost">
         <div className="AboutPagePostHeader">
           <h1>About</h1>
