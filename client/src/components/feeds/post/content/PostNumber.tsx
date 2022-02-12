@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./PostNumber.css";
 
 interface PostNumberProps {
@@ -10,12 +11,12 @@ function PostNumber(props: PostNumberProps) {
     <div className="PostNumber">
       <h3>
         {props.number ? (
-          <a
-            href={`/posts/${props.number}`}
+          <Link
+            to={`/post/${props.number}`}
             style={{ color: "black", textDecoration: "none" }}
           >
             #{props.number}
-          </a>
+          </Link>
         ) : (
           "id: " + props._id
         )}

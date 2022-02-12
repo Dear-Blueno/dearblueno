@@ -255,7 +255,7 @@ function ReactionBar(props: ReactionBarProps) {
         <p
           className="ReactText"
           onClick={
-            props.user
+            props.user || true
               ? () => {
                   setShowReactText(false);
                   showAll();
