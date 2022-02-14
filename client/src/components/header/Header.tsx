@@ -96,7 +96,7 @@ function Header(props: HeaderProps) {
         {showLogo && (
           <img
             className="LogoImage"
-            src={LogoIcon}
+            src="https://i.imgur.com/UTJlo8t.png"
             alt="8-bit Blueno"
             draggable={false}
           />

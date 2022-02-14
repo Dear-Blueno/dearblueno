@@ -39,7 +39,7 @@ function ProfilePage(props: ProfilePageProps) {
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
-            src={LogoIcon}
+            src="https://i.imgur.com/UTJlo8t.png"
             alt="Blueno Home Button"
             draggable={false}
           />

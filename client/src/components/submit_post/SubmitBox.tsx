@@ -62,7 +62,7 @@ function SubmitBox(props: SubmitBoxProps) {
               <div className="ReturnButton">
                 <img
                   className="ReturnButtonImage"
-                  src={LogoIcon}
+                  src="https://i.imgur.com/UTJlo8t.png"
                   alt="Blueno Home Button"
                 />
                 Return to Main Feed
