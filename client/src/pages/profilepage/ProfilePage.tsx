@@ -1,5 +1,5 @@
 import "./ProfilePage.css";
-import LogoIcon from "../../images/logo128.png";
+// import LogoIcon from "../../images/logo128.png";
 import { Link, useParams } from "react-router-dom";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";

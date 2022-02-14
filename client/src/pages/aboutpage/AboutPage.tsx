@@ -1,5 +1,5 @@
 import "./AboutPage.css";
-import LogoIcon from "../../images/logo128.png";
+// import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
 import Header from "../../components/header/Header";

@@ -1,6 +1,6 @@
 import "./Header.css";
 import HeaderButton from "./HeaderButton";
-import LogoIcon from "../../images/logo128.png";
+// import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import IUser from "../../types/IUser";
 import { loginBrown, logout } from "../../gateways/AuthGateway";

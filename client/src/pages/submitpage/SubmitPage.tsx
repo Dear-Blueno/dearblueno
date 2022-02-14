@@ -1,5 +1,5 @@
 import SubmitBox from "../../components/submit_post/SubmitBox";
-import LogoIcon from "../../images/logo128.png";
+// import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./SubmitPage.css";
