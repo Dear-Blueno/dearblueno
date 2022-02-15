@@ -2,6 +2,7 @@
   opacity: 0;
   width: 100%;
   padding: 1rem;
+  padding-bottom: 0.8rem;
   background-color: #ffffff;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;

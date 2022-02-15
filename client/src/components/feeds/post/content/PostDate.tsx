@@ -40,7 +40,12 @@ function PostDate(props: PostDateProps) {
 
   return (
     <div className="PostDate">
-      <p>{date}</p>
+      <time
+        dateTime={props.value.toISOString()}
+        title={props.value.toLocaleString()}
+      >
+        {date}
+      </time>
     </div>
   );
 }

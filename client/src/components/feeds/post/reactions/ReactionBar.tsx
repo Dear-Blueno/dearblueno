@@ -103,6 +103,9 @@ function ReactionBar(props: ReactionBarProps) {
     reactionCounts.every((count) => count === 0)
   );
 
+  const [hideButtonsTimeout, setHideButtonsTimeout] =
+    useState<NodeJS.Timeout>();
+
   const [users, setUsers] = useState<{ _id: string; name: string }[][]>([
     [],
     [],
@@ -234,12 +237,17 @@ function ReactionBar(props: ReactionBarProps) {
         if (!showReactText) {
           showAll();
         }
+        if (hideButtonsTimeout) clearTimeout(hideButtonsTimeout);
       }}
       onMouseLeave={() => {
-        if (reactionCounts.every((count) => count === 0)) {
-          setShowReactText(true);
-        }
-        hideAll();
+        setHideButtonsTimeout(
+          setTimeout(() => {
+            if (reactionCounts.every((count) => count === 0)) {
+              setShowReactText(true);
+            }
+            hideAll();
+          }, 250)
+        );
       }}
     >
       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
