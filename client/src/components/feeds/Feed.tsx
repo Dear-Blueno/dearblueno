@@ -20,6 +20,8 @@ export const FeedContext = createContext<FeedContextType>({
 
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
+  const [isLoading, setLoading] = useState(false);
+  const [reachedEnd, setReachedEnd] = useState(false);
 
   useEffect(() => {
     setPageNumber(1);
@@ -35,9 +37,13 @@ function Feed(props: FeedProps) {
 
   useEffect(() => {
     const loadMore = async () => {
+      setLoading(true);
       const response = await props.getMore(pageNumber);
+      setLoading(false);
       if (response) {
         window.addEventListener("scroll", onScroll);
+      } else {
+        setReachedEnd(true);
       }
     };
     loadMore();
@@ -90,7 +96,26 @@ function Feed(props: FeedProps) {
 
   //   [props.moderatorView, posts, moderatorPosts]
   // );
-  return <div className="Feed">{props.children}</div>;
+  return (
+    <div className="Feed">
+      {props.children}
+      <div
+        className="FeedLoading"
+        style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
+      >
+        {reachedEnd ? (
+          "You’ve reached the end! Here be dragons."
+        ) : (
+          <>
+            Loading more posts
+            <span className="FeedLoadingDot">.</span>
+            <span className="FeedLoadingDot">.</span>
+            <span className="FeedLoadingDot">.</span>
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Feed;
