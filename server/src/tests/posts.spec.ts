@@ -784,6 +784,9 @@ describe("Posts", () => {
       expect(comment?.commentNumber).toBe(1);
       expect(comment?.parentCommentNumber).toBe(-1);
       expect(comment?.post).toStrictEqual(post._id);
+
+      const commenter = await User.findById(user._id);
+      expect(commenter?.xp).toBe(2);
     });
 
     it("should be able to post anonymous comment", async () => {
@@ -1028,6 +1031,9 @@ describe("Posts", () => {
       expect(post2?.comments[0].reactions[0].length).toBe(1);
       expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
 
+      const commenter = await User.findById(user._id);
+      expect(commenter?.xp).toBe(1);
+
       await request(app)
         .put(`/posts/1/comment/1/react`)
         .send({ user, reaction: 1, state: false })
@@ -1035,6 +1041,9 @@ describe("Posts", () => {
 
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].reactions[0].length).toBe(0);
+
+      const commenter2 = await User.findById(user._id);
+      expect(commenter2?.xp).toBe(0);
     });
   });
 
@@ -1322,6 +1331,9 @@ describe("Posts", () => {
       const res = await Post.findById(post._id).populate("comments");
       expect(res?.comments[0].approved).toBe(false);
       expect(res?.comments[0].needsReview).toBe(false);
+
+      const commenter = await User.findById(user._id);
+      expect(commenter?.xp).toBe(-2);
     });
 
     it("should replace comment content if comment has replies", async () => {
