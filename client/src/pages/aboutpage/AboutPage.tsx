@@ -1,5 +1,5 @@
 import "./AboutPage.css";
-// import LogoIcon from "../../images/logo128.png";
+import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
 import Header from "../../components/header/Header";
@@ -17,7 +17,7 @@ function AboutPage(props: AboutPageProps) {
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
-            src="https://i.imgur.com/UTJlo8t.png"
+            src={LogoIcon}
             alt="Blueno Home Button"
             draggable={false}
           />

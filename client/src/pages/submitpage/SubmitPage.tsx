@@ -1,5 +1,5 @@
 import SubmitBox from "../../components/submit_post/SubmitBox";
-// import LogoIcon from "../../images/logo128.png";
+import LogoIcon from "../../images/logo128.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./SubmitPage.css";
@@ -18,7 +18,7 @@ function SubmitPage(props: SubmitPageProps) {
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
-            src="https://i.imgur.com/UTJlo8t.png"
+            src={LogoIcon}
             alt="Blueno Home Button"
             draggable={false}
           />

@@ -1,5 +1,5 @@
 import "./ProfilePage.css";
-// import LogoIcon from "../../images/logo128.png";
+import LogoIcon from "../../images/logo128.png";
 import { Link, useParams } from "react-router-dom";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
@@ -39,7 +39,7 @@ function ProfilePage(props: ProfilePageProps) {
         <Link to="/" draggable={false}>
           <img
             className="BluenoHomeButton"
-            src="https://i.imgur.com/UTJlo8t.png"
+            src={LogoIcon}
             alt="Blueno Home Button"
             draggable={false}
           />

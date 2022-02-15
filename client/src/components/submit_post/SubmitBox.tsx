@@ -1,7 +1,7 @@
 import "./SubmitBox.css";
 import ConsentBar from "./ConsentBar";
 import { Link } from "react-router-dom";
-// import LogoIcon from "../../images/logo128.png";
+import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
 import Header from "../../components/header/Header";
@@ -62,7 +62,7 @@ function SubmitBox(props: SubmitBoxProps) {
               <div className="ReturnButton">
                 <img
                   className="ReturnButtonImage"
-                  src="https://i.imgur.com/UTJlo8t.png"
+                  src={LogoIcon}
                   alt="Blueno Home Button"
                 />
                 Return to Main Feed
