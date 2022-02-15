@@ -207,7 +207,6 @@
   width: 100%;
   font-size: large;
   padding: 0.7rem;
-  font-family: "Fira Code", monospace;
 }
 
 .InputBox:focus {

@@ -59,7 +59,6 @@
   color: black;
   background-color: white;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
-  font-family: "Fira Code", monospace;
 }
 
 .ProfileButton:active {

@@ -36,6 +36,7 @@ function ProfileSocials(props: ProfileSocialsProps) {
                   size: "1.2em",
                 })}
                 <input
+                  type={"text"}
                   ref={props.refs[index]}
                   className="SocialInput"
                   defaultValue={link}

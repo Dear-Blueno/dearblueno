@@ -115,6 +115,7 @@ function Post(props: PostProps) {
         <CommentSection
           user={props.user}
           comments={props.post.comments.map(convertToThread)}
+          contentWarning={props.post.contentWarning}
           postNumber={props.post.postNumber ?? 0}
           showCommentBox={showCommentBox}
         />

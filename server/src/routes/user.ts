@@ -229,14 +229,14 @@ userRouter.get("/:id/comments", param("id").isMongoId(), async (req, res) => {
   const comments = await Comment.find({ author: user._id, approved: true })
     .populate({
       path: "author",
-      select: "name profilePicture",
+      select: "name profilePicture badges",
     })
     .populate("post")
     .populate({
       path: "parentComment",
       populate: {
         path: "author",
-        select: "name profilePicture",
+        select: "name profilePicture badges",
       },
     });
 

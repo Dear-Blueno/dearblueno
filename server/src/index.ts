@@ -1,4 +1,3 @@
-import path from "path";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
@@ -18,7 +17,7 @@ import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
 // Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config();
 
 // Setup Passport.js
 passportConfig();

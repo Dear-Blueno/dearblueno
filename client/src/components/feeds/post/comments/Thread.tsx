@@ -20,6 +20,7 @@ type ThreadProps = {
   postNumber?: number;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
   inContext: boolean;
+  contentWarning: string;
   // displayedChildren: number;
 };
 
@@ -28,6 +29,7 @@ const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
   const [showReplyBox, setShowReplyBox] = useState(false);
+  const [showContent, setShowContent] = useState(props.contentWarning === "");
 
   const toggleShow = () => {
     setShow(!show);
@@ -44,6 +46,7 @@ function Thread(props: ThreadProps) {
         postNumber={props.postNumber}
         setComments={props.setComments}
         inContext={props.inContext}
+        contentWarning={props.contentWarning}
       />
     );
   });
@@ -82,7 +85,16 @@ function Thread(props: ThreadProps) {
             <div className="CommentBody">
               <div className="CommentBodyTextAndFooter">
                 <Linkify>
-                  <p className="CommentBodyText">{props.comment.content}</p>
+                  <p
+                    className={
+                      "CommentBodyText " +
+                      (!showContent ? "CommentBodyTextHidden" : "")
+                    }
+                    onClick={() => setShowContent(true)}
+                    title={showContent ? "" : "Click to reveal"}
+                  >
+                    {props.comment.content}
+                  </p>
                 </Linkify>
                 {!props.inContext && (
                   <div className="CommentFooter">

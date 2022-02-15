@@ -23,6 +23,13 @@
   }
 }
 
+/* Mobile */
+@media only screen and (max-width: 46rem) {
+  .ModeratorSelection {
+    box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
+  }
+}
+
 .ModeratorSelectionButton {
   display: flex;
   justify-content: center;
@@ -33,7 +40,6 @@
   cursor: pointer;
   background-color: white;
   height: 3rem;
-  font-family: "Fira Code", monospace;
   font-size: 1rem;
 }
 

@@ -37,7 +37,7 @@ function SubmitBox(props: SubmitBoxProps) {
             <h2 className="SubmitBoxHeaderText">post anonymously</h2>
             <textarea id="TextBox" name="TextBox"></textarea>
             <div className="ConsentAndSubmit">
-              <ConsentBar />
+              <ConsentBar user={props.user} />
               <p
                 className="Submit"
                 onClick={() => {

@@ -28,6 +28,15 @@
   word-break: break-word;
 }
 
+.CommentBodyTextHidden {
+  filter: blur(5px);
+  cursor: pointer;
+}
+
+.CommentBodyTextHidden:hover {
+  filter: blur(3px);
+}
+
 .CommentBody {
   display: flex;
   flex-direction: column;

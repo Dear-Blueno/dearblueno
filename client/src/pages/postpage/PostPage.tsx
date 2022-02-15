@@ -15,13 +15,16 @@ function PostPage(props: PostProps) {
   const { user } = props;
   const { postNumber } = useParams();
   const [post, setPost] = useState<IPost>();
-  
+  const [postStatus, setPostStatus] = useState<string>("loading...");
+
   useEffect(() => {
     getPost(Number(postNumber)).then((response) => {
       if (response.success && response.payload) {
         setPost(response.payload);
+        setPostStatus("");
       } else {
         console.log(response.message);
+        setPostStatus(response.message.toString() + " :(");
       }
     });
   }, [postNumber]);
@@ -30,7 +33,11 @@ function PostPage(props: PostProps) {
     <>
       <Header user={user} moderatorView={false} />
       <div className="PostPage">
-        {post && <Post user={props.user} post={post} />}
+        {post ? (
+          <Post user={props.user} post={post} />
+        ) : (
+          <p className="PostStatus">{postStatus}</p>
+        )}
       </div>
     </>
   );

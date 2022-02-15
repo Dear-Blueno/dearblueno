@@ -1,22 +1,23 @@
+import IUser from "../../types/IUser";
 import "./ConsentBar.css";
-import ConsentButton from "./ConsentButton";
-import { useState } from "react";
 
-type ConsentBarProps = {};
+type ConsentBarProps = { user: IUser | undefined };
 
 function ConsentBar(props: ConsentBarProps) {
-  const [checked, setChecked] = useState(false);
-
   return (
-    <div
-      className="ConsentBar"
-      onClick={() => {
-        setChecked(!checked);
-      }}
-    >
-      <ConsentButton checked={checked} />
+    <div className="ConsentBar">
       <p className="ConsentText">
-        I consent to have my message published by third parties.
+        Alternatively, submit via the{" "}
+        {props.user?.verifiedBrown ? (
+          <a href="https://forms.gle/Cpa5XEYr3mCpcjBS7">Google Form</a>
+        ) : (
+          <>
+            <a href="https://forms.gle/Cpa5XEYr3mCpcjBS7">verified Brown</a> or{" "}
+            <a href="https://forms.gle/NE5Gnr4Y9BWBXs327">non-Brown</a> Google
+            Form
+          </>
+        )}
+        .
       </p>
     </div>
   );

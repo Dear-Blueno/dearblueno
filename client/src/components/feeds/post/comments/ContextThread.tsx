@@ -72,6 +72,7 @@ function ContextThread(props: ContextThreadProps) {
           comment={props.thread as IThread}
           depth={0}
           inContext={true}
+          contentWarning={props.thread.post.contentWarning}
         ></Thread>
         {props.moderatorView && (
           <div className="ContextThreadModeratorLinkContainer">
