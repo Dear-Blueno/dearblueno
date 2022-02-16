@@ -6,7 +6,7 @@ import "linkify-plugin-ticket";
 import "./UserContent.css";
 
 interface UserContentProps {
-  children: string;
+  children: React.ReactNode;
   showContent: boolean;
 }
 
