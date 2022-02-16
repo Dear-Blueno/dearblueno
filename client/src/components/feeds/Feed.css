@@ -27,6 +27,7 @@
 .FeedLoading {
   text-align: center;
   padding-block: 2em;
+  padding-bottom: 50vh;
 }
 
 .FeedLoadingDot {
