@@ -1,6 +1,5 @@
 import "./Post.css";
 import ContentWarning from "./ContentWarning";
-import PostBody from "./content/PostBody";
 import PostDate from "./content/PostDate";
 import PostNumber from "./content/PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
@@ -16,6 +15,7 @@ import ShareButton from "./ShareButton";
 import IPost from "../../../types/IPost";
 import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
+import UserContent from "../UserContent";
 
 export type PostProps = {
   user?: IUser;
@@ -79,10 +79,11 @@ function Post(props: PostProps) {
           }
         />
       </div>
-      <PostBody
-        body={props.post.content}
-        showContent={!props.post.contentWarning}
-      />
+      <div className="PostBody">
+        <UserContent showContent={!props.post.contentWarning}>
+          {props.post.content}
+        </UserContent>
+      </div>
       {props.post.needsReview ? (
         <ApproveOrDeny
           type="post"

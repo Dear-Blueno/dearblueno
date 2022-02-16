@@ -6,8 +6,8 @@ import Thread from "./Thread";
 import CommentProfilePicture from "../../../user/CommentProfilePicture";
 import ApproveOrDeny from "../moderator/ApproveOrDeny";
 import { approveComment } from "gateways/PostGateway";
-import Linkify from "linkify-react";
 import { Link } from "react-router-dom";
+import UserContent from "../../UserContent";
 
 export type ContextThreadProps = {
   user?: IUser;
@@ -49,9 +49,9 @@ function ContextThread(props: ContextThreadProps) {
                   : "Anonymous"}
               </div>
               <div className="ContextThreadReplyText">
-                <Linkify>
+                <UserContent showContent={true}>
                   {props.thread.parentComment.content.substring(0, 10)}
-                </Linkify>
+                </UserContent>
               </div>
             </>
           )}
