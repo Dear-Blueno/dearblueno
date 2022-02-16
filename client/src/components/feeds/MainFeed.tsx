@@ -32,7 +32,7 @@ function MainFeed(props: MainFeedProps) {
 
   return (
     <>
-      <Feed user={props.user} getMore={getMore}>
+      <Feed user={props.user} getMore={getMore} animated={true}>
         {posts.map((post, index) => (
           <Post
             key={post._id}

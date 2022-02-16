@@ -61,6 +61,7 @@ function ModeratorFeed(props: ModeratorFeedProps) {
       <Feed
         user={props.user}
         getMore={showModeratorPosts ? getMorePosts : getMoreComments}
+        animated={true}
       >
         <ModeratorSelection
           selection={showModeratorPosts}
