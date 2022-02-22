@@ -1,5 +1,11 @@
 import "./Feed.css";
-import React, { useState, useEffect, useCallback, createContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useRef,
+} from "react";
 import IUser from "../../types/IUser";
 
 type FeedProps = {
@@ -23,6 +29,7 @@ function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
+  const loadingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPageNumber(1);
@@ -30,7 +37,10 @@ function Feed(props: FeedProps) {
 
   // scroll action
   const onScroll = useCallback(() => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (
+      (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
+      window.innerHeight + 100
+    ) {
       setPageNumber((n) => n + 1);
       window.removeEventListener("scroll", onScroll);
     }
@@ -103,6 +113,7 @@ function Feed(props: FeedProps) {
       {props.animated ? (
         <div
           className="FeedLoading"
+          ref={loadingRef}
           style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
         >
           {reachedEnd ? (
