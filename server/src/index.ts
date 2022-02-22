@@ -40,7 +40,7 @@ log4js.configure({
     app: { type: "file", filename: "logs/app.log" },
   },
   categories: {
-    default: { appenders: ["out", "app"], level: "debug" },
+    default: { appenders: ["out", "app"], level: "info" },
   },
 });
 const logger = log4js.getLogger("app");
