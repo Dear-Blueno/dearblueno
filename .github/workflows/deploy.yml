@@ -23,7 +23,7 @@ jobs:
         run: |
           cd server
           npm ci
-          npm run tsc
+          npm run build
           cd ..
 
           mkdir -p deploy/server/dist

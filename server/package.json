@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon --exec npx ts-node src/index.ts",
-    "tsc": "tsc --outDir dist",
+    "build": "tsc",
     "test": "jest --runInBand /^(?!.*cron-hourly).*/",
     "e2e": "jest --runInBand",
     "coverage": "jest --coverage --runInBand"

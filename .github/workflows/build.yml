@@ -17,18 +17,13 @@ jobs:
         with:
           node-version: 14.18.1
 
-      - name: 🛠 Compile Backend
+      - name: 🛠 Compile and Test Backend
         run: |
           cd server
           npm ci
-          npm run tsc
+          npm run build
           npm run test
           cd ..
-        env:
-          VERIFIED_GOOGLE_SHEET_ID: ${{ secrets.VERIFIED_GOOGLE_SHEET_ID }}
-          UNVERIFIED_GOOGLE_SHEET_ID: ${{ secrets.UNVERIFIED_GOOGLE_SHEET_ID }}
-          GOOGLE_SHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_SHEET_CLIENT_EMAIL }}
-          GOOGLE_SHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEET_PRIVATE_KEY }}
 
       - name: ⛏ Build Frontend
         run: |
