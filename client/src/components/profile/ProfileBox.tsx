@@ -37,7 +37,7 @@ function ProfileBox(props: ProfileBoxProps) {
     if (props.profileUser) {
       getUserComments(props.profileUser._id).then((response) => {
         if (response.success && response.payload) {
-          setComments(response.payload);
+          setComments(response.payload.reverse());
         } else {
           console.log(response.message);
         }
@@ -49,6 +49,8 @@ function ProfileBox(props: ProfileBoxProps) {
     if (!link || link === "") {
       return undefined;
     } else if (link.startsWith("https://www.instagram.com/")) {
+      return link;
+    } else if (link.startsWith("https://instagram.com/")) {
       return link;
     } else if (link.startsWith("http://www.instagram.com/")) {
       return link.replace("http://", "https://");
@@ -67,6 +69,8 @@ function ProfileBox(props: ProfileBoxProps) {
       return undefined;
     } else if (link.startsWith("https://www.twitter.com/")) {
       return link;
+    } else if (link.startsWith("https://twitter.com/")) {
+      return link;
     } else if (link.startsWith("http://www.twitter.com/")) {
       return link.replace("http://", "https://");
     } else if (link.startsWith("www.twitter.com/")) {
@@ -83,6 +87,8 @@ function ProfileBox(props: ProfileBoxProps) {
     if (!link || link === "") {
       return undefined;
     } else if (link.startsWith("https://www.linkedin.com/in/")) {
+      return link;
+    } else if (link.startsWith("https://linkedin.com/in/")) {
       return link;
     } else if (link.startsWith("http://www.linkedin.com/in/")) {
       return link.replace("http://", "https://");
@@ -109,6 +115,8 @@ function ProfileBox(props: ProfileBoxProps) {
     if (!link || link === "") {
       return undefined;
     } else if (link.startsWith("https://www.facebook.com/")) {
+      return link;
+    } else if (link.startsWith("https://facebook.com/")) {
       return link;
     } else if (link.startsWith("http://www.facebook.com/")) {
       return link.replace("http://", "https://");
