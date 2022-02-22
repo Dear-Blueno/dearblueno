@@ -10,7 +10,6 @@ import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
 import LoginPopup from "../LoginPopup";
 import IUser from "types/IUser";
-import Linkify from "linkify-react";
 import UserContent from "components/feeds/UserContent";
 
 type ThreadProps = {
