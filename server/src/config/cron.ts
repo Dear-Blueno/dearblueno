@@ -39,7 +39,8 @@ export async function hourlyJob() {
     // Setup connection to google spreadsheet
     const creds = {
       client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL || "",
-      private_key: process.env.GOOGLE_SHEET_PRIVATE_KEY || "",
+      private_key:
+        process.env.GOOGLE_SHEET_PRIVATE_KEY?.replace(/\\n/g, "\n") || "",
     };
 
     const verifiedDoc = new GoogleSpreadsheet(
