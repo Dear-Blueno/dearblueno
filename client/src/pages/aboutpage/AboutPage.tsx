@@ -1,8 +1,5 @@
 import "./AboutPage.css";
-import LogoIcon from "../../images/logo128.png";
-import { Link } from "react-router-dom";
 import Collapsible from "react-collapsible";
-import Header from "../../components/header/Header";
 import IUser from "../../types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -13,19 +10,6 @@ type AboutPageProps = {
 function AboutPage(props: AboutPageProps) {
   return (
     <div className="AboutPage">
-      {window.innerWidth >= 768 && (
-        <Link to="/" draggable={false}>
-          <img
-            className="BluenoHomeButton"
-            src={LogoIcon}
-            alt="Blueno Home Button"
-            draggable={false}
-          />
-        </Link>
-      )}
-      {window.innerWidth < 768 && (
-        <Header user={props.user} moderatorView={false} />
-      )}
       <div className="AboutPagePost">
         <div className="AboutPagePostHeader">
           <h1>About</h1>

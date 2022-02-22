@@ -1,6 +1,5 @@
 import "./ProfilePage.css";
-import LogoIcon from "../../images/logo128.png";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
@@ -35,22 +34,12 @@ function ProfilePage(props: ProfilePageProps) {
 
   return (
     <div className="ProfilePage">
-      {window.innerWidth >= 768 && (
-        <Link to="/" draggable={false}>
-          <img
-            className="BluenoHomeButton"
-            src={LogoIcon}
-            alt="Blueno Home Button"
-            draggable={false}
-          />
-        </Link>
-      )}
       {profileUser ? (
         <ProfileBox
           user={props.user}
           profileUser={profileUser}
           setProfileUser={setProfileUser}
-        ></ProfileBox>
+        />
       ) : (
         <p className="ProfilePageStatus">{profileUserStatus}</p>
       )}
