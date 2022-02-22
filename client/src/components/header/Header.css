@@ -212,3 +212,13 @@
 .InputBox:focus {
   outline: none;
 }
+
+.BluenoHomeButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  margin: 1rem;
+  user-select: none;
+}

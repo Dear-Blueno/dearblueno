@@ -10,10 +10,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
+import { useIsMobile } from "hooks/is-mobile";
 
 type HeaderProps = {
   user?: IUser;
   moderatorView: boolean;
+  hidden?: boolean;
+  subtle?: boolean;
 };
 
 function Header(props: HeaderProps) {
@@ -83,46 +86,63 @@ function Header(props: HeaderProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const isMobile = useIsMobile();
+
   return (
-    <div className="Header">
-      <Link to="/" className="RefreshHeaderLink" draggable={false}>
-        <Typist
-          cursor={{ show: false }}
-          avgTypingDelay={120}
-          onTypingDone={() => setShowLogo(true)}
-        >
-          <h1 id="HeaderText">Dear Blueno</h1>
-        </Typist>
-        {showLogo && (
-          <img
-            className="LogoImage"
-            src={LogoIcon}
-            alt="8-bit Blueno"
-            draggable={false}
-          />
-        )}
+    <>
+      <Link to="/" draggable={false} hidden={!props.subtle || isMobile}>
+        <img
+          className="BluenoHomeButton"
+          src={LogoIcon}
+          alt="Blueno Home Button"
+          draggable={false}
+        />
       </Link>
-      <div className="HeaderButtons">
-        <Link to="/search">
-          <HeaderButton
-            action={() => {}}
-            icon={BiSearch}
-            alt="Search"
-            opacity={showSearch ? 1 : 0}
-            delay="1500ms"
-          />
+      <div
+        className="Header"
+        style={{
+          display:
+            props.hidden || (props.subtle && !isMobile) ? "none" : undefined,
+        }}
+      >
+        <Link to="/" className="RefreshHeaderLink" draggable={false}>
+          <Typist
+            cursor={{ show: false }}
+            avgTypingDelay={120}
+            onTypingDone={() => setShowLogo(true)}
+          >
+            <h1 id="HeaderText">Dear Blueno</h1>
+          </Typist>
+          {showLogo && (
+            <img
+              className="LogoImage"
+              src={LogoIcon}
+              alt="8-bit Blueno"
+              draggable={false}
+            />
+          )}
         </Link>
-        <Link to="/submit">
-          <HeaderButton
-            action={() => {}}
-            icon={AiOutlinePlus}
-            alt="Post"
-            opacity={showPlus ? 1 : 0}
-            delay="1650ms"
-          />
-        </Link>
-        {/* TODO: Remove all this */}
-        {/* <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
+        <div className="HeaderButtons">
+          <Link to="/search">
+            <HeaderButton
+              action={() => {}}
+              icon={BiSearch}
+              alt="Search"
+              opacity={showSearch ? 1 : 0}
+              delay="1500ms"
+            />
+          </Link>
+          <Link to="/submit">
+            <HeaderButton
+              action={() => {}}
+              icon={AiOutlinePlus}
+              alt="Post"
+              opacity={showPlus ? 1 : 0}
+              delay="1650ms"
+            />
+          </Link>
+          {/* TODO: Remove all this */}
+          {/* <div className="SubmitButtonAndDropdown" ref={postRefDropdown}>
           <HeaderButton
             action={() => setSubmitClicked(!submitClicked)}
             icon={AiOutlinePlus}
@@ -152,70 +172,73 @@ function Header(props: HeaderProps) {
             </div>
           )}
         </div> */}
-        <div className="ProfileButtonAndDropdown" ref={profileRefDropdown}>
-          <HeaderButton
-            action={() => setProfileClicked(!profileClicked)}
-            icon={user ? undefined : MdPersonOutline}
-            image={user ? user.profilePicture : undefined}
-            alt="Profile"
-            opacity={showProfile ? 1 : 0}
-            delay="1800ms"
-            buttonRef={setProfileReferenceElement}
-          />
-          {profileClicked && (
-            <div
-              className="PopperContainer"
-              ref={setProfilePopperElement}
-              style={profilePopper.styles.popper}
-              role="tooltip"
-              {...profilePopper.attributes.popper}
-            >
+          <div className="ProfileButtonAndDropdown" ref={profileRefDropdown}>
+            <HeaderButton
+              action={() => setProfileClicked(!profileClicked)}
+              icon={user ? undefined : MdPersonOutline}
+              image={user ? user.profilePicture : undefined}
+              alt="Profile"
+              opacity={showProfile ? 1 : 0}
+              delay="1800ms"
+              buttonRef={setProfileReferenceElement}
+            />
+            {profileClicked && (
               <div
-                className="DropdownArrow"
-                ref={setProfileArrowElement}
-                style={profilePopper.styles.arrow}
-              />
-              <div className="ProfileDropdownActions">
-                {user && (
-                  <Link
-                    to={"/profile/" + props.user?._id}
-                    className="DropdownAction"
-                  >
-                    <p>Profile</p>
+                className="PopperContainer"
+                ref={setProfilePopperElement}
+                style={profilePopper.styles.popper}
+                role="tooltip"
+                {...profilePopper.attributes.popper}
+              >
+                <div
+                  className="DropdownArrow"
+                  ref={setProfileArrowElement}
+                  style={profilePopper.styles.arrow}
+                />
+                <div className="ProfileDropdownActions">
+                  {user && (
+                    <Link
+                      to={"/profile/" + props.user?._id}
+                      className="DropdownAction"
+                    >
+                      <p>Profile</p>
+                    </Link>
+                  )}
+                  {user && user.moderator && (
+                    <Link
+                      to={props.moderatorView ? "/" : "/moderator"}
+                      className="DropdownAction"
+                      onClick={() => {
+                        setProfileClicked(false);
+                      }}
+                    >
+                      <p>
+                        {props.moderatorView
+                          ? "Back to feed"
+                          : "Moderator view"}
+                      </p>
+                    </Link>
+                  )}
+                  <Link to="/about" className="DropdownAction">
+                    <p>About</p>
                   </Link>
-                )}
-                {user && user.moderator && (
-                  <Link
-                    to={props.moderatorView ? "/" : "/moderator"}
-                    className="DropdownAction"
-                    onClick={() => {
-                      setProfileClicked(false);
-                    }}
-                  >
-                    <p>
-                      {props.moderatorView ? "Back to feed" : "Moderator view"}
+                  {user && (
+                    <p onClick={logout} className="DropdownAction">
+                      Logout
                     </p>
-                  </Link>
-                )}
-                <Link to="/about" className="DropdownAction">
-                  <p>About</p>
-                </Link>
-                {user && (
-                  <p onClick={logout} className="DropdownAction">
-                    Logout
-                  </p>
-                )}
-                {!user && (
-                  <p onClick={loginBrown} className="DropdownAction">
-                    Login
-                  </p>
-                )}
+                  )}
+                  {!user && (
+                    <p onClick={loginBrown} className="DropdownAction">
+                      Login
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -21,6 +21,7 @@ export type PostProps = {
   user?: IUser;
   post: IPost;
   delay?: string;
+  skipAnimation?: boolean;
   setFeed?: React.Dispatch<React.SetStateAction<IPost[]>>;
 };
 
@@ -51,13 +52,21 @@ function Post(props: PostProps) {
   };
 
   return (
-    <div className="Post" style={{ animationDelay: props.delay ?? "0" }}>
+    <div
+      className="Post"
+      style={{
+        animationDelay: props.delay ?? "0",
+        animation: props.skipAnimation ? "none" : undefined,
+        opacity: props.skipAnimation ? 1 : undefined,
+      }}
+    >
       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       <div className="PostHeader">
         <div className="NumberAndWarning">
           <PostNumber
             number={props.post.postNumber}
             _id={props.post.needsReview ? props.post._id : undefined}
+            post={props.post}
           />
           {props.post.verifiedBrown ? (
             <RiShieldCheckFill

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
-import Header from "../../components/header/Header";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -28,11 +27,25 @@ function SubmitBox(props: SubmitBoxProps) {
 
   return (
     <>
-      {window.innerWidth < 768 && !props.submitted && (
-        <Header user={props.user} moderatorView={false} />
-      )}
       <div className="SubmitBox">
-        {!props.submitted && (
+        {props.submitted ? (
+          <div className="PostSubmitContent">
+            <h2 className="ReturnText">
+              Your post has been submitted and will be reviewed by moderators
+              shortly. Thank you.
+            </h2>
+            <Link to="/">
+              <div className="ReturnButton">
+                <img
+                  className="ReturnButtonImage"
+                  src={LogoIcon}
+                  alt="Blueno Home Button"
+                />
+                Return to Main Feed
+              </div>
+            </Link>
+          </div>
+        ) : (
           <div className="PreSubmitContent">
             <h2 className="SubmitBoxHeaderText">post anonymously</h2>
             <textarea id="TextBox" name="TextBox"></textarea>
@@ -50,24 +63,6 @@ function SubmitBox(props: SubmitBoxProps) {
                 submit
               </p>
             </div>
-          </div>
-        )}
-        {props.submitted && (
-          <div className="PostSubmitContent">
-            <h2 className="ReturnText">
-              Your post has been submitted and will be reviewed by moderators
-              shortly. Thank you.{" "}
-            </h2>
-            <Link to="/">
-              <div className="ReturnButton">
-                <img
-                  className="ReturnButtonImage"
-                  src={LogoIcon}
-                  alt="Blueno Home Button"
-                />
-                Return to Main Feed
-              </div>
-            </Link>
           </div>
         )}
       </div>
