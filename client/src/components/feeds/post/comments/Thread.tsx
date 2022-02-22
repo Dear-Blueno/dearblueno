@@ -11,6 +11,7 @@ import CommentHeader from "components/feeds/post/comments/comment_header/Comment
 import LoginPopup from "../LoginPopup";
 import IUser from "types/IUser";
 import Linkify from "linkify-react";
+import UserContent from "components/feeds/UserContent";
 
 type ThreadProps = {
   user?: IUser;
@@ -29,7 +30,6 @@ const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);
   const [showReplyBox, setShowReplyBox] = useState(false);
-  const [showContent, setShowContent] = useState(props.contentWarning === "");
 
   const toggleShow = () => {
     setShow(!show);
@@ -84,18 +84,9 @@ function Thread(props: ThreadProps) {
           <div className="ThreadBody">
             <div className="CommentBody">
               <div className="CommentBodyTextAndFooter">
-                <Linkify>
-                  <p
-                    className={
-                      "CommentBodyText " +
-                      (!showContent ? "CommentBodyTextHidden" : "")
-                    }
-                    onClick={() => setShowContent(true)}
-                    title={showContent ? "" : "Click to reveal"}
-                  >
-                    {props.comment.content}
-                  </p>
-                </Linkify>
+                <UserContent showContent={props.contentWarning === ""}>
+                  {props.comment.content}
+                </UserContent>
                 {!props.inContext && (
                   <div className="CommentFooter">
                     <ReactionBar

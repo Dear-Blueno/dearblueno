@@ -1,5 +1,5 @@
 import "./ProfileBio.css";
-import Linkify from "linkify-react";
+import UserContent from "../../feeds/UserContent";
 
 interface ProfileBioProps {
   bio: string;
@@ -21,9 +21,7 @@ function ProfileBio(props: ProfileBioProps) {
           ></textarea>
         </div>
       ) : (
-        <Linkify>
-          <p>{props.bio}</p>
-        </Linkify>
+        <UserContent showContent={true}>{props.bio}</UserContent>
       )}
     </div>
   );
