@@ -12,6 +12,7 @@ type FeedProps = {
   user?: IUser;
   children: React.ReactNode[];
   getMore: (nextPageNumber: number) => Promise<boolean>;
+  animated: boolean;
 };
 
 type FeedContextType = {
@@ -109,22 +110,24 @@ function Feed(props: FeedProps) {
   return (
     <div className="Feed">
       {props.children}
-      <div
-        className="FeedLoading"
-        ref={loadingRef}
-        style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
-      >
-        {reachedEnd ? (
-          "You’ve reached the end! Here be dragons."
-        ) : (
-          <>
-            Loading more posts
-            <span className="FeedLoadingDot">.</span>
-            <span className="FeedLoadingDot">.</span>
-            <span className="FeedLoadingDot">.</span>
-          </>
-        )}
-      </div>
+      {props.animated ? (
+        <div
+          className="FeedLoading"
+          ref={loadingRef}
+          style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
+        >
+          {reachedEnd ? (
+            "You’ve reached the end! Here be dragons."
+          ) : (
+            <>
+              Loading more posts
+              <span className="FeedLoadingDot">.</span>
+              <span className="FeedLoadingDot">.</span>
+              <span className="FeedLoadingDot">.</span>
+            </>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
