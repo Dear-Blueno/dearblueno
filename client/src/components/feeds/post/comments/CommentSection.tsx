@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 export type CommentSectionProps = {
   user?: IUser;
   postNumber: number;
-  comments: IThread[];
+  comments: IComment[];
   showCommentBox: boolean;
   contentWarning: string;
 };
@@ -17,6 +17,16 @@ export interface IThread extends IComment {
   children: IThread[];
   score: number;
 }
+
+const convertToThreads = (commentList: IComment[]) => {
+  const threads: IThread[] = [];
+  commentList.forEach((comment) => {
+    const thread = comment as IThread;
+    thread.children = [];
+    threads.push(thread);
+  });
+  return threads;
+};
 
 const nestComments = (commentList: IThread[]) => {
   const commentMap: { [key: number]: IThread } = {};
@@ -94,7 +104,7 @@ function CommentSection(props: CommentSectionProps) {
   );
 
   useEffect(() => {
-    const threads = nestComments(props.comments);
+    const threads = nestComments(convertToThreads(props.comments));
     calculateScores(threads);
     sortComments(threads);
     setComments(threads);
