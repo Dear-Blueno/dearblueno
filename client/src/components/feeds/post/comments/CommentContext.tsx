@@ -13,8 +13,9 @@ export default function CommentContext(props: CommentContextProps) {
 
   return (
     <div className="CommentContext">
-      <div className="CommentContextHorizontalLine"></div>
-      <div className="CommentContextVerticalLine"></div>
+      <div className="CommentContextConnectorContainer">
+        <div className="CommentContextConnector"></div>
+      </div>
       {isReply && (
         <>
           {props.showProfilePicture && (

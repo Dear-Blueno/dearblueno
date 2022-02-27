@@ -12,24 +12,6 @@
   line-height: 0;
 }
 
-.CommentContextHorizontalLine {
-  width: 1rem;
-  height: 1px;
-  background-color: #ccc;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0.7rem;
-}
-
-.CommentContextVerticalLine {
-  position: absolute;
-  width: 1px;
-  height: 0.8rem;
-  background-color: #ccc;
-  margin-top: 0.74rem;
-  margin-left: 0.7rem;
-}
-
 .CommentContextReplyAuthor {
   font-weight: 600;
   font-size: 0.75rem;
@@ -50,4 +32,20 @@
 .CommentContextReplyText {
   font-size: 0.8rem;
   color: black;
+}
+
+.CommentContextConnectorContainer {
+  display: flex;
+  width: 1.7rem;
+  height: 1rem;
+}
+
+.CommentContextConnector {
+  position: relative;
+  left: 0.7rem;
+  top: 0.5rem;
+  width: 1rem;
+  height: 0.6rem;
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
