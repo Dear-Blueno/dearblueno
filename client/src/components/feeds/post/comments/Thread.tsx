@@ -64,7 +64,9 @@ function Thread(props: ThreadProps) {
   return (
     <div className="Thread" key={props.comment.commentNumber}>
       {isMobile && props.depth > 4 && props.comment.parentComment.content && (
-        <CommentContext thread={props.comment} />
+        <div className="ThreadCommentContext">
+          <CommentContext thread={props.comment} />
+        </div>
       )}
       <div className="ThreadGrid">
         <CommentProfilePicture
