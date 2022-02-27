@@ -11,6 +11,8 @@ import CommentHeader from "components/feeds/post/comments/comment_header/Comment
 import LoginPopup from "../LoginPopup";
 import IUser from "types/IUser";
 import UserContent from "components/feeds/UserContent";
+import CommentContext from "./CommentContext";
+import { useIsMobile } from "hooks/is-mobile";
 
 type ThreadProps = {
   user?: IUser;
@@ -57,8 +59,13 @@ function Thread(props: ThreadProps) {
 
   const closePopup = () => setshowPopup(false);
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="Thread" key={props.comment.commentNumber}>
+      {isMobile && props.depth > 4 && props.comment.parentComment.content && (
+        <CommentContext thread={props.comment} />
+      )}
       <div className="ThreadGrid">
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
@@ -116,10 +123,11 @@ function Thread(props: ThreadProps) {
                 />
               )}
             </div>
-            {nestedComments}
+            {(!isMobile || props.depth < 4) && nestedComments}
           </div>
         )}
       </div>
+      {isMobile && props.depth >= 4 && nestedComments}
     </div>
   );
 }

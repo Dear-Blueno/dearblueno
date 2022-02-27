@@ -5,10 +5,9 @@ import PostNumber from "./content/PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
 import CommentButton from "./comments/CommentButton";
-import CommentSection, { IThread } from "./comments/CommentSection";
+import CommentSection from "./comments/CommentSection";
 import { useState } from "react";
 import IUser from "../../../types/IUser";
-import IComment from "../../../types/IComment";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
 import ShareButton from "./ShareButton";
@@ -23,12 +22,6 @@ export type PostProps = {
   delay?: string;
   skipAnimation?: boolean;
   setFeed?: React.Dispatch<React.SetStateAction<IPost[]>>;
-};
-
-const convertToThread = (comment: IComment) => {
-  const thread = comment as IThread;
-  thread.children = [];
-  return thread;
 };
 
 function Post(props: PostProps) {
@@ -124,7 +117,7 @@ function Post(props: PostProps) {
       {!props.post.needsReview && (
         <CommentSection
           user={props.user}
-          comments={props.post.comments.map(convertToThread)}
+          comments={props.post.comments}
           contentWarning={props.post.contentWarning}
           postNumber={props.post.postNumber ?? 0}
           showCommentBox={showCommentBox}
