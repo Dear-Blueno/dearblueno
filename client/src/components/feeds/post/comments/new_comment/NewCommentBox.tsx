@@ -82,6 +82,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
         ref={textAreaRef}
       ></textarea>
       <NewCommentBoxFooter
+        user={props.user}
         submit={submit}
         anonymous={anonymous}
         anonymousToggle={() => setAnonymous(!anonymous)}

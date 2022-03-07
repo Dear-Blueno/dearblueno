@@ -5,8 +5,10 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { useState } from "react";
 import "@reach/dialog/styles.css";
+import IUser from "../../../../../types/IUser";
 
 type NewCommentBoxFooterProps = {
+  user: IUser | undefined;
   submit: () => void;
   anonymous: boolean;
   anonymousToggle: () => void;
@@ -96,18 +98,25 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
   return (
     <div className="NewCommentBoxFooter">
       {props.anonymous ? (
-        <AiOutlineEyeInvisible
-          className="AnonymousIcon"
-          onClick={props.anonymousToggle}
-        />
+        <button className="AnonymousToggle" onClick={props.anonymousToggle}>
+          <AiOutlineEyeInvisible className="AnonymousIcon" />
+          <small>
+            Posting <strong>anonymously</strong>
+          </small>
+        </button>
       ) : (
-        <AiOutlineEye
-          className="AnonymousIcon"
+        <button
+          className="AnonymousToggle"
           onClick={() => {
             props.anonymousToggle();
             openAnonPopup();
           }}
-        />
+        >
+          <AiOutlineEye className="AnonymousIcon" />
+          <small>
+            Posting as <strong>{props.user?.name}</strong>
+          </small>
+        </button>
       )}
       {AnonPopUp}
       {CancelPopUp}
