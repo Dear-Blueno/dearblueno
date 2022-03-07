@@ -101,12 +101,6 @@
   }
 }
 
-
-.ReportReason:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .DeleteBox {
   display: flex;
   flex-direction: column;

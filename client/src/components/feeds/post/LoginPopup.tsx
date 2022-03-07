@@ -21,13 +21,21 @@ function LoginPopup(props: LoginPopupProps) {
               You won't be able to interact with the site until you log in.
             </strong>
             <br />
-            <div className="LoginPopupButtons">
-              <p className="PopupAction" onClick={props.closePopup}>
+            <div className="PopupButtons">
+              <button
+                className="PopupAction"
+                onClick={props.closePopup}
+                tabIndex={-1}
+              >
                 No Thanks
-              </p>
-              <p className="PopupAction" onClick={loginBrown}>
+              </button>
+              <button
+                className="PopupAction"
+                onClick={loginBrown}
+                tabIndex={-1}
+              >
                 Login
-              </p>
+              </button>
             </div>
           </div>
         </DialogContent>

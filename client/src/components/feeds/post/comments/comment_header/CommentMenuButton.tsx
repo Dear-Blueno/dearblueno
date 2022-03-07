@@ -87,20 +87,41 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         onDismiss={closePopup}
       >
         <DialogContent aria-label="Report Dialog">
-          <p>
-            <strong>REPORT REASON</strong>
+          <strong>Report Reason</strong>
+          <br />
+          <br />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+            }}
+          >
             {reportReasons.map((reason) => (
-              <div
-                className="ReportReason"
+              <button
                 key={reason}
+                className="PopupAction"
+                style={{ paddingBlock: "0.25em" }}
                 onClick={() => {
                   closePopup();
                 }}
+                tabIndex={-1}
               >
                 {reason}
-              </div>
+              </button>
             ))}
-          </p>
+          </div>
+          <br />
+          <button
+            className="PopupAction"
+            style={{ float: "right" }}
+            onClick={() => {
+              closePopup();
+            }}
+            tabIndex={-1}
+          >
+            Cancel
+          </button>
         </DialogContent>
       </DialogOverlay>
     </div>
