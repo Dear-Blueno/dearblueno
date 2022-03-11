@@ -85,8 +85,10 @@
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
 }
 
-[data-reach-dialog-content][aria-label="AnonymousConfirmationBox"] {
-  width: 25% !important;
+@media only screen and (min-width: 600px) {
+  [data-reach-dialog-content][aria-label="AnonymousConfirmationBox"] {
+    width: 25% !important;
+  }
 }
 
 @media only screen and (max-width: 600px) {
