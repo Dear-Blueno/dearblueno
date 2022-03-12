@@ -3,9 +3,25 @@ import { body, param, query, validationResult } from "express-validator";
 import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
-import Post from "../models/Post";
+import Post, { IPost } from "../models/Post";
 
 const postRouter = Router();
+
+// Cleans the sensitive data from the post object, including reactions and unapproved comments
+function cleanSensitivePost(post: IPost, user: IUser) {
+  // don't include comments if they are not approved
+  post.comments = post.comments.filter((comment) => comment.approved);
+
+  const anonymizeReactionList = (reactionList: any[]) =>
+    reactionList.map((reaction) => (reaction === user._id ? reaction : "anon"));
+
+  // anonymize reaction on post (replace reactor with "anon")
+  post.reactions = post.reactions.map(anonymizeReactionList);
+  // anonymize reaction on comments (replace reactor with "anon")
+  post.comments.forEach((comment: IComment) => {
+    comment.reactions = comment.reactions.map(anonymizeReactionList);
+  });
+}
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
 postRouter.get(
@@ -33,9 +49,8 @@ postRouter.get(
         },
       });
 
-    // don't include comments if they are not approved
-    posts.forEach((post) => {
-      post.comments = post.comments.filter((comment) => comment.approved);
+    posts.forEach((post: IPost) => {
+      cleanSensitivePost(post, req.user as IUser);
     });
 
     res.send(posts);
@@ -155,69 +170,11 @@ postRouter.get(
         },
       });
 
-    // don't include comments if they are not approved
     posts.forEach((post) => {
-      post.comments = post.comments.filter((comment) => comment.approved);
+      cleanSensitivePost(post, req.user as IUser);
     });
 
     res.send(posts);
-  }
-);
-
-// GET request that gets the reactions of a post (only approved posts)
-postRouter.get(
-  "/:postNumber/reactions",
-  param("postNumber").isInt({ min: 1 }),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
-    const postNumber = req.params.postNumber;
-    const post = await Post.findOne({ postNumber })
-      .select("reactions approved")
-      .populate({
-        path: "reactions",
-        model: "User",
-        select: "name",
-      });
-    if (!post || !post.approved) {
-      res.status(404).send("Post not found");
-      return;
-    }
-
-    res.send(post.reactions);
-  }
-);
-
-// GET request that gets the reactions of a comment (only approved comments)
-postRouter.get(
-  "/:postNumber/comments/:commentNumber/reactions",
-  param("postNumber").isInt({ min: 1 }),
-  param("commentNumber").isInt({ min: 1 }),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
-    const { postNumber, commentNumber } = req.params;
-    const comment = await Comment.findOne({ commentNumber, postNumber })
-      .select("reactions approved")
-      .populate({
-        path: "reactions",
-        model: "User",
-        select: "name",
-      });
-    if (!comment || !comment.approved) {
-      res.status(404).send("Comment not found");
-      return;
-    }
-
-    res.send(comment.reactions);
   }
 );
 
@@ -244,8 +201,7 @@ postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
     return;
   }
 
-  // don't include comments if they are not approved
-  post.comments = post.comments.filter((comment) => comment.approved);
+  cleanSensitivePost(post, req.user as IUser);
 
   res.send(post);
 });
@@ -345,7 +301,8 @@ postRouter.put(
     }
     post.reactions[reaction - 1] = reactions;
     await post.save();
-    res.send(post);
+
+    res.json({ reaction: req.body.state });
   }
 );
 
@@ -515,7 +472,8 @@ postRouter.put(
     }
     comment.reactions[reaction - 1] = reactions;
     await comment.save();
-    res.send(comment);
+
+    res.json({ reaction: req.body.state });
   }
 );
 
@@ -574,7 +532,7 @@ postRouter.delete(
       $inc: { xp: xpDecr },
     });
 
-    res.send(comment);
+    res.json({ success: true });
   }
 );
 
