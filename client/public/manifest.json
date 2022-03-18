@@ -21,8 +21,21 @@
       "purpose": "any maskable"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "New post",
+      "url": "/submit",
+      "description": "Submit a new post"
+    },
+    {
+      "name": "Search",
+      "url": "/search",
+      "description": "Search for posts"
+    }
+  ],
   "start_url": ".",
-  "display": "minimal-ui",
-  "theme_color": "#62c4e4",
-  "background_color": "#d5ebff"
+  "display": "standalone",
+  "theme_color": "#d5ebff",
+  "background_color": "#d5ebff",
+  "orientation": "any"
 }
