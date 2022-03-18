@@ -4,28 +4,36 @@ import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
+import { Document } from "mongoose";
 
 const postRouter = Router();
 
 // Cleans the sensitive data from the post object, including reactions and unapproved comments
-function cleanSensitivePost(post: IPost, user: IUser) {
-  // don't include comments if they are not approved
-  post.comments = post.comments.filter((comment) => comment.approved);
-
+function cleanSensitivePost(post: IPost, user?: IUser): IPost {
   const anonymizeReactionList = (reactionList: any[]) =>
-    reactionList.map((reaction) => (reaction === user._id ? reaction : "anon"));
+    reactionList.map((reaction) =>
+      String(reaction) == String(user?._id) ? reaction : "anon"
+    );
 
   // anonymize reaction on post (replace reactor with "anon")
-  post.reactions = post.reactions.map(anonymizeReactionList);
-  // anonymize reaction on comments (replace reactor with "anon")
-  post.comments.forEach((comment: IComment) => {
-    comment.reactions = comment.reactions.map(anonymizeReactionList);
-  });
+  const reactions = post.reactions.map(anonymizeReactionList);
+
+  const comments = post.comments
+    // don't include comments if they are not approved
+    .filter((comment) => comment.approved)
+    // anonymize reaction on comments (replace reactor with "anon")
+    .map((comment: IComment) => {
+      comment.reactions = comment.reactions.map(anonymizeReactionList);
+      return comment;
+    });
+
+  return { ...post, reactions, comments };
 }
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
 postRouter.get(
   "/",
+  optionalAuth,
   query("page").optional().isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +42,7 @@ postRouter.get(
       return;
     }
 
-    const page = req.query?.page || 1;
+    const page: number = Number(req.query?.page) || 1;
     const posts = await Post.find({ approved: true })
       .sort({ postNumber: "descending" })
       .skip((page - 1) * 10)
@@ -49,11 +57,11 @@ postRouter.get(
         },
       });
 
-    posts.forEach((post: IPost) => {
-      cleanSensitivePost(post, req.user as IUser);
-    });
+    const cleanPosts = posts.map((post: IPost & Document) =>
+      cleanSensitivePost(post.toObject(), req.user as IUser)
+    );
 
-    res.send(posts);
+    res.send(cleanPosts);
   }
 );
 
@@ -146,6 +154,7 @@ postRouter.get(
 // GET request that searches for posts with an index query
 postRouter.get(
   "/search",
+  optionalAuth,
   query("query").isString().isLength({ min: 3 }).isAscii(),
   async (req, res) => {
     const errors = validationResult(req);
@@ -154,7 +163,7 @@ postRouter.get(
       return;
     }
 
-    const searchQuery = req.query.query;
+    const searchQuery = String(req.query.query);
     const posts = await Post.find({
       approved: true,
       $text: { $search: searchQuery, $language: "en", $caseSensitive: false },
@@ -170,41 +179,46 @@ postRouter.get(
         },
       });
 
-    posts.forEach((post) => {
-      cleanSensitivePost(post, req.user as IUser);
-    });
+    const cleanPosts = posts.map((post: IPost & Document) =>
+      cleanSensitivePost(post.toObject(), req.user as IUser)
+    );
 
-    res.send(posts);
+    res.send(cleanPosts);
   }
 );
 
 // GET request that gets a single post by id (only approved posts)
-postRouter.get("/:id", param("id").isInt({ min: 1 }), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty() || !req.params) {
-    res.status(400).json({ errors: errors.array() });
-    return;
+postRouter.get(
+  "/:id",
+  optionalAuth,
+  param("id").isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const post = await Post.findOne({ postNumber: req.params.id })
+      .select("-approvedBy")
+      .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "name profilePicture badges",
+        },
+      });
+    if (!post || !post.approved) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const cleanPost = cleanSensitivePost(post.toObject(), req.user as IUser);
+
+    res.send(cleanPost);
   }
-
-  const post = await Post.findOne({ postNumber: req.params.id })
-    .select("-approvedBy")
-    .populate("comments")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "author",
-        select: "name profilePicture badges",
-      },
-    });
-  if (!post || !post.approved) {
-    res.status(404).send("Post not found");
-    return;
-  }
-
-  cleanSensitivePost(post, req.user as IUser);
-
-  res.send(post);
-});
+);
 
 // POST request that creates a new post
 postRouter.post(
