@@ -19,7 +19,7 @@
     "react-icons": "^4.3.1",
     "react-popper": "^2.2.5",
     "react-router-dom": "^6.0.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.0",
     "react-tooltip": "^4.2.21",
     "react-typist": "^2.0.5",
     "tslib": "^2.3.1",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && workbox generateSW workbox-config.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -65,5 +65,8 @@
   "bugs": {
     "url": "https://github.com/dylanhu7/dearblueno/issues"
   },
-  "homepage": "https://dearblueno.net/"
+  "homepage": "https://dearblueno.net/",
+  "devDependencies": {
+    "workbox-cli": "^6.5.1"
+  }
 }
