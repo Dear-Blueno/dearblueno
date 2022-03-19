@@ -9,6 +9,7 @@
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  padding-left: 0.2rem;
 }
 
 .Feed::-webkit-scrollbar {

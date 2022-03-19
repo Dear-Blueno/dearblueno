@@ -8,8 +8,8 @@ interface FeedPageProps {
 export default function PageAndSidebar(props: FeedPageProps) {
   return (
     <>
-      {props.page}
-      {props.sidebar}
+      <div className="PageAndSidebar-Page">{props.page}</div>
+      <div className="PageAndSidebar-Sidebar">{props.sidebar}</div>
     </>
   );
 }

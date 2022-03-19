@@ -4,12 +4,7 @@ import FeedPage from "./pages/feedpage/FeedPage";
 import SubmitPage from "./pages/submitpage/SubmitPage";
 import AboutPage from "./pages/aboutpage/AboutPage";
 import IUser from "./types/IUser";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { loadAuth } from "./gateways/AuthGateway";
 import ProfilePage from "./pages/profilepage/ProfilePage";
 import PostPage from "./pages/postpage/PostPage";
@@ -17,7 +12,6 @@ import SearchPage from "./pages/searchpage/SearchPage";
 import NotFoundPage from "pages/notfoundpage/NotFoundPage";
 import ModeratorFeed from "./components/feeds/ModeratorFeed";
 import MainFeed from "./components/feeds/mainfeed/MainFeed";
-import Header from "./components/header/Header";
 import { IsMobileProvider } from "./hooks/is-mobile";
 import Sidebar from "components/sidebar/Sidebar";
 import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
@@ -48,7 +42,7 @@ function MainRoutes() {
     });
   }, []);
 
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <div className="ColumnsContainer">
