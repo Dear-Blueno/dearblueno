@@ -26,9 +26,10 @@
 }
 
 .ColumnsContainer {
-  width: 80%;
+  width: 84rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
+  padding: 1rem;
 }
