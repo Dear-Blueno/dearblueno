@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
-import { getPosts } from "../../gateways/PostGateway";
-import IPost from "../../types/IPost";
-import IUser from "../../types/IUser";
-import Feed from "./Feed";
-import Post from "./post/Post";
+import { getPosts } from "../../../gateways/PostGateway";
+import IPost from "../../../types/IPost";
+import IUser from "../../../types/IUser";
+import Feed from "../Feed";
+import Post from "../post/Post";
 
 type MainFeedProps = {
   user?: IUser;

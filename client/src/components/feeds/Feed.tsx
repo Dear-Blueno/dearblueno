@@ -30,6 +30,7 @@ function Feed(props: FeedProps) {
   const [isLoading, setLoading] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
+  const feedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPageNumber(1);
@@ -39,10 +40,10 @@ function Feed(props: FeedProps) {
   const onScroll = useCallback(() => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
-      window.innerHeight + 100
+      (feedRef.current?.clientHeight ?? 0) + 1000
     ) {
       setPageNumber((n) => n + 1);
-      window.removeEventListener("scroll", onScroll);
+      feedRef.current?.removeEventListener("scroll", onScroll);
     }
   }, []);
 
@@ -52,63 +53,21 @@ function Feed(props: FeedProps) {
       const response = await props.getMore(pageNumber);
       setLoading(false);
       if (response) {
-        window.addEventListener("scroll", onScroll);
+        feedRef.current?.addEventListener("scroll", onScroll);
       } else {
         setReachedEnd(true);
       }
     };
     loadMore();
+    const feedRefCurrent = feedRef.current;
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      feedRefCurrent?.removeEventListener("scroll", onScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, onScroll, props.getMore]);
 
-  // const refreshPosts = useCallback(async () => {
-  //   const gateway = props.moderatorView ? getModFeedPosts : getPosts;
-  //   let newPosts: IPost[] = [];
-  //   for (let i = 0; i < pageNumber; i++) {
-  //     const response = await gateway(i + 1);
-  //     if (response.success && response.payload) {
-  //       const responsePosts = response.payload;
-  //       newPosts = [...newPosts, ...responsePosts];
-  //     } else {
-  //       console.log("error getting posts", response.message);
-  //     }
-  //   }
-  //   props.moderatorView ? setModeratorPosts(newPosts) : setPosts(newPosts);
-  //   props.moderatorView
-  //     ? setModeratorDisplayedPosts(newPosts)
-  //     : setDisplayedPosts(newPosts);
-  //   setDisplayedPostIndex(newPosts.length);
-  // }, [props.moderatorView, pageNumber]);
-
-  // const refreshPost = useCallback(
-  //   async (postNumber: number) => {
-  //     const response = await getPost(postNumber);
-  //     if (response.success && response.payload) {
-  //       const post = response.payload;
-  //       const postArray = props.moderatorView ? moderatorPosts : posts;
-  //       const index = postArray.findIndex((p) => p._id === post._id);
-  //       if (index !== -1) {
-  //         const postSetter = props.moderatorView ? setModeratorPosts : setPosts;
-  //         postSetter((p) => {
-  //           p[index] = post;
-  //           return [...p];
-  //         });
-  //       }
-  //       props.moderatorView
-  //         ? setModeratorDisplayedPosts(moderatorPosts)
-  //         : setDisplayedPosts(posts);
-  //     } else {
-  //       console.log("error getting posts", response.message);
-  //     }
-  //   },
-
-  //   [props.moderatorView, posts, moderatorPosts]
-  // );
   return (
-    <div className="Feed">
+    <div className="Feed" ref={feedRef}>
       {props.children}
       {props.animated ? (
         <div
