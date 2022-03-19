@@ -1,0 +1,9 @@
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 10%;
+}
+
+.SidebarLogo {
+  width: 4rem;
+}

@@ -16,9 +16,12 @@ import PostPage from "./pages/postpage/PostPage";
 import SearchPage from "./pages/searchpage/SearchPage";
 import NotFoundPage from "pages/notfoundpage/NotFoundPage";
 import ModeratorFeed from "./components/feeds/ModeratorFeed";
-import MainFeed from "./components/feeds/MainFeed";
+import MainFeed from "./components/feeds/mainfeed/MainFeed";
 import Header from "./components/header/Header";
 import { IsMobileProvider } from "./hooks/is-mobile";
+import Sidebar from "components/sidebar/Sidebar";
+import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
+import PageAndSidebar from "pages/pageandsidebar/PageAndSidebar";
 
 function App() {
   return (
@@ -48,8 +51,8 @@ function MainRoutes() {
   const location = useLocation();
 
   return (
-    <>
-      <Header
+    <div className="ColumnsContainer">
+      {/* <Header
         user={user}
         moderatorView={location.pathname === "/moderator"}
         hidden={location.pathname === "/search"}
@@ -57,15 +60,17 @@ function MainRoutes() {
           location.pathname === "/submit" ||
           location.pathname.startsWith("/profile")
         }
-      />
+      /> */}
+      <Sidebar />
 
       <Routes>
         <Route
           path="/"
           element={
-            <FeedPage>
-              <MainFeed user={user} />
-            </FeedPage>
+            <PageAndSidebar
+              page={<MainFeed user={user} />}
+              sidebar={<MainFeedSidebar user={user} />}
+            ></PageAndSidebar>
           }
         />
         <Route path="/post/:postNumber" element={<PostPage user={user} />} />
@@ -91,7 +96,7 @@ function MainRoutes() {
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
