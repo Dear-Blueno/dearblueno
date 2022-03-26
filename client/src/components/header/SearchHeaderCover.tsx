@@ -20,6 +20,7 @@ function SearchHeaderCover(props: SearchHeaderCoverProps) {
     <div className="SearchHeaderCover">
       <input
         className="InputBox"
+        autoFocus={true}
         type="text"
         placeholder="Search here..."
         onChange={(e) => {
