@@ -50,8 +50,8 @@ function ContextThread(props: ContextThreadProps) {
               </div>
               <div className="ContextThreadReplyText">
                 <UserContent showContent={true}>
-                  {props.thread.parentComment.content.substring(0, 10)}
-                  {props.thread.parentComment.content.length > 10 ? "…" : ""}
+                  {props.thread.parentComment.content.substring(0, 10) +
+                    (props.thread.parentComment.content.length > 10 ? "…" : "")}
                 </UserContent>
               </div>
             </>
