@@ -13,6 +13,11 @@
   color: #97592c;
 }
 
+.Pinned {
+  margin-left: 0.5rem;
+  color: #d34b33;
+}
+
 /* Mobile */
 @media only screen and (max-width: 46rem) {
   .Post {

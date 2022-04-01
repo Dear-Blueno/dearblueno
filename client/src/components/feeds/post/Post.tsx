@@ -15,6 +15,7 @@ import IPost from "../../../types/IPost";
 import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
 import UserContent from "../UserContent";
+import { AiFillPushpin } from "react-icons/ai";
 
 export type PostProps = {
   user?: IUser;
@@ -69,6 +70,9 @@ function Post(props: PostProps) {
           ) : null}
           {props.post.contentWarning && (
             <ContentWarning ContentWarningText={props.post.contentWarning} />
+          )}
+          {props.post.pinned && (
+            <AiFillPushpin className="Pinned" title="Pinned Post" />
           )}
         </div>
         <PostDate
