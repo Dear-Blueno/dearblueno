@@ -55,8 +55,16 @@ const PostSchema = new Schema({
     ],
     default: [[], [], [], [], [], []],
   },
+  pinned: {
+    type: Boolean,
+    default: null,
+  },
 });
+
+// Index the text content of the post for full text search
 PostSchema.index({ content: "text" });
+// Index by approved, pinned, and postNumber for faster queries
+PostSchema.index({ approved: -1, pinned: -1, postNumber: -1 });
 
 export interface IPost {
   _id: string;
@@ -71,6 +79,7 @@ export interface IPost {
   approvedBy: any;
   comments: any[];
   reactions: any[][];
+  pinned: boolean;
 }
 
 const Post = model<IPost>("Post", PostSchema);

@@ -92,7 +92,7 @@ function Thread(props: ThreadProps) {
           <div className="ThreadBody">
             <div className="CommentBody">
               <div className="CommentBodyTextAndFooter">
-                <UserContent showContent={props.contentWarning === ""}>
+                <UserContent showContent={!props.contentWarning}>
                   {props.comment.content}
                 </UserContent>
                 {!props.inContext && (

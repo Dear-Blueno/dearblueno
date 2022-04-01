@@ -196,6 +196,33 @@ describe("Posts", () => {
       const res = await request(app).get("/posts").expect(200);
       expect(res.body[0].approvedBy).toBeUndefined();
     });
+
+    it("should include pinned posts at the top of the list", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        pinned: true,
+      });
+      await post.save();
+
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+      });
+      await post2.save();
+
+      const res = await request(app).get("/posts").expect(200);
+
+      expect(res.body[0].content).toBe("This is a test post");
+      expect(res.body[0].postNumber).toBe(1);
+      expect(res.body[0].pinned).toBe(true);
+
+      expect(res.body[1].content).toBe("This is another test post");
+      expect(res.body[1].postNumber).toBe(2);
+      expect(res.body[1].pinned).toBeFalsy();
+    });
   });
 
   describe("GET /posts/all", () => {

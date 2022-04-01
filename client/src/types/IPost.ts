@@ -13,4 +13,5 @@ export default interface IPost {
   approvedBy: any;
   comments: IComment[];
   reactions: any[][];
+  pinned: boolean;
 }

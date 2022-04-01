@@ -19,8 +19,10 @@ postRouter.get(
     }
 
     const page = req.query?.page || 1;
-    const posts = await Post.find({ approved: true })
-      .sort({ postNumber: "descending" })
+    const posts = await Post.find({
+      approved: true,
+    })
+      .sort({ pinned: -1, postNumber: -1 })
       .skip((page - 1) * 10)
       .limit(10)
       .select("-approvedBy")

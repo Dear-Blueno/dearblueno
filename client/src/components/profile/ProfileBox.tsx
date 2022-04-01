@@ -46,7 +46,7 @@ function ProfileBox(props: ProfileBoxProps) {
   }, [props.profileUser]);
 
   const handleInstagram = (link: string | undefined) => {
-    if (!link || link === "") {
+    if (!link) {
       return undefined;
     } else if (link.startsWith("https://www.instagram.com/")) {
       return link;
@@ -65,7 +65,7 @@ function ProfileBox(props: ProfileBoxProps) {
   };
 
   const handleTwitter = (link: string | undefined) => {
-    if (!link || link === "") {
+    if (!link) {
       return undefined;
     } else if (link.startsWith("https://www.twitter.com/")) {
       return link;
@@ -84,7 +84,7 @@ function ProfileBox(props: ProfileBoxProps) {
   };
 
   const handleLinkedIn = (link: string | undefined) => {
-    if (!link || link === "") {
+    if (!link) {
       return undefined;
     } else if (link.startsWith("https://www.linkedin.com/in/")) {
       return link;
@@ -112,7 +112,7 @@ function ProfileBox(props: ProfileBoxProps) {
   };
 
   const handleFacebook = (link: string | undefined) => {
-    if (!link || link === "") {
+    if (!link) {
       return undefined;
     } else if (link.startsWith("https://www.facebook.com/")) {
       return link;
