@@ -3,7 +3,7 @@
   flex-direction: row;
   gap: 1rem;
   padding: 1rem;
-  background-color: #ffffff;
+  background-color: #f3e3ca;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
 }
@@ -57,12 +57,12 @@
   border-radius: 0;
   border: 1px solid black;
   color: black;
-  background-color: white;
+  background-color: #f3e3ca;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
 }
 
 .ProfileButton:active {
-  background-color: #ccc;
+  background-color: #4e3629;
   transform: translate3d(-0.1rem, 0.1rem, 0);
   box-shadow: none;
 }

@@ -26,7 +26,14 @@ type ThreadProps = {
   // displayedChildren: number;
 };
 
-const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
+const colors = [
+  "#4e3629",
+  "#4e3629",
+  "#4e3629",
+  "#4e3629",
+  "#4e3629",
+  "#4e3629",
+];
 
 function Thread(props: ThreadProps) {
   const [show, setShow] = useState(true);

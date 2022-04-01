@@ -9,7 +9,7 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #d5ebff;
+  background-color: #7f5743;
   -ms-overflow-style: none;
 }
 
@@ -30,6 +30,7 @@ input[type="submit"],
   -webkit-appearance: none;
   border-radius: 0;
   font-family: "Inconsolata", monospace;
+  background-color: #f3e3ca;
 }
 
 button {

@@ -1,7 +1,8 @@
 .PostDate {
   margin: 0 0 0.6em 0;
-  color: #999;
+  color: #4e3629;
   float: right;
   user-select: none;
+  -webkit-touch-callout: none;
   cursor: default;
 }

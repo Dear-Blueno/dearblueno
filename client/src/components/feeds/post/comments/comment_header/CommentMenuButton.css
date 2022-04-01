@@ -1,12 +1,12 @@
 .CommentMenuButton {
   cursor: pointer;
-  color: #8e8e8e;
+  color: #4e3629;
   user-select: none;
 }
 
 .CommentMenuDropdownText {
   font-size: 0.5rem;
-  color: #aaa;
+  color: #4e3629;
 }
 
 .MenuDropdownActions {
@@ -25,7 +25,7 @@
 }
 
 .PopperContainer {
-  background: #fff;
+  background: #f3e3ca;
   border: 1px solid black;
   z-index: 1;
   /* box-shadow: -0.05rem .05rem 0rem 0.03rem rgba(0, 0, 0, 1); */
@@ -82,9 +82,9 @@
   transform: translate(-50%, -50%);
   width: 10% !important;
   border: 1px solid black;
+  background: #f3e3ca;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
 }
-
 
 @media only screen and (max-width: 600px) {
   [data-reach-dialog-content] {
@@ -94,10 +94,10 @@
     transform: translate(-50%, -50%);
     width: 60% !important;
     border: 1px solid black;
+    background: #f3e3ca;
     box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
 }
-
 
 .ReportReason:hover {
   text-decoration: underline;

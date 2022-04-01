@@ -1,7 +1,7 @@
 .HeaderButton {
   border: 1px solid black;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
-  background-color: white;
+  background-color: #f3e6d3;
   display: flex;
   justify-content: center;
   align-items: center;

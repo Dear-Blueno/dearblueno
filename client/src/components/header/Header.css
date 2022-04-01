@@ -4,7 +4,7 @@
   padding: 0.8rem;
   margin-left: auto;
   margin-right: auto;
-  background-color: white;
+  background-color: #f3e3ca;
   box-sizing: border-box;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   display: flex;
@@ -114,7 +114,7 @@
 }
 
 .PopperContainer {
-  background: #fff;
+  background: #f3e3ca;
   border: 1px solid black;
   z-index: 1;
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);

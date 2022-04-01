@@ -19,7 +19,7 @@
 }
 
 .CommentDate {
-  color: gray;
+  color: #4e3629;
   font-size: 0.8rem;
   user-select: none;
   cursor: default;
@@ -27,7 +27,7 @@
 
 .ExpandThreadButton {
   font-size: 0.7rem;
-  color: gray;
+  color: #4e3629;
   display: inline-block;
 }
 
@@ -38,7 +38,7 @@
 
 .DevBadge {
   margin-left: -0.6rem;
-  font-size: .7rem;
+  font-size: 0.7rem;
   background-color: #62c6e6;
   color: white;
   border-radius: 2px;

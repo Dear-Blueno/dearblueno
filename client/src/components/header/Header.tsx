@@ -111,7 +111,7 @@ function Header(props: HeaderProps) {
             avgTypingDelay={120}
             onTypingDone={() => setShowLogo(true)}
           >
-            <h1 id="HeaderText">Dear Blueno</h1>
+            <h1 id="HeaderText">Dear Bruno</h1>
           </Typist>
           {showLogo && (
             <img
