@@ -3,7 +3,7 @@
   width: 100%;
   padding: 1rem;
   padding-bottom: 0.8rem;
-  background-color: #f3e3ca;
+  background-color: #ffffff;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
 }
@@ -99,7 +99,7 @@
 .ShareButton {
   margin-left: 0.2rem;
   font-size: 0.7rem;
-  color: #4e3629;
+  color: #8e8e8e;
   display: inline-block;
   user-select: none;
 }

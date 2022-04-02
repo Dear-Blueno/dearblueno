@@ -6,7 +6,7 @@
 .NewCommentTextArea {
   width: calc(100% - 1rem - 2px);
   height: 3rem;
-  border: 1px solid #4e3629;
+  border: 1px solid #ccc;
   padding: 0.5rem;
   resize: vertical;
   margin-bottom: -0.3rem;
