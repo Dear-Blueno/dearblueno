@@ -1,0 +1,10 @@
+.PageHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.PageHeaderTitle {
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}

@@ -13,9 +13,9 @@ import NotFoundPage from "pages/notfoundpage/NotFoundPage";
 import ModeratorFeed from "./components/feeds/ModeratorFeed";
 import MainFeed from "./components/feeds/mainfeed/MainFeed";
 import { IsMobileProvider } from "./hooks/is-mobile";
-import Sidebar from "components/sidebar/Sidebar";
+import Sidebar from "components/page/sidebar/Sidebar";
 import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
-import PageAndSidebar from "pages/pageandsidebar/PageAndSidebar";
+import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 
 function App() {
   return (
@@ -62,6 +62,7 @@ function MainRoutes() {
           path="/"
           element={
             <PageAndSidebar
+              title="Home"
               page={<MainFeed user={user} />}
               sidebar={<MainFeedSidebar user={user} />}
             ></PageAndSidebar>

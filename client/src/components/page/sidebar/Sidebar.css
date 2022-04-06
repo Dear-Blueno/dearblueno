@@ -1,0 +1,30 @@
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 10%;
+  margin-right: calc(4rem - 0.2rem);
+}
+
+.SidebarLogo {
+  width: 4rem;
+  margin-left: -0.45rem;
+}
+
+.SidebarList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+.SidebarListItem {
+  font-size: 2rem;
+  text-decoration: none;
+}
+
+.SidebarListItemLink {
+  color: black;
+  text-decoration: none;
+}
