@@ -31,18 +31,16 @@ function MainFeed(props: MainFeedProps) {
   );
 
   return (
-    <>
-      <Feed user={props.user} getMore={getMore} animated={true}>
-        {posts.map((post, index) => (
-          <Post
-            key={post._id}
-            post={post}
-            user={props.user}
-            delay={(index - 10 * (pageNumber - 1)) * 80 + "ms"}
-          />
-        ))}
-      </Feed>
-    </>
+    <Feed user={props.user} getMore={getMore} animated={true}>
+      {posts.map((post, index) => (
+        <Post
+          key={post._id}
+          post={post}
+          user={props.user}
+          delay={(index - 10 * (pageNumber - 1)) * 80 + "ms"}
+        />
+      ))}
+    </Feed>
   );
 }
 

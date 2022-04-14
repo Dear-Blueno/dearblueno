@@ -6,5 +6,5 @@ type MainFeedSidebarProps = {
 };
 
 export default function MainFeedSidebar(props: MainFeedSidebarProps) {
-  return <div className="MainFeedSidebar">test</div>;
+  return <div className="MainFeedSidebar">Main Feed Sidebar</div>;
 }

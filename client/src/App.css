@@ -1,6 +1,5 @@
 .App {
   width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
 }
@@ -31,5 +30,4 @@
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  padding: 1rem;
 }

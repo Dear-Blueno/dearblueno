@@ -1,3 +1,4 @@
+import "./Page.css";
 import PageHeader from "./pageheader/PageHeader";
 
 type PageProps = {

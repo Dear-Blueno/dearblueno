@@ -1,0 +1,9 @@
+.Page {
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+}
+
+.Page::-webkit-scrollbar {
+  display: none;
+}

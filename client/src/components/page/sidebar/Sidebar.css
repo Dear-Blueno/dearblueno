@@ -1,8 +1,12 @@
 .Sidebar {
+  position: sticky;
+  top: 1rem;
   display: flex;
   flex-direction: column;
   flex: 1 1 10%;
+  overflow: auto;
   margin-right: calc(4rem - 0.2rem);
+  height: calc(100vh - 1rem);
 }
 
 .SidebarLogo {
