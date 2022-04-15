@@ -21,7 +21,7 @@ function AnonymousToggle(props: AnonymousToggleProps) {
     : "AnonymousToggle";
 
   return (
-    <>
+    <div className="AnonymousToggleWrapper">
       {props.anonymous ? (
         <button className={className} onClick={props.anonymousToggle}>
           <AiOutlineEyeInvisible className="AnonymousIcon" />
@@ -38,8 +38,10 @@ function AnonymousToggle(props: AnonymousToggleProps) {
           }}
         >
           <AiOutlineEye className="AnonymousIcon" />
-          <small>
-            Posting as <strong>{props.user?.name}</strong>
+          <small className="AnonymousDetail">
+            <span>
+              Posting as <strong>{props.user?.name}</strong>
+            </span>
           </small>
         </button>
       )}
@@ -66,7 +68,7 @@ function AnonymousToggle(props: AnonymousToggleProps) {
           </DialogContent>
         </DialogOverlay>
       </div>
-    </>
+    </div>
   );
 }
 

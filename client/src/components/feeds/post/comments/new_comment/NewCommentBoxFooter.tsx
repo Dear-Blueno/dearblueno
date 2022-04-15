@@ -64,20 +64,23 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
   );
 
   return (
-    <div className="NewCommentBoxFooter">
-      {!isMobile && (
-        <AnonymousToggle
-          user={props.user}
-          anonymous={props.anonymous}
-          anonymousToggle={props.anonymousToggle}
-        />
-      )}
+    <>
       {CancelPopUp}
-      <div className="CommentFooterButtonContainer">
+      <div className="NewCommentBoxFooter">
+        {!isMobile && (
+          <>
+            <AnonymousToggle
+              user={props.user}
+              anonymous={props.anonymous}
+              anonymousToggle={props.anonymousToggle}
+            />
+            <div style={{ flex: 1 }} />
+          </>
+        )}
         <CommentFooterButton handleClick={cancelHandler} text="cancel" />
         <CommentFooterButton handleClick={props.submit} text="submit" />
       </div>
-    </div>
+    </>
   );
 }
 

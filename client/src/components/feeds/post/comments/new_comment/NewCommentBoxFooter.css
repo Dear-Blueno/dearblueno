@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 1em;
 }
 
 .PopupButtons {
@@ -26,22 +27,12 @@
   cursor: pointer;
 }
 
-.AnonymousIcon {
-  margin-right: 0.5em;
-}
-
 .AnonymousConfirmationBox {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   text-align: center;
-}
-
-.CommentFooterButtonContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
 }
 
 .CancelConfirmationBox {
