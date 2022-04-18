@@ -40,10 +40,7 @@ const formatDuration = (duration: string) => {
 };
 
 function RelativeDate(props: RelativeDateProps) {
-  const date = useMemo(
-    () => addMinutes(new Date(props.date), 100),
-    [props.date]
-  );
+  const date = useMemo(() => new Date(props.date), [props.date]);
 
   const [trigger, setTrigger] = useState(0);
   useEffect(() => {
