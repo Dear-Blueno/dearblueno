@@ -3,7 +3,7 @@ import {
   formatDistanceToNowStrict,
   differenceInMilliseconds,
   addMinutes,
-  differenceInSeconds,
+  differenceInMinutes,
 } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 
@@ -52,7 +52,10 @@ function RelativeDate(props: RelativeDateProps) {
       () => setTrigger((n) => n + 1),
       differenceInMilliseconds(
         now,
-        addMinutes(date, Math.ceil(differenceInSeconds(now, date) / 60))
+        addMinutes(
+          date,
+          differenceInMinutes(now, date, { roundingMethod: "ceil" })
+        )
       )
     );
     return () => clearTimeout(token);
