@@ -48,7 +48,7 @@ function SubmitBox(props: SubmitBoxProps) {
         ) : (
           <div className="PreSubmitContent">
             <h2 className="SubmitBoxHeaderText">post anonymously</h2>
-            <textarea id="TextBox" name="TextBox"></textarea>
+            <textarea id="TextBox" name="TextBox" autoFocus={true}></textarea>
             <div className="ConsentAndSubmit">
               <ConsentBar user={props.user} />
               <p
