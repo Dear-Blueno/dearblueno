@@ -6,8 +6,8 @@ export default interface IPost {
   content: string;
   verifiedBrown: boolean;
   contentWarning: string;
-  postTime: Date;
-  approvedTime: Date;
+  postTime: string; // ISO-8601-formatted date
+  approvedTime: string; // ISO-8601-formatted date
   approved: boolean;
   needsReview: boolean;
   approvedBy: any;
