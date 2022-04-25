@@ -1,10 +1,8 @@
 import "./CommentHeader.css";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
-import { formatDistanceToNowStrict } from "date-fns";
 import { BsCode } from "react-icons/bs";
-import IUser from "../../../../../types/IUser";
-import IBasicUser from "../../../../../types/IUser";
+import IUser, { IBasicUser } from "../../../../../types/IUser";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
@@ -67,7 +65,7 @@ function CommentHeader(props: CommentHeaderProps) {
     if (!hoverUser && props.comment.author) {
       const response = await getUser(props.comment.author._id);
       if (response.success && response.payload) {
-        setHoverUser(response.payload as IBasicUser);
+        setHoverUser(response.payload);
       }
     }
   };
