@@ -3,11 +3,10 @@ import IUser from "types/IUser";
 import { IThread } from "./CommentSection";
 import "./ContextThread.css";
 import Thread from "./Thread";
-import CommentProfilePicture from "../../../user/CommentProfilePicture";
 import ApproveOrDeny from "../moderator/ApproveOrDeny";
 import { approveComment } from "gateways/PostGateway";
 import { Link } from "react-router-dom";
-import UserContent from "../../UserContent";
+import CommentContext from "./CommentContext";
 
 export type ContextThreadProps = {
   user?: IUser;
@@ -18,8 +17,6 @@ export type ContextThreadProps = {
 };
 
 function ContextThread(props: ContextThreadProps) {
-  const isReply = props.thread.parentComment !== undefined;
-
   return (
     <Link
       className="ContextThreadLink"
@@ -29,45 +26,7 @@ function ContextThread(props: ContextThreadProps) {
         className="ContextThread"
         style={{ animationDelay: props.delay ?? "0" }}
       >
-        <div className="ContextThreadHeader">
-          <div className="ContextThreadHorizontalLine"></div>
-          <div className="ContextThreadVerticalLine"></div>
-          {isReply && (
-            <>
-              <div className="ContextThreadParentPicture">
-                <CommentProfilePicture
-                  link={
-                    props.thread.parentComment.author
-                      ? props.thread.parentComment.author.profilePicture
-                      : undefined
-                  }
-                />
-              </div>
-              <div className="ContextThreadReplyAuthor">
-                {props.thread.parentComment.author
-                  ? props.thread.parentComment.author.name
-                  : "Anonymous"}
-              </div>
-              <div className="ContextThreadReplyText">
-                <UserContent showContent={true}>
-                  {props.thread.parentComment.content.substring(0, 10) +
-                    (props.thread.parentComment.content.length > 10 ? "…" : "")}
-                </UserContent>
-              </div>
-            </>
-          )}
-          {!isReply && (
-            <>
-              <div className="ContextThreadPostNumber">
-                #{props.thread.postNumber}
-              </div>
-              <div className="ContextThreadPostContent">
-                {(props.thread.post.content as string).substring(0, 70)}
-                {(props.thread.post.content as string).length > 70 ? "…" : ""}
-              </div>
-            </>
-          )}
-        </div>
+        <CommentContext thread={props.thread} showProfilePicture />
         <Thread
           user={props.user}
           collapsed={false}

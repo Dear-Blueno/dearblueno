@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 0.5rem;
   padding: 2rem;
   background-color: #ffffff;
   border: 0.1rem solid rgba(0, 0, 0, 1);
@@ -73,7 +72,7 @@
 }
 
 .AboutPageIcon {
-  transform: translateY(.1rem);
+  transform: translateY(0.1rem);
 }
 
 /* Extra small devices (phones, 600px and down) */

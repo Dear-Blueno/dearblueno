@@ -6,8 +6,6 @@ interface ReactionButtonProps {
   count: number;
   reactionArray: string[];
   handleClick: () => void;
-  names: string[];
-  handleHover: () => void;
 }
 
 function ReactionButton(props: ReactionButtonProps) {
@@ -25,11 +23,7 @@ function ReactionButton(props: ReactionButtonProps) {
         alt="reaction"
         draggable={false}
       />
-      <p
-        className={className + "Count"}
-      >
-        {props.count}
-      </p>
+      <p className={className + "Count"}>{props.count}</p>
     </div>
   );
 }

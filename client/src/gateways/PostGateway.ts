@@ -96,14 +96,14 @@ export async function reactToPost(
   postNumber: number,
   reaction: number,
   state: boolean
-): Promise<IResponse<IPost>> {
+): Promise<IResponse<boolean>> {
   try {
     const response = await axios.put(`/posts/${postNumber}/react`, {
       reaction,
       state,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data.reaction);
     } else {
       return failureResponse(response.data);
     }
@@ -139,7 +139,7 @@ export async function reactToComment(
   commentNumber: number,
   reaction: number,
   state: boolean
-): Promise<IResponse<IPost>> {
+): Promise<IResponse<boolean>> {
   try {
     const response = await axios.put(
       `/posts/${postNumber}/comment/${commentNumber}/react`,
@@ -149,7 +149,7 @@ export async function reactToComment(
       }
     );
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data.reaction);
     } else {
       return failureResponse(response.data);
     }
@@ -211,46 +211,16 @@ export async function searchPosts(query: string) {
   }
 }
 
-export async function getPostReactions(
-  postNumber: number
-): Promise<IResponse<{ _id: string; name: string }[][]>> {
-  try {
-    const response = await axios.get(`/posts/${postNumber}/reactions`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data);
-    }
-  } catch (error: any) {
-    return failureResponse(error);
-  }
-}
-
-export async function getCommentReactions(
+export async function deleteComment(
   postNumber: number,
   commentNumber: number
-): Promise<IResponse<{ _id: string; name: string }[][]>> {
-  try {
-    const response = await axios.get(
-      `/posts/${postNumber}/comments/${commentNumber}/reactions`
-    );
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data);
-    }
-  } catch (error: any) {
-    return failureResponse(error);
-  }
-}
-
-export async function deleteComment(postNumber: number, commentNumber: number) {
+): Promise<IResponse<boolean>> {
   try {
     const response = await axios.delete(
       `/posts/${postNumber}/comment/${commentNumber}`
     );
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data.success);
     } else {
       return failureResponse(response.data);
     }

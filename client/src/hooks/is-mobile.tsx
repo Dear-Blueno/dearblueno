@@ -5,10 +5,10 @@ const IsMobileContext = createContext(false);
 export const useIsMobile = () => useContext(IsMobileContext);
 
 export function IsMobileProvider({ children }: { children: React.ReactNode }) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 736);
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 736);
     };
     window.addEventListener("resize", handleResize);
     return () => {

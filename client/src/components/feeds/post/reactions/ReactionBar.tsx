@@ -14,12 +14,7 @@ import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
 import IUser from "../../../../types/IUser";
-import {
-  reactToComment,
-  reactToPost,
-  getPostReactions,
-  getCommentReactions,
-} from "../../../../gateways/PostGateway";
+import { reactToComment, reactToPost } from "../../../../gateways/PostGateway";
 import LoginPopup from "../LoginPopup";
 
 type ReactionBarProps = {
@@ -114,8 +109,6 @@ function ReactionBar(props: ReactionBarProps) {
     [],
     [],
   ]);
-
-  const [gotUsers, setGotUsers] = useState<boolean>(false);
 
   const updateOrderArrays = () => {
     const zero = [];
@@ -214,22 +207,6 @@ function ReactionBar(props: ReactionBarProps) {
     };
   };
 
-  const getNames = async () => {
-    if (!gotUsers) {
-      const response =
-        props.type === "post"
-          ? await getPostReactions(props.postNumber)
-          : await getCommentReactions(
-              props.postNumber,
-              props.commentNumber || 0
-            );
-      if (response.success && response.payload) {
-        setUsers(response.payload);
-        setGotUsers(true);
-      }
-    }
-  };
-
   return (
     <div
       className="ReactionBar"
@@ -275,8 +252,6 @@ function ReactionBar(props: ReactionBarProps) {
             count={reactionCounts[reaction]}
             reactionArray={props.reactions[reaction]}
             handleClick={props.user ? buttonClick(reaction) : openPopup}
-            names={users[reaction].map((user) => user.name)}
-            handleHover={getNames}
           ></ReactionButton>
         );
       })}
@@ -290,9 +265,6 @@ function ReactionBar(props: ReactionBarProps) {
               count={reactionCounts[reaction]}
               reactionArray={props.reactions[reaction]}
               handleClick={buttonClick(reaction)}
-              names={users[reaction].map((user) => user.name)}
-              // names={[]}
-              handleHover={getNames}
             ></ReactionButton>
           );
         })}
