@@ -108,7 +108,7 @@ function CommentSection(props: CommentSectionProps) {
     setComments(threads);
   }, [props.comments]);
 
-  return props.comments.length || props.showTopLevelCommentBox ? (
+  return comments.length || props.showTopLevelCommentBox ? (
     <div className="CommentSection">
       {comments.map((comment, index) => (
         <Thread
