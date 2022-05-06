@@ -8,6 +8,10 @@ interface ProfileBioProps {
 }
 
 function ProfileBio(props: ProfileBioProps) {
+  if (!props.editing && !props.bio) {
+    return null;
+  }
+
   return (
     <div className="ProfileBio">
       {props.editing ? (
