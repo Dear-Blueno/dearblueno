@@ -17,6 +17,7 @@
 
 .UserContentHidden a {
   pointer-events: none;
+  color: inherit;
 }
 
 .PostRef {
