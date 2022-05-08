@@ -87,7 +87,10 @@ function MainRoutes() {
             </FeedPage>
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path="*"
+          element={<PageAndSidebar page={<NotFoundPage />}></PageAndSidebar>}
+        />
       </Routes>
     </div>
   );

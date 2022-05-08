@@ -1,13 +1,13 @@
 import Page from "../Page";
 import "./PageAndSidebar.css";
 
-interface FeedPageProps {
+interface PageAndSidebarProps {
   title?: string;
   page: React.ReactNode;
-  sidebar: React.ReactNode;
+  sidebar?: React.ReactNode;
 }
 
-export default function PageAndSidebar(props: FeedPageProps) {
+export default function PageAndSidebar(props: PageAndSidebarProps) {
   return (
     <>
       <Page title={props.title}>{props.page}</Page>

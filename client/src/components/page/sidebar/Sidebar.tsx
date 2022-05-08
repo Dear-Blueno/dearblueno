@@ -4,12 +4,13 @@ import LogoIcon from "images/logo512.png";
 import { Link, useLocation } from "react-router-dom";
 import { useMemo } from "react";
 
+type SidebarItem = {
+  path: string;
+  label: string;
+};
+
 export default function Sidebar() {
   const location = useLocation();
-  type SidebarItem = {
-    path: string;
-    label: string;
-  };
   const sidebarItems: SidebarItem[] = useMemo(
     () => [
       {
