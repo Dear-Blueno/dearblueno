@@ -50,7 +50,7 @@ function Post(props: PostProps) {
       className="Post"
       style={{
         animationDelay: props.delay ?? "0",
-        animation: props.skipAnimation ? "none" : undefined,
+        // animation: props.skipAnimation ? "none" : undefined,
         opacity: props.skipAnimation ? 1 : undefined,
       }}
     >
