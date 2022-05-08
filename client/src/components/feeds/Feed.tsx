@@ -23,7 +23,7 @@ function Feed(props: FeedProps) {
   const onScroll = useCallback(() => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
-      window.innerHeight + 100
+      window.innerHeight + 500
     ) {
       setPageNumber((n) => n + 1);
       window.removeEventListener("scroll", onScroll);

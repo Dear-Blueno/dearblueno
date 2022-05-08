@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 function NotFoundPage() {
   return (
     <div className="NotFoundPage">
-      <h1 className="NotFoundText">
+      <h2 className="NotFoundText">
         Sorry, Blueno couldn't find what you were looking for
-      </h1>
+      </h2>
       <Link to="/" className="NotFoundLink">
         <img
           src="https://i.imgur.com/3wjWxiQ.gif"

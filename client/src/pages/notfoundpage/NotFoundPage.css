@@ -7,17 +7,19 @@
 }
 
 .BluenoGif {
-  width: 10rem;
-  height: 10rem;
-  margin-bottom: 0.2rem;
+  width: 24vmin;
+  height: 24vmin;
+  opacity: 0.6;
 }
 
 .NotFoundText {
-  font-family: "Fira Code", monospace;
+  font-family: "Inconsolata", monospace;
   text-align: center;
-  margin-top: 4rem;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-top: 5rem;
+  margin-left: 15%;
+  margin-right: 15%;
+  color: #567;
+  font-size: 2rem;
 }
 
 @media only screen and (max-width: 46rem) {
@@ -37,12 +39,18 @@
 }
 
 .NotFoundLink {
-  font-family: "Fira Code", monospace;
-  color: black;
+  font-family: "Inconsolata", monospace;
+  color: #567;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
+  text-decoration: none;
+}
+
+.NotFoundLink:hover {
+  color: black;
+  text-decoration: underline;
 }

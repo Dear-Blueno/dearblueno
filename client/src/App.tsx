@@ -63,7 +63,7 @@ function MainRoutes() {
               title="Home"
               page={<MainFeed user={user} />}
               sidebar={<MainFeedSidebar user={user} />}
-            ></PageAndSidebar>
+            />
           }
         />
         <Route path="/post/:postNumber" element={<PostPage user={user} />} />
@@ -77,7 +77,10 @@ function MainRoutes() {
           element={<ProfilePage user={user} profileUser={user} />}
         />
         <Route path="/submit" element={<SubmitPage user={user} />} />
-        <Route path="/about" element={<AboutPage user={user} />} />
+        <Route
+          path="/about"
+          element={<PageAndSidebar page={<AboutPage user={user} />} />}
+        />
         <Route path="/search" element={<SearchPage />} />
         <Route
           path="/moderator"
@@ -87,10 +90,7 @@ function MainRoutes() {
             </FeedPage>
           }
         />
-        <Route
-          path="*"
-          element={<PageAndSidebar page={<NotFoundPage />}></PageAndSidebar>}
-        />
+        <Route path="*" element={<PageAndSidebar page={<NotFoundPage />} />} />
       </Routes>
     </div>
   );

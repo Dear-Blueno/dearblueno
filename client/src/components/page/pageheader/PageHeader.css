@@ -5,6 +5,7 @@
   top: 0;
   z-index: 1;
   background-color: #d5ebff;
+  min-height: 1.3rem;
 }
 
 .PageHeaderTitle {

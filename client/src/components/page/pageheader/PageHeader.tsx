@@ -7,7 +7,7 @@ type PageHeaderProps = {
 export default function PageHeader(props: PageHeaderProps) {
   return (
     <div className="PageHeader">
-      <h1 className="PageHeaderTitle">{props.title}</h1>
+      {props.title && <h1 className="PageHeaderTitle">{props.title}</h1>}
     </div>
   );
 }
