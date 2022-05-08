@@ -1,45 +1,65 @@
 import "./Sidebar.css";
 
 import LogoIcon from "images/logo512.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 export default function Sidebar() {
+  const location = useLocation();
+  type SidebarItem = {
+    path: string;
+    label: string;
+  };
+  const sidebarItems: SidebarItem[] = useMemo(
+    () => [
+      {
+        path: "/",
+        label: "Home",
+      },
+      {
+        path: "/notifications",
+        label: "Notifications",
+      },
+      {
+        path: "/bookmarks",
+        label: "Bookmarks",
+      },
+      {
+        path: "/search",
+        label: "Search",
+      },
+      {
+        path: "/profile",
+        label: "Profile",
+      },
+      {
+        path: "/about",
+        label: "About",
+      },
+    ],
+    []
+  );
+
   return (
     <nav className="Sidebar">
       <Link to="/">
         <img className="SidebarLogo" src={LogoIcon} alt="Blueno" />
       </Link>
       <ul className="SidebarList">
-        <li className="SidebarListItem">
-          <Link to="/" className="SidebarListItemLink">
-            Home
-          </Link>
-        </li>
-        <li className="SidebarListItem">
-          <Link to="/notifications" className="SidebarListItemLink">
-            Notifications
-          </Link>
-        </li>
-        <li className="SidebarListItem">
-          <Link to="/bookmarks" className="SidebarListItemLink">
-            Bookmarks
-          </Link>
-        </li>
-        <li className="SidebarListItem">
-          <Link to="/search" className="SidebarListItemLink">
-            Search
-          </Link>
-        </li>
-        <li className="SidebarListItem">
-          <Link to="/profile" className="SidebarListItemLink">
-            Profile
-          </Link>
-        </li>
-        <li className="SidebarListItem">
-          <Link to="/about" className="SidebarListItemLink">
-            About
-          </Link>
-        </li>
+        {sidebarItems.map((item) => (
+          <li
+            key={item.path}
+            className={
+              location.pathname === item.path
+                ? "SidebarListItem SidebarListItemActive"
+                : "SidebarListItem"
+            }
+          >
+            <Link to={item.path} className="SidebarListItemLink">
+              {item.label}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );

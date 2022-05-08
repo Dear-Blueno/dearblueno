@@ -42,8 +42,6 @@ function MainRoutes() {
     });
   }, []);
 
-  // const location = useLocation();
-
   return (
     <div className="ColumnsContainer">
       {/* <Header

@@ -1,6 +1,7 @@
 .Sidebar {
   position: sticky;
-  top: 1rem;
+  top: 0;
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   flex: 1 1 10%;
@@ -26,6 +27,10 @@
 .SidebarListItem {
   font-size: 2rem;
   text-decoration: none;
+}
+
+.SidebarListItemActive {
+  font-weight: bold;
 }
 
 .SidebarListItemLink {
