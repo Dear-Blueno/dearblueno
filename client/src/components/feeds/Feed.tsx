@@ -1,11 +1,5 @@
 import "./Feed.css";
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  createContext,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import IUser from "../../types/IUser";
 
 type FeedProps = {
@@ -15,22 +9,11 @@ type FeedProps = {
   animated: boolean;
 };
 
-type FeedContextType = {
-  user?: IUser;
-  refreshPosts: () => void;
-  refreshPost: (postId: number) => void;
-};
-export const FeedContext = createContext<FeedContextType>({
-  refreshPosts: () => {},
-  refreshPost: () => {},
-});
-
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
-  const feedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPageNumber(1);
@@ -40,10 +23,10 @@ function Feed(props: FeedProps) {
   const onScroll = useCallback(() => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
-      (feedRef.current?.clientHeight ?? 0) + 1000
+      window.innerHeight + 100
     ) {
       setPageNumber((n) => n + 1);
-      feedRef.current?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
     }
   }, []);
 
@@ -53,21 +36,20 @@ function Feed(props: FeedProps) {
       const response = await props.getMore(pageNumber);
       setLoading(false);
       if (response) {
-        feedRef.current?.addEventListener("scroll", onScroll);
+        window.addEventListener("scroll", onScroll);
       } else {
         setReachedEnd(true);
       }
     };
     loadMore();
-    const feedRefCurrent = feedRef.current;
     return () => {
-      feedRefCurrent?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, onScroll, props.getMore]);
 
   return (
-    <div className="Feed" ref={feedRef}>
+    <div className="Feed">
       {props.children}
       {props.animated ? (
         <div
