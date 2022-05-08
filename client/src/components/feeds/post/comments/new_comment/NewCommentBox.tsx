@@ -2,8 +2,10 @@ import { commentOnPost } from "gateways/PostGateway";
 import IUser from "types/IUser";
 import "./NewCommentBox.css";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { IThread } from "../CommentSection";
+import { useIsMobile } from "hooks/is-mobile";
+import AnonymousToggle from "./AnonymousToggle";
 
 type NewCommentBoxProps = {
   user: IUser | undefined;
@@ -32,7 +34,9 @@ export const findComment = (
 
 function NewCommentBox(props: NewCommentBoxProps) {
   const [anonymous, setAnonymous] = useState(false);
+  const anonymousToggle = useCallback(() => setAnonymous((prev) => !prev), []);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const isMobile = useIsMobile();
 
   const submit = async () => {
     if (props.user) {
@@ -75,6 +79,14 @@ function NewCommentBox(props: NewCommentBoxProps) {
 
   return (
     <div className="NewCommentBox">
+      {isMobile && (
+        <AnonymousToggle
+          user={props.user}
+          anonymous={anonymous}
+          anonymousToggle={anonymousToggle}
+          top
+        />
+      )}
       <textarea
         autoFocus
         className="NewCommentTextArea"
@@ -82,9 +94,10 @@ function NewCommentBox(props: NewCommentBoxProps) {
         ref={textAreaRef}
       ></textarea>
       <NewCommentBoxFooter
+        user={props.user}
         submit={submit}
         anonymous={anonymous}
-        anonymousToggle={() => setAnonymous(!anonymous)}
+        anonymousToggle={anonymousToggle}
         textAreaRef={textAreaRef}
         setShow={props.setShow}
       />

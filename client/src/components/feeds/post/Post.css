@@ -89,6 +89,11 @@
   justify-content: center;
 }
 
+.PostDate {
+  margin: 0 0 0.6em 0;
+  float: right;
+}
+
 .PostFooter {
   display: flex;
   flex-direction: row;

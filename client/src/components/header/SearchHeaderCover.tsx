@@ -27,6 +27,7 @@ function SearchHeaderCover(props: SearchHeaderCoverProps) {
             setDebouncedSearchQuery(e.target.value);
           }
         }}
+        autoFocus={true}
       />
       <div className="CloseButton">
         <Link to="/">

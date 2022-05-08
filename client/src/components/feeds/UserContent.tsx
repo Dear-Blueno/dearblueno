@@ -4,10 +4,36 @@ import Linkify from "linkify-react";
 import "linkify-plugin-ticket";
 
 import "./UserContent.css";
+import makeEmojiRegex from "emoji-regex";
+const emojiRegex = makeEmojiRegex();
 
 interface UserContentProps {
-  children: React.ReactNode;
+  children: string;
   showContent: boolean;
+}
+
+function replaceEmoji(text: string): React.ReactChild[] {
+  const matches = text.matchAll(emojiRegex);
+
+  const children: React.ReactChild[] = [];
+  let lastIndex = 0;
+  for (const match of matches) {
+    const emoji = match[0];
+    const index = match.index!;
+    if (index > lastIndex) {
+      children.push(text.slice(lastIndex, index));
+    }
+    children.push(
+      <span className="UserContentEmoji" key={index}>
+        {emoji}
+      </span>
+    );
+    lastIndex = index + emoji.length;
+  }
+  if (lastIndex < text.length) {
+    children.push(text.slice(lastIndex));
+  }
+  return children;
 }
 
 function UserContent(props: UserContentProps) {
@@ -25,7 +51,7 @@ function UserContent(props: UserContentProps) {
         onClick={() => setShowContent(true)}
         title={showContent ? "" : "Click to reveal"}
       >
-        {props.children}
+        {replaceEmoji(props.children)}
       </p>
     </Linkify>
   );

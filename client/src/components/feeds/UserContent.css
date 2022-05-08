@@ -22,3 +22,9 @@
 .PostRef:not(:hover) {
   text-decoration: none;
 }
+
+.UserContentEmoji {
+  line-height: 1em;
+  position: relative;
+  top: 0.1em;
+}

@@ -155,6 +155,11 @@ describe("Posts", () => {
       const res = await request(app).get("/posts").expect(200);
       expect(res.body[0].reactions[0].length).toBe(1);
       expect(res.body[0].reactions[0][0].name).toBeUndefined();
+      expect(res.body[0].reactions[0][0]).toBe("anon");
+
+      const res2 = await request(app).get("/posts").send({ user }).expect(200);
+      expect(res2.body[0].reactions[0].length).toBe(1);
+      expect(res2.body[0].reactions[0][0]).toBe(String(user._id));
     });
 
     it("should not include sensitive information of users", async () => {
@@ -1185,107 +1190,6 @@ describe("Posts", () => {
       expect(res.body[0].approvedBy).toBeUndefined();
       expect(res.body[0].comments[0].author.name).toBe("Bob");
       expect(res.body[0].comments[0].author.email).toBeUndefined();
-    });
-  });
-
-  describe("GET /posts/:postNumber/reactions", () => {
-    it("should return 400 if postNumber is malformed", async () => {
-      await request(app).get("/posts/abc/reactions").expect(400);
-    });
-
-    it("should return 404 if the post does not exist", async () => {
-      await request(app).get("/posts/1/reactions").expect(404);
-    });
-
-    it("should return 200 with reactions if post exists", async () => {
-      const post = new Post({
-        content: "This is a test post",
-        approved: true,
-        postNumber: 1,
-        reactions: [[user._id], [], [], [], [], []],
-      });
-      await post.save();
-
-      const res = await request(app).get("/posts/1/reactions").expect(200);
-
-      expect(res.body[0].length).toBe(1);
-      expect(res.body[0][0]._id).toBe(user._id.toString());
-      expect(res.body[0][0].name).toBe("Bob");
-      expect(res.body[0][0].email).toBeUndefined();
-      expect(res.body[0][0].profilePicture).toBeUndefined();
-    });
-  });
-
-  describe("GET /posts/:postNumber/comments/:commentNumber/reactions", () => {
-    it("should return 400 if commentNumber is malformed", async () => {
-      await request(app).get("/posts/1/comments/abc/reactions").expect(400);
-    });
-
-    it("should return 404 if the comment does not exist", async () => {
-      await request(app).get("/posts/1/comments/1/reactions").expect(404);
-    });
-
-    it("should return 200 with reactions if comment exists", async () => {
-      const post = new Post({
-        content: "This is a test post",
-        approved: true,
-        postNumber: 1,
-      });
-      await post.save();
-
-      const post2 = new Post({
-        content: "This is a test post",
-        approved: true,
-        postNumber: 2,
-      });
-      await post2.save();
-
-      const comment = new Comment({
-        content: "This is a test comment",
-        commentNumber: 1,
-        post: post._id,
-        postNumber: 1,
-        author: user._id,
-        reactions: [[user._id], [], [], [], [], []],
-      });
-      await comment.save();
-
-      post.comments.push(comment);
-      await post.save();
-
-      const comment2 = new Comment({
-        content: "This is a test comment",
-        commentNumber: 1,
-        post: post2._id,
-        postNumber: 2,
-        author: user._id,
-        reactions: [[], [modUser._id], [], [], [], []],
-      });
-      await comment2.save();
-
-      post2.comments.push(comment2);
-      await post2.save();
-
-      const res = await request(app)
-        .get("/posts/1/comments/1/reactions")
-        .expect(200);
-
-      expect(res.body[0].length).toBe(1);
-      expect(res.body[0][0]._id).toBe(user._id.toString());
-      expect(res.body[0][0].name).toBe("Bob");
-      expect(res.body[0][0].email).toBeUndefined();
-      expect(res.body[0][0].profilePicture).toBeUndefined();
-
-      const res2 = await request(app)
-        .get("/posts/2/comments/1/reactions")
-        .expect(200);
-
-      expect(res2.body[0].length).toBe(0);
-      expect(res2.body[1].length).toBe(1);
-      expect(res2.body[1][0]._id).toBe(modUser._id.toString());
-      expect(res2.body[1][0].name).toBe("Mod");
-      expect(res2.body[1][0].email).toBeUndefined();
-      expect(res2.body[1][0].profilePicture).toBeUndefined();
     });
   });
 

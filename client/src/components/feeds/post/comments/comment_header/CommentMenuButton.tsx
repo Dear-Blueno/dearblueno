@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
-import IUser from "../../../../../types/IUser";
+import IUser, { IBasicUser } from "../../../../../types/IUser";
 import { IThread } from "../CommentSection";
 import { deleteComment } from "../../../../../gateways/PostGateway";
 import { findComment } from "../new_comment/NewCommentBox";
@@ -12,8 +12,8 @@ interface CommentMenuButtonProps {
   user?: IUser;
   commentNumber: number;
   postNumber: number;
-  commentUser?: IUser;
-  reported: Boolean;
+  commentUser?: IBasicUser;
+  reported: boolean;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
 }
 
@@ -48,19 +48,19 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   const [clicked, setClicked] = useState(false);
   // const [copied, setCopied] = useState(false);
 
-  const [showPopup, setshowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => {
-    setshowPopup(true);
+    setShowPopup(true);
     setClicked(false);
   };
 
-  const closePopup = () => setshowPopup(false);
+  const closePopup = () => setShowPopup(false);
 
-  const [showDeletePopup, setshowDeletePopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const openDeletePopup = () => {
-    setshowDeletePopup(true);
+    setShowDeletePopup(true);
   };
-  const closeDeletePopup = () => setshowDeletePopup(false);
+  const closeDeletePopup = () => setShowDeletePopup(false);
 
   let refDropdown = useRef<HTMLDivElement>(null);
 
@@ -87,20 +87,41 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         onDismiss={closePopup}
       >
         <DialogContent aria-label="Report Dialog">
-          <p>
-            <strong>REPORT REASON</strong>
+          <strong>Report Reason</strong>
+          <br />
+          <br />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+            }}
+          >
             {reportReasons.map((reason) => (
-              <div
-                className="ReportReason"
+              <button
                 key={reason}
+                className="PopupAction"
+                style={{ paddingBlock: "0.25em" }}
                 onClick={() => {
                   closePopup();
                 }}
+                tabIndex={-1}
               >
                 {reason}
-              </div>
+              </button>
             ))}
-          </p>
+          </div>
+          <br />
+          <button
+            className="PopupAction"
+            style={{ float: "right" }}
+            onClick={() => {
+              closePopup();
+            }}
+            tabIndex={-1}
+          >
+            Cancel
+          </button>
         </DialogContent>
       </DialogOverlay>
     </div>

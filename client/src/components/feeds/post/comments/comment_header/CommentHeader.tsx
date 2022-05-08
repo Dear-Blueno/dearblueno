@@ -1,15 +1,14 @@
 import "./CommentHeader.css";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
-import { formatDistanceToNowStrict } from "date-fns";
 import { BsCode } from "react-icons/bs";
-import IUser from "../../../../../types/IUser";
-import IBasicUser from "../../../../../types/IUser";
+import IUser, { IBasicUser } from "../../../../../types/IUser";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { getUser } from "../../../../../gateways/UserGateway";
 import ProfileHoverCard from "./ProfileHoverCard";
+import RelativeDate from "../../RelativeDate";
 
 type CommentHeaderProps = {
   user?: IUser;
@@ -22,36 +21,6 @@ type CommentHeaderProps = {
 };
 
 function CommentHeader(props: CommentHeaderProps) {
-  const formatDuration = (duration: string) => {
-    if (duration.includes(" seconds")) {
-      return duration.replace(" seconds", "s");
-    } else if (duration.includes(" second")) {
-      return duration.replace(" second", "s");
-    } else if (duration.includes(" minutes")) {
-      return duration.replace(" minutes", "m");
-    } else if (duration.includes(" minute")) {
-      return duration.replace(" minute", "m");
-    } else if (duration.includes(" hours")) {
-      return duration.replace(" hours", "h");
-    } else if (duration.includes(" hour")) {
-      return duration.replace(" hour", "h");
-    } else if (duration.includes(" days")) {
-      return duration.replace(" days", "d");
-    } else if (duration.includes(" day")) {
-      return duration.replace(" day", "d");
-    } else if (duration.includes(" months")) {
-      return duration.replace(" months", "mo");
-    } else if (duration.includes(" month")) {
-      return duration.replace(" month", "mo");
-    } else if (duration.includes(" years")) {
-      return duration.replace(" years", "y");
-    } else if (duration.includes(" year")) {
-      return duration.replace(" year", "y");
-    } else {
-      return duration;
-    }
-  };
-
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const [arrowElement, setArrowElement] = useState<any>(null);
@@ -96,7 +65,7 @@ function CommentHeader(props: CommentHeaderProps) {
     if (!hoverUser && props.comment.author) {
       const response = await getUser(props.comment.author._id);
       if (response.success && response.payload) {
-        setHoverUser(response.payload as IBasicUser);
+        setHoverUser(response.payload);
       }
     }
   };
@@ -168,9 +137,7 @@ function CommentHeader(props: CommentHeaderProps) {
       ) : null}
 
       <p className="CommentDate">
-        {formatDuration(
-          formatDistanceToNowStrict(new Date(props.comment.commentTime))
-        )}
+        <RelativeDate date={props.comment.commentTime} />
       </p>
 
       {props.collapsed && (

@@ -9,7 +9,7 @@ export default interface IComment {
   postNumber: number;
   content: string;
   author?: IUser;
-  commentTime: Date;
+  commentTime: string; // ISO-8601-formatted date
   approved: boolean;
   needsReview: boolean;
   reactions: any[][];

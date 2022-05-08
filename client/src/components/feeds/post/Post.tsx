@@ -1,6 +1,6 @@
 import "./Post.css";
 import ContentWarning from "./ContentWarning";
-import PostDate from "./content/PostDate";
+import RelativeDate from "./RelativeDate";
 import PostNumber from "./content/PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
@@ -75,15 +75,15 @@ function Post(props: PostProps) {
             <AiFillPushpin className="Pinned" title="Pinned Post" />
           )}
         </div>
-        <PostDate
-          value={
-            new Date(
+        <div className="PostDate">
+          <RelativeDate
+            date={
               props.post.needsReview
                 ? props.post.postTime
                 : props.post.approvedTime
-            )
-          }
-        />
+            }
+          />
+        </div>
       </div>
       <div className="PostBody">
         <UserContent showContent={!props.post.contentWarning}>

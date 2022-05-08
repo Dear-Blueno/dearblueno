@@ -36,8 +36,8 @@ export default function CommentContext(props: CommentContextProps) {
           </div>
           <div className="CommentContextReplyText">
             <UserContent showContent={true}>
-              {props.thread.parentComment.content.substring(0, 10)}
-              {props.thread.parentComment.content.length > 10 ? "…" : ""}
+              {props.thread.parentComment.content.substring(0, 10) +
+                (props.thread.parentComment.content.length > 10 ? "…" : "")}
             </UserContent>
           </div>
         </>
