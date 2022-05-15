@@ -44,15 +44,6 @@ function MainRoutes() {
 
   return (
     <div className="ColumnsContainer">
-      {/* <Header
-        user={user}
-        moderatorView={location.pathname === "/moderator"}
-        hidden={location.pathname === "/search"}
-        subtle={
-          location.pathname === "/submit" ||
-          location.pathname.startsWith("/profile")
-        }
-      /> */}
       <Sidebar />
 
       <Routes>
@@ -69,19 +60,31 @@ function MainRoutes() {
         <Route path="/post/:postNumber" element={<PostPage user={user} />} />
         <Route
           path="/profile/:profileUserID"
-          element={<ProfilePage user={user} />}
+          element={
+            <PageAndSidebar
+              title="Profile"
+              page={<ProfilePage user={user} />}
+            />
+          }
         />
-
         <Route
           path="/profile"
-          element={<ProfilePage user={user} profileUser={user} />}
+          element={
+            <PageAndSidebar
+              title="Profile"
+              page={<ProfilePage user={user} />}
+            />
+          }
         />
         <Route path="/submit" element={<SubmitPage user={user} />} />
         <Route
           path="/about"
           element={<PageAndSidebar page={<AboutPage user={user} />} />}
         />
-        <Route path="/search" element={<SearchPage />} />
+        <Route
+          path="/search"
+          element={<PageAndSidebar title="Search" page={<SearchPage />} />}
+        />
         <Route
           path="/moderator"
           element={

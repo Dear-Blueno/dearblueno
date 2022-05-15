@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 
 type ProfilePageProps = {
   user?: IUser;
-  profileUser?: IUser;
 };
 
 function ProfilePage(props: ProfilePageProps) {
+  const { user } = props;
   const { profileUserID } = useParams();
   const [profileUser, setProfileUser] = useState<IBasicUser>();
   const [profileUserStatus, setProfileUserStatus] =
@@ -29,8 +29,11 @@ function ProfilePage(props: ProfilePageProps) {
           setProfileUserStatus(response.message.toString() + " :(");
         }
       });
+    } else {
+      setProfileUser(user);
+      setProfileUserStatus("");
     }
-  }, [profileUserID]);
+  }, [profileUserID, user]);
 
   return (
     <div className="ProfilePage">
