@@ -15,6 +15,11 @@
   filter: blur(3px);
 }
 
+.UserContentHidden a {
+  pointer-events: none;
+  color: inherit;
+}
+
 .PostRef {
   color: inherit;
   font-weight: 550;
