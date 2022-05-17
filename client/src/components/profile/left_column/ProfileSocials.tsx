@@ -23,6 +23,10 @@ function ProfileSocials(props: ProfileSocialsProps) {
   ];
   const iconNames = ["Instagram", "Twitter", "Facebook", "LinkedIn"];
 
+  if (!props.editing && props.links.every((link) => !link)) {
+    return null;
+  }
+
   return (
     <div className="ProfileSocialsContainer">
       {props.editing ? (
