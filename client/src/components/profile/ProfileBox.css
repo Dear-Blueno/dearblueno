@@ -18,8 +18,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  flex: 1;
-  height: 100%;
 }
 
 .RightColumn {
@@ -50,6 +48,10 @@
     box-shadow: -0.2rem 0.2rem 0rem 0.03rem rgba(0, 0, 0, 1);
     flex-direction: row;
   }
+  .LeftColumn {
+    flex: 1;
+    height: 100%;
+  }
 }
 
 .ProfileButton {
@@ -76,14 +78,21 @@
 
 .ProfileComments {
   display: flex;
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 30rem;
   flex-direction: column;
   gap: 0.8rem;
-  padding-left: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-left: -0.3rem;
+  padding: 1rem;
+  margin: -1rem;
+  margin-bottom: -0.75rem;
+}
+
+@media only screen and (min-width: 46rem) {
+  .ProfileComments {
+    height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: -0.5rem;
+    margin-bottom: -1rem;
+  }
 }
 
 .ProfileCommentsHeader {
