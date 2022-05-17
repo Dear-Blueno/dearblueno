@@ -1,0 +1,43 @@
+.CheckboxListItem {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  gap: 0.4rem;
+}
+
+.CheckboxListItemInput {
+  border-radius: 0;
+  cursor: pointer;
+  background-color: transparent;
+  border: 2px solid black;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  display: grid;
+  place-content: center;
+}
+
+.CheckboxListItemInput::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  display: none;
+  background-color: CanvasText;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.CheckboxListItemInput:checked::before {
+  display: block;
+}
+
+.CheckboxListItemLabel {
+  cursor: pointer;
+  font-weight: 500;
+}

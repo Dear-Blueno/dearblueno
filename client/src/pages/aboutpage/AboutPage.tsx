@@ -40,7 +40,8 @@ function AboutPage(props: AboutPageProps) {
           <div className="Accordion">
             <Collapsible
               trigger=" Why isn't my comment showing up?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <p className="FAQAnswer">
@@ -56,7 +57,8 @@ function AboutPage(props: AboutPageProps) {
 
             <Collapsible
               trigger="Why isn't my post showing up?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <p className="FAQAnswer">
@@ -69,7 +71,8 @@ function AboutPage(props: AboutPageProps) {
             </Collapsible>
             <Collapsible
               trigger="Why are there different submit forms?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <div className="FAQAnswer">
@@ -91,7 +94,8 @@ function AboutPage(props: AboutPageProps) {
             </Collapsible>
             <Collapsible
               trigger="How do I submit an anonymous comment?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <p className="AnonAnswer">
@@ -104,7 +108,8 @@ function AboutPage(props: AboutPageProps) {
             </Collapsible>
             <Collapsible
               trigger="Is this related to the DB Facebook Group?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <p className="FAQAnswer">
@@ -118,7 +123,8 @@ function AboutPage(props: AboutPageProps) {
             </Collapsible>
             <Collapsible
               trigger="Who runs Dear Blueno?"
-              className="FAQQuestion"
+              triggerClassName="FAQQuestion"
+              triggerOpenedClassName="FAQQuestion"
               transitionTime={100}
             >
               <p className="FAQAnswer">¯\_(ツ)_/¯</p>

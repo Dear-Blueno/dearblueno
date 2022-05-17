@@ -1,0 +1,36 @@
+.DropdownTitle {
+  display: flex;
+  user-select: none;
+  font-size: 1.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 3rem;
+}
+
+.DropdownTitle {
+  cursor: pointer;
+}
+
+.DropdownTitle::after {
+  content: "›";
+  font-size: 2rem;
+  font-weight: 500;
+  transform: translateY(-0.1rem);
+  transition: transform 100ms;
+  -webkit-transform-origin: 50% 55%;
+  -moz-transform-origin: 50% 55%;
+  -o-transform-origin: 50% 55%;
+  transform-origin: 50% 55%;
+}
+
+.DropdownTitle.is-open::after {
+  transform: rotateZ(90deg);
+}
+
+.DropdownContent {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  gap: 0.4rem;
+}

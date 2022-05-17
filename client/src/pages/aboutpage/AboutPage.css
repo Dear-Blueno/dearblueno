@@ -24,31 +24,31 @@
   cursor: pointer;
 }
 
-.Collapsible__trigger {
-  padding-bottom: 0.5%;
-  font-weight: 600;
-  display: block;
-  position: relative;
-  padding-left: 2.5%;
+.FAQQuestion {
+  display: flex;
   user-select: none;
+  align-items: center;
+  gap: 0.3rem;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  font-weight: 500;
 }
 
-.Collapsible__trigger {
-  cursor: pointer;
-  display: block;
-}
-
-.Collapsible__trigger::after {
+.FAQQuestion::after {
   color: rgba(0, 0, 0, 1);
-  content: ">";
-  position: absolute;
-  right: 98.5%;
-  bottom: 18%;
-  display: block;
+  content: "›";
+  font-size: 1.5rem;
+  font-weight: 400;
+  transform: translateY(-0.1rem);
   transition: transform 100ms;
+  -webkit-transform-origin: 50% 55%;
+  -moz-transform-origin: 50% 55%;
+  -o-transform-origin: 50% 55%;
+  transform-origin: 50% 55%;
+  line-height: 1.3rem;
 }
 
-.Collapsible__trigger.is-open::after {
+.FAQQuestion.is-open::after {
   transform: rotateZ(90deg);
 }
 
