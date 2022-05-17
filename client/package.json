@@ -66,5 +66,9 @@
   "bugs": {
     "url": "https://github.com/dylanhu7/dearblueno/issues"
   },
-  "homepage": "https://dearblueno.net/"
+  "homepage": "https://dearblueno.net/",
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
+  }
 }
