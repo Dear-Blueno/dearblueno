@@ -39,6 +39,7 @@
   box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   cursor: pointer;
   background-color: white;
+  color: black;
   height: 3rem;
   font-size: 1rem;
 }

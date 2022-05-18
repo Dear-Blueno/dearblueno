@@ -72,9 +72,13 @@ function NewCommentBox(props: NewCommentBoxProps) {
             }
             return newComments;
           });
+          return true;
         }
+        return false;
       }
+      return false;
     }
+    return false;
   };
 
   return (

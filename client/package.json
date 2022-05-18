@@ -68,7 +68,8 @@
     "url": "https://github.com/dylanhu7/dearblueno/issues"
   },
   "homepage": "https://dearblueno.net/",
-  "devDependencies": {
-    "workbox-cli": "^6.5.1"
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }

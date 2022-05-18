@@ -5,8 +5,8 @@
   background-color: #ffffff;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-sizing: border-box;
-  min-height: 35rem;
-  max-height: 35rem;
+  /* min-height: 35rem; */
+  /* max-height: 35rem; */
 }
 
 .HomeButtonProfile {
@@ -19,7 +19,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  flex: 1;
 }
 
 .RightColumn {
@@ -48,6 +47,10 @@
     width: calc(100% - 0.4rem);
     box-shadow: -0.2rem 0.2rem 0 0 rgba(0, 0, 0, 1);
     flex-direction: row;
+  }
+  .LeftColumn {
+    flex: 1;
+    height: 100%;
   }
 }
 
@@ -79,13 +82,21 @@
 
 .ProfileComments {
   display: flex;
-  overflow-y: auto;
-  overflow-x: hidden;
   flex-direction: column;
   gap: 0.8rem;
-  padding-left: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-left: -0.3rem;
+  padding: 1rem;
+  margin: -1rem;
+  margin-bottom: -0.75rem;
+}
+
+@media only screen and (min-width: 46rem) {
+  .ProfileComments {
+    height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: -0.5rem;
+    margin-bottom: -1rem;
+  }
 }
 
 .ProfileCommentsHeader {

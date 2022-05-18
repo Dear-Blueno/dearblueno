@@ -12,6 +12,11 @@ interface ProfilePersonalInfoProps {
 function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
   const icons = [MdOutlineLocationOn, MdOutlineSchool, IoMdBook];
   const placeholders = ["Hometown", "Graduation Year", "Concentration"];
+
+  if (!props.editing && props.contents.every((content) => !content)) {
+    return null;
+  }
+
   return (
     <div>
       {props.editing ? (

@@ -83,7 +83,9 @@ function MainRoutes() {
         />
         <Route
           path="/search"
-          element={<PageAndSidebar title="Search" page={<SearchPage />} />}
+          element={
+            <PageAndSidebar title="Search" page={<SearchPage user={user} />} />
+          }
         />
         <Route
           path="/moderator"

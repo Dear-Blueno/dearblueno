@@ -124,7 +124,8 @@ function Post(props: PostProps) {
           comments={props.post.comments}
           contentWarning={props.post.contentWarning}
           postNumber={props.post.postNumber ?? 0}
-          showCommentBox={showCommentBox}
+          showTopLevelCommentBox={showCommentBox}
+          setShowTopLevelCommentBox={setShowCommentBox}
         />
       )}
     </div>

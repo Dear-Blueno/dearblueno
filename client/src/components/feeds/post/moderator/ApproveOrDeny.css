@@ -22,8 +22,10 @@
 
 .ApproveButton {
   background-color: #4caf50;
+  color: black;
 }
 
 .DenyButton {
   background-color: #f44336;
+  color: black;
 }
