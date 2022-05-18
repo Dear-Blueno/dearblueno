@@ -1,6 +1,7 @@
 .AnonymousToggleWrapper {
   flex-shrink: 1;
   min-width: 0;
+  color: black;
 }
 
 .AnonymousToggle {
