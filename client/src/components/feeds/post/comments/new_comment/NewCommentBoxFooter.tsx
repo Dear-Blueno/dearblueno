@@ -9,7 +9,7 @@ import { useIsMobile } from "hooks/is-mobile";
 
 type NewCommentBoxFooterProps = {
   user: IUser | undefined;
-  submit: () => void;
+  submit: () => Promise<boolean>;
   anonymous: boolean;
   anonymousToggle: () => void;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
@@ -29,6 +29,7 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
     } else {
       props.setShow(false);
     }
+    return new Promise<boolean>((resolve) => resolve(true));
   };
 
   const CancelPopUp = (
