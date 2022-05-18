@@ -1,7 +1,7 @@
-import "./Sidebar.css";
-
+import styles from "./Sidebar.module.scss";
 import LogoIcon from "images/logo512.png";
-import { Link, useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
+import Image from "next/image";
 import { useMemo } from "react";
 
 type SidebarItem = {
@@ -10,7 +10,7 @@ type SidebarItem = {
 };
 
 export default function Sidebar() {
-  const location = useLocation();
+  const router = useRouter();
   const sidebarItems: SidebarItem[] = useMemo(
     () => [
       {
@@ -42,23 +42,23 @@ export default function Sidebar() {
   );
 
   return (
-    <nav className="Sidebar">
-      <Link to="/">
-        <img className="SidebarLogo" src={LogoIcon} alt="Blueno" />
-      </Link>
-      <ul className="SidebarList">
+    <nav className={styles.Sidebar}>
+      <a href="/" className={styles.SidebarLogo}>
+        <Image src={LogoIcon} alt="Blueno" />
+      </a>
+      <ul className={styles.SidebarList}>
         {sidebarItems.map((item) => (
           <li
             key={item.path}
             className={
-              location.pathname === item.path
-                ? "SidebarListItem SidebarListItemActive"
-                : "SidebarListItem"
+              router.pathname === item.path
+                ? styles.SidebarListItem + " " + styles.SidebarListItemActive
+                : styles.SidebarListItem
             }
           >
-            <Link to={item.path} className="SidebarListItemLink">
+            <a href={item.path} className={styles.SidebarListItemLink}>
               {item.label}
-            </Link>
+            </a>
           </li>
         ))}
       </ul>
