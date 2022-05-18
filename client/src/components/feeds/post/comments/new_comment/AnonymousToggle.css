@@ -3,10 +3,6 @@
   min-width: 0;
 }
 
-.PostingTag {
-  color: black;
-}
-
 .AnonymousToggle {
   appearance: none;
   background: transparent;
@@ -18,6 +14,7 @@
   align-items: center;
   margin-top: 0.5rem;
   max-width: 100%;
+  color: black;
 }
 
 .AnonymousToggle-top {
