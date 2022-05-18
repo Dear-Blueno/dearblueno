@@ -5,8 +5,11 @@ import { searchPosts } from "gateways/PostGateway";
 import IPost from "types/IPost";
 import SearchFeed from "components/feeds/SearchFeed";
 import { getPost } from "gateways/PostGateway";
+import IUser from "types/IUser";
 
-type SearchPageProps = {};
+type SearchPageProps = {
+  user: IUser | undefined;
+};
 
 function SearchPage(props: SearchPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,8 +45,7 @@ function SearchPage(props: SearchPageProps) {
           }
         });
       }
-    }
-    else if (Number.isInteger(Number(searchQuery))) {
+    } else if (Number.isInteger(Number(searchQuery))) {
       // get that post
       getPost(Number(searchQuery)).then((response) => {
         if (response.success && response.payload) {
@@ -53,8 +55,7 @@ function SearchPage(props: SearchPageProps) {
           console.log(response.message);
         }
       });
-    }
-    else {
+    } else {
       setFoundAPost(false);
     }
   }, [searchQuery]);
@@ -62,8 +63,18 @@ function SearchPage(props: SearchPageProps) {
   return (
     <div className="SearchPage">
       <SearchHeaderCover setSearchQuery={setSearchQuery} />
-      {possiblePost && foundAPost && <SearchFeed results={[possiblePost]} hasResults={possiblePost && foundAPost}/>}
-      <SearchFeed results={results} hasResults={possiblePost && foundAPost}/>
+      {possiblePost && foundAPost && (
+        <SearchFeed
+          results={[possiblePost]}
+          hasResults={possiblePost && foundAPost}
+          user={props.user}
+        />
+      )}
+      <SearchFeed
+        results={results}
+        hasResults={possiblePost && foundAPost}
+        user={props.user}
+      />
     </div>
   );
 }

@@ -80,7 +80,7 @@ function MainRoutes() {
         />
         <Route path="/submit" element={<SubmitPage user={user} />} />
         <Route path="/about" element={<AboutPage user={user} />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage user={user} />} />
         <Route
           path="/moderator"
           element={
