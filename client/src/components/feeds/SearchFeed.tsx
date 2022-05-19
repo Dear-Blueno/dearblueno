@@ -1,4 +1,4 @@
-import "./SearchFeed.css";
+import styles from "./SearchFeed.module.scss";
 import { useState, useCallback } from "react";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
@@ -39,8 +39,8 @@ function SearchFeed(props: SearchFeedProps) {
           ))}
         </Feed>
       ) : (
-        <div className="NoResults">
-          <h1 className="NoResultsText">no results found</h1>
+        <div className={styles.NoResults}>
+          <h1 className={styles.NoResultsText}>no results found</h1>
         </div>
       )}
     </>

@@ -1,4 +1,4 @@
-import "./HeaderButton.css";
+import styles from "./HeaderButton.module.scss";
 import { IconType } from "react-icons/lib";
 
 interface HeaderButtonProps {
@@ -15,16 +15,19 @@ interface HeaderButtonProps {
 function HeaderButton(props: HeaderButtonProps) {
   return (
     <div
-      className="HeaderButton"
+      className={styles.HeaderButton}
       onClick={props.action}
-      style={{ opacity: props.opacity ?? 1 , animationDelay: props.delay ?? "0ms" }}
+      style={{
+        opacity: props.opacity ?? 1,
+        animationDelay: props.delay ?? "0ms",
+      }}
       ref={props.buttonRef}
     >
       {props.icon ? (
-        <props.icon className="HeaderButtonIcon" title={props.alt} />
+        <props.icon className={styles.HeaderButtonIcon} title={props.alt} />
       ) : (
         <img
-          className="HeaderButtonImage"
+          className={styles.HeaderButtonImage}
           alt={props.alt}
           src={props.image}
           draggable={false}

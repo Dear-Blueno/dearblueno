@@ -1,8 +1,7 @@
-import "./SearchHeaderCover.css";
+import styles from "./SearchHeaderCover.module.scss";
 import HeaderButton from "./HeaderButton";
 import { GrFormClose } from "react-icons/gr";
 import { useDebouncedCallback } from "use-debounce";
-import { Link } from "react-router-dom";
 
 type SearchHeaderCoverProps = {
   setSearchQuery: (searchQuery: string) => void;
@@ -17,9 +16,9 @@ function SearchHeaderCover(props: SearchHeaderCoverProps) {
   );
 
   return (
-    <div className="SearchHeaderCover">
+    <div className={styles.SearchHeaderCover}>
       <input
-        className="InputBox"
+        className={styles.InputBox}
         type="text"
         placeholder="Search here..."
         onChange={(e) => {
@@ -29,14 +28,14 @@ function SearchHeaderCover(props: SearchHeaderCoverProps) {
         }}
         autoFocus={true}
       />
-      <div className="CloseButton">
-        <Link to="/">
+      <div className={styles.CloseButton}>
+        <a href="/">
           <HeaderButton
             icon={GrFormClose}
             alt="Close Search"
             action={() => {}}
           />
-        </Link>
+        </a>
       </div>
     </div>
   );
