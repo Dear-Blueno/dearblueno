@@ -6,9 +6,6 @@
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   margin-top: 3rem;
-}
-
-.DropdownTitle {
   cursor: pointer;
 }
 
@@ -24,7 +21,7 @@
   transform-origin: 50% 55%;
 }
 
-.DropdownTitle.is-open::after {
+.is-open::after {
   transform: rotateZ(90deg);
 }
 

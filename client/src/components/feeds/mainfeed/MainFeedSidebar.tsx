@@ -40,8 +40,10 @@ export default function MainFeedSidebar(props: MainFeedSidebarProps) {
         <Collapsible
           trigger="Tags"
           triggerTagName="h3"
-          triggerClassName="DropdownTitle"
-          triggerOpenedClassName="DropdownTitle"
+          triggerClassName={styles.DropdownTitle}
+          triggerOpenedClassName={
+            styles["is-open"] + " " + styles.DropdownTitle
+          }
           transitionTime={100}
         >
           <div className={styles.DropdownContent}>
