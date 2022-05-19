@@ -21,7 +21,7 @@
   transform-origin: 50% 55%;
 }
 
-.is-open::after {
+.DropdownTitle.is-open::after {
   transform: rotateZ(90deg);
 }
 

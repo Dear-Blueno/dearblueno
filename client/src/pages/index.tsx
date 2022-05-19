@@ -30,21 +30,21 @@ function Home() {
   }, []);
 
   return (
-    <div className="App">
+    <>
       <Head>
         <title>Dear Blueno</title>
       </Head>
       <IsMobileProvider>
-        <div className="ColumnsContainer">
-          <Sidebar />
-          <PageAndSidebar
-            title="Home"
-            page={<MainFeed user={user} />}
-            sidebar={<MainFeedSidebar user={user} />}
-          />
-        </div>
+        {/* <div className="ColumnsContainer"> */}
+        {/* <Sidebar /> */}
+        <PageAndSidebar
+          title="Home"
+          page={<MainFeed user={user} />}
+          sidebar={<MainFeedSidebar user={user} />}
+        />
+        {/* </div> */}
       </IsMobileProvider>
-    </div>
+    </>
   );
 }
 
