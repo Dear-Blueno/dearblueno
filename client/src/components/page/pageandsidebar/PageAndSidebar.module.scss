@@ -1,4 +1,4 @@
-.PageAndSidebar-Sidebar {
+.Sidebar {
   display: flex;
   flex-direction: column;
   flex: 1 0 10%;
@@ -9,6 +9,6 @@
   height: calc(100vh - 1rem);
 }
 
-.PageAndSidebar-Page {
+.Page {
   flex: 0 0 auto;
 }

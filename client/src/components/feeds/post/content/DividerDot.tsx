@@ -1,8 +1,8 @@
-import "./DividerDot.css";
+import styles from "./DividerDot.module.scss";
 
 function DividerDot() {
   return (
-    <div className="DividerDot">
+    <div className={styles.DividerDot}>
       <p>•</p>
     </div>
   );

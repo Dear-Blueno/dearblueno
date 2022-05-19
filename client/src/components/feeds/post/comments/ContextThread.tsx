@@ -1,11 +1,10 @@
+import styles from "./ContextThread.module.scss";
 import IComment from "types/IComment";
 import IUser from "types/IUser";
 import { IThread } from "./CommentSection";
-import "./ContextThread.css";
 import Thread from "./Thread";
 import ApproveOrDeny from "../moderator/ApproveOrDeny";
 import { approveComment } from "gateways/PostGateway";
-import { Link } from "react-router-dom";
 import CommentContext from "./CommentContext";
 
 export type ContextThreadProps = {
@@ -18,12 +17,12 @@ export type ContextThreadProps = {
 
 function ContextThread(props: ContextThreadProps) {
   return (
-    <Link
-      className="ContextThreadLink"
-      to={props.moderatorView ? "" : "/post/" + props.thread.postNumber}
+    <a
+      className={styles.ContextThreadLink}
+      href={props.moderatorView ? "" : "/post/" + props.thread.postNumber}
     >
       <div
-        className="ContextThread"
+        className={styles.ContextThread}
         style={{ animationDelay: props.delay ?? "0" }}
       >
         <CommentContext thread={props.thread} showProfilePicture />
@@ -36,17 +35,17 @@ function ContextThread(props: ContextThreadProps) {
           contentWarning={props.thread.post.contentWarning}
         ></Thread>
         {props.moderatorView && (
-          <div className="ContextThreadModeratorLinkContainer">
-            <Link
-              className="ContextThreadModeratorLink"
-              to={"/post/" + props.thread.postNumber}
+          <div className={styles.ContextThreadModeratorLinkContainer}>
+            <a
+              className={styles.ContextThreadModeratorLink}
+              href={"/post/" + props.thread.postNumber}
             >
               Show full context
-            </Link>
+            </a>
           </div>
         )}
         {props.moderatorView && (
-          <div className="ApproveOrDenyContainer">
+          <div className={styles.ApproveOrDenyContainer}>
             <ApproveOrDeny
               type="comment"
               approve={async () => {
@@ -77,7 +76,7 @@ function ContextThread(props: ContextThreadProps) {
           </div>
         )}
       </div>
-    </Link>
+    </a>
   );
 }
 

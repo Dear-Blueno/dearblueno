@@ -1,4 +1,4 @@
-import "./ContentWarning.css";
+import styles from "./ContentWarning.module.scss";
 
 export type ContentWarningProps = {
   ContentWarningText: string;
@@ -6,7 +6,7 @@ export type ContentWarningProps = {
 
 function ContentWarning(props: ContentWarningProps) {
   return (
-    <div className="ContentWarning">
+    <div className={styles.ContentWarning}>
       <p>{props.ContentWarningText}</p>
     </div>
   );

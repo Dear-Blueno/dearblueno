@@ -1,8 +1,8 @@
+import styles from "./AnonymousToggle.module.scss";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import IUser from "../../../../../types/IUser";
-import "./AnonymousToggle.css";
 
 type AnonymousToggleProps = {
   user: IUser | undefined;
@@ -17,14 +17,14 @@ function AnonymousToggle(props: AnonymousToggleProps) {
   const closeAnonPopup = () => setShowAnonPopup(false);
 
   const className = props.top
-    ? "AnonymousToggle AnonymousToggle-top"
-    : "AnonymousToggle";
+    ? styles.AnonymousToggle + " " + styles["AnonymousToggle-top"]
+    : styles.AnonymousToggle;
 
   return (
-    <div className="AnonymousToggleWrapper">
+    <div className={styles.AnonymousToggleWrapper}>
       {props.anonymous ? (
         <button className={className} onClick={props.anonymousToggle}>
-          <AiOutlineEyeInvisible className="AnonymousIcon" />
+          <AiOutlineEyeInvisible className={styles.AnonymousIcon} />
           <small>
             Posting <strong>anonymously</strong>
           </small>
@@ -37,8 +37,8 @@ function AnonymousToggle(props: AnonymousToggleProps) {
             openAnonPopup();
           }}
         >
-          <AiOutlineEye className="AnonymousIcon" />
-          <small className="AnonymousDetail">
+          <AiOutlineEye className={styles.AnonymousIcon} />
+          <small className={styles.AnonymousDetail}>
             <span>
               Posting as <strong>{props.user?.name}</strong>
             </span>

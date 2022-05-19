@@ -1,4 +1,4 @@
-import "./Post.css";
+import styles from "./Post.module.scss";
 import ContentWarning from "./ContentWarning";
 import RelativeDate from "./RelativeDate";
 import PostNumber from "./content/PostNumber";
@@ -47,7 +47,7 @@ function Post(props: PostProps) {
 
   return (
     <div
-      className="Post"
+      className={styles.Post}
       style={{
         animationDelay: props.delay ?? "0",
         // animation: props.skipAnimation ? "none" : undefined,
@@ -55,8 +55,8 @@ function Post(props: PostProps) {
       }}
     >
       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
-      <div className="PostHeader">
-        <div className="NumberAndWarning">
+      <div className={styles.PostHeader}>
+        <div className={styles.NumberAndWarning}>
           <PostNumber
             number={props.post.postNumber}
             _id={props.post.needsReview ? props.post._id : undefined}
@@ -64,7 +64,7 @@ function Post(props: PostProps) {
           />
           {props.post.verifiedBrown ? (
             <RiShieldCheckFill
-              className="VerifiedBrown"
+              className={styles.VerifiedBrown}
               title="Verified Brown"
             />
           ) : null}
@@ -72,10 +72,10 @@ function Post(props: PostProps) {
             <ContentWarning ContentWarningText={props.post.contentWarning} />
           )}
           {props.post.pinned && (
-            <AiFillPushpin className="Pinned" title="Pinned Post" />
+            <AiFillPushpin className={styles.Pinned} title="Pinned Post" />
           )}
         </div>
-        <div className="PostDate">
+        <div className={styles.PostDate}>
           <RelativeDate
             date={
               props.post.needsReview
@@ -85,7 +85,7 @@ function Post(props: PostProps) {
           />
         </div>
       </div>
-      <div className="PostBody">
+      <div className={styles.PostBody}>
         <UserContent showContent={!props.post.contentWarning}>
           {props.post.content}
         </UserContent>
@@ -101,7 +101,7 @@ function Post(props: PostProps) {
           }}
         />
       ) : (
-        <div className="PostFooter">
+        <div className={styles.PostFooter}>
           <ReactionBar
             postNumber={props.post.postNumber ?? 0}
             commentNumber={undefined}

@@ -1,4 +1,4 @@
-import "./CommentSection.css";
+import styles from "./CommentSection.module.scss";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
@@ -109,7 +109,7 @@ function CommentSection(props: CommentSectionProps) {
   }, [props.comments]);
 
   return comments.length || props.showTopLevelCommentBox ? (
-    <div className="CommentSection">
+    <div className={styles.CommentSection}>
       {comments.map((comment, index) => (
         <Thread
           user={props.user}

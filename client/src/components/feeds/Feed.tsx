@@ -1,4 +1,4 @@
-import "./Feed.css";
+import styles from "./Feed.module.scss";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import IUser from "../../types/IUser";
 
@@ -49,11 +49,11 @@ function Feed(props: FeedProps) {
   }, [pageNumber, onScroll, props.getMore]);
 
   return (
-    <div className="Feed">
+    <div className={styles.Feed}>
       {props.children}
       {props.animated ? (
         <div
-          className="FeedLoading"
+          className={styles.FeedLoading}
           ref={loadingRef}
           style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
         >
@@ -62,9 +62,9 @@ function Feed(props: FeedProps) {
           ) : (
             <>
               Loading more posts
-              <span className="FeedLoadingDot">.</span>
-              <span className="FeedLoadingDot">.</span>
-              <span className="FeedLoadingDot">.</span>
+              <span className={styles.FeedLoadingDot}>.</span>
+              <span className={styles.FeedLoadingDot}>.</span>
+              <span className={styles.FeedLoadingDot}>.</span>
             </>
           )}
         </div>

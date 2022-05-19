@@ -1,6 +1,6 @@
+import styles from "./NewCommentBox.module.scss";
 import { commentOnPost } from "gateways/PostGateway";
 import IUser from "types/IUser";
-import "./NewCommentBox.css";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
 import { useState, useRef, useCallback } from "react";
 import { IThread } from "../CommentSection";
@@ -82,7 +82,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
   };
 
   return (
-    <div className="NewCommentBox">
+    <div className={styles.NewCommentBox}>
       {isMobile && (
         <AnonymousToggle
           user={props.user}
@@ -93,7 +93,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
       )}
       <textarea
         autoFocus
-        className="NewCommentTextArea"
+        className={styles.NewCommentTextArea}
         placeholder="Write a comment..."
         ref={textAreaRef}
       ></textarea>

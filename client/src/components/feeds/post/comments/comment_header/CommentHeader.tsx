@@ -1,9 +1,8 @@
-import "./CommentHeader.css";
+import styles from "./CommentHeader.module.scss";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { BsCode } from "react-icons/bs";
 import IUser, { IBasicUser } from "../../../../../types/IUser";
-import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { getUser } from "../../../../../gateways/UserGateway";
@@ -24,7 +23,7 @@ function CommentHeader(props: CommentHeaderProps) {
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const [arrowElement, setArrowElement] = useState<any>(null);
-  const { styles, attributes } = usePopper<any>(
+  const { styles: popperStyles, attributes } = usePopper<any>(
     referenceElement,
     popperElement,
     {
@@ -71,14 +70,14 @@ function CommentHeader(props: CommentHeaderProps) {
   };
 
   return (
-    <div className="CommentHeader">
+    <div className={styles.CommentHeader}>
       {props.comment.author ? (
-        <Link
-          to={`/profile/${props.comment.author?._id}`}
-          className="ProfileLink"
+        <a
+          href={`/profile/${props.comment.author?._id}`}
+          className={styles.ProfileLink}
         >
           <p
-            className="CommentAuthor"
+            className={styles.CommentAuthor}
             ref={setReferenceElement}
             onMouseEnter={() => {
               isHovering.current = true;
@@ -100,9 +99,9 @@ function CommentHeader(props: CommentHeaderProps) {
           >
             {props.comment.author.name}
           </p>
-        </Link>
+        </a>
       ) : (
-        <p className="CommentAuthor">
+        <p className={styles.CommentAuthor}>
           {props.comment.content === "[deleted]" ? "[deleted]" : "Anonymous"}
         </p>
       )}
@@ -110,14 +109,14 @@ function CommentHeader(props: CommentHeaderProps) {
         <div
           className="PopperContainer"
           ref={setPopperElement}
-          style={styles.popper}
+          style={popperStyles.popper}
           role="tooltip"
           {...attributes.popper}
         >
           <div
             className="DropdownArrow"
             ref={setArrowElement}
-            style={styles.arrow}
+            style={popperStyles.arrow}
           />
           <ProfileHoverCard
             hoverUser={hoverUser}
@@ -133,15 +132,15 @@ function CommentHeader(props: CommentHeaderProps) {
       )}
 
       {props.comment.author?._id === "61f343cfa90eee523f25f222" ? (
-        <BsCode className="DevBadge" title="Verified Developer" />
+        <BsCode className={styles.DevBadge} title="Verified Developer" />
       ) : null}
 
-      <p className="CommentDate">
+      <p className={styles.CommentDate}>
         <RelativeDate date={props.comment.commentTime} />
       </p>
 
       {props.collapsed && (
-        <p className="ExpandThreadButton" onClick={props.expand}>
+        <p className={styles.ExpandThreadButton} onClick={props.expand}>
           expand
         </p>
       )}

@@ -1,4 +1,4 @@
-import "./LoginPopup.css";
+import styles from "./LoginPopup.module.scss";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { loginBrown } from "../../../gateways/AuthGateway";
 
@@ -16,21 +16,21 @@ function LoginPopup(props: LoginPopupProps) {
         onDismiss={props.closePopup}
       >
         <DialogContent aria-label="Login Popup">
-          <div className="LoginPopupContent">
+          <div className={styles.LoginPopupContent}>
             <strong>
-              You won't be able to interact with the site until you log in.
+              {"You won't be able to interact with the site until you log in."}
             </strong>
             <br />
             <div className="PopupButtons">
               <button
-                className="PopupAction"
+                className={styles.PopupAction}
                 onClick={props.closePopup}
                 tabIndex={-1}
               >
                 No Thanks
               </button>
               <button
-                className="PopupAction"
+                className={styles.PopupAction}
                 onClick={loginBrown}
                 tabIndex={-1}
               >

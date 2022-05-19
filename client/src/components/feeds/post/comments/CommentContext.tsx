@@ -1,4 +1,4 @@
-import "./CommentContext.css";
+import styles from "./CommentContext.module.scss";
 import UserContent from "components/feeds/UserContent";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import IComment from "types/IComment";
@@ -12,14 +12,14 @@ export default function CommentContext(props: CommentContextProps) {
   const isReply = props.thread.parentComment !== undefined;
 
   return (
-    <div className="CommentContext">
-      <div className="CommentContextConnectorContainer">
-        <div className="CommentContextConnector"></div>
+    <div className={styles.CommentContext}>
+      <div className={styles.CommentContextConnectorContainer}>
+        <div className={styles.CommentContextConnector}></div>
       </div>
       {isReply && (
         <>
           {props.showProfilePicture && (
-            <div className="CommentContextParentPicture">
+            <div className={styles.CommentContextParentPicture}>
               <CommentProfilePicture
                 link={
                   props.thread.parentComment.author
@@ -29,12 +29,12 @@ export default function CommentContext(props: CommentContextProps) {
               />
             </div>
           )}
-          <div className="CommentContextReplyAuthor">
+          <div className={styles.CommentContextReplyAuthor}>
             {props.thread.parentComment.author
               ? props.thread.parentComment.author.name
               : "Anonymous"}
           </div>
-          <div className="CommentContextReplyText">
+          <div className={styles.CommentContextReplyText}>
             <UserContent showContent={true}>
               {props.thread.parentComment.content.substring(0, 10) +
                 (props.thread.parentComment.content.length > 10 ? "…" : "")}
@@ -44,10 +44,10 @@ export default function CommentContext(props: CommentContextProps) {
       )}
       {!isReply && (
         <>
-          <div className="CommentContextPostNumber">
+          <div className={styles.CommentContextPostNumber}>
             #{props.thread.postNumber}
           </div>
-          <div className="CommentContextPostContent">
+          <div className={styles.CommentContextPostContent}>
             {(props.thread.post.content as string).substring(0, 70)}
             {(props.thread.post.content as string).length > 70 ? "…" : ""}
           </div>

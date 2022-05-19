@@ -1,7 +1,6 @@
-import "./ProfileHoverCard.css";
+import styles from "./ProfileHoverCard.module.scss";
 import React, { useState, useEffect } from "react";
 import { IBasicUser } from "../../../../../types/IUser";
-import { Link } from "react-router-dom";
 import {
   RiFacebookCircleLine,
   RiTwitterLine,
@@ -32,20 +31,23 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
 
   return (
     <div
-      className="ProfileHoverCard"
+      className={styles.ProfileHoverCard}
       onMouseEnter={props.enterAction}
       onMouseLeave={props.leaveAction}
     >
       <img
         src={props.hoverUser?.profilePicture}
         alt={props.hoverUser?.name}
-        className="HoverCardImage"
+        className={styles.HoverCardImage}
       />
-      <div className="HoverCardSideCol">
-        <Link to={`/profile/${props.hoverUser?._id}`} className="HoverCardName">
+      <div className={styles.HoverCardSideCol}>
+        <a
+          href={`/profile/${props.hoverUser?._id}`}
+          className={styles.HoverCardName}
+        >
           <p>{props.hoverUser?.name}</p>
-        </Link>
-        <div className="SocialBar">
+        </a>
+        <div className={styles.SocialBar}>
           {props.hoverUser?.instagram && (
             <a
               href={props.hoverUser?.instagram}
@@ -53,7 +55,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               rel="noopener noreferrer"
               className="SocialLink"
             >
-              <RiInstagramLine className="SocialIcon" />
+              <RiInstagramLine className={styles.SocialIcon} />
             </a>
           )}
           {props.hoverUser?.twitter && (
@@ -63,7 +65,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               rel="noopener noreferrer"
               className="SocialLink"
             >
-              <RiTwitterLine className="SocialIcon" />
+              <RiTwitterLine className={styles.SocialIcon} />
             </a>
           )}
           {props.hoverUser?.facebook && (
@@ -73,7 +75,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               rel="noopener noreferrer"
               className="SocialLink"
             >
-              <RiFacebookCircleLine className="SocialIcon" />
+              <RiFacebookCircleLine className={styles.SocialIcon} />
             </a>
           )}
           {props.hoverUser?.linkedin && (
@@ -83,7 +85,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               rel="noopener noreferrer"
               className="SocialLink"
             >
-              <RiLinkedinBoxLine className="SocialIcon" />
+              <RiLinkedinBoxLine className={styles.SocialIcon} />
             </a>
           )}
         </div>

@@ -1,4 +1,4 @@
-import "./CommentMenuButton.css";
+import styles from "./CommentMenuButton.module.scss";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
@@ -21,7 +21,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const [arrowElement, setArrowElement] = useState<any>(null);
-  const { styles, attributes } = usePopper<any>(
+  const { styles: popperStyles, attributes } = usePopper<any>(
     referenceElement,
     popperElement,
     {
@@ -135,12 +135,12 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
         onDismiss={closeDeletePopup}
       >
         <DialogContent aria-label="Delete Dialog">
-          <p className="DeleteBox">
+          <p className={styles.DeleteBox}>
             <p className="DeleteConfirmationText">
               <strong>ARE YOU SURE?</strong>
             </p>
             <br />
-            <div className="DeleteConfirmationOptions">
+            <div className={styles.DeleteConfirmationOptions}>
               <p onClick={closeDeletePopup} className="PopupAction">
                 No
               </p>
@@ -192,29 +192,29 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
 
   return (
     <div className="CommentMenuDropdown" ref={refDropdown}>
-      <div className="CommentMenuButton" ref={setReferenceElement}>
+      <div className={styles.CommentMenuButton} ref={setReferenceElement}>
         {popUp}
         {deletePopUp}
         <div
-          className="CommentMenuDropdownText"
+          className={styles.CommentMenuDropdownText}
           onClick={() => setClicked(!clicked)}
         >
           •••
         </div>
         {clicked && (
           <div
-            className="PopperContainer"
+            className={styles.PopperContainer}
             ref={setPopperElement}
-            style={styles.popper}
+            style={popperStyles.popper}
             role="tooltip"
             {...attributes.popper}
           >
             <div
-              className="DropdownArrow"
+              className={styles.DropdownArrow}
               ref={setArrowElement}
-              style={styles.arrow}
+              style={popperStyles.arrow}
             />
-            <div className="MenuDropdownActions">
+            <div className={styles.MenuDropdownActions}>
               {/* {!copied && ( */}
               <>
                 {props.user &&

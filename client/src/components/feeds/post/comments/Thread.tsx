@@ -1,4 +1,4 @@
-import "./Thread.css";
+import styles from "./Thread.module.scss";
 import ReactionBar from "components/feeds/post/reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
@@ -64,11 +64,11 @@ function Thread(props: ThreadProps) {
   return (
     <div className="Thread" key={props.comment.commentNumber}>
       {isMobile && props.depth > 4 && props.comment.parentComment.content && (
-        <div className="ThreadCommentContext">
+        <div className={styles.ThreadCommentContext}>
           <CommentContext thread={props.comment} />
         </div>
       )}
-      <div className="ThreadGrid">
+      <div className={styles.ThreadGrid}>
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
         />
@@ -89,14 +89,14 @@ function Thread(props: ThreadProps) {
           setComments={props.setComments}
         />
         {show && (
-          <div className="ThreadBody">
-            <div className="CommentBody">
+          <div className={styles.ThreadBody}>
+            <div className={styles.CommentBody}>
               <div className="CommentBodyTextAndFooter">
                 <UserContent showContent={!props.contentWarning}>
                   {props.comment.content}
                 </UserContent>
                 {!props.inContext && (
-                  <div className="CommentFooter">
+                  <div className={styles.CommentFooter}>
                     <ReactionBar
                       postNumber={props.comment.postNumber}
                       commentNumber={props.comment.commentNumber}

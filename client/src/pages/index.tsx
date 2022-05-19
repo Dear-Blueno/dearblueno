@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import "./App.css";
 import FeedPage from "./feedpage/FeedPage";
 import SubmitPage from "./submitpage/SubmitPage";
 import AboutPage from "./aboutpage/AboutPage";
@@ -15,19 +14,9 @@ import { IsMobileProvider } from "../hooks/is-mobile";
 import Sidebar from "components/page/sidebar/Sidebar";
 import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
 import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
+import Head from "next/head";
 
-function App() {
-  return (
-    <div className="App">
-      <IsMobileProvider>
-        <MainRoutes />
-        <div>Hello</div>
-      </IsMobileProvider>
-    </div>
-  );
-}
-
-function MainRoutes() {
+function Home() {
   // Auth/user state
   const [user, setUser] = useState<IUser>();
 
@@ -41,10 +30,27 @@ function MainRoutes() {
   }, []);
 
   return (
-    <div className="ColumnsContainer">
-      <Sidebar />
+    <div className="App">
+      <Head>
+        <title>Dear Blueno</title>
+      </Head>
+      <IsMobileProvider>
+        <div className="ColumnsContainer">
+          <Sidebar />
+          <PageAndSidebar
+            title="Home"
+            page={<MainFeed user={user} />}
+            sidebar={<MainFeedSidebar user={user} />}
+          />
+        </div>
+      </IsMobileProvider>
+    </div>
+  );
+}
 
-      {/* <Routes>
+function MainRoutes() {
+  return {
+    /* <Routes>
         <Route
           path="/"
           element={
@@ -94,9 +100,8 @@ function MainRoutes() {
           }
         />
         <Route path="*" element={<PageAndSidebar page={<NotFoundPage />} />} />
-      </Routes> */}
-    </div>
-  );
+      </Routes> */
+  };
 }
 
-export default App;
+export default Home;

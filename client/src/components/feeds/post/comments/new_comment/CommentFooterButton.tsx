@@ -1,4 +1,4 @@
-import "./CommentFooterButton.css";
+import styles from "./CommentFooterButton.module.scss";
 import { useState } from "react";
 
 type CommentFooterButtonProps = {
@@ -10,7 +10,7 @@ function CommentFooterButton(props: CommentFooterButtonProps) {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <div className="CommentFooterButton">
+    <div className={styles.CommentFooterButton}>
       <p
         className="CommentFooterButtonClickable"
         onClick={async () => {

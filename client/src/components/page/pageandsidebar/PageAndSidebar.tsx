@@ -1,5 +1,5 @@
 import Page from "../Page";
-import "./PageAndSidebar.css";
+import styles from "./PageAndSidebar.module.scss";
 
 interface PageAndSidebarProps {
   title?: string;
@@ -11,7 +11,7 @@ export default function PageAndSidebar(props: PageAndSidebarProps) {
   return (
     <>
       <Page title={props.title}>{props.page}</Page>
-      <div className="PageAndSidebar-Sidebar">{props.sidebar}</div>
+      <div className={styles.Sidebar}>{props.sidebar}</div>
     </>
   );
 }

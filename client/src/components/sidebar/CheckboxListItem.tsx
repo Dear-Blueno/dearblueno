@@ -1,4 +1,4 @@
-import "./CheckboxListItem.css";
+import styles from "./CheckboxListItem.module.scss";
 
 type CheckboxListItemProps = {
   label: string;
@@ -8,12 +8,12 @@ type CheckboxListItemProps = {
 
 export default function CheckboxListItem(props: CheckboxListItemProps) {
   return (
-    <label className="CheckboxListItem">
+    <label className={styles.CheckboxListItem}>
       <input
-        className="CheckboxListItemInput"
+        className={styles.CheckboxListItemInput}
         type="checkbox"
         checked={props.checked}
-        onChange={(e) => {
+        onChange={() => {
           props.onChange(!props.checked);
         }}
       />

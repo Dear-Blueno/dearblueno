@@ -1,4 +1,4 @@
-import "./RelativeDate.css";
+import styles from "./RelativeDate.module.scss";
 import {
   formatDistanceToNowStrict,
   differenceInMilliseconds,
@@ -60,7 +60,7 @@ function RelativeDate(props: RelativeDateProps) {
 
   return (
     <time
-      className="RelativeDate"
+      className={styles.RelativeDate}
       dateTime={props.date}
       title={date.toLocaleString()}
     >

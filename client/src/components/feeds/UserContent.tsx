@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Linkify from "linkify-react";
 import "linkify-plugin-ticket";
 
-import "./UserContent.css";
+import styles from "./UserContent.module.scss";
 import makeEmojiRegex from "emoji-regex";
 const emojiRegex = makeEmojiRegex();
 
@@ -24,7 +23,7 @@ function replaceEmoji(text: string): React.ReactChild[] {
       children.push(text.slice(lastIndex, index));
     }
     children.push(
-      <span className="UserContentEmoji" key={index}>
+      <span className={styles.UserContentEmoji} key={index}>
         {emoji}
       </span>
     );
@@ -47,7 +46,11 @@ function UserContent(props: UserContentProps) {
       }}
     >
       <p
-        className={"UserContent " + (!showContent ? "UserContentHidden" : "")}
+        className={
+          styles.UserContent +
+          " " +
+          (!showContent ? styles.UserContentHidden : "")
+        }
         onClick={() => setShowContent(true)}
         title={showContent ? "" : "Click to reveal"}
       >
@@ -72,9 +75,9 @@ function ContentLink(props: ContentLinkProps) {
       return <a href={props.href}>{props.children}</a>;
     case "ticket":
       return (
-        <Link to={`/post/${props.href.slice(1)}`} className="PostRef">
+        <a href={`/post/${props.href.slice(1)}`} className={styles.PostRef}>
           {props.children}
-        </Link>
+        </a>
       );
   }
 }

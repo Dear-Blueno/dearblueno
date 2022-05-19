@@ -1,4 +1,4 @@
-import "./ReactionBar.css";
+import styles from "./ReactionBar.module.scss";
 import ReactionButton from "./ReactionButton";
 import AngryIcon from "../../../../images/angry.svg";
 import AngryBWIcon from "../../../../images/angryBW.svg";
@@ -209,7 +209,7 @@ function ReactionBar(props: ReactionBarProps) {
 
   return (
     <div
-      className="ReactionBar"
+      className={styles.ReactionBar}
       onMouseOver={() => {
         if (!showReactText) {
           showAll();
@@ -230,7 +230,7 @@ function ReactionBar(props: ReactionBarProps) {
       <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       {showReactText && (
         <p
-          className="ReactText"
+          className={styles.ReactText}
           onClick={
             props.user
               ? () => {

@@ -1,4 +1,4 @@
-import "./NewCommentBoxFooter.css";
+import styles from "./NewCommentBoxFooter.module.scss";
 import CommentFooterButton from "./CommentFooterButton";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { useState } from "react";
@@ -39,13 +39,13 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
         isOpen={showCancelPopup}
       >
         <DialogContent aria-label="CancelConfirmationBox">
-          <p className="CancelConfirmationBox">
-            <p className="CancelConfirmationText">
+          <p className={styles.CancelConfirmationBox}>
+            <p className={styles.CancelConfirmationText}>
               <strong>ARE YOU SURE?</strong>
             </p>
             <br />
-            <div className="CancelConfirmationOptions">
-              <p onClick={closeCancelPopup} className="PopupAction">
+            <div className={styles.CancelConfirmationOptions}>
+              <p onClick={closeCancelPopup} className={styles.PopupAction}>
                 No
               </p>
               <p
@@ -53,7 +53,7 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
                   closeCancelPopup();
                   props.setShow(false);
                 }}
-                className="PopupAction"
+                className={styles.PopupAction}
               >
                 Yes
               </p>
@@ -67,7 +67,7 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
   return (
     <>
       {CancelPopUp}
-      <div className="NewCommentBoxFooter">
+      <div className={styles.NewCommentBoxFooter}>
         {!isMobile && (
           <>
             <AnonymousToggle

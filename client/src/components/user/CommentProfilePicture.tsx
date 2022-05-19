@@ -1,5 +1,6 @@
-import "./CommentProfilePicture.css";
+import styles from "./CommentProfilePicture.module.scss";
 import { MdPersonOutline } from "react-icons/md";
+import Image from "next/image";
 
 interface CommentProfilePictureProps {
   link?: string;
@@ -7,16 +8,19 @@ interface CommentProfilePictureProps {
 
 function CommentProfilePicture(props: CommentProfilePictureProps) {
   return (
-    <div className="CommentProfilePicture">
+    <div className={styles.CommentProfilePicture}>
       {props.link ? (
-        <img
-          className="CommentProfilePictureImage"
-          src={props.link}
-          alt=""
-          draggable={false}
-        />
+        <div className={styles.CommentProfilePictureImage}>
+          <Image
+            src={props.link}
+            alt=""
+            draggable={false}
+            width="100"
+            height="100%"
+          />
+        </div>
       ) : (
-        <MdPersonOutline className="CommentProfilePictureImage" />
+        <MdPersonOutline className={styles.CommentProfilePictureImage} />
       )}
     </div>
   );

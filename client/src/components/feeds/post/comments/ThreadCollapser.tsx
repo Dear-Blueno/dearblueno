@@ -1,4 +1,4 @@
-import "./ThreadCollapser.css";
+import styles from "./ThreadCollapser.module.scss";
 import { useRef } from "react";
 
 type ThreadCollapserProps = {
@@ -10,9 +10,9 @@ function ThreadCollapser(props: ThreadCollapserProps) {
   const line = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="ThreadCollapser">
+    <div className={styles.ThreadCollapser}>
       <div
-        className="ThreadCollapserClickable"
+        className={styles.ThreadCollapserClickable}
         onClick={() => props.collapse()}
         onMouseEnter={() =>
           line.current?.classList.add("ThreadCollapserLineHover")
@@ -22,7 +22,7 @@ function ThreadCollapser(props: ThreadCollapserProps) {
         }
       >
         <div
-          className="ThreadCollapserLine"
+          className={styles.ThreadCollapserLine}
           ref={line}
           style={{ backgroundColor: props.color }}
         ></div>

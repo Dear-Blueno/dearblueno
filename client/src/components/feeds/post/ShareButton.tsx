@@ -1,4 +1,4 @@
-import "./ShareButton.css";
+import styles from "./ShareButton.module.scss";
 import ReactTooltip from "react-tooltip";
 
 type ShareButtonProps = {
@@ -7,9 +7,9 @@ type ShareButtonProps = {
 
 function ShareButton(props: ShareButtonProps) {
   return (
-    <div className="ShareButton">
+    <div className={styles.ShareButton}>
       <p
-        className="ShareButton"
+        className={styles.ShareButton}
         data-tip
         data-for={"share" + props.postNumber}
         data-event="click"
@@ -21,7 +21,7 @@ function ShareButton(props: ShareButtonProps) {
         id={"share" + props.postNumber}
         place="top"
         effect="solid"
-        className="ShareTooltip"
+        className={styles.ShareTooltip}
         type="light"
         border={true}
         borderColor="black"
@@ -32,7 +32,7 @@ function ShareButton(props: ShareButtonProps) {
           setTimeout(ReactTooltip.hide, 1000);
         }}
       >
-        <div className="ShareButtonTextContainer">
+        <div className={styles.ShareButtonTextContainer}>
           Link copied to clipboard!
         </div>
       </ReactTooltip>

@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import styles from "./PostNumber.module.scss";
 import IPost from "types/IPost";
-import "./PostNumber.css";
 
 interface PostNumberProps {
   number?: number;
@@ -10,16 +9,16 @@ interface PostNumberProps {
 
 function PostNumber(props: PostNumberProps) {
   return (
-    <div className="PostNumber">
+    <div className={styles.PostNumber}>
       <h3>
         {props.number ? (
-          <Link
-            state={{ post: props.post }}
-            to={`/post/${props.number}`}
+          <a
+            // state={{ post: props.post }}
+            href={`/post/${props.number}`}
             style={{ color: "black", textDecoration: "none" }}
           >
             #{props.number}
-          </Link>
+          </a>
         ) : (
           "id: " + props._id
         )}

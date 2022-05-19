@@ -1,4 +1,4 @@
-import "./CommentButton.css";
+import styles from "./CommentButton.module.scss";
 
 type CommentButtonProps = {
   click: () => void;
@@ -7,7 +7,7 @@ type CommentButtonProps = {
 
 function CommentButton(props: CommentButtonProps) {
   return (
-    <div className="CommentButton">
+    <div className={styles.CommentButton}>
       <p onClick={props.click}>{props.type}</p>
     </div>
   );

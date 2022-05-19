@@ -1,4 +1,4 @@
-import "./MainFeedSidebar.css";
+import styles from "./MainFeedSidebar.module.scss";
 import IUser from "types/IUser";
 import Collapsible from "react-collapsible";
 import CheckboxListItem from "components/sidebar/CheckboxListItem";
@@ -44,7 +44,7 @@ export default function MainFeedSidebar(props: MainFeedSidebarProps) {
           triggerOpenedClassName="DropdownTitle"
           transitionTime={100}
         >
-          <div className="DropdownContent">
+          <div className={styles.DropdownContent}>
             {tags.map((tag, index) => (
               <CheckboxListItem
                 key={tagNames[index]}
