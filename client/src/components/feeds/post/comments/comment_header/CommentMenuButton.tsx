@@ -100,7 +100,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             {reportReasons.map((reason) => (
               <button
                 key={reason}
-                className="PopupAction"
+                className={styles.PopupAction}
                 style={{ paddingBlock: "0.25em" }}
                 onClick={() => {
                   closePopup();
@@ -113,7 +113,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
           </div>
           <br />
           <button
-            className="PopupAction"
+            className={styles.PopupAction}
             style={{ float: "right" }}
             onClick={() => {
               closePopup();
@@ -141,7 +141,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             </p>
             <br />
             <div className={styles.DeleteConfirmationOptions}>
-              <p onClick={closeDeletePopup} className="PopupAction">
+              <p onClick={closeDeletePopup} className={styles.PopupAction}>
                 No
               </p>
               <p
@@ -168,7 +168,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                     });
                   }
                 }}
-                className="PopupAction"
+                className={styles.PopupAction}
               >
                 Yes
               </p>
@@ -220,7 +220,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                 {props.user &&
                 props.commentUser &&
                 props.user._id === props.commentUser._id ? null : (
-                  <p className="MenuDropdownAction" onClick={openPopup}>
+                  <p className={styles.MenuDropdownAction} onClick={openPopup}>
                     report
                   </p>
                 )}
@@ -231,7 +231,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                 props.commentUser &&
                 props.user._id === props.commentUser._id ? (
                   <p
-                    className="MenuDropdownAction"
+                    className={styles.MenuDropdownAction}
                     onClick={() => {
                       openDeletePopup();
                     }}

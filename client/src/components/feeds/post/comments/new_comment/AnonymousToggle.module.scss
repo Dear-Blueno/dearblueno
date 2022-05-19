@@ -44,3 +44,25 @@
     max-width: 100%;
   }
 }
+
+.AnonymousConfirmationBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.PopupAction {
+  text-decoration: underline;
+  text-underline-offset: 0.1rem;
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+}
+
+.PopupAction:hover {
+  cursor: pointer;
+}

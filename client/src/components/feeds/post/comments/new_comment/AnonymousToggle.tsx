@@ -51,7 +51,7 @@ function AnonymousToggle(props: AnonymousToggleProps) {
           isOpen={showAnonPopup}
         >
           <DialogContent aria-label="AnonymousConfirmationBox">
-            <div className="AnonymousConfirmationBox">
+            <div className={styles.AnonymousConfirmationBox}>
               <strong>THIS IS ANONYMOUS</strong>
               <br />
               <p className="AnonymousConfirmationText">
@@ -61,7 +61,7 @@ function AnonymousToggle(props: AnonymousToggleProps) {
                 also will not be able to delete this comment if it is published.
               </p>
               <br />
-              <p onClick={closeAnonPopup} className="PopupAction">
+              <p onClick={closeAnonPopup} className={styles.PopupAction}>
                 I UNDERSTAND
               </p>
             </div>

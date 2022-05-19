@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 import { loadAuth } from "gateways/AuthGateway";
+import { useQuery } from "react-query";
 
 type ProfilePageProps = {
   user?: IUser;
@@ -18,18 +19,18 @@ export default function ProfilePage(props: ProfilePageProps) {
 }
 
 function ProfilePageMain(props: ProfilePageProps) {
-  // Auth/user state
-  const [user, setUser] = useState<IUser>();
-  // Fetch user
-  useEffect(() => {
+  const {
+    isLoading,
+    error,
+    data: user,
+  } = useQuery("user", () =>
     loadAuth().then((response) => {
       if (response.success && response.payload) {
-        setUser(response.payload);
+        return response.payload;
       }
-    });
-  }, []);
+    })
+  );
 
-  //   const { user } = props;
   const router = useRouter();
   const profileUserID = router.query.id as string;
   const [profileUser, setProfileUser] = useState<IBasicUser>();
