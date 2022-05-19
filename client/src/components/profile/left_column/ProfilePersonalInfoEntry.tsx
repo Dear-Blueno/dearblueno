@@ -1,5 +1,5 @@
+import styles from "./ProfilePersonalInfoEntry.module.scss";
 import { IconType } from "react-icons/lib";
-import "./ProfilePersonalInfoEntry.css";
 
 interface ProfilePersonalInfoEntryProps {
   content: string;
@@ -8,9 +8,9 @@ interface ProfilePersonalInfoEntryProps {
 
 function ProfilePersonalInfoEntry(props: ProfilePersonalInfoEntryProps) {
   return (
-    <div className="ProfilePersonalInfoEntry">
+    <div className={styles.ProfilePersonalInfoEntry}>
       {<props.icon className="ProfilePersonalInfoEntryIcon" size="1.2em" />}
-      <p className="ProfilePersonalInfoEntryContent">{props.content}</p>
+      <p className={styles.ProfilePersonalInfoEntryContent}>{props.content}</p>
     </div>
   );
 }

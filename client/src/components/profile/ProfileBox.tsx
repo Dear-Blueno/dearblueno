@@ -1,4 +1,4 @@
-import "./ProfileBox.css";
+import styles from "./ProfileBox.module.scss";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
@@ -147,8 +147,8 @@ function ProfileBox(props: ProfileBoxProps) {
 
   return (
     <>
-      <div className="ProfileBox">
-        <div className="LeftColumn">
+      <div className={styles.ProfileBox}>
+        <div className={styles.LeftColumn}>
           <ProfilePicture
             link={props.profileUser ? props.profileUser.profilePicture : ""}
           ></ProfilePicture>
@@ -181,14 +181,14 @@ function ProfileBox(props: ProfileBoxProps) {
             editing={editing}
           />
           {editing && (
-            <div className="SaveAndCancelButtons">
+            <div className={styles.SaveAndCancelButtons}>
               <ProfileSaveButton click={handleProfileEdit} />
               <ProfileCancelButton click={() => setEditing(false)} />
             </div>
           )}
         </div>
-        <div className="RightColumn">
-          <div className="ProfileComments">
+        <div className={styles.RightColumn}>
+          <div className={styles.ProfileComments}>
             {comments.length > 0 ? (
               comments.map((comment, index) => (
                 <ContextThread

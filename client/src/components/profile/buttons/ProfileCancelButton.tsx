@@ -1,4 +1,4 @@
-import "./ProfileCancelButton.css";
+import styles from "./ProfileCancelButton.module.scss";
 
 interface ProfileCancelButtonProps {
   click: () => void;
@@ -6,9 +6,9 @@ interface ProfileCancelButtonProps {
 
 function ProfileCancelButton(props: ProfileCancelButtonProps) {
   return (
-    <div className="ProfileCancelButtonContainer">
+    <div className={styles.ProfileCancelButtonContainer}>
       <button
-        className="ProfileButton ProfileCancelButton"
+        className={styles.ProfileButton + " " + styles.ProfileCancelButton}
         onClick={props.click}
       >
         Cancel

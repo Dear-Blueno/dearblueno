@@ -1,4 +1,4 @@
-import "./ProfileEditButton.css";
+import styles from "./ProfileEditButton.module.scss";
 
 interface ProfileEditButtonProps {
   click: () => void;
@@ -6,8 +6,11 @@ interface ProfileEditButtonProps {
 
 function ProfileEditButton(props: ProfileEditButtonProps) {
   return (
-    <div className="ProfileEditButtonContainer">
-      <button className="ProfileButton ProfileEditButton" onClick={props.click}>
+    <div className={styles.ProfileEditButtonContainer}>
+      <button
+        className={styles.ProfileButton + " " + styles.ProfileEditButton}
+        onClick={props.click}
+      >
         Edit Profile
       </button>
     </div>

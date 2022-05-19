@@ -1,4 +1,4 @@
-import "./ProfileBio.css";
+import styles from "./ProfileBio.module.scss";
 import UserContent from "../../feeds/UserContent";
 
 interface ProfileBioProps {
@@ -13,14 +13,14 @@ function ProfileBio(props: ProfileBioProps) {
   }
 
   return (
-    <div className="ProfileBio">
+    <div className={styles.ProfileBio}>
       {props.editing ? (
         <div className="ProfileBioEditing">
-          <div className="ProfileBioEditingHeader">Bio</div>
+          <div className={styles.ProfileBioEditingHeader}>Bio</div>
 
           <textarea
             ref={props.bioRef}
-            className="ProfileBioTextArea"
+            className={styles.ProfileBioTextArea}
             defaultValue={props.bio}
           ></textarea>
         </div>

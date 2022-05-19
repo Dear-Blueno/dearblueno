@@ -1,4 +1,4 @@
-import "./ProfileSocials.css";
+import styles from "./ProfileSocials.module.scss";
 import SocialButton from "./SocialButton";
 import {
   RiFacebookCircleLine,
@@ -30,11 +30,11 @@ function ProfileSocials(props: ProfileSocialsProps) {
   return (
     <div className="ProfileSocialsContainer">
       {props.editing ? (
-        <div className="ProfileSocialsEditing">
-          <div className="ProfileSocialsEditingHeader">Socials</div>
+        <div className={styles.ProfileSocialsEditing}>
+          <div className={styles.ProfileSocialsEditingHeader}>Socials</div>
           {props.links.map((link, index) => {
             return (
-              <div className="ProfileSocialsEditingEntry" key={index}>
+              <div className={styles.ProfileSocialsEditingEntry} key={index}>
                 {icons[index]({
                   className: "ProfileSocialsIcon",
                   size: "1.2em",
@@ -42,7 +42,7 @@ function ProfileSocials(props: ProfileSocialsProps) {
                 <input
                   type={"text"}
                   ref={props.refs[index]}
-                  className="SocialInput"
+                  className={styles.SocialInput}
                   defaultValue={link}
                   placeholder={iconNames[index]}
                 ></input>
@@ -51,7 +51,7 @@ function ProfileSocials(props: ProfileSocialsProps) {
           })}
         </div>
       ) : (
-        <div className="ProfileSocials">
+        <div className={styles.ProfileSocials}>
           {props.links.map((link, index) => {
             return link ? (
               <SocialButton key={index} link={link} icon={icons[index]} />

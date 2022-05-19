@@ -1,4 +1,4 @@
-import "./ProfilePicture.css";
+import styles from "./ProfilePicture.module.scss";
 
 interface ProfilePictureProps {
   link: string;
@@ -6,9 +6,9 @@ interface ProfilePictureProps {
 
 function ProfilePicture(props: ProfilePictureProps) {
   return (
-    <div className="ProfilePicture">
+    <div className={styles.ProfilePicture}>
       <img
-        className="ProfilePictureImage"
+        className={styles.ProfilePictureImage}
         src={props.link}
         alt=""
         draggable={false}

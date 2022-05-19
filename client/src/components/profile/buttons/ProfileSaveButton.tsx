@@ -1,4 +1,4 @@
-import "./ProfileSaveButton.css";
+import styles from "./ProfileSaveButton.module.scss";
 
 interface ProfileSaveButtonProps {
   click: () => void;
@@ -6,8 +6,11 @@ interface ProfileSaveButtonProps {
 
 function ProfileSaveButton(props: ProfileSaveButtonProps) {
   return (
-    <div className="ProfileSaveButtonContainer">
-      <button className="ProfileButton ProfileSaveButton" onClick={props.click}>
+    <div className={styles.ProfileSaveButtonContainer}>
+      <button
+        className={styles.ProfileButton + " " + styles.ProfileSaveButton}
+        onClick={props.click}
+      >
         Save
       </button>
     </div>

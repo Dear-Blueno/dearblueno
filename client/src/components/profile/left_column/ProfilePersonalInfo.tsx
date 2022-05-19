@@ -1,4 +1,4 @@
-import "./ProfilePersonalInfo.css";
+import styles from "./ProfilePersonalInfo.module.scss";
 import { MdOutlineSchool, MdOutlineLocationOn } from "react-icons/md";
 import { IoMdBook } from "react-icons/io";
 import ProfilePersonalInfoEntry from "./ProfilePersonalInfoEntry";
@@ -20,13 +20,13 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
   return (
     <div>
       {props.editing ? (
-        <div className="ProfilePersonalInfoEditing">
-          <div className="ProfilePersonalInfoEditingHeader">
+        <div className={styles.ProfilePersonalInfoEditing}>
+          <div className={styles.ProfilePersonalInfoEditingHeader}>
             Personal Information
           </div>
           {props.contents.map((content, index) => {
             return (
-              <div className="ProfilePersonalInfoEditingEntry" key={index}>
+              <div className={styles.ProfilePersonalInfoEditingEntry} key={index}>
                 {icons[index]({
                   className: "PersonalInfoIcon",
                   size: "1.2em",
@@ -34,7 +34,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
                 <input
                   type={"text"}
                   ref={props.refs[index]}
-                  className="PersonalInfoInput"
+                  className={styles.PersonalInfoInput}
                   defaultValue={content}
                   placeholder={placeholders[index]}
                 ></input>
@@ -43,7 +43,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
           })}
         </div>
       ) : (
-        <div className="ProfilePersonalInfo">
+        <div className={styles.ProfilePersonalInfo}>
           {props.contents.map((content, index) => {
             return content ? (
               <ProfilePersonalInfoEntry
