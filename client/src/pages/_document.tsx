@@ -58,7 +58,7 @@ class MyDocument extends Document {
           />
           <meta name="twitter:image" content="%PUBLIC_URL%/header.png" />
           <script>
-            navigator.serviceWorker.register("%PUBLIC_URL%/sw.js");
+            {/* navigator.serviceWorker.register("%PUBLIC_URL%/sw.js"); */}
           </script>
         </Head>
 

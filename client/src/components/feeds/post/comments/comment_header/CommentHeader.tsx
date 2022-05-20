@@ -107,14 +107,14 @@ function CommentHeader(props: CommentHeaderProps) {
       )}
       {hoverUser && showCard && (
         <div
-          className="PopperContainer"
+          className={styles.PopperContainer}
           ref={setPopperElement}
           style={popperStyles.popper}
           role="tooltip"
           {...attributes.popper}
         >
           <div
-            className="DropdownArrow"
+            className={styles.DropdownArrow}
             ref={setArrowElement}
             style={popperStyles.arrow}
           />

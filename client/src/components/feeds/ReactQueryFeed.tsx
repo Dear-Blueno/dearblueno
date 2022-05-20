@@ -46,10 +46,6 @@ function Feed(props: FeedProps) {
   }, []);
 
   useEffect(() => {
-    console.log("chagned");
-  }, [getMore]);
-
-  useEffect(() => {
     const loadMore = async () => {
       const response = await getMore();
       if (response) {
