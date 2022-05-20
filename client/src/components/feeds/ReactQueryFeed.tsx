@@ -12,11 +12,13 @@ type FeedProps = {
     options?: FetchNextPageOptions | undefined
   ) => Promise<InfiniteQueryObserverResult<IResponse<IPost[]>, unknown>>;
   animated: boolean;
+  status: "idle" | "loading" | "error" | "success";
+  hasNextPage: boolean | undefined;
+  isFetching: boolean | undefined;
 };
 
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
-  const [isLoading, setLoading] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
 
@@ -37,9 +39,7 @@ function Feed(props: FeedProps) {
 
   useEffect(() => {
     const loadMore = async () => {
-      setLoading(true);
       const response = await props.getMore();
-      setLoading(false);
       if (response) {
         window.addEventListener("scroll", onScroll);
       } else {
@@ -52,27 +52,35 @@ function Feed(props: FeedProps) {
     };
   }, [pageNumber, onScroll, props.getMore]);
 
+  const loadingDiv = () => (
+    <div
+      className={styles.FeedLoading}
+      ref={loadingRef}
+      style={{
+        opacity: !(props.status === "loading" || props.isFetching || reachedEnd)
+          ? 0
+          : 1,
+      }}
+    >
+      {reachedEnd ? (
+        "You’ve reached the end! Here be dragons."
+      ) : (
+        <>
+          Loading more posts
+          <span className={styles.FeedLoadingDot}>.</span>
+          <span className={styles.FeedLoadingDot}>.</span>
+          <span className={styles.FeedLoadingDot}>.</span>
+        </>
+      )}
+    </div>
+  );
+
   return (
     <div className={styles.Feed}>
-      {props.children}
-      {props.animated ? (
-        <div
-          className={styles.FeedLoading}
-          ref={loadingRef}
-          style={{ opacity: isLoading || reachedEnd ? 1 : 0 }}
-        >
-          {reachedEnd ? (
-            "You’ve reached the end! Here be dragons."
-          ) : (
-            <>
-              Loading more posts
-              <span className={styles.FeedLoadingDot}>.</span>
-              <span className={styles.FeedLoadingDot}>.</span>
-              <span className={styles.FeedLoadingDot}>.</span>
-            </>
-          )}
-        </div>
-      ) : null}
+      <>
+        {props.children}
+        {props.animated && loadingDiv()}
+      </>
     </div>
   );
 }

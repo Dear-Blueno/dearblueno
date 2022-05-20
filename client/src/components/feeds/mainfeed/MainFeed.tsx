@@ -23,18 +23,25 @@ function MainFeed(props: MainFeedProps) {
     getNextPageParam: (lastPage, pages) => pages.length + 1,
   });
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (status === "error") {
-    return <div>Error: could not fetch posts </div>;
-  }
+  // if (status === "error") {
+  //   return <div>Error: could not fetch posts </div>;
+  // }
 
   const posts = data?.pages.map((page) => page.payload).flat();
 
   return (
-    <Feed user={props.user} getMore={fetchNextPage} animated>
+    <Feed
+      user={props.user}
+      getMore={fetchNextPage}
+      status={status}
+      isFetching={isFetching}
+      hasNextPage={hasNextPage}
+      animated
+    >
       {posts?.map(
         (post) => post && <Post key={post?._id} post={post} user={props.user} />
       )}
