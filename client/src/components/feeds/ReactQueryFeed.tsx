@@ -1,5 +1,11 @@
 import styles from "./Feed.module.scss";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import IUser from "../../types/IUser";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import { IResponse } from "gateways/GatewayResponses";
@@ -18,13 +24,15 @@ type FeedProps = {
 };
 
 function Feed(props: FeedProps) {
+  const { user, children, getMore, animated, status, hasNextPage, isFetching } =
+    props;
   const [pageNumber, setPageNumber] = useState(1);
   const [reachedEnd, setReachedEnd] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPageNumber(1);
-  }, [props.getMore]);
+  }, [getMore]);
 
   // scroll action
   const onScroll = useCallback(() => {
@@ -38,8 +46,12 @@ function Feed(props: FeedProps) {
   }, []);
 
   useEffect(() => {
+    console.log("chagned");
+  }, [getMore]);
+
+  useEffect(() => {
     const loadMore = async () => {
-      const response = await props.getMore();
+      const response = await getMore();
       if (response) {
         window.addEventListener("scroll", onScroll);
       } else {
@@ -50,36 +62,37 @@ function Feed(props: FeedProps) {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [pageNumber, onScroll, props.getMore]);
+  }, [pageNumber, onScroll, getMore]);
 
-  const loadingDiv = () => (
-    <div
-      className={styles.FeedLoading}
-      ref={loadingRef}
-      style={{
-        opacity: !(props.status === "loading" || props.isFetching || reachedEnd)
-          ? 0
-          : 1,
-      }}
-    >
-      {reachedEnd ? (
-        "You’ve reached the end! Here be dragons."
-      ) : (
-        <>
-          Loading more posts
-          <span className={styles.FeedLoadingDot}>.</span>
-          <span className={styles.FeedLoadingDot}>.</span>
-          <span className={styles.FeedLoadingDot}>.</span>
-        </>
-      )}
-    </div>
+  const loadingDiv = useMemo(
+    () => (
+      <div
+        className={styles.FeedLoading}
+        ref={loadingRef}
+        style={{
+          opacity: !(status === "loading" || isFetching || reachedEnd) ? 0 : 1,
+        }}
+      >
+        {reachedEnd ? (
+          "You’ve reached the end! Here be dragons."
+        ) : (
+          <>
+            Loading more posts
+            <span className={styles.FeedLoadingDot}>.</span>
+            <span className={styles.FeedLoadingDot}>.</span>
+            <span className={styles.FeedLoadingDot}>.</span>
+          </>
+        )}
+      </div>
+    ),
+    [status, isFetching, reachedEnd]
   );
 
   return (
     <div className={styles.Feed}>
       <>
-        {props.children}
-        {props.animated && loadingDiv()}
+        {children}
+        {animated && loadingDiv}
       </>
     </div>
   );
