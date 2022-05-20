@@ -1,45 +1,43 @@
-import { useState, useCallback } from "react";
-import { getPosts } from "../../../gateways/PostGateway";
-import IPost from "../../../types/IPost";
-import IUser from "../../../types/IUser";
-import Feed from "../Feed";
-import Post from "../post/Post";
+import { getPosts } from "gateways/PostGateway";
+import IUser from "types/IUser";
+import Feed from "components/feeds/ReactQueryFeed";
+import Post from "components/feeds/post/Post";
+import { useInfiniteQuery } from "react-query";
 
 type MainFeedProps = {
   user?: IUser;
 };
 
 function MainFeed(props: MainFeedProps) {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  const fetchPosts = ({ pageParam = 1 }) => getPosts(pageParam);
 
-  const getMore = useCallback(
-    async (nextPageNumber: number): Promise<boolean> => {
-      setPageNumber(nextPageNumber);
-      const response = await getPosts(nextPageNumber);
-      if (response.success && response.payload) {
-        if (response.payload.length > 0) {
-          setPosts((p) => [...p, ...(response.payload as IPost[])]);
-          return true;
-        }
-      } else {
-        console.log(response.message);
-      }
-      return false;
-    },
-    []
-  );
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery("projects", fetchPosts, {
+    getNextPageParam: (lastPage, pages) => pages.length + 1,
+  });
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "error") {
+    return <div>Error: could not fetch posts </div>;
+  }
+
+  const posts = data?.pages.map((page) => page.payload).flat();
 
   return (
-    <Feed user={props.user} getMore={getMore} animated={true}>
-      {posts.map((post, index) => (
-        <Post
-          key={post._id}
-          post={post}
-          user={props.user}
-          delay={(index - 10 * (pageNumber - 1)) * 80 + "ms"}
-        />
-      ))}
+    <Feed user={props.user} getMore={fetchNextPage} animated>
+      {posts?.map(
+        (post) => post && <Post key={post?._id} post={post} user={props.user} />
+      )}
     </Feed>
   );
 }
