@@ -5,7 +5,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 
 type AboutPageProps = {
-  user: IUser | undefined;
+  user?: IUser;
 };
 
 export default function AboutPage(props: AboutPageProps) {
@@ -18,10 +18,6 @@ function AboutPageMain(props: AboutPageProps) {
   return (
     <div className="AboutPage">
       <div className={styles.AboutPagePost}>
-        {/* <div className="AboutPagePostHeader"> */}
-        {/* <h1>About</h1> */}
-        {/* </div> */}
-        {/* <hr /> */}
         <div className={styles.AboutPageSection}>
           <h3 className="SectionHeader">COMMUNITY GUIDELINES</h3>
           <p>

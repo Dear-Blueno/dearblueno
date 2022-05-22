@@ -13,7 +13,7 @@ import NotFoundPage from "pages/notfoundpage/NotFoundPage";
 import ModeratorFeed from "./components/feeds/ModeratorFeed";
 import MainFeed from "./components/feeds/mainfeed/MainFeed";
 import { IsMobileProvider } from "./hooks/is-mobile";
-import Sidebar from "components/page/sidebar/Sidebar";
+import MainSidebar from "components/mainsidebar/MainSidebar";
 import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
 import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 
@@ -44,7 +44,7 @@ function MainRoutes() {
 
   return (
     <div className="ColumnsContainer">
-      <Sidebar />
+      <MainSidebar />
 
       <Routes>
         <Route

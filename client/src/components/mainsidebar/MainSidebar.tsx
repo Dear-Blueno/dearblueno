@@ -1,17 +1,17 @@
-import styles from "./Sidebar.module.scss";
+import styles from "./MainSidebar.module.scss";
 import LogoIcon from "images/logo512.png";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useMemo } from "react";
 
-type SidebarItem = {
+type MainSidebarItem = {
   path: string;
   label: string;
 };
 
-export default function Sidebar() {
+export default function MainSidebar() {
   const router = useRouter();
-  const sidebarItems: SidebarItem[] = useMemo(
+  const sidebarItems: MainSidebarItem[] = useMemo(
     () => [
       {
         path: "/",

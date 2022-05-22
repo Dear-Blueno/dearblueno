@@ -23,14 +23,6 @@ function MainFeed(props: MainFeedProps) {
     getNextPageParam: (lastPage, pages) => pages.length + 1,
   });
 
-  // if (status === "loading") {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (status === "error") {
-  //   return <div>Error: could not fetch posts </div>;
-  // }
-
   const posts = data?.pages.map((page) => page.payload).flat();
 
   return (

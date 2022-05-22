@@ -1,0 +1,10 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  width: 45rem;
+}
+
+.page::-webkit-scrollbar {
+  display: none;
+}

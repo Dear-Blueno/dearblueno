@@ -1,4 +1,4 @@
-import Page from "../Page";
+import Page from "components/page/Page";
 import styles from "./PageAndSidebar.module.scss";
 
 interface PageAndSidebarProps {
