@@ -53,13 +53,6 @@ function CommentHeader(props: CommentHeaderProps) {
   const inDropdown = useRef(false);
   const isCancelled = useRef(false);
 
-  // cleanup
-  useEffect(() => {
-    return () => {
-      isCancelled.current = true;
-    };
-  }, []);
-
   const getHoverUser = async () => {
     if (!hoverUser && props.comment.author) {
       const response = await getUser(props.comment.author._id);

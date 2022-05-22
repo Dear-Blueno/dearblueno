@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
-import IUser from "../types/IUser";
 import { loadAuth } from "../gateways/AuthGateway";
 import MainFeed from "../components/feeds/mainfeed/MainFeed";
 import { IsMobileProvider } from "../hooks/is-mobile";
-import Sidebar from "components/page/sidebar/Sidebar";
 import MainFeedSidebar from "components/feeds/mainfeed/MainFeedSidebar";
 import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 import Head from "next/head";
@@ -28,14 +25,11 @@ function HomePage() {
         <title>Dear Blueno</title>
       </Head>
       <IsMobileProvider>
-        {/* <div className="ColumnsContainer"> */}
-        {/* <Sidebar /> */}
         <PageAndSidebar
           title="Home"
           page={<MainFeed user={user} />}
           sidebar={<MainFeedSidebar user={user} />}
         />
-        {/* </div> */}
       </IsMobileProvider>
     </>
   );
