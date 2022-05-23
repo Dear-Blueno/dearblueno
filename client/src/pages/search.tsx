@@ -5,7 +5,7 @@ import { searchPosts, getPost } from "gateways/PostGateway";
 import IPost from "types/IPost";
 import SearchFeed from "components/feeds/SearchFeed";
 import IUser from "types/IUser";
-import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
+import MainLayout from "components/layout/MainLayout";
 
 type SearchPageProps = {
   user: IUser | undefined;
@@ -13,10 +13,7 @@ type SearchPageProps = {
 
 export default function SearchPage(props: SearchPageProps) {
   return (
-    <PageAndSidebar
-      title="Search"
-      page={<SearchPageMain user={props.user} />}
-    />
+    <MainLayout title="Search" page={<SearchPageMain user={props.user} />} />
   );
 }
 

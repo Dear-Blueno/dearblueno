@@ -4,18 +4,16 @@ import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 import { loadAuth } from "gateways/AuthGateway";
 import { useQuery } from "react-query";
+import MainLayout from "components/layout/MainLayout";
 
 type ProfilePageProps = {
   user?: IUser;
 };
 
 export default function ProfilePage(props: ProfilePageProps) {
-  return (
-    <PageAndSidebar title="Profile" page={<ProfilePageMain {...props} />} />
-  );
+  return <MainLayout title="Profile" page={<ProfilePageMain {...props} />} />;
 }
 
 function ProfilePageMain(props: ProfilePageProps) {

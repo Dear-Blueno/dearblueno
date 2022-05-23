@@ -4,10 +4,10 @@ import { getPost } from "../../gateways/PostGateway";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Post from "../../components/feeds/post/Post";
-import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
 import { useQuery } from "react-query";
 import { loadAuth } from "gateways/AuthGateway";
 import NotFoundPage from "pages/404";
+import MainLayout from "components/layout/MainLayout";
 
 type PostPageProps = {
   postNumber: number;
@@ -35,7 +35,7 @@ export default function PostPage() {
   }
 
   return (
-    <PageAndSidebar
+    <MainLayout
       title={"Post #" + postNumber}
       page={<PostPageMain postNumber={postNumber} />}
     />

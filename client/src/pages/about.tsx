@@ -2,7 +2,7 @@ import styles from "styles/AboutPage.module.scss";
 import Collapsible from "react-collapsible";
 import IUser from "types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import PageAndSidebar from "components/page/pageandsidebar/PageAndSidebar";
+import MainLayout from "components/layout/MainLayout";
 
 type AboutPageProps = {
   user?: IUser;
@@ -10,7 +10,10 @@ type AboutPageProps = {
 
 export default function AboutPage(props: AboutPageProps) {
   return (
-    <PageAndSidebar title="About" page={<AboutPageMain user={props.user} />} />
+    <MainLayout
+      title="About"
+      page={<AboutPageMain user={props.user} />}
+    ></MainLayout>
   );
 }
 
