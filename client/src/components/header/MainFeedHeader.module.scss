@@ -1,0 +1,23 @@
+.MainFeedHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  user-select: none;
+}
+
+.MainFeedHeaderOption {
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.FeedSelectionUnderline {
+  height: 2px;
+  background-color: black;
+  position: absolute;
+  transition: left 0.3s ease, width 0.3s ease;
+  content: "";
+  margin-top: 24px;
+}

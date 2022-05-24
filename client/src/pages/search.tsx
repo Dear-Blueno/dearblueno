@@ -1,5 +1,5 @@
 import styles from "styles/SearchPage.module.scss";
-import SearchHeaderCover from "components/header/SearchHeaderCover";
+import SearchHeaderCover from "components/header_old/SearchHeaderCover";
 import { useState, useEffect } from "react";
 import { searchPosts, getPost } from "gateways/PostGateway";
 import IPost from "types/IPost";
