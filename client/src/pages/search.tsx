@@ -45,8 +45,6 @@ function SearchPageMain(props: SearchPageProps) {
           setResults([]);
         }
       });
-    } else {
-      setResults([]);
     }
   }, [props.searchQuery]);
 
@@ -61,7 +59,7 @@ function SearchPageMain(props: SearchPageProps) {
       : props.searchQuery;
     if (Number.isInteger(Number(possibleNumber))) {
       // get that post
-      getPost(Number(props.searchQuery)).then((response) => {
+      getPost(Number(possibleNumber)).then((response) => {
         setHasQuery(true);
         if (response.success && response.payload) {
           setPossiblePost(response.payload);
@@ -69,8 +67,6 @@ function SearchPageMain(props: SearchPageProps) {
           console.log(response.message);
         }
       });
-    } else {
-      setPossiblePost(undefined);
     }
   }, [props.searchQuery]);
 
