@@ -3,11 +3,11 @@
 }
 
 .NoResultsText {
-  margin-top: 2rem;
-  font-size: 2rem;
-  font-weight: 300;
-  color: #8e8e8e;
+  font-family: "Inconsolata", monospace;
   text-align: center;
+  margin-top: 5rem;
+  color: #567;
+  font-size: 2rem;
 }
 
 @media screen and (max-width: 46rem) {
@@ -16,4 +16,3 @@
     margin-top: 1rem;
   }
 }
-  

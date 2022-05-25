@@ -1,5 +1,5 @@
 import styles from "./SearchFeed.module.scss";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
 import Feed from "./Feed";
@@ -8,7 +8,7 @@ import Post from "./post/Post";
 type SearchFeedProps = {
   user?: IUser;
   results: IPost[];
-  hasResults: boolean | undefined;
+  hasQuery: boolean;
 };
 
 function SearchFeed(props: SearchFeedProps) {
@@ -27,7 +27,7 @@ function SearchFeed(props: SearchFeedProps) {
 
   return (
     <>
-      {props.results.length > 0 || props.hasResults ? (
+      {props.results.length > 0 && (
         <Feed user={props.user} getMore={getMore} animated={false}>
           {props.results.slice(0, pageNumber * 10).map((post, index) => (
             <Post
@@ -38,7 +38,8 @@ function SearchFeed(props: SearchFeedProps) {
             />
           ))}
         </Feed>
-      ) : (
+      )}
+      {props.hasQuery && !props.results.length && (
         <div className={styles.NoResults}>
           <h1 className={styles.NoResultsText}>no results found</h1>
         </div>
