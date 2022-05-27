@@ -19,7 +19,7 @@ function MainFeed(props: MainFeedProps) {
     isFetching,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery("projects", fetchPosts, {
+  } = useInfiniteQuery("posts", fetchPosts, {
     getNextPageParam: (lastPage, pages) => pages.length + 1,
   });
 

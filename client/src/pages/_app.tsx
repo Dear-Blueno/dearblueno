@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import MainSidebar from "components/mainsidebar/MainSidebar";
 import axiosInit from "config/axios";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { IsMobileProvider } from "hooks/is-mobile";
 
 axiosInit();
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <MainSidebar />
               <Component {...pageProps} />
             </div>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
         </IsMobileProvider>
       </div>

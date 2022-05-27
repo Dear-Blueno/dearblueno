@@ -14,6 +14,7 @@
 .SidebarLogo {
   width: 4rem;
   margin-left: -0.45rem;
+  user-select: none;
 }
 
 .SidebarList {
@@ -28,6 +29,7 @@
 .SidebarListItem {
   font-size: 2rem;
   text-decoration: none;
+  user-select: none;
 }
 
 .SidebarListItemActive {
@@ -62,4 +64,5 @@
 
 .NewPostButtonLink {
   text-decoration: none;
+  user-select: none;
 }

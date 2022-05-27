@@ -3,6 +3,7 @@ import LogoIcon from "images/logo512.png";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useMemo } from "react";
+import Link from "next/link";
 
 type MainSidebarItem = {
   path: string;
@@ -43,9 +44,11 @@ export default function MainSidebar() {
 
   return (
     <nav className={styles.Sidebar}>
-      <a href="/" className={styles.SidebarLogo}>
-        <Image src={LogoIcon} alt="Blueno" />
-      </a>
+      <Link href="/">
+        <a className={styles.SidebarLogo}>
+          <Image src={LogoIcon} alt="Blueno" />
+        </a>
+      </Link>
       <ul className={styles.SidebarList}>
         {sidebarItems.map((item) => (
           <li
@@ -56,15 +59,17 @@ export default function MainSidebar() {
                 : styles.SidebarListItem
             }
           >
-            <a href={item.path} className={styles.SidebarListItemLink}>
-              {item.label}
-            </a>
+            <Link href={item.path} scroll={false}>
+              <a className={styles.SidebarListItemLink}>{item.label}</a>
+            </Link>
           </li>
         ))}
       </ul>
-      <a href="/submit" className={styles.NewPostButtonLink}>
-        <button className={styles.NewPostButton}>New Post</button>
-      </a>
+      <Link href="/submit">
+        <a className={styles.NewPostButtonLink}>
+          <button className={styles.NewPostButton}>New Post</button>
+        </a>
+      </Link>
     </nav>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from "./GatewayResponses";
 
 export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
+  console.log("getPosts");
   try {
     const response = await axios.get(`/posts?page=${page}`);
     if (response.status === 200) {
