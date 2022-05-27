@@ -1,9 +1,9 @@
-import "./SubmitBox.css";
-import ConsentBar from "./ConsentBar";
-import { Link } from "react-router-dom";
+import styles from "./SubmitBox.module.scss";
+import GoogleFormOption from "./GoogleFormOption";
 import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
+import Image from "next/image";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -27,32 +27,37 @@ function SubmitBox(props: SubmitBoxProps) {
 
   return (
     <>
-      <div className="SubmitBox">
+      <div className={styles.SubmitBox}>
         {props.submitted ? (
-          <div className="PostSubmitContent">
-            <h2 className="ReturnText">
+          <div className={styles.PostSubmitContent}>
+            <h2 className={styles.ReturnText}>
               Your post has been submitted and will be reviewed by moderators
               shortly. Thank you.
             </h2>
-            <Link to="/">
-              <div className="ReturnButton">
-                <img
-                  className="ReturnButtonImage"
+            <a href="/">
+              <div className={styles.ReturnButton}>
+                <Image
+                  className={styles.ReturnButtonImage}
                   src={LogoIcon}
                   alt="Blueno Home Button"
                 />
                 Return to Main Feed
               </div>
-            </Link>
+            </a>
           </div>
         ) : (
-          <div className="PreSubmitContent">
-            <h2 className="SubmitBoxHeaderText">post anonymously</h2>
-            <textarea id="TextBox" name="TextBox" autoFocus={true}></textarea>
-            <div className="ConsentAndSubmit">
-              <ConsentBar user={props.user} />
+          <div className={styles.PreSubmitContent}>
+            {/* <h2 className={styles.SubmitBoxHeaderText}>post anonymously</h2> */}
+            <textarea
+              placeholder="What's on your mind?"
+              id={styles.TextBox}
+              name="TextBox"
+              autoFocus={true}
+            ></textarea>
+            <div className={styles.SubmitBoxFooter}>
+              <GoogleFormOption user={props.user} />
               <p
-                className="Submit"
+                className={styles.Submit}
                 onClick={() => {
                   let element = document.getElementById(
                     "TextBox"

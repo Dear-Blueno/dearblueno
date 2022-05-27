@@ -62,6 +62,9 @@ export default function MainSidebar() {
           </li>
         ))}
       </ul>
+      <a href="/submit" className={styles.NewPostButtonLink}>
+        <button className={styles.NewPostButton}>New Post</button>
+      </a>
     </nav>
   );
 }

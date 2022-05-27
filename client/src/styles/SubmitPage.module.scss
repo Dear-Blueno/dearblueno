@@ -1,0 +1,15 @@
+.SubmitPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 0.2rem);
+  padding: 0;
+  margin-left: 0.3rem;
+}
+
+@media (max-width: 768px) {
+  .SubmitPage {
+    height: calc(100vh - 3.2rem);
+  }
+}

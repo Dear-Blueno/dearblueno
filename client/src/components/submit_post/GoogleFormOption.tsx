@@ -1,12 +1,12 @@
+import styles from "./GoogleFormOption.module.scss";
 import IUser from "../../types/IUser";
-import "./ConsentBar.css";
 
-type ConsentBarProps = { user: IUser | undefined };
+type GoogleFormOptionProps = { user?: IUser };
 
-function ConsentBar(props: ConsentBarProps) {
+function GoogleFormOption(props: GoogleFormOptionProps) {
   return (
-    <div className="ConsentBar">
-      <p className="ConsentText">
+    <div className={styles.GoogleFormOption}>
+      <p className={styles.GoogleFormOptionText}>
         Alternatively, submit via the{" "}
         {props.user?.verifiedBrown ? (
           <a href="https://forms.gle/Cpa5XEYr3mCpcjBS7">Google Form</a>
@@ -23,4 +23,4 @@ function ConsentBar(props: ConsentBarProps) {
   );
 }
 
-export default ConsentBar;
+export default GoogleFormOption;

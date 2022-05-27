@@ -1,4 +1,4 @@
-.ConsentBar {
+.GoogleFormOption {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -9,17 +9,17 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 46rem) {
-  .ConsentText {
+  .GoogleFormOptionText {
     font-size: 3.5vw;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 46rem) {
-  .ConsentText {
+  .GoogleFormOptionText {
     font-size: 0.9rem;
   }
 }
 
-.ConsentBar:hover {
+.GoogleFormOption:hover {
   cursor: pointer;
 }
