@@ -14,7 +14,9 @@
 .MainSidebarProfileNameAndXP {
   display: flex;
   flex-direction: column;
-  margin-top: 0.2rem;
+  flex-grow: 1;
+  margin: 0.2rem 0 0.3rem 0;
+  justify-content: space-between;
 }
 
 .MainSidebarProfileName {

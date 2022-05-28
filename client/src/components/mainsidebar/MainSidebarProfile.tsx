@@ -1,3 +1,5 @@
+import LevelAndXPBar from "components/user/LevelAndXPBar";
+import XPBar from "components/user/XPBar";
 import { loadAuth } from "gateways/AuthGateway";
 import Image from "next/image";
 import { useQuery } from "react-query";
@@ -20,18 +22,24 @@ export default function MainSidebarProfile(props: MainSidebarProfileProps) {
   return (
     <div className={styles.MainSidebarProfile}>
       {user && (
-        <div className={styles.MainSidebarProfilePicture}>
-          <Image
-            src={user.profilePicture}
-            alt="Profile picture"
-            width={60}
-            height={60}
-          />
-        </div>
+        <>
+          <div className={styles.MainSidebarProfilePicture}>
+            <Image
+              src={user.profilePicture}
+              alt="Profile picture"
+              width={60}
+              height={60}
+            />
+          </div>
+
+          <div className={styles.MainSidebarProfileNameAndXP}>
+            <div className={styles.MainSidebarProfileName}>
+              {user && user.name}
+            </div>
+            <LevelAndXPBar xp={user.xp} />
+          </div>
+        </>
       )}
-      <div className={styles.MainSidebarProfileNameAndXP}>
-        <div className={styles.MainSidebarProfileName}>{user && user.name}</div>
-      </div>
     </div>
   );
 }
