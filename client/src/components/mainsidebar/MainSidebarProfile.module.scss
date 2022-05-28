@@ -1,0 +1,23 @@
+.MainSidebarProfile {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.MainSidebarProfilePicture {
+  border: 2px solid black;
+  width: 60px;
+  height: 60px;
+}
+
+.MainSidebarProfileNameAndXP {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.2rem;
+}
+
+.MainSidebarProfileName {
+  font-size: 1.2rem;
+  font-weight: bold;
+}

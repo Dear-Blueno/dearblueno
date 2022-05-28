@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useMemo } from "react";
 import Link from "next/link";
+import MainSidebarProfile from "./MainSidebarProfile";
 
 type MainSidebarItem = {
   path: string;
@@ -44,32 +45,35 @@ export default function MainSidebar() {
 
   return (
     <nav className={styles.Sidebar}>
-      <Link href="/">
-        <a className={styles.SidebarLogo}>
-          <Image src={LogoIcon} alt="Blueno" />
-        </a>
-      </Link>
-      <ul className={styles.SidebarList}>
-        {sidebarItems.map((item) => (
-          <li
-            key={item.path}
-            className={
-              router.pathname === item.path
-                ? styles.SidebarListItem + " " + styles.SidebarListItemActive
-                : styles.SidebarListItem
-            }
-          >
-            <Link href={item.path} scroll={false}>
-              <a className={styles.SidebarListItemLink}>{item.label}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <Link href="/submit">
-        <a className={styles.NewPostButtonLink}>
-          <button className={styles.NewPostButton}>New Post</button>
-        </a>
-      </Link>
+      <div className={styles.SidebarTop}>
+        <Link href="/">
+          <a className={styles.SidebarLogo}>
+            <Image src={LogoIcon} alt="Blueno" width={80} height={80} />
+          </a>
+        </Link>
+        <ul className={styles.SidebarList}>
+          {sidebarItems.map((item) => (
+            <li
+              key={item.path}
+              className={
+                router.pathname === item.path
+                  ? styles.SidebarListItem + " " + styles.SidebarListItemActive
+                  : styles.SidebarListItem
+              }
+            >
+              <Link href={item.path} scroll={false}>
+                <a className={styles.SidebarListItemLink}>{item.label}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Link href="/submit">
+          <a className={styles.NewPostButtonLink}>
+            <button className={styles.NewPostButton}>New Post</button>
+          </a>
+        </Link>
+      </div>
+      <MainSidebarProfile />
     </nav>
   );
 }

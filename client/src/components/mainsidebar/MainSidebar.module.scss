@@ -8,11 +8,17 @@
   overflow: auto;
   margin-right: calc(4rem - 0.2rem);
   height: calc(100vh - 1rem);
+  justify-content: space-between;
+}
+
+.SidebarTop {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
 .SidebarLogo {
-  width: 4rem;
+  // width: 4rem;
   margin-left: -0.45rem;
   user-select: none;
 }
