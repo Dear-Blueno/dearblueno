@@ -1,7 +1,7 @@
 import { Express } from "express";
 import mongoose from "mongoose";
 import request from "supertest";
-import setupForTests from "./testUtil";
+import setupForTests from "../testUtil";
 
 describe("Auth", () => {
   let app: Express;

@@ -27,4 +27,23 @@ export default interface IUser extends IBasicUser {
   lastLoggedIn: Date;
   moderator: boolean;
   bannedUntil?: Date;
+  notifications: INotification[];
+  bookmarks: string[];
+  subscriptions: string[];
+}
+
+export interface INotification {
+  _id: string;
+  timestamp: Date;
+  type: string;
+  content: any;
+}
+
+export interface INewCommentNotification extends INotification {
+  type: "newComment";
+  content: {
+    postNumber: number;
+    userName: string;
+    profilePicture: string;
+  };
 }

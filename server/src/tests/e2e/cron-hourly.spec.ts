@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import setupForTests from "./testUtil";
-import Post from "../models/Post";
-import { hourlyJob } from "../config/cron-hourly";
+import setupForTests from "../testUtil";
+import Post from "../../models/Post";
+import { hourlyJob } from "../../config/cron-hourly";
 import {
   GoogleSpreadsheet,
   GoogleSpreadsheetWorksheet,

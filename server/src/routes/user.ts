@@ -3,8 +3,76 @@ import { body, param, query, validationResult } from "express-validator";
 import Comment from "../models/Comment";
 import { authCheck, modCheck } from "../middleware/auth";
 import User, { IUser } from "../models/User";
+import Post from "../models/Post";
 
 const userRouter = Router();
+
+// GET request that returns a list of posts that the user has bookmarked
+// (Must be authenticated)
+userRouter.get(
+  "/bookmarks",
+  authCheck,
+  query("page").optional().isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const user = req.user as IUser;
+    const bookmarks = user.bookmarks || [];
+    const page = Number(req.query?.page) || 1;
+
+    // Should only return posts that are approved
+    const posts = await Post.find({ _id: { $in: bookmarks }, approved: true })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .select("-approvedBy -subscribers")
+      .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "name profilePicture",
+        },
+      });
+
+    res.send(posts);
+  }
+);
+
+// DELETE request that deletes a notification
+// (Must be authenticated)
+userRouter.delete(
+  "/notifications/:notificationId",
+  authCheck,
+  param("notificationId").isMongoId(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const user = req.user as IUser;
+    const notificationId = req.params.notificationId;
+
+    // Delete the notification in the user's notifications
+    const index = user.notifications.findIndex(
+      (notification) => notification._id == notificationId
+    );
+    if (index === -1) {
+      res.status(404).send("Notification not found");
+      return;
+    }
+
+    user.notifications.splice(index, 1);
+    await User.findByIdAndUpdate(user._id, user);
+
+    res.send(user);
+  }
+);
 
 // GET request that searches for users by name
 userRouter.get(
@@ -26,7 +94,9 @@ userRouter.get(
       name: { $regex: req.query.name, $options: "i" },
     })
       .limit(5)
-      .select("-email -lastLoggedIn -moderator -bannedUntil");
+      .select(
+        "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions"
+      );
 
     if (!users || users.length === 0) {
       res.status(404).send("No users found");
@@ -48,7 +118,7 @@ userRouter.get("/:id", param("id").isMongoId(), async (req, res) => {
 
   // Get user by id, remove sensitive information from the response
   const user = await User.findById(req.params.id).select(
-    "-email -lastLoggedIn -moderator -bannedUntil"
+    "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions"
   );
   if (!user) {
     res.status(404).send("User not found");

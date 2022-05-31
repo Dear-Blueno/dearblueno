@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import setupForTests from "./testUtil";
-import User from "../models/User";
-import { dailyJob } from "../config/cron-daily";
+import setupForTests from "../testUtil";
+import User from "../../models/User";
+import { dailyJob } from "../../config/cron-daily";
 
 describe("Cron Daily", () => {
   beforeAll(async () => {

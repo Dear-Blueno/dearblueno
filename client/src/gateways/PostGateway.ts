@@ -1,4 +1,5 @@
 import axios from "axios";
+import IUser from "types/IUser";
 import IComment from "../types/IComment";
 import IPost from "../types/IPost";
 import {
@@ -199,7 +200,7 @@ export async function approveComment(
   }
 }
 
-export async function searchPosts(query: string) {
+export async function searchPosts(query: string): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts/search?query=${query}`);
     if (response.status === 200) {
@@ -222,6 +223,42 @@ export async function deleteComment(
     );
     if (response.status === 200) {
       return successfulResponse(response.data.success);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function bookmarkPost(
+  postNumber: number,
+  bookmark: boolean
+): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.post(`/posts/${postNumber}/bookmark`, {
+      bookmark,
+    });
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function subscribeToPost(
+  postNumber: number,
+  subscribe: boolean
+): Promise<IResponse<boolean>> {
+  try {
+    const response = await axios.post(`/posts/${postNumber}/subscribe`, {
+      subscribe,
+    });
+    if (response.status === 200) {
+      return successfulResponse(response.data.subscribed);
     } else {
       return failureResponse(response.data);
     }

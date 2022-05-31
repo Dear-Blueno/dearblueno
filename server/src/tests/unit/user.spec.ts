@@ -1,10 +1,10 @@
 import { Express } from "express";
 import mongoose from "mongoose";
-import User, { IUser } from "../models/User";
+import User, { IUser } from "../../models/User";
 import request from "supertest";
-import setupForTests from "./testUtil";
-import Comment from "../models/Comment";
-import Post from "../models/Post";
+import setupForTests from "../testUtil";
+import Comment from "../../models/Comment";
+import Post from "../../models/Post";
 
 describe("User", () => {
   let app: Express;
@@ -346,6 +346,119 @@ describe("User", () => {
 
       const response = await request(app).get(`/user/${user._id}/comments`);
       expect(response.body.length).toBe(0);
+    });
+  });
+
+  describe("GET /user/bookmarks", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).get("/user/bookmarks?page=1").expect(401);
+    });
+
+    it("should return empty array if user has no bookmarks", async () => {
+      const response = await request(app).get("/user/bookmarks?page=1").send({
+        user,
+      });
+      expect(response.body.length).toBe(0);
+    });
+
+    it("should return array of bookmarks", async () => {
+      const post = new Post({
+        content: "This is a post",
+        approved: true,
+      });
+      await post.save();
+
+      user.bookmarks.push(post._id);
+      await User.findByIdAndUpdate(user._id, user);
+
+      const response = await request(app).get("/user/bookmarks?page=1").send({
+        user,
+      });
+
+      expect(response.body.length).toBe(1);
+      expect(response.body[0].content).toBe("This is a post");
+      expect(response.body[0]._id.toString()).toBe(post._id.toString());
+    });
+
+    it("should only return approved posts", async () => {
+      const post = new Post({
+        content: "This is a post",
+        approved: false,
+      });
+      await post.save();
+
+      user.bookmarks.push(post._id);
+      await User.findByIdAndUpdate(user._id, user);
+
+      const response = await request(app).get("/user/bookmarks?page=1").send({
+        user,
+      });
+
+      expect(response.body.length).toBe(0);
+    });
+  });
+
+  describe("DELETE /user/notifications/:postNum", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).delete("/user/notifications/1").expect(401);
+    });
+
+    it("should 404 if nonexistent notification is deleted", async () => {
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 1,
+          userName: "Anonymous",
+        },
+      });
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 2,
+          userName: "Bob",
+        },
+      });
+      await User.findByIdAndUpdate(user._id, user);
+
+      await request(app)
+        .delete(`/user/notifications/${user._id}`)
+        .send({ user })
+        .expect(404);
+
+      const newUser = await User.findById(user._id);
+      expect(newUser?.notifications.length).toBe(2);
+    });
+
+    it("should delete notification", async () => {
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 1,
+          userName: "Anonymous",
+        },
+      });
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 2,
+          userName: "Bob",
+        },
+      });
+      const savedUser = await User.findByIdAndUpdate(user._id, user, {
+        new: true,
+      });
+
+      await request(app)
+        .delete(`/user/notifications/${savedUser?.notifications[0]._id}`)
+        .send({ user })
+        .expect(200);
+
+      const newUser = await User.findById(user._id);
+      expect(newUser?.notifications.length).toBe(1);
     });
   });
 

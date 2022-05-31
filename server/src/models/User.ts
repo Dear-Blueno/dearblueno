@@ -89,6 +89,34 @@ const UserSchema = new Schema({
     type: [String],
     default: [],
   },
+  bookmarks: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  notifications: [
+    {
+      timestamp: {
+        type: Date,
+        required: true,
+      },
+      type: {
+        type: String,
+        required: true,
+      },
+      content: {
+        type: Object,
+        required: true,
+      },
+    },
+  ],
+  subscriptions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 // Non-sensitive user info that can be seen by everyone
@@ -120,6 +148,25 @@ export interface IUser extends IBasicUser {
   lastLoggedIn: Date;
   moderator: boolean;
   bannedUntil: Date;
+  bookmarks: any[];
+  notifications: INotification[];
+  subscriptions: any[];
+}
+
+interface INotification {
+  _id?: string;
+  timestamp: Date;
+  type: string;
+  content: any;
+}
+
+export interface INewCommentNotification extends INotification {
+  type: "newComment";
+  content: {
+    postNumber: number;
+    userName: string;
+    profilePicture: string;
+  };
 }
 
 const User = model<IUser>("User", UserSchema);

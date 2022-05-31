@@ -55,6 +55,15 @@ const PostSchema = new Schema({
     ],
     default: [[], [], [], [], [], []],
   },
+  subscribers: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
   pinned: {
     type: Boolean,
     default: null,
@@ -80,6 +89,7 @@ export interface IPost {
   comments: any[];
   reactions: any[][];
   pinned: boolean;
+  subscribers: any[];
 }
 
 const Post = model<IPost>("Post", PostSchema);

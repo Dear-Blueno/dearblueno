@@ -1,4 +1,6 @@
 import axios from "axios";
+import IComment from "types/IComment";
+import IPost from "types/IPost";
 import IUser, { IBasicUser } from "../types/IUser";
 import {
   failureResponse,
@@ -101,9 +103,41 @@ export async function banUser(
   }
 }
 
-export async function getUserComments(_id: string) {
+export async function getUserComments(
+  _id: string
+): Promise<IResponse<IComment[]>> {
   try {
     const response = await axios.get(`/user/${_id}/comments`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function getBookmarks(page: number): Promise<IResponse<IPost[]>> {
+  try {
+    const response = await axios.get(`/user/bookmarks?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data);
+    }
+  } catch (error: any) {
+    return failureResponse(error);
+  }
+}
+
+export async function deleteNotification(
+  notificationId: string
+): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.delete(
+      `/user/notifications/${notificationId}`
+    );
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {

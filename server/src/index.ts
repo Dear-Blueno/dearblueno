@@ -17,8 +17,23 @@ import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
+log4js.configure({
+  appenders: {
+    out: { type: "stdout" },
+    app: { type: "file", filename: "logs/app.log" },
+  },
+  categories: {
+    default: { appenders: ["out", "app"], level: "info" },
+  },
+});
+const logger = log4js.getLogger("app");
+
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config();
+if (!process.env.MONGODB_URI) {
+  logger.fatal("Required environment variables are missing! Exiting...");
+  process.exit(1);
+}
 
 // Setup Passport.js
 passportConfig();
@@ -34,17 +49,6 @@ app.use(
     credentials: true,
   })
 );
-
-log4js.configure({
-  appenders: {
-    out: { type: "stdout" },
-    app: { type: "file", filename: "logs/app.log" },
-  },
-  categories: {
-    default: { appenders: ["out", "app"], level: "info" },
-  },
-});
-const logger = log4js.getLogger("app");
 
 // Setup MongoDB
 mongoConnection();

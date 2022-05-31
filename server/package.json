@@ -6,9 +6,9 @@
   "scripts": {
     "start": "nodemon --exec npx ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --runInBand /^(?!.*cron-hourly).*/",
-    "e2e": "jest --runInBand",
-    "coverage": "jest --coverage --runInBand"
+    "test": "jest --runInBand --testPathPattern=src/tests/unit",
+    "test:e2e": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand"
   },
   "repository": {
     "type": "git",

@@ -1,10 +1,10 @@
 import { Express } from "express";
 import mongoose from "mongoose";
-import Post from "../models/Post";
-import Comment from "../models/Comment";
-import User, { IUser } from "../models/User";
+import Post from "../../models/Post";
+import Comment from "../../models/Comment";
+import User, { IUser } from "../../models/User";
 import request from "supertest";
-import setupForTests, { resetCollections } from "./testUtil";
+import setupForTests, { resetCollections } from "../testUtil";
 
 describe("Posts", () => {
   let app: Express;
@@ -21,6 +21,7 @@ describe("Posts", () => {
     const userModel = new User({
       googleId: "123",
       name: "Bob",
+      givenName: "Bob",
       email: "bob@dearblueno.net",
       profilePicture: "https://i.imgur.com/2j1RdhZ.png",
       verifiedBrown: false,
@@ -30,6 +31,7 @@ describe("Posts", () => {
     const modUserModel = new User({
       googleId: "456",
       name: "Mod",
+      givenName: "Mod",
       email: "mod@dearblueno.net",
       profilePicture: "https://i.imgur.com/2j1RdhZ.png",
       moderator: true,
@@ -905,6 +907,54 @@ describe("Posts", () => {
     });
   });
 
+  it("should send notifications to users subscribed to the post", async () => {
+    const post = new Post({
+      content: "This is a test post",
+      approved: true,
+      postNumber: 1,
+      subscribers: [user._id, modUser._id],
+    });
+    await post.save();
+
+    await request(app)
+      .post(`/posts/1/comment`)
+      .send({ user, content: "This is a test comment", parentId: -1 })
+      .expect(200);
+
+    const user1 = await User.findById(user._id);
+    expect(user1?.notifications.length).toBe(0);
+    const modUser1 = await User.findById(modUser._id);
+    expect(modUser1?.notifications.length).toBe(1);
+    expect(modUser1?.notifications[0].content.postNumber).toBe(1);
+    expect(modUser1?.notifications[0].content.userName).toBe(user.givenName);
+    expect(modUser1?.notifications[0].timestamp).toBeDefined();
+  });
+
+  it("should not send notifications yet if comment is anonymous", async () => {
+    const post = new Post({
+      content: "This is a test post",
+      approved: true,
+      postNumber: 1,
+      subscribers: [user._id, modUser._id],
+    });
+    await post.save();
+
+    await request(app)
+      .post(`/posts/1/comment`)
+      .send({
+        user,
+        content: "This is a test comment",
+        parentId: -1,
+        anonymous: true,
+      })
+      .expect(200);
+
+    const user1 = await User.findById(user._id);
+    expect(user1?.notifications.length).toBe(0);
+    const modUser1 = await User.findById(modUser._id);
+    expect(modUser1?.notifications.length).toBe(0);
+  });
+
   describe("PUT /posts/:id/comment/:commentId/approve", () => {
     it("should return 401 if not logged in", async () => {
       await request(app).put("/posts/1/comment/1/approve").expect(401);
@@ -978,6 +1028,41 @@ describe("Posts", () => {
       expect(post3?.comments[0].approved).toBe(false);
       expect(post3?.comments[0].needsReview).toBe(false);
     });
+  });
+
+  it("should send notifications to subscribers if comment is anonymous", async () => {
+    const post = new Post({
+      content: "This is a test post",
+      approved: true,
+      postNumber: 1,
+      subscribers: [user._id, modUser._id],
+    });
+    await post.save();
+
+    const comment = new Comment({
+      content: "This is a test comment",
+      post: post._id,
+      postNumber: 1,
+      parentCommentNumber: -1,
+      commentNumber: 1,
+      author: null,
+    });
+    await comment.save();
+
+    post.comments.push(comment);
+    await post.save();
+
+    await request(app)
+      .put(`/posts/1/comment/1/approve`)
+      .send({ user: modUser, approved: true })
+      .expect(200);
+
+    const user1 = await User.findById(user._id);
+    expect(user1?.notifications.length).toBe(1);
+    const modUser1 = await User.findById(modUser._id);
+    expect(modUser1?.notifications.length).toBe(1);
+    expect(modUser1?.notifications[0].content.postNumber).toBe(1);
+    expect(modUser1?.notifications[0].content.userName).toBe("Anonymous");
   });
 
   describe("PUT /posts/:id/comment/:commentId/react", () => {
@@ -1308,6 +1393,128 @@ describe("Posts", () => {
       expect(res?.comments[0].content).toBe("[deleted]");
       expect(res?.comments[0].author).toBeFalsy();
       expect(res?.comments[1].content).toBe("This is a test reply comment");
+    });
+  });
+
+  describe("POST /posts/:postNumber/bookmark", () => {
+    it("should return 400 if postNumber is malformed", async () => {
+      await request(app).post("/posts/abc/bookmark").send({ user }).expect(400);
+    });
+
+    it("should return 404 if the post does not exist", async () => {
+      await request(app).post("/posts/1/bookmark").send({ user }).expect(404);
+    });
+
+    it("should return 401 if you are not logged in", async () => {
+      await request(app).post("/posts/1/bookmark").expect(401);
+    });
+
+    it("should return 200 if the bookmark is added", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/bookmark")
+        .send({ user, bookmark: true })
+        .expect(200);
+
+      const userRes = await User.findById(user._id).select("bookmarks");
+      expect(userRes?.bookmarks[0].toString()).toBe(post._id.toString());
+    });
+
+    it("should be able to add and remove bookmarks", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/bookmark")
+        .send({ user, bookmark: true })
+        .expect(200);
+
+      const userRes = await User.findById(user._id).select("bookmarks");
+      expect(userRes?.bookmarks[0].toString()).toBe(post._id.toString());
+
+      await request(app)
+        .post("/posts/1/bookmark")
+        .send({ user, bookmark: false })
+        .expect(200);
+
+      const userRes2 = await User.findById(user._id).select("bookmarks");
+      expect(userRes2?.bookmarks.length).toBe(0);
+    });
+  });
+
+  describe("POST /posts/:postNumber/subscribe", () => {
+    it("should return 400 if postNumber is malformed", async () => {
+      await request(app)
+        .post("/posts/abc/subscribe")
+        .send({ user })
+        .expect(400);
+    });
+
+    it("should return 404 if the post does not exist", async () => {
+      await request(app).post("/posts/1/subscribe").send({ user }).expect(404);
+    });
+
+    it("should return 401 if you are not logged in", async () => {
+      await request(app).post("/posts/1/subscribe").expect(401);
+    });
+
+    it("should return 200 if the subscription is added", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/subscribe")
+        .send({ user, subscribe: true })
+        .expect(200);
+
+      const postRes = await Post.findById(post._id).select("subscribers");
+      expect(postRes?.subscribers[0].toString()).toBe(user._id.toString());
+
+      const userRes = await User.findById(user._id).select("subscriptions");
+      expect(userRes?.subscriptions[0].toString()).toBe(post._id.toString());
+    });
+
+    it("should be able to add and remove subscriptions", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/subscribe")
+        .send({ user, subscribe: true })
+        .expect(200);
+
+      const postRes = await Post.findById(post._id).select("subscribers");
+      expect(postRes?.subscribers[0].toString()).toBe(user._id.toString());
+      const userRes = await User.findById(user._id).select("subscriptions");
+      expect(userRes?.subscriptions[0].toString()).toBe(post._id.toString());
+
+      await request(app)
+        .post("/posts/1/subscribe")
+        .send({ user, subscribe: false })
+        .expect(200);
+
+      const postRes2 = await Post.findById(post._id).select("subscribers");
+      expect(postRes2?.subscribers.length).toBe(0);
+      const userRes2 = await User.findById(user._id).select("subscriptions");
+      expect(userRes2?.subscriptions.length).toBe(0);
     });
   });
 

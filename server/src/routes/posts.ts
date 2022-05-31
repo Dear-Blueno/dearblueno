@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { body, param, query, validationResult } from "express-validator";
-import User, { IUser } from "../models/User";
+import User, { INewCommentNotification, IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
 import { Document } from "mongoose";
+import { notBanned } from "../middleware/ban";
 
 const postRouter = Router();
 
@@ -49,7 +50,7 @@ postRouter.get(
       .sort({ pinned: -1, postNumber: -1 })
       .skip((page - 1) * 10)
       .limit(10)
-      .select("-approvedBy")
+      .select("-approvedBy -subscribers")
       .populate("comments")
       .populate({
         path: "comments",
@@ -171,7 +172,7 @@ postRouter.get(
       $text: { $search: searchQuery, $language: "en", $caseSensitive: false },
     })
       .limit(10)
-      .select("-approvedBy")
+      .select("-approvedBy -subscribers")
       .populate("comments")
       .populate({
         path: "comments",
@@ -202,7 +203,7 @@ postRouter.get(
     }
 
     const post = await Post.findOne({ postNumber: req.params.id })
-      .select("-approvedBy")
+      .select("-approvedBy -subscribers")
       .populate("comments")
       .populate({
         path: "comments",
@@ -298,7 +299,9 @@ postRouter.put(
       return;
     }
 
-    const post = await Post.findOne({ postNumber: Number(req.params.id) });
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    }).select("-approvedBy -subscribers");
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -327,6 +330,7 @@ postRouter.put(
 postRouter.post(
   "/:id/comment",
   authCheck,
+  notBanned,
   body("content").isString().trim().isLength({ min: 1, max: 2000 }),
   body("parentId").isInt({ min: -1 }),
   body("anonymous").toBoolean(),
@@ -338,25 +342,11 @@ postRouter.post(
       return;
     }
 
-    const reqUser = req.user as IUser;
-    const user = await User.findById(reqUser._id);
-    if (!user) {
-      res.status(404).send("User not found");
-      return;
-    }
-    // Check if the user is banned
-    if (user.bannedUntil && user.bannedUntil > new Date()) {
-      res
-        .status(403)
-        .send(
-          `User is banned until ${new Date(
-            user.bannedUntil
-          ).toLocaleDateString()}`
-        );
-      return;
-    }
+    const user = req.user as IUser;
 
-    const post = await Post.findOne({ postNumber: Number(req.params.id) });
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    }).populate("subscribers");
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -377,7 +367,25 @@ postRouter.post(
     // If the comment is not anonymous, award the user some XP
     if (!req.body.anonymous) {
       user.xp += 2;
-      await user.save();
+      await User.findByIdAndUpdate(user._id, user);
+
+      // Send a notification to the post's subscribers (if not anonymous)
+      const subscribers = post.subscribers.filter((subscriber) => {
+        return subscriber._id.toString() !== user._id.toString();
+      }); // remove the user from the list of subscribers
+      for (const subscriber of subscribers) {
+        const notification: INewCommentNotification = {
+          timestamp: new Date(),
+          type: "newComment",
+          content: {
+            postNumber: post.postNumber,
+            userName: user.givenName,
+            profilePicture: user.profilePicture,
+          },
+        };
+        subscriber.notifications.push(notification);
+        await subscriber.save();
+      }
     }
 
     const comment = new Comment({
@@ -387,7 +395,7 @@ postRouter.post(
       post: post._id,
       postNumber: post.postNumber,
       content: req.body.content,
-      author: req.body.anonymous ? null : reqUser._id,
+      author: req.body.anonymous ? null : user._id,
       needsReview: req.body.anonymous,
       approved: !req.body.anonymous,
     });
@@ -415,7 +423,9 @@ postRouter.put(
 
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
-    }).populate("comments");
+    })
+      .populate("comments")
+      .populate("subscribers");
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -432,6 +442,23 @@ postRouter.put(
     comment.approved = req.body.approved;
     comment.needsReview = false;
     await comment.save();
+    if (comment.approved && !comment.author) {
+      // Send a notification to the post's subscribers
+      for (const subscriber of post.subscribers) {
+        const notification: INewCommentNotification = {
+          timestamp: new Date(),
+          type: "newComment",
+          content: {
+            postNumber: post.postNumber,
+            userName: "Anonymous",
+            profilePicture: "",
+          },
+        };
+        subscriber.notifications.push(notification);
+        await subscriber.save();
+      }
+    }
+
     res.send(comment);
   }
 );
@@ -549,6 +576,96 @@ postRouter.delete(
     });
 
     res.json({ success: true });
+  }
+);
+
+// POST request that bookmarks a post
+// (Must be authenticated)
+postRouter.post(
+  "/:id/bookmark",
+  authCheck,
+  param("id").isInt({ min: 1 }),
+  body("bookmark").toBoolean(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    });
+    if (!post) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const user = req.user as IUser;
+    const bookmarks = user.bookmarks || [];
+    const bookmark = bookmarks.find(
+      (b: IPost) => b._id.toString() === post._id.toString()
+    );
+    if (req.body.bookmark) {
+      if (!bookmark) {
+        bookmarks.push(post);
+      }
+    } else {
+      if (bookmark) {
+        bookmarks.splice(bookmarks.indexOf(bookmark), 1);
+      }
+    }
+    user.bookmarks = bookmarks;
+    await User.updateOne({ _id: user._id }, user);
+    res.send(user);
+  }
+);
+
+// POST request that subscribes to a post (adds the post to a user's watchlist)
+// (Must be authenticated)
+postRouter.post(
+  "/:id/subscribe",
+  authCheck,
+  param("id").isInt({ min: 1 }),
+  body("subscribe").toBoolean(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() || !req.params) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    });
+    if (!post) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const user = req.user as IUser;
+    const subscribers = post.subscribers || [];
+    const subscriber = subscribers.find(
+      (s: IUser) => s._id.toString() === user._id.toString()
+    );
+    if (req.body.subscribe) {
+      if (!subscriber) {
+        subscribers.push(user);
+        user.subscriptions.push(post);
+      }
+    } else {
+      if (subscriber) {
+        subscribers.splice(subscribers.indexOf(subscriber), 1);
+        user.subscriptions.splice(user.subscriptions.indexOf(post), 1);
+      }
+    }
+    post.subscribers = subscribers;
+    await post.save();
+    await User.updateOne({ _id: user._id }, user);
+
+    res.json({
+      subscribed: req.body.subscribe,
+    });
   }
 );
 
