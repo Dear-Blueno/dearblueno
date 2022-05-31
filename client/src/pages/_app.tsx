@@ -2,7 +2,7 @@ import "styles/globals.scss";
 import type { AppProps } from "next/app";
 import MainSidebar from "components/mainsidebar/MainSidebar";
 import axiosInit from "config/axios";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { IsMobileProvider } from "hooks/is-mobile";
 

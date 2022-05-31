@@ -13,12 +13,11 @@ import LikeBWIcon from "../../../../images/likeBW.svg";
 import SurpriseIcon from "../../../../images/surprise.svg";
 import SurpriseBWIcon from "../../../../images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
-import IUser from "../../../../types/IUser";
 import { reactToComment, reactToPost } from "../../../../gateways/PostGateway";
 import LoginPopup from "../LoginPopup";
+import useUser from "hooks/useUser";
 
 type ReactionBarProps = {
-  user?: IUser;
   type: "comment" | "post";
   reactions: string[][];
   postNumber: number;
@@ -26,6 +25,7 @@ type ReactionBarProps = {
 };
 
 function ReactionBar(props: ReactionBarProps) {
+  const user = useUser();
   const [likeCount, setLikeCount] = useState(
     props.reactions[0] ? props.reactions[0].length : 0
   );
@@ -162,32 +162,32 @@ function ReactionBar(props: ReactionBarProps) {
 
   const buttonClick = (reaction: number) => {
     return async () => {
-      if (props.user) {
+      if (user) {
         const includesUser: boolean = props.reactions[reaction]?.includes(
-          props.user._id
+          user._id
         );
         if (includesUser) {
           props.reactions[reaction] = props.reactions[reaction].filter(
-            (id) => id !== props.user?._id
+            (id) => id !== user?._id
           );
           const newUsers = [...users];
           newUsers[reaction] = newUsers[reaction].filter(
-            (user) => user._id !== props.user?._id
+            (user) => user._id !== user?._id
           );
           setUsers(newUsers);
         } else {
           if (props.reactions[reaction]) {
             props.reactions[reaction] = [
               ...props.reactions[reaction],
-              props.user._id,
+              user._id,
             ];
           } else {
-            props.reactions[reaction] = [props.user._id];
+            props.reactions[reaction] = [user._id];
           }
           const newUsers = [...users];
           newUsers[reaction] = newUsers[reaction]
-            ? [...newUsers[reaction], props.user]
-            : [props.user];
+            ? [...newUsers[reaction], user]
+            : [user];
           setUsers(newUsers);
         }
         countUpdaters[reaction](props.reactions[reaction].length);
@@ -232,7 +232,7 @@ function ReactionBar(props: ReactionBarProps) {
         <p
           className={styles.ReactText}
           onClick={
-            props.user
+            user
               ? () => {
                   setShowReactText(false);
                   showAll();
@@ -251,7 +251,7 @@ function ReactionBar(props: ReactionBarProps) {
             images={icons[reaction]}
             count={reactionCounts[reaction]}
             reactionArray={props.reactions[reaction]}
-            handleClick={props.user ? buttonClick(reaction) : openPopup}
+            handleClick={user ? buttonClick(reaction) : openPopup}
           ></ReactionButton>
         );
       })}

@@ -2,15 +2,14 @@ import styles from "./CommentHeader.module.scss";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { BsCode } from "react-icons/bs";
-import IUser, { IBasicUser } from "../../../../../types/IUser";
-import { useState, useEffect, useRef } from "react";
+import { IBasicUser } from "../../../../../types/IUser";
+import { useState, useRef } from "react";
 import { usePopper } from "react-popper";
 import { getUser } from "../../../../../gateways/UserGateway";
 import ProfileHoverCard from "./ProfileHoverCard";
 import RelativeDate from "../../RelativeDate";
 
 type CommentHeaderProps = {
-  user?: IUser;
   comment: IThread;
   collapsed: boolean;
   expand: () => void;
@@ -139,7 +138,6 @@ function CommentHeader(props: CommentHeaderProps) {
       )}
       {!props.inContext && (
         <CommentMenuButton
-          user={props.user}
           commentUser={props.comment.author}
           reported={props.comment.needsReview}
           commentNumber={props.comment.commentNumber}

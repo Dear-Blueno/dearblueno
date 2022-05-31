@@ -7,7 +7,6 @@ import DividerDot from "./content/DividerDot";
 import CommentButton from "./comments/CommentButton";
 import CommentSection from "./comments/CommentSection";
 import { useState } from "react";
-import IUser from "../../../types/IUser";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import { approvePost } from "../../../gateways/PostGateway";
 import ShareButton from "./ShareButton";
@@ -16,9 +15,9 @@ import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
 import UserContent from "../UserContent";
 import { AiFillPushpin } from "react-icons/ai";
+import useUser from "hooks/useUser";
 
 export type PostProps = {
-  user?: IUser;
   post: IPost;
   delay?: string;
   skipAnimation?: boolean;
@@ -26,6 +25,7 @@ export type PostProps = {
 };
 
 function Post(props: PostProps) {
+  const user = useUser();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showPopup, setshowPopup] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
@@ -106,14 +106,13 @@ function Post(props: PostProps) {
           <ReactionBar
             postNumber={props.post.postNumber ?? 0}
             commentNumber={undefined}
-            user={props.user}
             type={"post"}
             reactions={props.post.reactions}
           />
           <DividerDot />
           <CommentButton
             type="comment"
-            click={props.user ? () => setShowCommentBox(true) : openPopup}
+            click={user ? () => setShowCommentBox(true) : openPopup}
           />
           <DividerDot />
           <ShareButton postNumber={props.post.postNumber} />
@@ -121,7 +120,6 @@ function Post(props: PostProps) {
       )}
       {!props.post.needsReview && (
         <CommentSection
-          user={props.user}
           comments={props.post.comments}
           blurred={blurred}
           setBlurred={setBlurred}

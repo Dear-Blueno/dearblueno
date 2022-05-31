@@ -1,9 +1,7 @@
 import styles from "./MainFeedHeader.module.scss";
 import { useEffect, useRef, useState } from "react";
 
-type MainFeedHeaderProps = {};
-
-export default function MainFeedHeader(props: MainFeedHeaderProps) {
+export default function MainFeedHeader() {
   const hotRef = useRef<HTMLHeadingElement>(null);
   const topRef = useRef<HTMLHeadingElement>(null);
   const newRef = useRef<HTMLHeadingElement>(null);

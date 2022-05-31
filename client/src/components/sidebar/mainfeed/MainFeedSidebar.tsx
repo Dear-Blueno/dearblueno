@@ -1,12 +1,7 @@
 import styles from "./MainFeedSidebar.module.scss";
-import IUser from "types/IUser";
 import Collapsible from "react-collapsible";
 import CheckboxListItem from "components/sidebar/CheckboxListItem";
 import { useState } from "react";
-
-type MainFeedSidebarProps = {
-  user?: IUser;
-};
 
 const tagNames = [
   "Academics",
@@ -19,7 +14,7 @@ const tagNames = [
   "Random",
 ];
 
-export default function MainFeedSidebar(props: MainFeedSidebarProps) {
+export default function MainFeedSidebar() {
   const [tags, setTags] = useState<boolean[]>(
     new Array(tagNames.length).fill(true)
   );

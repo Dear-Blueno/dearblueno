@@ -9,13 +9,12 @@ import DividerDot from "components/feeds/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
 import LoginPopup from "../LoginPopup";
-import IUser from "types/IUser";
 import UserContent from "components/feeds/UserContent";
 import CommentContext from "./CommentContext";
 import { useIsMobile } from "hooks/is-mobile";
+import useUser from "hooks/useUser";
 
 type ThreadProps = {
-  user?: IUser;
   collapsed: boolean;
   comment: IThread;
   depth: number;
@@ -30,6 +29,7 @@ type ThreadProps = {
 const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
+  const user = useUser();
   const [show, setShow] = useState(true);
   const [showReplyBox, setShowReplyBox] = useState(false);
 
@@ -40,7 +40,6 @@ function Thread(props: ThreadProps) {
   const nestedComments = (props.comment.children || []).map((comment) => {
     return (
       <Thread
-        user={props.user}
         key={comment.commentNumber}
         collapsed={false}
         comment={comment}
@@ -82,7 +81,6 @@ function Thread(props: ThreadProps) {
           />
         )}
         <CommentHeader
-          user={props.user}
           comment={props.comment}
           collapsed={!show}
           expand={() => setShow(true)}
@@ -105,23 +103,19 @@ function Thread(props: ThreadProps) {
                     <ReactionBar
                       postNumber={props.comment.postNumber}
                       commentNumber={props.comment.commentNumber}
-                      user={props.user}
                       type="comment"
                       reactions={props.comment.reactions}
                     />
                     <DividerDot />
                     <CommentButton
                       type="reply"
-                      click={
-                        props.user ? () => setShowReplyBox(true) : openPopup
-                      }
+                      click={user ? () => setShowReplyBox(true) : openPopup}
                     />
                   </div>
                 )}
               </div>
               {showReplyBox && !props.inContext && (
                 <NewCommentBox
-                  user={props.user}
                   firstComment={false}
                   postNumber={props.comment.postNumber}
                   parentCommentNumber={props.comment.commentNumber}

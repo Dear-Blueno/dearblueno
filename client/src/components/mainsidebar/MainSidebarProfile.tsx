@@ -1,5 +1,4 @@
 import LevelAndXPBar from "components/user/LevelAndXPBar";
-import XPBar from "components/user/XPBar";
 import { loadAuth } from "gateways/AuthGateway";
 import Image from "next/image";
 import Link from "next/link";

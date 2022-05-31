@@ -1,14 +1,13 @@
 import styles from "./NewCommentBox.module.scss";
 import { commentOnPost } from "gateways/PostGateway";
-import IUser from "types/IUser";
 import NewCommentBoxFooter from "./NewCommentBoxFooter";
 import { useState, useRef, useCallback } from "react";
 import { IThread } from "../CommentSection";
 import { useIsMobile } from "hooks/is-mobile";
 import AnonymousToggle from "./AnonymousToggle";
+import useUser from "hooks/useUser";
 
 type NewCommentBoxProps = {
-  user: IUser | undefined;
   firstComment: boolean;
   postNumber: number;
   parentCommentNumber: number;
@@ -33,13 +32,14 @@ export const findComment = (
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
+  const user = useUser();
   const [anonymous, setAnonymous] = useState(false);
   const anonymousToggle = useCallback(() => setAnonymous((prev) => !prev), []);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const isMobile = useIsMobile();
 
   const submit = async () => {
-    if (props.user) {
+    if (user) {
       const textarea = textAreaRef.current;
       if (textarea && textarea.value) {
         const response = await commentOnPost(
@@ -56,7 +56,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
             if (response.payload) {
               const comment = response.payload as IThread;
               comment.children = [];
-              comment.author = anonymous ? undefined : props.user;
+              comment.author = anonymous ? undefined : user;
               if (anonymous) {
                 comment.content = "[under review]";
               }
@@ -85,7 +85,6 @@ function NewCommentBox(props: NewCommentBoxProps) {
     <div className={styles.NewCommentBox}>
       {isMobile && (
         <AnonymousToggle
-          user={props.user}
           anonymous={anonymous}
           anonymousToggle={anonymousToggle}
           top
@@ -98,7 +97,6 @@ function NewCommentBox(props: NewCommentBoxProps) {
         ref={textAreaRef}
       ></textarea>
       <NewCommentBoxFooter
-        user={props.user}
         submit={submit}
         anonymous={anonymous}
         anonymousToggle={anonymousToggle}

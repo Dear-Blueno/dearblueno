@@ -2,11 +2,9 @@ import styles from "./CommentSection.module.scss";
 import Thread from "./Thread";
 import IComment from "../../../../types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
-import IUser from "../../../../types/IUser";
 import { useState, useEffect } from "react";
 
 export type CommentSectionProps = {
-  user?: IUser;
   postNumber: number;
   comments: IComment[];
   showTopLevelCommentBox: boolean;
@@ -113,7 +111,6 @@ function CommentSection(props: CommentSectionProps) {
     <div className={styles.CommentSection}>
       {comments.map((comment, index) => (
         <Thread
-          user={props.user}
           key={comment.commentNumber}
           comment={comment}
           collapsed={false}
@@ -127,7 +124,6 @@ function CommentSection(props: CommentSectionProps) {
       ))}
       {props.showTopLevelCommentBox && (
         <NewCommentBox
-          user={props.user}
           firstComment={props.comments.length === 0}
           parentCommentNumber={-1}
           setShow={props.setShowTopLevelCommentBox}

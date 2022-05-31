@@ -83,7 +83,7 @@ function PostPageMain(props: PostPageProps) {
   return (
     <div className={styles.PostPage}>
       {post ? (
-        <Post user={user} post={post} skipAnimation={false} />
+        <Post post={post} skipAnimation={false} />
       ) : (
         <p className={styles.PostStatus}>{postStatus}</p>
       )}

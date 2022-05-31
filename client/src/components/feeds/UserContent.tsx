@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Linkify from "linkify-react";
 import "linkify-plugin-ticket";
 

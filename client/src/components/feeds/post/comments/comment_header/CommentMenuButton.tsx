@@ -3,13 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
-import IUser, { IBasicUser } from "../../../../../types/IUser";
+import { IBasicUser } from "../../../../../types/IUser";
 import { IThread } from "../CommentSection";
 import { deleteComment } from "../../../../../gateways/PostGateway";
 import { findComment } from "../new_comment/NewCommentBox";
+import useUser from "hooks/useUser";
 
 interface CommentMenuButtonProps {
-  user?: IUser;
   commentNumber: number;
   postNumber: number;
   commentUser?: IBasicUser;
@@ -18,6 +18,7 @@ interface CommentMenuButtonProps {
 }
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
+  const user = useUser();
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const [arrowElement, setArrowElement] = useState<any>(null);
@@ -217,9 +218,9 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             <div className={styles.MenuDropdownActions}>
               {/* {!copied && ( */}
               <>
-                {props.user &&
+                {user &&
                 props.commentUser &&
-                props.user._id === props.commentUser._id ? null : (
+                user._id === props.commentUser._id ? null : (
                   <p className={styles.MenuDropdownAction} onClick={openPopup}>
                     report
                   </p>
@@ -227,9 +228,9 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                 {/* <p className="MenuDropdownAction" onClick={shareAction}>
                     share
                   </p> */}
-                {props.user &&
+                {user &&
                 props.commentUser &&
-                props.user._id === props.commentUser._id ? (
+                user._id === props.commentUser._id ? (
                   <p
                     className={styles.MenuDropdownAction}
                     onClick={() => {

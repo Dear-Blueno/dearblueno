@@ -72,7 +72,6 @@ function ModeratorFeed(props: ModeratorFeedProps) {
               <Post
                 key={post._id}
                 post={post}
-                user={props.user}
                 delay={index * 80 + "ms"}
                 setFeed={setPosts}
               />

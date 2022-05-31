@@ -3,12 +3,10 @@ import CommentFooterButton from "./CommentFooterButton";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { useState } from "react";
 import "@reach/dialog/styles.css";
-import IUser from "../../../../../types/IUser";
 import AnonymousToggle from "./AnonymousToggle";
 import { useIsMobile } from "hooks/is-mobile";
 
 type NewCommentBoxFooterProps = {
-  user: IUser | undefined;
   submit: () => Promise<boolean>;
   anonymous: boolean;
   anonymousToggle: () => void;
@@ -71,7 +69,6 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
         {!isMobile && (
           <>
             <AnonymousToggle
-              user={props.user}
               anonymous={props.anonymous}
               anonymousToggle={props.anonymousToggle}
             />

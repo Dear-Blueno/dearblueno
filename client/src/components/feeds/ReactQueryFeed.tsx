@@ -6,13 +6,11 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import IUser from "../../types/IUser";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import { IResponse } from "gateways/GatewayResponses";
 import IPost from "types/IPost";
 
 type FeedProps = {
-  user?: IUser;
   children: React.ReactNode | React.ReactNode[];
   getMore: (
     options?: FetchNextPageOptions | undefined
@@ -24,7 +22,7 @@ type FeedProps = {
 };
 
 function Feed(props: FeedProps) {
-  const { user, children, getMore, animated, status, hasNextPage, isFetching } =
+  const { children, getMore, animated, status, hasNextPage, isFetching } =
     props;
   const [pageNumber, setPageNumber] = useState(1);
   const [reachedEnd, setReachedEnd] = useState(false);

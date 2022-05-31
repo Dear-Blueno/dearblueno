@@ -1,5 +1,5 @@
 import styles from "./SearchFeed.module.scss";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
 import Feed from "./Feed";
@@ -30,12 +30,7 @@ function SearchFeed(props: SearchFeedProps) {
       {props.results.length > 0 && (
         <Feed user={props.user} getMore={getMore} animated={false}>
           {props.results.slice(0, pageNumber * 10).map((post, index) => (
-            <Post
-              key={index}
-              post={post}
-              user={props.user}
-              delay={index * 80 + "ms"}
-            />
+            <Post key={index} post={post} delay={index * 80 + "ms"} />
           ))}
         </Feed>
       )}
