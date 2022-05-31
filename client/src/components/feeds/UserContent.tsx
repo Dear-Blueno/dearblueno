@@ -8,13 +8,14 @@ const emojiRegex = makeEmojiRegex();
 
 interface UserContentProps {
   children: string;
-  showContent: boolean;
+  blurred: boolean;
+  setBlurred: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function replaceEmoji(text: string): React.ReactChild[] {
+function replaceEmoji(text: string) {
   const matches = text.matchAll(emojiRegex);
 
-  const children: React.ReactChild[] = [];
+  const children = [];
   let lastIndex = 0;
   for (const match of matches) {
     const emoji = match[0];
@@ -36,8 +37,6 @@ function replaceEmoji(text: string): React.ReactChild[] {
 }
 
 function UserContent(props: UserContentProps) {
-  const [showContent, setShowContent] = useState(props.showContent);
-
   return (
     <Linkify
       options={{
@@ -49,10 +48,10 @@ function UserContent(props: UserContentProps) {
         className={
           styles.UserContent +
           " " +
-          (!showContent ? styles.UserContentHidden : "")
+          (props.blurred ? styles.UserContentHidden : "")
         }
-        onClick={() => setShowContent(true)}
-        title={showContent ? "" : "Click to reveal"}
+        onClick={() => props.setBlurred(false)}
+        title={props.blurred ? "Click to reveal" : ""}
       >
         {replaceEmoji(props.children)}
       </p>

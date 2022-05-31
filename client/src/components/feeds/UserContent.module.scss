@@ -9,6 +9,7 @@
 .UserContentHidden {
   filter: blur(5px);
   cursor: pointer;
+  will-change: filter;
 }
 
 .UserContentHidden:hover {

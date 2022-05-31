@@ -28,6 +28,7 @@ export type PostProps = {
 function Post(props: PostProps) {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showPopup, setshowPopup] = useState(false);
+  const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
   const openPopup = () => {
     setshowPopup(true);
   };
@@ -86,7 +87,7 @@ function Post(props: PostProps) {
         </div>
       </div>
       <div className={styles.PostBody}>
-        <UserContent showContent={!props.post.contentWarning}>
+        <UserContent blurred={blurred} setBlurred={setBlurred}>
           {props.post.content}
         </UserContent>
       </div>
@@ -122,7 +123,8 @@ function Post(props: PostProps) {
         <CommentSection
           user={props.user}
           comments={props.post.comments}
-          contentWarning={props.post.contentWarning}
+          blurred={blurred}
+          setBlurred={setBlurred}
           postNumber={props.post.postNumber ?? 0}
           showTopLevelCommentBox={showCommentBox}
           setShowTopLevelCommentBox={setShowCommentBox}

@@ -11,7 +11,8 @@ export type CommentSectionProps = {
   comments: IComment[];
   showTopLevelCommentBox: boolean;
   setShowTopLevelCommentBox: (show: boolean) => void;
-  contentWarning: string;
+  blurred: boolean;
+  setBlurred: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export interface IThread extends IComment {
@@ -120,7 +121,8 @@ function CommentSection(props: CommentSectionProps) {
           postNumber={props.postNumber}
           setComments={setComments}
           inContext={false}
-          contentWarning={props.contentWarning}
+          blurred={props.blurred}
+          setBlurred={props.setBlurred}
         />
       ))}
       {props.showTopLevelCommentBox && (

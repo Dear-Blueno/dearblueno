@@ -22,7 +22,8 @@ type ThreadProps = {
   postNumber?: number;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
   inContext: boolean;
-  contentWarning: string;
+  blurred: boolean;
+  setBlurred: React.Dispatch<React.SetStateAction<boolean>>;
   // displayedChildren: number;
 };
 
@@ -47,7 +48,8 @@ function Thread(props: ThreadProps) {
         postNumber={props.postNumber}
         setComments={props.setComments}
         inContext={props.inContext}
-        contentWarning={props.contentWarning}
+        blurred={props.blurred}
+        setBlurred={props.setBlurred}
       />
     );
   });
@@ -92,7 +94,10 @@ function Thread(props: ThreadProps) {
           <div className={styles.ThreadBody}>
             <div className={styles.CommentBody}>
               <div className="CommentBodyTextAndFooter">
-                <UserContent showContent={!props.contentWarning}>
+                <UserContent
+                  blurred={props.blurred}
+                  setBlurred={props.setBlurred}
+                >
                   {props.comment.content}
                 </UserContent>
                 {!props.inContext && (
