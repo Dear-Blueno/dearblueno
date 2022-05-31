@@ -16,7 +16,7 @@ import ContextThread from "components/feeds/post/comments/ContextThread";
 type ProfileBoxProps = {
   user?: IUser;
   profileUser?: IBasicUser;
-  setProfileUser?: (profileUser: IBasicUser) => void;
+  refetchProfileUser: () => void;
 };
 
 function ProfileBox(props: ProfileBoxProps) {
@@ -139,8 +139,8 @@ function ProfileBox(props: ProfileBoxProps) {
       concentrationInput.current?.value || undefined,
       yearInput.current?.value || undefined
     );
-    if (response.success && response.payload && props.setProfileUser) {
-      props.setProfileUser(response.payload);
+    if (response.success && response.payload) {
+      props.refetchProfileUser();
     }
     setEditing(false);
   };

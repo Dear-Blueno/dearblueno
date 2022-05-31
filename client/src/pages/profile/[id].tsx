@@ -7,19 +7,13 @@ import { useRouter } from "next/router";
 import { loadAuth } from "gateways/AuthGateway";
 import { useQuery } from "react-query";
 import MainLayout from "components/layout/MainLayout";
+import Head from "next/head";
+import NotFoundPage from "pages/404";
 
-type ProfilePageProps = {
-  user?: IUser;
-};
-
-export default function ProfilePage(props: ProfilePageProps) {
-  return <MainLayout title="Profile" page={<ProfilePageMain {...props} />} />;
-}
-
-function ProfilePageMain(props: ProfilePageProps) {
+export default function ProfilePage() {
   const {
-    isLoading,
-    error,
+    isLoading: isLoadingUser,
+    error: errorUser,
     data: user,
   } = useQuery("user", () =>
     loadAuth().then((response) => {
@@ -30,42 +24,78 @@ function ProfilePageMain(props: ProfilePageProps) {
   );
 
   const router = useRouter();
-  const profileUserID = router.query.id as string;
-  const [profileUser, setProfileUser] = useState<IBasicUser>();
-  const [profileUserStatus, setProfileUserStatus] =
-    useState<string>("loading...");
+  const [profileUserID, setProfileUserID] = useState<string>("");
 
   useEffect(() => {
-    console.log("profileUserID", profileUserID);
-    if (profileUserID) {
-      console.log("profileUserID", profileUserID);
-      getUser(profileUserID).then((response) => {
-        console.log(response);
-        if (response.success && response.payload) {
-          setProfileUser(response.payload);
-          setProfileUserStatus("");
-        } else {
-          console.log(response.message);
-          setProfileUserStatus(response.message.toString() + " :(");
-        }
-      });
+    if (!router.query.id && user) {
+      setProfileUserID(user._id);
     } else {
-      setProfileUser(user);
-      setProfileUserStatus("");
+      setProfileUserID(router.query.id as string);
     }
-  }, [profileUserID, user]);
+    // setLoadingID(false);
+  }, [router.query.id, user]);
+
+  const {
+    isLoading: isLoadingProfileUser,
+    error: errorProfileUser,
+    data: profileUser,
+    refetch: refetchProfileUser,
+  } = useQuery("profileUser_" + profileUserID, () =>
+    profileUserID
+      ? getUser(profileUserID).then((response) => {
+          if (response.success && response.payload) {
+            return response.payload;
+          }
+        })
+      : undefined
+  );
+
+  if (isLoadingUser || isLoadingProfileUser) {
+    return <MainLayout page={<div>Loading...</div>} />;
+  }
+
+  if (!profileUser) {
+    return <NotFoundPage />;
+  }
+
+  const title =
+    user?._id === profileUser._id
+      ? "My Profile"
+      : profileUser?.name + "'s Profile";
 
   return (
+    <>
+      <Head>
+        <title>{profileUser?.name ?? "User Not Found"}</title>
+      </Head>
+      <MainLayout
+        title={title}
+        page={
+          <ProfilePageMain
+            user={user}
+            profileUser={profileUser}
+            refetchProfileUser={refetchProfileUser}
+          />
+        }
+      />
+    </>
+  );
+}
+
+type ProfilePageMainProps = {
+  user?: IUser;
+  profileUser: IBasicUser;
+  refetchProfileUser: () => void;
+};
+
+function ProfilePageMain(props: ProfilePageMainProps) {
+  return (
     <div className={styles.ProfilePage}>
-      {profileUser ? (
-        <ProfileBox
-          user={user}
-          profileUser={profileUser}
-          setProfileUser={setProfileUser}
-        />
-      ) : (
-        <p className={styles.ProfilePageStatus}>{profileUserStatus}</p>
-      )}
+      <ProfileBox
+        user={props.user}
+        profileUser={props.profileUser}
+        refetchProfileUser={props.refetchProfileUser}
+      />
     </div>
   );
 }

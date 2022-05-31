@@ -2,9 +2,17 @@ import styles from "styles/NotFoundPage.module.scss";
 import MainLayout from "components/layout/MainLayout";
 import Image from "next/image";
 import BluenoGif from "images/404.gif";
+import Head from "next/head";
 
 export default function NotFoundPage() {
-  return <MainLayout page={<NotFoundPageMain />} />;
+  return (
+    <>
+      <Head>
+        <title>Page not found</title>
+      </Head>
+      <MainLayout page={<NotFoundPageMain />} />
+    </>
+  );
 }
 
 function NotFoundPageMain() {
