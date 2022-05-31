@@ -1,23 +1,12 @@
-import { loadAuth } from "../gateways/AuthGateway";
 import MainFeed from "../components/feeds/mainfeed/MainFeed";
 import MainFeedSidebar from "components/sidebar/mainfeed/MainFeedSidebar";
 import Head from "next/head";
-import { useQuery } from "react-query";
 import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/MainFeedHeader";
+import useUser from "hooks/useUser";
 
 function HomePage() {
-  const {
-    isLoading,
-    error,
-    data: user,
-  } = useQuery("user", () =>
-    loadAuth().then((response) => {
-      if (response.success && response.payload) {
-        return response.payload;
-      }
-    })
-  );
+  const user = useUser();
 
   return (
     <>
