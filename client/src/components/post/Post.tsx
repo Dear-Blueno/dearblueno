@@ -12,9 +12,9 @@ import {
   approvePost,
   bookmarkPost,
   subscribeToPost,
-} from "../../../gateways/PostGateway";
+} from "gateways/PostGateway";
 import ShareButton from "./ShareButton";
-import IPost from "../../../types/IPost";
+import IPost from "types/IPost";
 import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
 import {
@@ -23,7 +23,7 @@ import {
   MdNotificationsNone,
   MdNotificationsActive,
 } from "react-icons/md";
-import UserContent from "../UserContent";
+import UserContent from "../feeds/UserContent";
 import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
 

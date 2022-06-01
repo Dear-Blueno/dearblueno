@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
-import { IBasicUser } from "../../../../../types/IUser";
+import { IBasicUser } from "types/IUser";
 import { IThread } from "../CommentSection";
-import { deleteComment } from "../../../../../gateways/PostGateway";
+import { deleteComment } from "gateways/PostGateway";
 import { findComment } from "../new_comment/NewCommentBox";
 import useUser from "hooks/useUser";
 

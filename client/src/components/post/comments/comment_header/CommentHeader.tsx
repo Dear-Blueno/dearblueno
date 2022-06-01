@@ -2,10 +2,10 @@ import styles from "./CommentHeader.module.scss";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { BsCode } from "react-icons/bs";
-import { IBasicUser } from "../../../../../types/IUser";
+import { IBasicUser } from "types/IUser";
 import { useState, useRef } from "react";
 import { usePopper } from "react-popper";
-import { getUser } from "../../../../../gateways/UserGateway";
+import { getUser } from "gateways/UserGateway";
 import ProfileHoverCard from "./ProfileHoverCard";
 import RelativeDate from "../../RelativeDate";
 

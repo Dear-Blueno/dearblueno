@@ -1,6 +1,6 @@
 import styles from "./LoginPopup.module.scss";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
-import { loginBrown } from "../../../gateways/AuthGateway";
+import { loginBrown } from "gateways/AuthGateway";
 
 interface LoginPopupProps {
   showPopup: boolean;

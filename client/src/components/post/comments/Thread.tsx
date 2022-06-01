@@ -1,13 +1,13 @@
 import styles from "./Thread.module.scss";
-import ReactionBar from "components/feeds/post/reactions/ReactionBar";
+import ReactionBar from "components/post/reactions/ReactionBar";
 import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useState } from "react";
-import NewCommentBox from "components/feeds/post/comments/new_comment/NewCommentBox";
+import NewCommentBox from "components/post/comments/new_comment/NewCommentBox";
 import CommentButton from "./CommentButton";
-import DividerDot from "components/feeds/post/content/DividerDot";
+import DividerDot from "components/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
-import CommentHeader from "components/feeds/post/comments/comment_header/CommentHeader";
+import CommentHeader from "components/post/comments/comment_header/CommentHeader";
 import LoginPopup from "../LoginPopup";
 import UserContent from "components/feeds/UserContent";
 import CommentContext from "./CommentContext";

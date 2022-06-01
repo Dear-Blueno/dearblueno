@@ -1,6 +1,6 @@
 import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
-import Post from "components/feeds/post/Post";
+import Post from "components/post/Post";
 import { useInfiniteQuery } from "react-query";
 
 function MainFeed() {

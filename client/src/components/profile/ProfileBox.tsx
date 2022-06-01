@@ -11,7 +11,7 @@ import ProfileSaveButton from "./buttons/ProfileSaveButton";
 import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
-import ContextThread from "components/feeds/post/comments/ContextThread";
+import ContextThread from "components/post/comments/ContextThread";
 
 type ProfileBoxProps = {
   user?: IUser;
