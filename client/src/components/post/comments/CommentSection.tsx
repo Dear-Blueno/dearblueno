@@ -1,6 +1,6 @@
 import styles from "./CommentSection.module.scss";
 import Thread from "./Thread";
-import IComment from "../../../../types/IComment";
+import IComment from "types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
 import { useState, useEffect } from "react";
 

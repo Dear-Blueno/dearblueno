@@ -1,11 +1,5 @@
 import styles from "./Feed.module.scss";
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo,
-} from "react";
+import React, { useEffect, useCallback, useRef, useMemo } from "react";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import { IResponse } from "gateways/GatewayResponses";
 import IPost from "types/IPost";
@@ -18,45 +12,43 @@ type FeedProps = {
   animated: boolean;
   status: "idle" | "loading" | "error" | "success";
   hasNextPage: boolean | undefined;
-  isFetching: boolean | undefined;
+  isFetchingNextPage: boolean | undefined;
 };
 
 function Feed(props: FeedProps) {
-  const { children, getMore, animated, status, hasNextPage, isFetching } =
-    props;
-  const [pageNumber, setPageNumber] = useState(1);
-  const [reachedEnd, setReachedEnd] = useState(false);
+  const {
+    children,
+    getMore,
+    animated,
+    status,
+    hasNextPage,
+    isFetchingNextPage,
+  } = props;
+  const reachedEnd = hasNextPage !== undefined && !hasNextPage;
   const loadingRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setPageNumber(1);
-  }, [getMore]);
-
   // scroll action
-  const onScroll = useCallback(() => {
+  const onScroll = useCallback(async () => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
       window.innerHeight + 500
     ) {
-      setPageNumber((n) => n + 1);
       window.removeEventListener("scroll", onScroll);
+      const response = await getMore();
+      if (response.hasNextPage) {
+        window.addEventListener("scroll", onScroll);
+      }
     }
-  }, []);
+  }, [getMore]);
 
   useEffect(() => {
-    const loadMore = async () => {
-      const response = await getMore();
-      if (response) {
-        window.addEventListener("scroll", onScroll);
-      } else {
-        setReachedEnd(true);
-      }
-    };
-    loadMore();
+    if (!reachedEnd) {
+      window.addEventListener("scroll", onScroll);
+    }
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [pageNumber, onScroll, getMore]);
+  }, [onScroll, reachedEnd]);
 
   const loadingDiv = useMemo(
     () => (
@@ -64,7 +56,8 @@ function Feed(props: FeedProps) {
         className={styles.FeedLoading}
         ref={loadingRef}
         style={{
-          opacity: !(status === "loading" || isFetching || reachedEnd) ? 0 : 1,
+          opacity:
+            status === "loading" || isFetchingNextPage || reachedEnd ? 1 : 0,
         }}
       >
         {reachedEnd ? (
@@ -79,7 +72,7 @@ function Feed(props: FeedProps) {
         )}
       </div>
     ),
-    [status, isFetching, reachedEnd]
+    [status, isFetchingNextPage, reachedEnd]
   );
 
   return (

@@ -1,18 +1,19 @@
-import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
 import { useInfiniteQuery } from "react-query";
+import { getBookmarks } from "gateways/UserGateway";
 
-function MainFeed() {
-  const fetchPosts = ({ pageParam = 1 }) => getPosts(pageParam);
+function BookmarksFeed() {
+  const fetchBookmarks = ({ pageParam = 1 }) => getBookmarks(pageParam);
   const {
     data,
     error,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery("posts", fetchPosts, {
+  } = useInfiniteQuery("bookmarks", fetchBookmarks, {
     getNextPageParam: (lastPage, pages) => {
       if (lastPage.payload?.length === 0) {
         return undefined;
@@ -21,19 +22,22 @@ function MainFeed() {
     },
   });
 
-  const posts = data?.pages.map((page) => page.payload).flat();
+  const posts = data?.pages
+    .map((page) => page.payload)
+    .flat()
+    .reverse();
 
   return (
     <Feed
       getMore={fetchNextPage}
       status={status}
-      isFetchingNextPage={isFetchingNextPage}
+      isFetchingNextPage={isFetching}
       hasNextPage={hasNextPage}
       animated
     >
-      {posts?.map((post) => post && <Post key={post?._id} post={post} />)}
+      {posts?.map((post) => post && <Post key={post._id} post={post} />)}
     </Feed>
   );
 }
 
-export default MainFeed;
+export default BookmarksFeed;
