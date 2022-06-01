@@ -29,7 +29,6 @@
     box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
   }
   .NumberAndWarning {
-    margin-top: -0.3rem;
   }
 }
 /* Larger than mobile */
@@ -41,9 +40,6 @@
     animation-fill-mode: forwards;
     padding: 1rem;
     box-shadow: -0.1rem 0.1rem 0rem 0.03rem rgba(0, 0, 0, 1);
-  }
-  .NumberAndWarning {
-    margin-top: -0.6rem;
   }
   .PostFooter {
     margin-top: 0.5rem;
@@ -79,7 +75,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .NumberAndWarning {
@@ -89,9 +85,15 @@
   justify-content: center;
 }
 
-.PostDate {
-  margin: 0 0 0.6em 0;
-  float: right;
+.PostHeaderRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.PostHeaderButton {
+  cursor: pointer;
 }
 
 .PostFooter {

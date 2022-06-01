@@ -29,7 +29,7 @@ type ThreadProps = {
 const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
-  const user = useUser();
+  const { user } = useUser();
   const [show, setShow] = useState(true);
   const [showReplyBox, setShowReplyBox] = useState(false);
 

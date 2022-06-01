@@ -8,11 +8,21 @@ import CommentButton from "./comments/CommentButton";
 import CommentSection from "./comments/CommentSection";
 import { useState } from "react";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
-import { approvePost } from "../../../gateways/PostGateway";
+import {
+  approvePost,
+  bookmarkPost,
+  subscribeToPost,
+} from "../../../gateways/PostGateway";
 import ShareButton from "./ShareButton";
 import IPost from "../../../types/IPost";
 import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
+import {
+  MdBookmarkBorder,
+  MdBookmark,
+  MdNotificationsNone,
+  MdNotificationsActive,
+} from "react-icons/md";
 import UserContent from "../UserContent";
 import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
@@ -25,10 +35,16 @@ export type PostProps = {
 };
 
 function Post(props: PostProps) {
-  const user = useUser();
+  const { user, refetchUser } = useUser();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showPopup, setshowPopup] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
+  const [isBookmarked, setIsBookmarked] = useState(
+    user?.bookmarks.includes(props.post._id)
+  );
+  const [isSubscribed, setIsSubscribed] = useState(
+    user?.subscriptions.includes(props.post._id)
+  );
   const openPopup = () => {
     setshowPopup(true);
   };
@@ -43,6 +59,25 @@ function Post(props: PostProps) {
     );
     if (response.success && props.setFeed) {
       props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
+    }
+  };
+
+  const handleSubscribe = async () => {
+    const response = await subscribeToPost(
+      props.post.postNumber,
+      !isSubscribed
+    );
+    if (response.success) {
+      setIsSubscribed((subscribed) => !subscribed);
+      refetchUser();
+    }
+  };
+
+  const handleBookmark = async () => {
+    const response = await bookmarkPost(props.post.postNumber, !isBookmarked);
+    if (response.success) {
+      setIsBookmarked((bookmarked) => !bookmarked);
+      refetchUser();
     }
   };
 
@@ -63,12 +98,12 @@ function Post(props: PostProps) {
             _id={props.post.needsReview ? props.post._id : undefined}
             post={props.post}
           />
-          {props.post.verifiedBrown ? (
+          {props.post.verifiedBrown && (
             <RiShieldCheckFill
               className={styles.VerifiedBrown}
               title="Verified Brown"
             />
-          ) : null}
+          )}
           {props.post.contentWarning && (
             <ContentWarning ContentWarningText={props.post.contentWarning} />
           )}
@@ -76,7 +111,41 @@ function Post(props: PostProps) {
             <AiFillPushpin className={styles.Pinned} title="Pinned Post" />
           )}
         </div>
-        <div className={styles.PostDate}>
+        <div className={styles.PostHeaderRight}>
+          {isSubscribed ? (
+            <MdNotificationsActive
+              size="1.2rem"
+              fill="#1976d2"
+              className={styles.PostHeaderButton}
+              title="Click to unsubscribe"
+              onClick={handleSubscribe}
+            />
+          ) : (
+            <MdNotificationsNone
+              size="1.2rem"
+              color="#888"
+              className={styles.PostHeaderButton}
+              title="Click to subscribe"
+              onClick={handleSubscribe}
+            />
+          )}
+          {isBookmarked ? (
+            <MdBookmark
+              size="1.2rem"
+              fill="#4caf50"
+              className={styles.PostHeaderButton}
+              title="Click to remove bookmark"
+              onClick={handleBookmark}
+            />
+          ) : (
+            <MdBookmarkBorder
+              size="1.2rem"
+              color="#888"
+              className={styles.PostHeaderButton}
+              title="Click to bookmark"
+              onClick={handleBookmark}
+            />
+          )}
           <RelativeDate
             date={
               props.post.needsReview

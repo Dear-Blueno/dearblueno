@@ -32,7 +32,7 @@ export const findComment = (
 };
 
 function NewCommentBox(props: NewCommentBoxProps) {
-  const user = useUser();
+  const { user } = useUser();
   const [anonymous, setAnonymous] = useState(false);
   const anonymousToggle = useCallback(() => setAnonymous((prev) => !prev), []);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);

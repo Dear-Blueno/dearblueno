@@ -2,11 +2,11 @@ import { useQuery } from "react-query";
 import { loadAuth } from "gateways/AuthGateway";
 
 export default function useUser() {
-  const { data: user } = useQuery("user", async () => {
+  const { data: user, refetch: refetchUser } = useQuery("user", async () => {
     const response = await loadAuth();
     if (response.success && response.payload) {
       return response.payload;
     }
   });
-  return user;
+  return { user, refetchUser };
 }

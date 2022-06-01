@@ -2,10 +2,8 @@ import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/feeds/post/Post";
 import { useInfiniteQuery } from "react-query";
-import useUser from "hooks/useUser";
 
 function MainFeed() {
-  const user = useUser();
   const fetchPosts = ({ pageParam = 1 }) => getPosts(pageParam);
   const {
     data,

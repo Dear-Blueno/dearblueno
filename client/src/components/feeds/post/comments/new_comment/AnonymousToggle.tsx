@@ -11,7 +11,7 @@ type AnonymousToggleProps = {
 };
 
 function AnonymousToggle(props: AnonymousToggleProps) {
-  const user = useUser();
+  const { user } = useUser();
   const [showAnonPopup, setShowAnonPopup] = useState(false);
   const openAnonPopup = () => setShowAnonPopup(true);
   const closeAnonPopup = () => setShowAnonPopup(false);

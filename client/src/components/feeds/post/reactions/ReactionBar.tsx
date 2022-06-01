@@ -25,7 +25,7 @@ type ReactionBarProps = {
 };
 
 function ReactionBar(props: ReactionBarProps) {
-  const user = useUser();
+  const { user } = useUser();
   const [likeCount, setLikeCount] = useState(
     props.reactions[0] ? props.reactions[0].length : 0
   );

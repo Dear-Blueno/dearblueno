@@ -18,7 +18,7 @@ interface CommentMenuButtonProps {
 }
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
-  const user = useUser();
+  const { user } = useUser();
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const [arrowElement, setArrowElement] = useState<any>(null);
