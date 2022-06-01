@@ -63,21 +63,25 @@ function Post(props: PostProps) {
   };
 
   const handleSubscribe = async () => {
+    setIsSubscribed((subscribed) => !subscribed);
     const response = await subscribeToPost(
       props.post.postNumber,
       !isSubscribed
     );
     if (response.success) {
-      setIsSubscribed((subscribed) => !subscribed);
       refetchUser();
+    } else {
+      setIsSubscribed(!isSubscribed);
     }
   };
 
   const handleBookmark = async () => {
+    setIsBookmarked((bookmarked) => !bookmarked);
     const response = await bookmarkPost(props.post.postNumber, !isBookmarked);
     if (response.success) {
-      setIsBookmarked((bookmarked) => !bookmarked);
       refetchUser();
+    } else {
+      setIsBookmarked((bookmarked) => !bookmarked);
     }
   };
 
