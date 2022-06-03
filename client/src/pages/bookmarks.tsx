@@ -1,8 +1,6 @@
-import MainFeed from "../components/feeds/mainfeed/MainFeed";
-import MainFeedSidebar from "components/sidebar/mainfeed/MainFeedSidebar";
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
-import BookmarksFeed from "components/feeds/bookmarksfeed/BookmarksFeed";
+import BookmarksFeed from "components/feeds/BookmarksFeed";
 
 export default function BookmarksPage() {
   return (

@@ -42,13 +42,8 @@ function Feed(props: FeedProps) {
   }, [getMore]);
 
   useEffect(() => {
-    if (!reachedEnd) {
-      window.addEventListener("scroll", onScroll);
-    }
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll, reachedEnd]);
+    window.addEventListener("scroll", onScroll);
+  }, [onScroll]);
 
   const loadingDiv = useMemo(
     () => (

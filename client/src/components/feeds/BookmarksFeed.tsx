@@ -3,7 +3,7 @@ import Post from "components/post/Post";
 import { useInfiniteQuery } from "react-query";
 import { getBookmarks } from "gateways/UserGateway";
 
-function BookmarksFeed() {
+export default function BookmarksFeed() {
   const fetchBookmarks = ({ pageParam = 1 }) => getBookmarks(pageParam);
   const {
     data,
@@ -39,5 +39,3 @@ function BookmarksFeed() {
     </Feed>
   );
 }
-
-export default BookmarksFeed;

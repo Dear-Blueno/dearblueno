@@ -23,7 +23,7 @@ import {
   MdNotificationsNone,
   MdNotificationsActive,
 } from "react-icons/md";
-import UserContent from "../feeds/UserContent";
+import UserContent from "./content/UserContent";
 import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
 

@@ -1,4 +1,4 @@
-import MainFeed from "../components/feeds/mainfeed/MainFeed";
+import MainFeed from "../components/feeds/MainFeed";
 import MainFeedSidebar from "components/sidebar/mainfeed/MainFeedSidebar";
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";

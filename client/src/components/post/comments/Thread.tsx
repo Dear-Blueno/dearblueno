@@ -9,7 +9,7 @@ import DividerDot from "components/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/post/comments/comment_header/CommentHeader";
 import LoginPopup from "../LoginPopup";
-import UserContent from "components/feeds/UserContent";
+import UserContent from "components/post/content/UserContent";
 import CommentContext from "./CommentContext";
 import { useIsMobile } from "hooks/is-mobile";
 import useUser from "hooks/useUser";

@@ -1,5 +1,5 @@
 import styles from "./ProfileBio.module.scss";
-import UserContent from "../../feeds/UserContent";
+import UserContent from "../../post/content/UserContent";
 
 interface ProfileBioProps {
   bio: string;
@@ -25,7 +25,7 @@ function ProfileBio(props: ProfileBioProps) {
           ></textarea>
         </div>
       ) : (
-        <UserContent showContent={true}>{props.bio}</UserContent>
+        <UserContent>{props.bio}</UserContent>
       )}
     </div>
   );

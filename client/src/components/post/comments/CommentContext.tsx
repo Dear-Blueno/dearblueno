@@ -1,5 +1,5 @@
 import styles from "./CommentContext.module.scss";
-import UserContent from "components/feeds/UserContent";
+import UserContent from "components/post/content/UserContent";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import IComment from "types/IComment";
 
@@ -35,7 +35,7 @@ export default function CommentContext(props: CommentContextProps) {
               : "Anonymous"}
           </div>
           <div className={styles.CommentContextReplyText}>
-            <UserContent showContent={true}>
+            <UserContent>
               {props.thread.parentComment.content.substring(0, 10) +
                 (props.thread.parentComment.content.length > 10 ? "…" : "")}
             </UserContent>
