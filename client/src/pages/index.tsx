@@ -3,8 +3,9 @@ import MainFeedSidebar from "components/sidebar/mainfeed/MainFeedSidebar";
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/MainFeedHeader";
+import { NextPage } from "next";
 
-export default function HomePage() {
+const HomePage: NextPage = () => {
   return (
     <>
       <Head>
@@ -18,4 +19,6 @@ export default function HomePage() {
       ></MainLayout>
     </>
   );
-}
+};
+
+export default HomePage;

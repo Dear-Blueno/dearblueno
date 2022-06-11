@@ -3,17 +3,18 @@ import IPost from "../../types/IPost";
 import { getPost } from "../../gateways/PostGateway";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Post from "../../components/feeds/post/Post";
+import Post from "components/post/Post";
 import { useQuery } from "react-query";
 import { loadAuth } from "gateways/AuthGateway";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
+import { NextPage } from "next";
 
 type PostPageProps = {
   postNumber: number;
 };
 
-export default function PostPage() {
+const PostPage: NextPage = () => {
   const router = useRouter();
   const [loadingID, setLoadingID] = useState(true);
   const [postNumber, setPostNumber] = useState<number>(0);
@@ -40,7 +41,7 @@ export default function PostPage() {
       page={<PostPageMain postNumber={postNumber} />}
     />
   );
-}
+};
 
 function PostPageMain(props: PostPageProps) {
   const {
@@ -90,3 +91,5 @@ function PostPageMain(props: PostPageProps) {
     </div>
   );
 }
+
+export default PostPage;

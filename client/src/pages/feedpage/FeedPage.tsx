@@ -1,4 +1,4 @@
-import "./FeedPage.css";
+// import "./FeedPage.css";
 
 interface FeedPageProps {
   children: React.ReactNode;

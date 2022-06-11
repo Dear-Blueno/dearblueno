@@ -3,14 +3,15 @@ import MainLayout from "components/layout/MainLayout";
 import { useState } from "react";
 import SubmitBox from "components/submit_post/SubmitBox";
 import IUser from "types/IUser";
+import { NextPage } from "next";
 
 type SubmitPageProps = {
   user?: IUser;
 };
 
-export default function SubmitPage() {
+const SubmitPage: NextPage = () => {
   return <MainLayout title="Submit" page={<SubmitPageMain />} />;
-}
+};
 
 function SubmitPageMain(props: SubmitPageProps) {
   const [submitted, setSubmitted] = useState(false);
@@ -25,3 +26,5 @@ function SubmitPageMain(props: SubmitPageProps) {
     </div>
   );
 }
+
+export default SubmitPage;

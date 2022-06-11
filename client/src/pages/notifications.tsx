@@ -1,8 +1,9 @@
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import NotificationsFeed from "components/feeds/NotificationsFeed";
+import { NextPage } from "next";
 
-export default function NotificationsPage() {
+const NotificationsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -14,4 +15,6 @@ export default function NotificationsPage() {
       ></MainLayout>
     </>
   );
-}
+};
+
+export default NotificationsPage;

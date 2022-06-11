@@ -1,24 +1,13 @@
 import LevelAndXPBar from "components/user/LevelAndXPBar";
-import { loadAuth } from "gateways/AuthGateway";
+import useUser from "hooks/useUser";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "react-query";
 import styles from "./MainSidebarProfile.module.scss";
 
 type MainSidebarProfileProps = {};
 
 export default function MainSidebarProfile(props: MainSidebarProfileProps) {
-  const {
-    isLoading,
-    error,
-    data: user,
-  } = useQuery("user", () =>
-    loadAuth().then((response) => {
-      if (response.success && response.payload) {
-        return response.payload;
-      }
-    })
-  );
+  const { user } = useUser();
   return (
     <Link href="/profile">
       <div className={styles.MainSidebarProfile}>

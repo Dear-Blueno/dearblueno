@@ -3,8 +3,9 @@ import MainLayout from "components/layout/MainLayout";
 import Image from "next/image";
 import BluenoGif from "images/404.gif";
 import Head from "next/head";
+import { NextPage } from "next";
 
-export default function NotFoundPage() {
+const NotFoundPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,7 +14,7 @@ export default function NotFoundPage() {
       <MainLayout page={<NotFoundPageMain />} />
     </>
   );
-}
+};
 
 function NotFoundPageMain() {
   return (
@@ -30,3 +31,5 @@ function NotFoundPageMain() {
     </div>
   );
 }
+
+export default NotFoundPage;

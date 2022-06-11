@@ -21,8 +21,8 @@ type ThreadProps = {
   postNumber?: number;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
   inContext: boolean;
-  blurred: boolean;
-  setBlurred: React.Dispatch<React.SetStateAction<boolean>>;
+  blurred?: boolean;
+  setBlurred?: React.Dispatch<React.SetStateAction<boolean>>;
   // displayedChildren: number;
 };
 

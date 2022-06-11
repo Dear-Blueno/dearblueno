@@ -3,19 +3,20 @@ import Collapsible from "react-collapsible";
 import IUser from "types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import MainLayout from "components/layout/MainLayout";
+import { NextPage } from "next";
 
 type AboutPageProps = {
   user?: IUser;
 };
 
-export default function AboutPage(props: AboutPageProps) {
+const AboutPage: NextPage<AboutPageProps> = (props: AboutPageProps) => {
   return (
     <MainLayout
       title="About"
       page={<AboutPageMain user={props.user} />}
     ></MainLayout>
   );
-}
+};
 
 function AboutPageMain(props: AboutPageProps) {
   return (
@@ -243,3 +244,5 @@ function AboutPageMain(props: AboutPageProps) {
     </div>
   );
 }
+
+export default AboutPage;

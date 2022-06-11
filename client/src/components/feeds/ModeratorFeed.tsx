@@ -7,9 +7,9 @@ import IComment from "../../types/IComment";
 import IPost from "../../types/IPost";
 import IUser from "../../types/IUser";
 import Feed from "./Feed";
-import ContextThread from "./post/comments/ContextThread";
-import ModeratorSelection from "./post/moderator/ModeratorSelection";
-import Post from "./post/Post";
+import ContextThread from "components/post/comments/ContextThread";
+import ModeratorSelection from "components/post/moderator/ModeratorSelection";
+import Post from "components/post/Post";
 
 type ModeratorFeedProps = {
   user?: IUser;

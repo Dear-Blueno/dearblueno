@@ -1,0 +1,36 @@
+.LoginFooter {
+  width: 100vw;
+  height: 3rem;
+  background-color: #164b7b;
+  color: white;
+  position: fixed;
+  bottom: 0;
+}
+
+.LoginFooterBody {
+  padding-left: calc((100vw - 45rem) / 2);
+  padding-right: calc((100vw - 45rem) / 2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.LoginFooterText {
+  font-size: larger;
+}
+
+.LoginButton {
+  appearance: none;
+  background-color: white;
+  border: 2px solid black;
+  width: 7rem;
+  height: 1.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Inconsolata";
+}
+
+.LoginButton:hover {
+  cursor: pointer;
+}

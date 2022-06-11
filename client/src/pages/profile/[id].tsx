@@ -9,8 +9,9 @@ import { useQuery } from "react-query";
 import MainLayout from "components/layout/MainLayout";
 import Head from "next/head";
 import NotFoundPage from "pages/404";
+import { NextPage } from "next";
 
-export default function ProfilePage() {
+const ProfilePage: NextPage = () => {
   const {
     isLoading: isLoadingUser,
     error: errorUser,
@@ -80,7 +81,7 @@ export default function ProfilePage() {
       />
     </>
   );
-}
+};
 
 type ProfilePageMainProps = {
   user?: IUser;
@@ -99,3 +100,5 @@ function ProfilePageMain(props: ProfilePageMainProps) {
     </div>
   );
 }
+
+export default ProfilePage;

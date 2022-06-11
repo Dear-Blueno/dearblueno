@@ -27,12 +27,10 @@ function ContextThread(props: ContextThreadProps) {
       >
         <CommentContext thread={props.thread} showProfilePicture />
         <Thread
-          user={props.user}
           collapsed={false}
           comment={props.thread as IThread}
           depth={0}
           inContext={true}
-          contentWarning={props.thread.post.contentWarning}
         ></Thread>
         {props.moderatorView && (
           <div className={styles.ContextThreadModeratorLinkContainer}>

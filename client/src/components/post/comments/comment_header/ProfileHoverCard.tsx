@@ -1,6 +1,6 @@
 import styles from "./ProfileHoverCard.module.scss";
 import React, { useState, useEffect } from "react";
-import { IBasicUser } from "../../../../../types/IUser";
+import { IBasicUser } from "types/IUser";
 import {
   RiFacebookCircleLine,
   RiTwitterLine,

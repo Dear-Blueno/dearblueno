@@ -5,6 +5,7 @@ import axiosInit from "config/axios";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { IsMobileProvider } from "hooks/is-mobile";
+import LoginFooter from "components/login/LoginFooter";
 
 axiosInit();
 const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <MainSidebar />
               <Component {...pageProps} />
             </div>
+            <LoginFooter></LoginFooter>
             {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
         </IsMobileProvider>

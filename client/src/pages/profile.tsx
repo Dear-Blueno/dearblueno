@@ -1,5 +1,8 @@
+import { NextPage } from "next";
 import ProfilePage from "./profile/[id]";
 
-export default function MyProfilePage() {
+const MyProfilePage: NextPage = () => {
   return <ProfilePage />;
-}
+};
+
+export default MyProfilePage;

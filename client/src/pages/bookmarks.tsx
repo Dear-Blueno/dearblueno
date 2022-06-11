@@ -1,8 +1,9 @@
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import BookmarksFeed from "components/feeds/BookmarksFeed";
+import { NextPage } from "next";
 
-export default function BookmarksPage() {
+const BookmarksPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -11,4 +12,6 @@ export default function BookmarksPage() {
       <MainLayout title="Bookmarks" page={<BookmarksFeed />}></MainLayout>
     </>
   );
-}
+};
+
+export default BookmarksPage;

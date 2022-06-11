@@ -6,13 +6,14 @@ import SearchFeed from "components/feeds/SearchFeed";
 import IUser from "types/IUser";
 import MainLayout from "components/layout/MainLayout";
 import SearchPageHeader from "components/header/SearchPageHeader";
+import { NextPage } from "next";
 
 type SearchPageProps = {
   user?: IUser;
   searchQuery: string;
 };
 
-export default function SearchPage(props: SearchPageProps) {
+const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   return (
     <MainLayout
@@ -21,7 +22,7 @@ export default function SearchPage(props: SearchPageProps) {
       page={<SearchPageMain user={props.user} searchQuery={searchQuery} />}
     />
   );
-}
+};
 
 function SearchPageMain(props: SearchPageProps) {
   const [results, setResults] = useState<IPost[]>([]);
@@ -39,7 +40,7 @@ function SearchPageMain(props: SearchPageProps) {
         setHasQuery(true);
         if (response.success && response.payload) {
           console.log(props.searchQuery, response.payload);
-          setResults(response.payload as IPost[]);
+          setResults(response.payload);
         } else {
           console.log(response.message);
           setResults([]);
@@ -80,3 +81,5 @@ function SearchPageMain(props: SearchPageProps) {
     </div>
   );
 }
+
+export default SearchPage;

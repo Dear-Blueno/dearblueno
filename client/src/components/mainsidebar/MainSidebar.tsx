@@ -5,39 +5,48 @@ import Image from "next/image";
 import { useMemo } from "react";
 import Link from "next/link";
 import MainSidebarProfile from "./MainSidebarProfile";
+import useUser from "hooks/useUser";
 
 type MainSidebarItem = {
   path: string;
   label: string;
+  requiresUser: boolean;
 };
 
 export default function MainSidebar() {
+  const { user } = useUser();
   const router = useRouter();
   const sidebarItems: MainSidebarItem[] = useMemo(
     () => [
       {
         path: "/",
         label: "Home",
+        requiresUser: false,
       },
       {
         path: "/notifications",
         label: "Notifications",
+        requiresUser: true,
       },
       {
         path: "/bookmarks",
         label: "Bookmarks",
+        requiresUser: true,
       },
       {
         path: "/search",
         label: "Search",
+        requiresUser: false,
       },
       {
         path: "/profile",
         label: "Profile",
+        requiresUser: true,
       },
       {
         path: "/about",
         label: "About",
+        requiresUser: false,
       },
     ],
     []
@@ -52,20 +61,25 @@ export default function MainSidebar() {
           </a>
         </Link>
         <ul className={styles.SidebarList}>
-          {sidebarItems.map((item) => (
-            <li
-              key={item.path}
-              className={
-                router.pathname === item.path
-                  ? styles.SidebarListItem + " " + styles.SidebarListItemActive
-                  : styles.SidebarListItem
-              }
-            >
-              <Link href={item.path} scroll={false}>
-                <a className={styles.SidebarListItemLink}>{item.label}</a>
-              </Link>
-            </li>
-          ))}
+          {sidebarItems.map(
+            (item) =>
+              (user || !item.requiresUser) && (
+                <li
+                  key={item.path}
+                  className={
+                    router.pathname === item.path
+                      ? styles.SidebarListItem +
+                        " " +
+                        styles.SidebarListItemActive
+                      : styles.SidebarListItem
+                  }
+                >
+                  <Link href={item.path} scroll={false}>
+                    <a className={styles.SidebarListItemLink}>{item.label}</a>
+                  </Link>
+                </li>
+              )
+          )}
         </ul>
         <Link href="/submit">
           <a className={styles.NewPostButtonLink}>
