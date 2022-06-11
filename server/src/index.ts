@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import session from "express-session";
+import responseTime from "response-time";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
@@ -17,24 +18,7 @@ import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
-// Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config();
-
-// Setup Passport.js
-passportConfig();
-
-// Setup Express server
-const app = express();
-app.use(express.json());
-app.use(mongoSanitize());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
+// Setup logger
 log4js.configure({
   appenders: {
     out: { type: "stdout" },
@@ -45,6 +29,30 @@ log4js.configure({
   },
 });
 const logger = log4js.getLogger("app");
+
+// Load environment variables from .env file, where API keys and passwords are configured
+dotenv.config();
+
+if (process.env.MONGODB_URI === undefined) {
+  logger.fatal("MONGODB_URI is not defined in environment variables");
+  process.exit(1);
+}
+
+// Setup Passport.js
+passportConfig();
+
+// Setup Express server
+const app = express();
+app.use(responseTime());
+app.use(express.json());
+app.use(mongoSanitize());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Setup MongoDB
 mongoConnection();
