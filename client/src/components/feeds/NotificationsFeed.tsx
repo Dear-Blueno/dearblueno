@@ -1,5 +1,15 @@
-import Feed from "components/feeds/ReactQueryFeed";
+import Notification from "components/notification/Notification";
+import useUser from "hooks/useUser";
 
 export default function NotificationsFeed() {
-  return null;
+  const { user } = useUser();
+  if (!user) return null;
+  console.log(user.notifications);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      {user!.notifications.map((notification) => (
+        <Notification notification={notification} />
+      ))}
+    </div>
+  );
 }
