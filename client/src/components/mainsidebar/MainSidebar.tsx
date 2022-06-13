@@ -29,6 +29,11 @@ export default function MainSidebar() {
         requiresUser: true,
       },
       {
+        path: "/events",
+        label: "Events",
+        requiresUser: false,
+      },
+      {
         path: "/bookmarks",
         label: "Bookmarks",
         requiresUser: true,
