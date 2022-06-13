@@ -14,7 +14,7 @@ type MainSidebarItem = {
 };
 
 export default function MainSidebar() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const router = useRouter();
   const sidebarItems: MainSidebarItem[] = useMemo(
     () => [
@@ -60,32 +60,38 @@ export default function MainSidebar() {
             <Image src={LogoIcon} alt="Blueno" width={80} height={80} />
           </a>
         </Link>
-        <ul className={styles.SidebarList}>
-          {sidebarItems.map(
-            (item) =>
-              (user || !item.requiresUser) && (
-                <li
-                  key={item.path}
-                  className={
-                    router.pathname === item.path
-                      ? styles.SidebarListItem +
-                        " " +
-                        styles.SidebarListItemActive
-                      : styles.SidebarListItem
-                  }
-                >
-                  <Link href={item.path} scroll={false}>
-                    <a className={styles.SidebarListItemLink}>{item.label}</a>
-                  </Link>
-                </li>
-              )
-          )}
-        </ul>
-        <Link href="/submit">
-          <a className={styles.NewPostButtonLink}>
-            <button className={styles.NewPostButton}>New Post</button>
-          </a>
-        </Link>
+        {!isLoading && (
+          <>
+            <ul className={styles.SidebarList}>
+              {sidebarItems.map(
+                (item) =>
+                  (user || !item.requiresUser) && (
+                    <li
+                      key={item.path}
+                      className={
+                        router.pathname === item.path
+                          ? styles.SidebarListItem +
+                            " " +
+                            styles.SidebarListItemActive
+                          : styles.SidebarListItem
+                      }
+                    >
+                      <Link href={item.path} scroll={false}>
+                        <a className={styles.SidebarListItemLink}>
+                          {item.label}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+              )}
+            </ul>
+            <Link href="/submit">
+              <a className={styles.NewPostButtonLink}>
+                <button className={styles.NewPostButton}>New Post</button>
+              </a>
+            </Link>
+          </>
+        )}
       </div>
       <MainSidebarProfile />
     </nav>

@@ -1,11 +1,10 @@
+@use "../../styles/card.module.scss";
+
 .Notification {
+  @extend .DearBluenoCard;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
-  background-color: white;
-  border: 0.1rem solid rgba(0, 0, 0, 1);
-  box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
   cursor: pointer;
 }
 
