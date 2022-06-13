@@ -2,6 +2,8 @@ import styles from "./CommentHeader.module.scss";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { BsCode } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
+import { RiVipDiamondFill } from "react-icons/ri";
 import { IBasicUser } from "types/IUser";
 import { useState, useRef } from "react";
 import { usePopper } from "react-popper";
@@ -125,6 +127,11 @@ function CommentHeader(props: CommentHeaderProps) {
 
       {props.comment.author?._id === "61f343cfa90eee523f25f222" ? (
         <BsCode className={styles.DevBadge} title="Verified Developer" />
+      ) : null}
+
+      {/* if comments author badges array contains "Top Fan", verified developer */}
+      {props.comment.author?.badges?.includes("Top Fan") ? (
+        <RiVipDiamondFill className={styles.TopFanBadge} title="Top Fan" />
       ) : null}
 
       <p className={styles.CommentDate}>
