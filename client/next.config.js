@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["lh3.googleusercontent.com"],
+    // update later to remove brown? not sure.
+    domains: ["lh3.googleusercontent.com", "www.brown.edu"],
   },
 };
 

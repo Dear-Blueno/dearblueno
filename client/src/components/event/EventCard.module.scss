@@ -1,0 +1,47 @@
+@use "../../styles/card.module.scss";
+
+.EventCard {
+  @extend .DearBluenoCard;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 0;
+  width: 22rem;
+  box-sizing: content-box;
+}
+
+.EventCardImageContainer {
+  width: 22rem;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid black;
+}
+
+.EventCardAttendees {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.EventCardInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.EventCardTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.EventCardDescription {
+  color: gray;
+}
+
+.EventCardButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}

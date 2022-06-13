@@ -1,0 +1,13 @@
+.EventCardButton {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  appearance: none;
+  -moz-appearance: none;
+  background-color: #cfd7e1;
+  border: none;
+  justify-content: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  cursor: pointer;
+}
