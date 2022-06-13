@@ -6,9 +6,16 @@
   background-color: white;
   border: 0.1rem solid rgba(0, 0, 0, 1);
   box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
+  cursor: pointer;
 }
 
 .NotificationHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.NotificationHeaderLeft {
   display: flex;
   flex-direction: row;
   align-items: center;
