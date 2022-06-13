@@ -10,4 +10,8 @@
   padding: 0.5rem;
   gap: 0.5rem;
   cursor: pointer;
+
+  &:active {
+    background-color: #b3b9c0;
+  }
 }

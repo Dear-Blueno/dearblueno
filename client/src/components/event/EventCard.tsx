@@ -1,8 +1,10 @@
 import Image from "next/image";
 import styles from "./EventCard.module.scss";
-import { BsFillPeopleFill } from "react-icons/bs";
+import { BsFillPeopleFill, BsCheckLg } from "react-icons/bs";
 import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
+import { useState } from "react";
+
 type EventCardProps = {
   image: string;
   title: string;
@@ -13,6 +15,9 @@ type EventCardProps = {
 };
 
 export default function EventCard(props: EventCardProps) {
+  const [isGoing, setIsGoing] = useState(false);
+  const [attendeeNumber, setAttendeeNumber] = useState(props.numberOfAttendees);
+
   return (
     <div className={styles.EventCard}>
       <div className={styles.EventCardImageContainer}>
@@ -24,15 +29,30 @@ export default function EventCard(props: EventCardProps) {
         <p>{props.location}</p>
         <p>{props.date}</p>
         <div className={styles.EventCardAttendees}>
-          <p>{props.numberOfAttendees}</p>
+          <p>{attendeeNumber}</p>
           <BsFillPeopleFill className={styles.EventCardAttendeesIcon} />
         </div>
         <div className={styles.EventCardButtonContainer}>
-          <EventCardButton
-            icon={BsFillPeopleFill}
-            text="Going"
-            onClick={() => console.log("Going")}
-          />
+          {isGoing ? (
+            <EventCardButton
+              icon={BsCheckLg}
+              text="I'm Going"
+              onClick={() => {
+                setIsGoing(false);
+                setAttendeeNumber(attendeeNumber - 1);
+              }}
+              style={styles.EventCardButtonGoing}
+            />
+          ) : (
+            <EventCardButton
+              icon={BsFillPeopleFill}
+              text="Going"
+              onClick={() => {
+                setIsGoing(true);
+                setAttendeeNumber(attendeeNumber + 1);
+              }}
+            />
+          )}
           <EventCardButton
             icon={IoShareOutline}
             text="Share"
