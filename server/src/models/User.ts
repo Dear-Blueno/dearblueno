@@ -165,6 +165,7 @@ export interface INewCommentNotification extends INotification {
   content: {
     postNumber: number;
     userName: string;
+    commentContent: string;
     profilePicture: string;
   };
 }

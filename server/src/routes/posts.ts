@@ -379,7 +379,8 @@ postRouter.post(
           type: "newComment",
           content: {
             postNumber: post.postNumber,
-            userName: user.givenName,
+            userName: user.name,
+            commentContent: req.body.content,
             profilePicture: user.profilePicture,
           },
         };
@@ -451,6 +452,7 @@ postRouter.put(
           content: {
             postNumber: post.postNumber,
             userName: "Anonymous",
+            commentContent: comment.content,
             profilePicture: "",
           },
         };
