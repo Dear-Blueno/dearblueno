@@ -1,17 +1,19 @@
 .myMasonryGrid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
-  margin-left: -1rem; /* gutter size offset */
-  width: auto;
 }
 
 .myMasonryGridColumn {
   padding-left: 1rem; /* gutter size */
   background-clip: padding-box;
+  &:first-child {
+    padding-left: 0;
+  }
 }
 
 .myMasonryGridColumn > div {
   /* change div to reference your elements you put in <Masonry> */
   margin-bottom: 1rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
