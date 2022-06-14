@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { INotification } from "types/IUser";
 import RelativeDate from "components/post/RelativeDate";
+import { deleteNotification } from "gateways/UserGateway";
 
 type NotificationProps = {
   notification: INotification;
@@ -12,19 +13,16 @@ export default function Notification(props: NotificationProps) {
   let notifText;
   if (props.notification.type === "newComment") {
     notifText = (
-      //   <div className={styles.NoticationText}>
       <p>
         <strong>{props.notification.content.userName}</strong>
         {" commented on "}
         <strong>{"Post #" + props.notification.content.postNumber}</strong>
       </p>
-      //   </div>
     );
   }
   console.log(props.notification);
   let notifDate = new Date(props.notification.timestamp).toISOString();
-  const context =
-    "Content Goes here eventually and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on and so on";
+  const context = props.notification.content.commentContent;
 
   return (
     <Link href={`/post/${props.notification.content.postNumber}`}>
