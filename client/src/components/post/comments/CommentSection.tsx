@@ -104,9 +104,7 @@ function CommentSection(props: CommentSectionProps) {
   sortComments(threads);
   const [comments, setComments] = useState<IThread[]>(threads);
   const firstThree = comments.slice(0, 3);
-  const firstThreeLength = firstThree.flat().length;
   const rest = comments.slice(3);
-  const restLength = rest.flat().length;
   const [showingAll, setShowingAll] = useState(false);
 
   return comments.length || props.showTopLevelCommentBox ? (
@@ -124,9 +122,9 @@ function CommentSection(props: CommentSectionProps) {
           displayedChildren={2 - index}
         />
       ))}
-      {!showingAll && restLength > 0 && (
+      {!showingAll && rest.length > 0 && (
         <ViewMoreButton
-          count={restLength}
+          count={rest.length}
           type="comment"
           action={() => setShowingAll(true)}
         />

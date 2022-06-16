@@ -30,31 +30,16 @@ const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
   const { user } = useUser();
-  const [showingAll, setShowingAll] = useState(
-    props.displayedChildren === undefined
+  const [displayedChildren, setDisplayedChildren] = useState(
+    props.displayedChildren === undefined ? Infinity : props.displayedChildren
   );
   const [collapsed, setCollapsed] = useState(false);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const isMobile = useIsMobile();
-  // if (
-  //   !showingAll &&
-  //   props.displayedChildren !== undefined &&
-  //   props.displayedChildren < 0
-  // ) {
-  //   return (
-  //     <ViewMoreButton
-  //       count={props.comment.children.flat().length + 1}
-  //       type="reply"
-  //       action={() => setShowingAll(true)}
-  //     />
-  //   );
-  // }
 
-  const displayed = showingAll
-    ? props.comment.children
-    : props.comment.children.slice(0, props.displayedChildren);
-  const hidden = props.comment.children.slice(props.displayedChildren);
+  const displayed = props.comment.children.slice(0, displayedChildren);
+  const hidden = props.comment.children.slice(displayedChildren);
 
   const nestedComments = (
     <>
@@ -72,16 +57,16 @@ function Thread(props: ThreadProps) {
             displayedChildren={
               props.displayedChildren === undefined
                 ? undefined
-                : props.displayedChildren - 1 - index
+                : displayedChildren - 1 - index
             }
           />
         );
       })}
-      {!showingAll && hidden.length > 0 && (
+      {hidden.length > 0 && (
         <ViewMoreButton
           count={hidden.length}
           type="reply"
-          action={() => setShowingAll(true)}
+          action={() => setDisplayedChildren(2)}
         />
       )}
     </>
