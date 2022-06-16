@@ -38,8 +38,12 @@ function Thread(props: ThreadProps) {
   const [showPopup, setShowPopup] = useState(false);
   const isMobile = useIsMobile();
 
-  const displayed = props.comment.children.slice(0, displayedChildren);
-  const hidden = props.comment.children.slice(displayedChildren);
+  const displayed = !props.inContext
+    ? props.comment.children.slice(0, displayedChildren)
+    : [];
+  const hidden = !props.inContext
+    ? props.comment.children.slice(displayedChildren)
+    : [];
 
   const nestedComments = (
     <>
