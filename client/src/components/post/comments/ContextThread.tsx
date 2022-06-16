@@ -27,7 +27,6 @@ function ContextThread(props: ContextThreadProps) {
       >
         <CommentContext thread={props.thread} showProfilePicture />
         <Thread
-          collapsed={false}
           comment={props.thread as IThread}
           depth={0}
           inContext={true}
