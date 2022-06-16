@@ -21,7 +21,6 @@ export default function MainSidebarProfile(props: MainSidebarProfileProps) {
                 height={60}
               />
             </div>
-
             <div className={styles.MainSidebarProfileNameAndXP}>
               <div className={styles.MainSidebarProfileName}>
                 {user && user.name}

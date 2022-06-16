@@ -9,6 +9,7 @@ import { loadAuth } from "gateways/AuthGateway";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
 import { NextPage } from "next";
+import useUser from "hooks/useUser";
 
 type PostPageProps = {
   postNumber: number;
@@ -24,7 +25,9 @@ const PostPage: NextPage = () => {
     if (Number.isInteger(num)) {
       setPostNumber(num);
     }
-    setLoadingID(false);
+    if (router.query.id) {
+      setLoadingID(false);
+    }
   }, [router.query.id]);
 
   if (loadingID) {
@@ -44,17 +47,7 @@ const PostPage: NextPage = () => {
 };
 
 function PostPageMain(props: PostPageProps) {
-  const {
-    isLoading,
-    error,
-    data: user,
-  } = useQuery("user", () =>
-    loadAuth().then((response) => {
-      if (response.success && response.payload) {
-        return response.payload;
-      }
-    })
-  );
+  const { user, isLoading } = useUser();
 
   const [postStatus, setPostStatus] = useState<string>("loading...");
 
