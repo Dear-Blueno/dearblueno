@@ -13,9 +13,9 @@ import UserContent from "components/post/content/UserContent";
 import CommentContext from "./CommentContext";
 import { useIsMobile } from "hooks/is-mobile";
 import useUser from "hooks/useUser";
+import ViewMoreButton from "./ViewMoreButton";
 
 type ThreadProps = {
-  collapsed: boolean;
   comment: IThread;
   depth: number;
   postNumber?: number;
@@ -23,44 +23,69 @@ type ThreadProps = {
   inContext: boolean;
   blurred?: boolean;
   setBlurred?: React.Dispatch<React.SetStateAction<boolean>>;
-  // displayedChildren: number;
+  displayedChildren?: number;
 };
 
 const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
   const { user } = useUser();
-  const [show, setShow] = useState(true);
+  const [showingAll, setShowingAll] = useState(
+    props.displayedChildren === undefined
+  );
+  const [collapsed, setCollapsed] = useState(false);
   const [showReplyBox, setShowReplyBox] = useState(false);
-
-  const toggleShow = () => {
-    setShow(!show);
-  };
-
-  const nestedComments = (props.comment.children || []).map((comment) => {
-    return (
-      <Thread
-        key={comment.commentNumber}
-        collapsed={false}
-        comment={comment}
-        depth={props.depth + 1}
-        postNumber={props.postNumber}
-        setComments={props.setComments}
-        inContext={props.inContext}
-        blurred={props.blurred}
-        setBlurred={props.setBlurred}
-      />
-    );
-  });
-
-  const [showPopup, setshowPopup] = useState(false);
-  const openPopup = () => {
-    setshowPopup(true);
-  };
-
-  const closePopup = () => setshowPopup(false);
-
+  const [showPopup, setShowPopup] = useState(false);
   const isMobile = useIsMobile();
+  // if (
+  //   !showingAll &&
+  //   props.displayedChildren !== undefined &&
+  //   props.displayedChildren < 0
+  // ) {
+  //   return (
+  //     <ViewMoreButton
+  //       count={props.comment.children.flat().length + 1}
+  //       type="reply"
+  //       action={() => setShowingAll(true)}
+  //     />
+  //   );
+  // }
+
+  const displayed = showingAll
+    ? props.comment.children
+    : props.comment.children.slice(0, props.displayedChildren);
+  const hidden = props.comment.children.slice(props.displayedChildren);
+
+  const nestedComments = (
+    <>
+      {displayed.map((comment, index) => {
+        return (
+          <Thread
+            key={comment.commentNumber}
+            comment={comment}
+            depth={props.depth + 1}
+            postNumber={props.postNumber}
+            setComments={props.setComments}
+            inContext={props.inContext}
+            blurred={props.blurred}
+            setBlurred={props.setBlurred}
+            displayedChildren={
+              props.displayedChildren === undefined
+                ? undefined
+                : props.displayedChildren - 1 - index
+            }
+          />
+        );
+      })}
+      {!showingAll && hidden.length > 0 && (
+        <ViewMoreButton
+          count={hidden.length}
+          type="reply"
+          action={() => setShowingAll(true)}
+        />
+      )}
+    </>
+  );
 
   return (
     <div className="Thread" key={props.comment.commentNumber}>
@@ -73,22 +98,25 @@ function Thread(props: ThreadProps) {
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
         />
-        <LoginPopup showPopup={showPopup} closePopup={closePopup} />
-        {show && !props.inContext && (
+        <LoginPopup
+          showPopup={showPopup}
+          closePopup={() => setShowPopup(false)}
+        />
+        {!collapsed && !props.inContext && (
           <ThreadCollapser
-            collapse={toggleShow}
+            collapse={() => setCollapsed((c) => !c)}
             color={colors[props.depth <= 4 ? props.depth : 4]}
           />
         )}
         <CommentHeader
           comment={props.comment}
-          collapsed={!show}
-          expand={() => setShow(true)}
+          collapsed={collapsed}
+          expand={() => setCollapsed(false)}
           postNumber={props.postNumber}
           inContext={props.inContext}
           setComments={props.setComments}
         />
-        {show && (
+        {!collapsed && (
           <div className={styles.ThreadBody}>
             <div className={styles.CommentBody}>
               <div className="CommentBodyTextAndFooter">
@@ -109,7 +137,11 @@ function Thread(props: ThreadProps) {
                     <DividerDot />
                     <CommentButton
                       type="reply"
-                      click={user ? () => setShowReplyBox(true) : openPopup}
+                      click={
+                        user
+                          ? () => setShowReplyBox(true)
+                          : () => setShowPopup(true)
+                      }
                     />
                   </div>
                 )}

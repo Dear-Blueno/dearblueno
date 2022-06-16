@@ -1,0 +1,11 @@
+.ViewMoreButton {
+  font-weight: bold;
+  color: #164b7b;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  font-size: 0.9rem;
+  width: fit-content;
+  user-select: none;
+}

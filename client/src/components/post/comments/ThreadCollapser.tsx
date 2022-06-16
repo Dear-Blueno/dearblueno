@@ -15,10 +15,10 @@ function ThreadCollapser(props: ThreadCollapserProps) {
         className={styles.ThreadCollapserClickable}
         onClick={() => props.collapse()}
         onMouseEnter={() =>
-          line.current?.classList.add("ThreadCollapserLineHover")
+          line.current?.classList.add(styles.ThreadCollapserLineHover)
         }
         onMouseLeave={() =>
-          line.current?.classList.remove("ThreadCollapserLineHover")
+          line.current?.classList.remove(styles.ThreadCollapserLineHover)
         }
       >
         <div

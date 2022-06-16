@@ -3,6 +3,7 @@ import Thread from "./Thread";
 import IComment from "types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
 import { useState, useEffect } from "react";
+import ViewMoreButton from "./ViewMoreButton";
 
 export type CommentSectionProps = {
   postNumber: number;
@@ -98,30 +99,38 @@ const sortComments = (commentList: IThread[]) => {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const [comments, setComments] = useState<IThread[]>([]);
-
-  useEffect(() => {
-    const threads = nestComments(convertToThreads(props.comments));
-    calculateScores(threads);
-    sortComments(threads);
-    setComments(threads);
-  }, [props.comments]);
+  const threads = nestComments(convertToThreads(props.comments));
+  calculateScores(threads);
+  sortComments(threads);
+  const [comments, setComments] = useState<IThread[]>(threads);
+  const firstThree = comments.slice(0, 3);
+  const firstThreeLength = firstThree.flat().length;
+  const rest = comments.slice(3);
+  const restLength = rest.flat().length;
+  const [showingAll, setShowingAll] = useState(false);
 
   return comments.length || props.showTopLevelCommentBox ? (
     <div className={styles.CommentSection}>
-      {comments.map((comment, index) => (
+      {(showingAll ? comments : firstThree).map((comment, index) => (
         <Thread
           key={comment.commentNumber}
           comment={comment}
-          collapsed={false}
           depth={0}
           postNumber={props.postNumber}
           setComments={setComments}
           inContext={false}
           blurred={props.blurred}
           setBlurred={props.setBlurred}
+          displayedChildren={2 - index}
         />
       ))}
+      {!showingAll && restLength > 0 && (
+        <ViewMoreButton
+          count={restLength}
+          type="comment"
+          action={() => setShowingAll(true)}
+        />
+      )}
       {props.showTopLevelCommentBox && (
         <NewCommentBox
           firstComment={props.comments.length === 0}
