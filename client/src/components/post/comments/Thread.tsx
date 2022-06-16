@@ -57,6 +57,8 @@ function Thread(props: ThreadProps) {
             displayedChildren={
               props.displayedChildren === undefined
                 ? undefined
+                : displayedChildren === Infinity
+                ? 1
                 : displayedChildren - 1 - index
             }
           />
@@ -66,7 +68,7 @@ function Thread(props: ThreadProps) {
         <ViewMoreButton
           count={hidden.length}
           type="reply"
-          action={() => setDisplayedChildren(2)}
+          action={() => setDisplayedChildren(Infinity)}
         />
       )}
     </>
