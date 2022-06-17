@@ -39,13 +39,8 @@
     "dev": "next dev",
     "build": "next build && workbox generateSW workbox-config.js",
     "start": "next start",
-    "lint": "next lint"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "lint": "next lint",
+    "export": "next export"
   },
   "browserslist": {
     "production": [
