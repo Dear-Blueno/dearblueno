@@ -1,88 +1,70 @@
 import styles from "styles/PostPage.module.scss";
 import IPost from "../../types/IPost";
 import { getPost } from "../../gateways/PostGateway";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Post from "components/post/Post";
-import { useQuery } from "react-query";
-import { loadAuth } from "gateways/AuthGateway";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
-import { NextPage } from "next";
-import useUser from "hooks/useUser";
+import { GetStaticProps, NextPage } from "next";
 
 type PostPageProps = {
-  postNumber: number;
+  post?: IPost;
 };
 
-const PostPage: NextPage = () => {
-  const router = useRouter();
-  const [loadingID, setLoadingID] = useState(true);
-  const [postNumber, setPostNumber] = useState<number>(0);
+const PostPage: NextPage = ({ post }: PostPageProps) => {
+  console.log("PostPage", post);
 
-  useEffect(() => {
-    const num = Number(router.query.id as string);
-    if (Number.isInteger(num)) {
-      setPostNumber(num);
-    }
-    if (router.query.id) {
-      setLoadingID(false);
-    }
-  }, [router.query.id]);
-
-  if (loadingID) {
-    return <p>Loading...</p>;
-  }
-
-  if (!postNumber) {
+  if (!post) {
     return <NotFoundPage />;
   }
 
   return (
     <MainLayout
-      title={"Post #" + postNumber}
-      page={<PostPageMain postNumber={postNumber} />}
+      title={"Post #" + post.postNumber}
+      page={<PostPageMain post={post} />}
     />
   );
 };
 
-function PostPageMain(props: PostPageProps) {
-  const { user, isLoading } = useUser();
+type PostPageMainProps = {
+  post: IPost;
+};
 
-  const [postStatus, setPostStatus] = useState<string>("loading...");
-
-  // let initialSkipAnimation = false;
-  // let initialPost: IPost | undefined;
-  // const state: unknown = useLocation().state;
-  // if (typeof state === "object" && state && "post" in state) {
-  //   initialPost = (state as any)["post"];
-  //   initialSkipAnimation = true;
-  // }
-
-  const [post, setPost] = useState<IPost>();
-  // const [skipAnimation] = useState(initialSkipAnimation);
-
-  useEffect(() => {
-    getPost(props.postNumber).then((response) => {
-      if (response.success && response.payload) {
-        setPost(response.payload);
-        setPostStatus("");
-      } else {
-        console.log(response.message);
-        setPostStatus(response.message.toString() + " :(");
-      }
-    });
-  }, [props.postNumber]);
+function PostPageMain({ post }: PostPageMainProps) {
+  console.log("PostPageMain");
 
   return (
     <div className={styles.PostPage}>
-      {post ? (
-        <Post post={post} skipAnimation={false} />
-      ) : (
-        <p className={styles.PostStatus}>{postStatus}</p>
-      )}
+      <Post post={post} skipAnimation={false} />
     </div>
   );
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const postNumber = Number(context.params?.id as string);
+  const post = await getPost(postNumber);
+  if (post.success) {
+    console.log("PostPage getStaticProps");
+    return {
+      props: {
+        post: post.payload,
+      },
+      // Next.js will attempt to re-generate the page:
+      // - When a request comes in
+      // - At most every 30 seconds
+      revalidate: 30,
+    };
+  }
+  return {
+    props: {
+      post: null,
+    },
+    revalidate: 30,
+  };
+};
+
+export async function getStaticPaths() {
+  // Server-render and cache pages on the fly.
+  return { fallback: "blocking", paths: [] };
 }
 
 export default PostPage;

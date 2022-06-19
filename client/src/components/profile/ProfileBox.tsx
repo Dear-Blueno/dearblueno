@@ -16,7 +16,6 @@ import ContextThread from "components/post/comments/ContextThread";
 type ProfileBoxProps = {
   user?: IUser;
   profileUser?: IBasicUser;
-  refetchProfileUser: () => void;
 };
 
 function ProfileBox(props: ProfileBoxProps) {
@@ -140,7 +139,7 @@ function ProfileBox(props: ProfileBoxProps) {
       yearInput.current?.value || undefined
     );
     if (response.success && response.payload) {
-      props.refetchProfileUser();
+      // TODO props.refetchProfileUser();
     }
     setEditing(false);
   };

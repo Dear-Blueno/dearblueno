@@ -2,8 +2,13 @@ import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
 import { useInfiniteQuery } from "react-query";
+import IPost from "types/IPost";
 
-function MainFeed() {
+type MainFeedProps = {
+  posts: IPost[];
+};
+
+function MainFeed(props: MainFeedProps) {
   const fetchPosts = ({ pageParam = 1 }) => getPosts(pageParam);
   const {
     data,
@@ -21,7 +26,8 @@ function MainFeed() {
     },
   });
 
-  const posts = data?.pages.map((page) => page.payload).flat();
+  // TODO: Initially display the preloaded posts, then use the infinite query to fetch more posts.
+  const posts = props.posts; //data?.pages.map((page) => page.payload).flat();
 
   return (
     <Feed

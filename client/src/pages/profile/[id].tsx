@@ -2,16 +2,18 @@ import styles from "styles/ProfilePage.module.scss";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { loadAuth } from "gateways/AuthGateway";
 import { useQuery } from "react-query";
 import MainLayout from "components/layout/MainLayout";
 import Head from "next/head";
 import NotFoundPage from "pages/404";
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 
-const ProfilePage: NextPage = () => {
+type ProfilePageProps = {
+  user?: IUser;
+};
+
+const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   const {
     isLoading: isLoadingUser,
     error: errorUser,
@@ -24,39 +26,14 @@ const ProfilePage: NextPage = () => {
     })
   );
 
-  const router = useRouter();
-  const [profileUserID, setProfileUserID] = useState<string>("");
-
-  useEffect(() => {
-    if (!router.query.id && user) {
-      setProfileUserID(user._id);
-    } else {
-      setProfileUserID(router.query.id as string);
-    }
-    // setLoadingID(false);
-  }, [router.query.id, user]);
-
-  const {
-    isLoading: isLoadingProfileUser,
-    error: errorProfileUser,
-    data: profileUser,
-    refetch: refetchProfileUser,
-  } = useQuery("profileUser_" + profileUserID, () =>
-    profileUserID
-      ? getUser(profileUserID).then((response) => {
-          if (response.success && response.payload) {
-            return response.payload;
-          }
-        })
-      : undefined
-  );
-
-  if (isLoadingUser || isLoadingProfileUser) {
-    return <MainLayout page={<div>Loading...</div>} />;
-  }
+  const profileUser = props.user;
 
   if (!profileUser) {
     return <NotFoundPage />;
+  }
+
+  if (isLoadingUser) {
+    return <MainLayout page={<div>Loading...</div>} />;
   }
 
   const title =
@@ -71,13 +48,7 @@ const ProfilePage: NextPage = () => {
       </Head>
       <MainLayout
         title={title}
-        page={
-          <ProfilePageMain
-            user={user}
-            profileUser={profileUser}
-            refetchProfileUser={refetchProfileUser}
-          />
-        }
+        page={<ProfilePageMain user={user} profileUser={profileUser} />}
       />
     </>
   );
@@ -86,19 +57,38 @@ const ProfilePage: NextPage = () => {
 type ProfilePageMainProps = {
   user?: IUser;
   profileUser: IBasicUser;
-  refetchProfileUser: () => void;
 };
 
 function ProfilePageMain(props: ProfilePageMainProps) {
   return (
     <div className={styles.ProfilePage}>
-      <ProfileBox
-        user={props.user}
-        profileUser={props.profileUser}
-        refetchProfileUser={props.refetchProfileUser}
-      />
+      <ProfileBox user={props.user} profileUser={props.profileUser} />
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const userID = context.params?.id as string;
+  const user = await getUser(userID);
+  if (user.success) {
+    return {
+      props: {
+        user: user.payload,
+      },
+      revalidate: 30,
+    };
+  }
+  return {
+    props: {
+      user: null,
+    },
+    revalidate: 30,
+  };
+};
+
+export const getStaticPaths = async () => {
+  // Server-render and cache pages on the fly.
+  return { fallback: "blocking", paths: [] };
+};
 
 export default ProfilePage;
