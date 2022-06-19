@@ -4,6 +4,7 @@ import LogoIcon from "../../images/logo128.png";
 import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
 import Image from "next/image";
+import Link from "next/link";
 
 type SubmitBoxProps = {
   user: IUser | undefined;
@@ -34,7 +35,7 @@ function SubmitBox(props: SubmitBoxProps) {
               Your post has been submitted and will be reviewed by moderators
               shortly. Thank you.
             </h2>
-            <a href="/">
+            <Link href="/">
               <div className={styles.ReturnButton}>
                 <Image
                   className={styles.ReturnButtonImage}
@@ -43,7 +44,7 @@ function SubmitBox(props: SubmitBoxProps) {
                 />
                 Return to Main Feed
               </div>
-            </a>
+            </Link>
           </div>
         ) : (
           <div className={styles.PreSubmitContent}>

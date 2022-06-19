@@ -35,11 +35,12 @@ export default function Notification(props: NotificationProps) {
                 width={50}
                 height={50}
                 className={styles.NotificationImage}
+                alt=""
               />
             </div>
             {notifText}
           </div>
-          {/* conver timestamp to iso string */}
+          {/* convert timestamp to iso string */}
 
           <RelativeDate date={notifDate} />
         </div>

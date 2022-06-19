@@ -37,7 +37,7 @@ export type PostProps = {
 function Post(props: PostProps) {
   const { user, refetchUser } = useUser();
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const [showPopup, setshowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
   const [isBookmarked, setIsBookmarked] = useState(
     user?.bookmarks.includes(props.post._id)
@@ -46,10 +46,10 @@ function Post(props: PostProps) {
     user?.subscriptions.includes(props.post._id)
   );
   const openPopup = () => {
-    setshowPopup(true);
+    setShowPopup(true);
   };
 
-  const closePopup = () => setshowPopup(false);
+  const closePopup = () => setShowPopup(false);
 
   const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
     const response = await approvePost(

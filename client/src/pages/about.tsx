@@ -1,24 +1,14 @@
 import styles from "styles/AboutPage.module.scss";
 import Collapsible from "react-collapsible";
-import IUser from "types/IUser";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import MainLayout from "components/layout/MainLayout";
 import { NextPage } from "next";
 
-type AboutPageProps = {
-  user?: IUser;
+const AboutPage: NextPage = () => {
+  return <MainLayout title="About" page={<AboutPageMain />} />;
 };
 
-const AboutPage: NextPage<AboutPageProps> = (props: AboutPageProps) => {
-  return (
-    <MainLayout
-      title="About"
-      page={<AboutPageMain user={props.user} />}
-    ></MainLayout>
-  );
-};
-
-function AboutPageMain(props: AboutPageProps) {
+function AboutPageMain() {
   return (
     <div className="AboutPage">
       <div className={styles.AboutPagePost}>
@@ -93,9 +83,9 @@ function AboutPageMain(props: AboutPageProps) {
                   There are 3 kinds of submit forms we support: built-in,
                   verified Google Form, and unverified Google Form. Our built-in
                   submit form performs a check to see if the user is logged in
-                  with a Brown email. If so, the post is deemed "verified" upon
-                  submission, but no information tying the post to the user is
-                  stored.
+                  with a Brown email. If so, the post is deemed {'"verified" '}
+                  upon submission, but no information tying the post to the user
+                  is stored.
                 </p>
                 <p>
                   The Google Forms are provided for those who perhaps do not
@@ -155,11 +145,11 @@ function AboutPageMain(props: AboutPageProps) {
           <h3 className="SectionHeader">PRIVACY POLICY</h3>
           <div className={styles.PrivPolicy}>
             <p className="PrivSection">
-              The developers of dearblueno.net ("we", "us", "our") are committed
+              {`The developers of dearblueno.net ("we", "us", "our") are committed
               to privacy. On posts and anonymous comments, no information
               whatsoever is linked to an individual's identity. It is impossible
               for anyone, even the developers of dearblueno.net, to know who the
-              original poster is.
+              original poster is.`}
             </p>
             <p className="PrivSection">
               For user account registration and authentication, we make use of
@@ -177,11 +167,11 @@ function AboutPageMain(props: AboutPageProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Google's Privacy Policy.
+                {"Google's Privacy Policy."}
               </a>
             </p>
             <p className="PrivSection">
-              For content optimization, we make use of the Cloudflare content
+              {`For content optimization, we make use of the Cloudflare content
               delivery network and ImgBB image embeds. For web and mobile
               analytics, we make use of Cloudflare Web Analytics. Cloudflare Web
               Analytics is a privacy-friendly analytics platform that tracks
@@ -189,13 +179,13 @@ function AboutPageMain(props: AboutPageProps) {
               browser type, but does not use a "tracking beacon" or any cookies.
               Thus, this analytic information is not linked to your account or
               identity. For more information regarding how Cloudflare handles
-              your information, please visit{" "}
+              your information, please visit `}
               <a
                 href="https://www.cloudflare.com/privacy/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Cloudflare's Privacy Policy.
+                {"Cloudflare's Privacy Policy."}
               </a>
             </p>
             <p className="PrivSection">

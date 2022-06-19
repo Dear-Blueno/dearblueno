@@ -7,6 +7,7 @@ import {
   RiInstagramLine,
   RiLinkedinBoxLine,
 } from "react-icons/ri";
+import Image from "next/image";
 
 type ProfileHoverCardProps = {
   hoverUser: IBasicUser;
@@ -35,7 +36,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
       onMouseEnter={props.enterAction}
       onMouseLeave={props.leaveAction}
     >
-      <img
+      <Image
         src={props.hoverUser?.profilePicture}
         alt={props.hoverUser?.name}
         className={styles.HoverCardImage}

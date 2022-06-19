@@ -8,7 +8,7 @@ export default function NotificationsFeed() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {user.notifications.map((notification) => (
-        <Notification notification={notification} />
+        <Notification notification={notification} key={notification._id} />
       ))}
     </div>
   );
