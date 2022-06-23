@@ -8,7 +8,7 @@ import { getPosts } from "gateways/PostGateway";
 import IPost from "types/IPost";
 
 type HomePageProps = {
-  posts: IPost[];
+  initialPosts: IPost[];
 };
 
 const HomePage: NextPage<HomePageProps> = (props) => {
@@ -20,7 +20,7 @@ const HomePage: NextPage<HomePageProps> = (props) => {
       <MainLayout
         title="Home"
         header={<MainFeedHeader />}
-        page={<MainFeed posts={props.posts} />}
+        page={<MainFeed initialPosts={props.initialPosts} />}
         sidebar={<MainFeedSidebar />}
       ></MainLayout>
     </>
@@ -30,10 +30,9 @@ const HomePage: NextPage<HomePageProps> = (props) => {
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await getPosts(1);
   if (posts.success) {
-    console.log(JSON.stringify(posts.payload));
     return {
       props: {
-        posts: posts.payload,
+        initialPosts: posts.payload,
       },
       // Next.js will attempt to re-generate the page:
       // - When a request comes in
@@ -43,7 +42,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
   return {
     props: {
-      posts: [],
+      initialPosts: [],
     },
     revalidate: 5,
   };

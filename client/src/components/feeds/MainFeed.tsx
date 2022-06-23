@@ -5,11 +5,11 @@ import { useInfiniteQuery } from "react-query";
 import IPost from "types/IPost";
 
 type MainFeedProps = {
-  posts: IPost[];
+  initialPosts: IPost[];
 };
 
 function MainFeed(props: MainFeedProps) {
-  const fetchPosts = ({ pageParam = 1 }) => getPosts(pageParam);
+  const fetchPosts = ({ pageParam = 2 }) => getPosts(pageParam);
   const {
     data,
     error,
@@ -22,12 +22,16 @@ function MainFeed(props: MainFeedProps) {
       if (lastPage.payload?.length === 0) {
         return undefined;
       }
-      return pages.length + 1;
+      return pages.length + 2;
     },
   });
 
-  // TODO: Initially display the preloaded posts, then use the infinite query to fetch more posts.
-  const posts = props.posts; //data?.pages.map((page) => page.payload).flat();
+  const additionalPosts = (data?.pages
+    .map((page) => page.payload)
+    .flat()
+    .filter((post) => post !== null) ?? []) as IPost[];
+
+  const posts = props.initialPosts.concat(additionalPosts);
 
   return (
     <Feed
@@ -37,7 +41,7 @@ function MainFeed(props: MainFeedProps) {
       hasNextPage={hasNextPage}
       animated
     >
-      {posts?.map((post) => post && <Post key={post?._id} post={post} />)}
+      {posts.map((post) => post && <Post key={post._id} post={post} />)}
     </Feed>
   );
 }
