@@ -43,7 +43,7 @@ const nestComments = (commentList: IThread[]) => {
       const parent = commentMap[comment.parentCommentNumber];
       parent.children = parent.children || [];
       parent.children.push(comment);
-      comment.parentComment = parent;
+      comment.parentComment = JSON.parse(JSON.stringify(parent));
     }
   });
 
@@ -98,18 +98,10 @@ const sortComments = (commentList: IThread[]) => {
   });
 };
 
-const removeCircularReferences = (threads: IThread[]) => {
-  threads.forEach((thread) => {
-    thread.parentComment = null;
-    removeCircularReferences(thread.children);
-  });
-};
-
 function CommentSection(props: CommentSectionProps) {
   const threads = nestComments(convertToThreads(props.comments));
   calculateScores(threads);
   sortComments(threads);
-  removeCircularReferences(threads);
   const [comments, setComments] = useState<IThread[]>(threads);
   const firstThree = comments.slice(0, 3);
   const rest = comments.slice(3);
