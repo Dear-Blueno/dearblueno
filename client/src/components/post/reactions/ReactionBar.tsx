@@ -14,8 +14,8 @@ import SurpriseIcon from "images/surprise.svg";
 import SurpriseBWIcon from "images/surpriseBW.svg";
 import { useEffect, useState, useMemo } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
-import LoginPopup from "../LoginPopup";
 import useUser from "hooks/useUser";
+import { useLoginPopup } from "hooks/login-popup";
 
 type ReactionBarProps = {
   type: "comment" | "post";
@@ -26,6 +26,8 @@ type ReactionBarProps = {
 
 function ReactionBar(props: ReactionBarProps) {
   const { user } = useUser();
+  const setLoginPopupIsOpen = useLoginPopup();
+  const openPopup = () => setLoginPopupIsOpen(true);
   const [likeCount, setLikeCount] = useState(
     props.reactions[0] ? props.reactions[0].length : 0
   );
@@ -123,13 +125,6 @@ function ReactionBar(props: ReactionBarProps) {
     return [zero, nonZero];
   };
 
-  const [showPopup, setshowPopup] = useState(false);
-  const openPopup = () => {
-    setshowPopup(true);
-  };
-
-  const closePopup = () => setshowPopup(false);
-
   // initialize order arrays once
   useEffect(() => {
     const [zero, nonZero] = updateOrderArrays();
@@ -172,7 +167,7 @@ function ReactionBar(props: ReactionBarProps) {
           );
           const newUsers = [...users];
           newUsers[reaction] = newUsers[reaction].filter(
-            (user) => user._id !== user?._id
+            (_user) => _user._id !== _user?._id
           );
           setUsers(newUsers);
         } else {
@@ -227,7 +222,6 @@ function ReactionBar(props: ReactionBarProps) {
         );
       }}
     >
-      <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       {showReactText && (
         <p
           className={styles.ReactText}
@@ -237,7 +231,7 @@ function ReactionBar(props: ReactionBarProps) {
                   setShowReactText(false);
                   showAll();
                 }
-              : openPopup
+              : () => setLoginPopupIsOpen(true)
           }
         >
           react

@@ -30,8 +30,12 @@
 
 .FeedLoading {
   text-align: center;
-  padding-block: 2em;
+  padding-block: 2rem;
   padding-bottom: 50vh;
+}
+
+.FeedFinished {
+  padding-bottom: 2rem;
 }
 
 .FeedLoadingDot {

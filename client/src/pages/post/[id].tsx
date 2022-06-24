@@ -11,8 +11,6 @@ type PostPageProps = {
 };
 
 const PostPage: NextPage = ({ post }: PostPageProps) => {
-  console.log("PostPage", post);
-
   if (!post) {
     return <NotFoundPage />;
   }
@@ -30,8 +28,6 @@ type PostPageMainProps = {
 };
 
 function PostPageMain({ post }: PostPageMainProps) {
-  console.log("PostPageMain");
-
   return (
     <div className={styles.PostPage}>
       <Post post={post} skipAnimation={false} />
@@ -43,7 +39,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const postNumber = Number(context.params?.id as string);
   const post = await getPost(postNumber);
   if (post.success) {
-    console.log("PostPage getStaticProps");
     return {
       props: {
         post: post.payload,

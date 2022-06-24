@@ -15,7 +15,6 @@ import {
 } from "gateways/PostGateway";
 import ShareButton from "./ShareButton";
 import IPost from "types/IPost";
-import LoginPopup from "./LoginPopup";
 import { RiShieldCheckFill } from "react-icons/ri";
 import {
   MdBookmarkBorder,
@@ -26,6 +25,7 @@ import {
 import UserContent from "./content/UserContent";
 import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
+import { useLoginPopup } from "hooks/login-popup";
 
 export type PostProps = {
   post: IPost;
@@ -36,8 +36,8 @@ export type PostProps = {
 
 function Post(props: PostProps) {
   const { user, refetchUser } = useUser();
+  const setLoginPopupIsOpen = useLoginPopup();
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
   const [isBookmarked, setIsBookmarked] = useState(
     user?.bookmarks.includes(props.post._id)
@@ -45,11 +45,6 @@ function Post(props: PostProps) {
   const [isSubscribed, setIsSubscribed] = useState(
     user?.subscriptions.includes(props.post._id)
   );
-  const openPopup = () => {
-    setShowPopup(true);
-  };
-
-  const closePopup = () => setShowPopup(false);
 
   const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
     const response = await approvePost(
@@ -94,7 +89,6 @@ function Post(props: PostProps) {
         opacity: props.skipAnimation ? 1 : undefined,
       }}
     >
-      <LoginPopup showPopup={showPopup} closePopup={closePopup} />
       <div className={styles.PostHeader}>
         <div className={styles.NumberAndWarning}>
           <PostNumber
@@ -185,7 +179,11 @@ function Post(props: PostProps) {
           <DividerDot />
           <CommentButton
             type="comment"
-            click={user ? () => setShowCommentBox(true) : openPopup}
+            click={
+              user
+                ? () => setShowCommentBox(true)
+                : () => setLoginPopupIsOpen(true)
+            }
           />
           <DividerDot />
           <ShareButton postNumber={props.post.postNumber} />

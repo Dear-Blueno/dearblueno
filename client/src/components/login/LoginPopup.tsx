@@ -1,19 +1,21 @@
 import styles from "./LoginPopup.module.scss";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { loginBrown } from "gateways/AuthGateway";
+import { useLoginPopup } from "hooks/login-popup";
 
 interface LoginPopupProps {
-  showPopup: boolean;
-  closePopup: () => void;
+  isOpen: boolean;
 }
 
 function LoginPopup(props: LoginPopupProps) {
+  const setIsOpen = useLoginPopup();
+  const close = () => setIsOpen(false);
   return (
-    <div className="LoginPopup">
+    <div className={styles.LoginPopup}>
       <DialogOverlay
         style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
-        isOpen={props.showPopup}
-        onDismiss={props.closePopup}
+        isOpen={props.isOpen}
+        onDismiss={close}
       >
         <DialogContent aria-label="Login Popup">
           <div className={styles.LoginPopupContent}>
@@ -21,10 +23,10 @@ function LoginPopup(props: LoginPopupProps) {
               {"You won't be able to interact with the site until you log in."}
             </strong>
             <br />
-            <div className="PopupButtons">
+            <div className={styles.PopupButtons}>
               <button
                 className={styles.PopupAction}
-                onClick={props.closePopup}
+                onClick={close}
                 tabIndex={-1}
               >
                 No Thanks

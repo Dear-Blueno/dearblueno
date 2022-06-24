@@ -2,7 +2,7 @@ import styles from "./CommentSection.module.scss";
 import Thread from "./Thread";
 import IComment from "types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ViewMoreButton from "./ViewMoreButton";
 
 export type CommentSectionProps = {
@@ -43,7 +43,8 @@ const nestComments = (commentList: IThread[]) => {
       const parent = commentMap[comment.parentCommentNumber];
       parent.children = parent.children || [];
       parent.children.push(comment);
-      comment.parentComment = JSON.parse(JSON.stringify(parent));
+      const parentClone = { ...parent, children: undefined };
+      comment.parentComment = parentClone;
     }
   });
 

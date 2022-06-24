@@ -8,12 +8,12 @@ import CommentButton from "./CommentButton";
 import DividerDot from "components/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/post/comments/comment_header/CommentHeader";
-import LoginPopup from "../LoginPopup";
 import UserContent from "components/post/content/UserContent";
 import CommentContext from "./CommentContext";
 import { useIsMobile } from "hooks/is-mobile";
 import useUser from "hooks/useUser";
 import ViewMoreButton from "./ViewMoreButton";
+import { useLoginPopup } from "hooks/login-popup";
 
 type ThreadProps = {
   comment: IThread;
@@ -30,12 +30,12 @@ const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
   const { user } = useUser();
+  const setLoginPopupIsOpen = useLoginPopup();
   const [displayedChildren, setDisplayedChildren] = useState(
     props.displayedChildren === undefined ? Infinity : props.displayedChildren
   );
   const [collapsed, setCollapsed] = useState(false);
   const [showReplyBox, setShowReplyBox] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const isMobile = useIsMobile();
 
   const displayed = !props.inContext
@@ -89,10 +89,6 @@ function Thread(props: ThreadProps) {
         <CommentProfilePicture
           link={props.comment.author?.profilePicture ?? ""}
         />
-        <LoginPopup
-          showPopup={showPopup}
-          closePopup={() => setShowPopup(false)}
-        />
         {!collapsed && !props.inContext && (
           <ThreadCollapser
             collapse={() => setCollapsed((c) => !c)}
@@ -131,7 +127,7 @@ function Thread(props: ThreadProps) {
                       click={
                         user
                           ? () => setShowReplyBox(true)
-                          : () => setShowPopup(true)
+                          : () => setLoginPopupIsOpen(true)
                       }
                     />
                   </div>

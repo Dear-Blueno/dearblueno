@@ -48,7 +48,11 @@ function Feed(props: FeedProps) {
   const loadingDiv = useMemo(
     () => (
       <div
-        className={styles.FeedLoading}
+        className={
+          reachedEnd
+            ? styles.FeedLoading + " " + styles.FeedFinished
+            : styles.FeedLoading
+        }
         ref={loadingRef}
         style={{
           opacity:
