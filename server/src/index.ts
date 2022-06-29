@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import session from "express-session";
+import responseTime from "response-time";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
@@ -17,6 +18,7 @@ import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
+// Setup logger
 log4js.configure({
   appenders: {
     out: { type: "stdout" },
@@ -35,11 +37,17 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
+if (process.env.MONGODB_URI === undefined) {
+  logger.fatal("MONGODB_URI is not defined in environment variables");
+  process.exit(1);
+}
+
 // Setup Passport.js
 passportConfig();
 
 // Setup Express server
 const app = express();
+app.use(responseTime());
 app.use(express.json());
 app.use(mongoSanitize());
 app.use(
