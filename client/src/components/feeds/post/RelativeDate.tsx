@@ -48,11 +48,11 @@ function RelativeDate(props: RelativeDateProps) {
     const token = setTimeout(
       () => setTrigger((n) => n + 1),
       differenceInMilliseconds(
-        now,
         addMinutes(
           date,
           differenceInMinutes(now, date, { roundingMethod: "ceil" })
-        )
+        ),
+        now
       )
     );
     return () => clearTimeout(token);
