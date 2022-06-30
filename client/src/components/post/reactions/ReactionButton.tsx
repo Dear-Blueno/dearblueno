@@ -3,31 +3,36 @@ import Image from "next/image";
 
 interface ReactionButtonProps {
   type: "comment" | "post";
-  images: string[];
+  image: string;
   count: number;
-  reactionArray: string[];
   handleClick: () => void;
+  reacted: boolean;
 }
 
 function ReactionButton(props: ReactionButtonProps) {
   const className =
     props.type === "comment" ? "CommentReactionButton" : "PostReactionButton";
+  const reactedClassName = props.reacted ? "Reacted" : "";
+  const size = props.type === "comment" ? 14 : 18;
 
   return (
-    <div className={className}>
-      <div className={styles[className + "Image"]}>
-        <Image
-          src={props.count ? props.images[0] : props.images[1]}
-          onClick={() => {
-            props.handleClick();
-          }}
-          alt="reaction"
-          draggable={false}
-          width="100%"
-          height="100%"
-        />
-      </div>
-      <p className={styles[className + "Count"]}>{props.count}</p>
+    <div className={styles.ReactionButton + " " + styles[className]}>
+      <Image
+        src={props.image}
+        onClick={() => {
+          props.handleClick();
+        }}
+        alt="reaction"
+        draggable={false}
+        width={size}
+        height={size}
+        style={{ cursor: "pointer" }}
+      />
+      <p
+        className={styles[className + "Count"] + " " + styles[reactedClassName]}
+      >
+        {props.count}
+      </p>
     </div>
   );
 }

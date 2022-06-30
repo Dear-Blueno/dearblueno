@@ -1,5 +1,5 @@
 import styles from "./MainFeedHeader.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function MainFeedHeader() {
   const hotRef = useRef<HTMLHeadingElement>(null);
@@ -23,7 +23,7 @@ export default function MainFeedHeader() {
     }
   };
 
-  const handleSwitch = () => {
+  const handleSwitch = useCallback(() => {
     const selectedRef = switchFeed(active);
     if (underlineRef.current && selectedRef.current) {
       underlineRef.current.style.left =
@@ -31,16 +31,16 @@ export default function MainFeedHeader() {
       underlineRef.current.style.width =
         selectedRef.current.offsetWidth - 8 + "px";
     }
-  };
+  }, [active]);
 
-  useEffect(handleSwitch, [active]);
+  useEffect(handleSwitch, [handleSwitch]);
 
   useEffect(() => {
     window.addEventListener("resize", handleSwitch);
     return () => {
       window.removeEventListener("resize", handleSwitch);
     };
-  }, []);
+  }, [handleSwitch]);
 
   return (
     <div className={styles.MainFeedHeader}>

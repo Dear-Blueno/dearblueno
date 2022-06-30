@@ -112,7 +112,7 @@ function Post(props: PostProps) {
         <div className={styles.PostHeaderRight}>
           {isSubscribed ? (
             <MdNotificationsActive
-              size="1.2rem"
+              size="1.2em"
               fill="#1976d2"
               className={styles.PostHeaderButton}
               title="Click to unsubscribe"
@@ -120,7 +120,7 @@ function Post(props: PostProps) {
             />
           ) : (
             <MdNotificationsNone
-              size="1.2rem"
+              size="1.2em"
               color="#888"
               className={styles.PostHeaderButton}
               title="Click to subscribe"
@@ -129,7 +129,7 @@ function Post(props: PostProps) {
           )}
           {isBookmarked ? (
             <MdBookmark
-              size="1.2rem"
+              size="1.2em"
               fill="#4caf50"
               className={styles.PostHeaderButton}
               title="Click to remove bookmark"
@@ -137,7 +137,7 @@ function Post(props: PostProps) {
             />
           ) : (
             <MdBookmarkBorder
-              size="1.2rem"
+              size="1.2em"
               color="#888"
               className={styles.PostHeaderButton}
               title="Click to bookmark"
@@ -173,7 +173,7 @@ function Post(props: PostProps) {
           <ReactionBar
             postNumber={props.post.postNumber ?? 0}
             commentNumber={undefined}
-            type={"post"}
+            type="post"
             reactions={props.post.reactions}
           />
           <DividerDot />

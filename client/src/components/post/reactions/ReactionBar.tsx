@@ -12,7 +12,7 @@ import LikeIcon from "images/like.svg";
 import LikeBWIcon from "images/likeBW.svg";
 import SurpriseIcon from "images/surprise.svg";
 import SurpriseBWIcon from "images/surpriseBW.svg";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
@@ -24,57 +24,41 @@ type ReactionBarProps = {
   commentNumber?: number;
 };
 
+enum ReactionType {
+  LIKE,
+  HEART,
+  LAUGH,
+  CRY,
+  ANGRY,
+  SURPRISE,
+}
+
+type Reaction = {
+  type: ReactionType;
+  reactors: string[];
+};
+
+const reactionCompare = (a: Reaction, b: Reaction) => {
+  if (a.reactors.length === 0 || b.reactors.length === 0) {
+    return b.reactors.length - a.reactors.length || a.type - b.type;
+  }
+  return a.type - b.type;
+};
+
 function ReactionBar(props: ReactionBarProps) {
   const { user } = useUser();
   const setLoginPopupIsOpen = useLoginPopup();
   const openPopup = () => setLoginPopupIsOpen(true);
-  const [likeCount, setLikeCount] = useState(
-    props.reactions[0] ? props.reactions[0].length : 0
+
+  const [reactions, setReactions] = useState<Reaction[]>(
+    props.reactions
+      .map((list, index) => ({
+        type: index,
+        reactors: list,
+      }))
+      .sort(reactionCompare)
   );
-  const [heartCount, setHeartCount] = useState(
-    props.reactions[1] ? props.reactions[1].length : 0
-  );
-  const [laughCount, setLaughCount] = useState(
-    props.reactions[2] ? props.reactions[2].length : 0
-  );
-  const [cryCount, setCryCount] = useState(
-    props.reactions[3] ? props.reactions[3].length : 0
-  );
-  const [angryCount, setAngryCount] = useState(
-    props.reactions[4] ? props.reactions[4].length : 0
-  );
-  const [surpriseCount, setSurpriseCount] = useState(
-    props.reactions[5] ? props.reactions[5].length : 0
-  );
-  const reactionCounts = useMemo(
-    () => [
-      likeCount,
-      heartCount,
-      laughCount,
-      cryCount,
-      angryCount,
-      surpriseCount,
-    ],
-    [likeCount, heartCount, laughCount, cryCount, angryCount, surpriseCount]
-  );
-  const countUpdaters = useMemo(
-    () => [
-      setLikeCount,
-      setHeartCount,
-      setLaughCount,
-      setCryCount,
-      setAngryCount,
-      setSurpriseCount,
-    ],
-    [
-      setLikeCount,
-      setHeartCount,
-      setLaughCount,
-      setCryCount,
-      setAngryCount,
-      setSurpriseCount,
-    ]
-  );
+
   const icons = useMemo(
     () => [
       [LikeIcon, LikeBWIcon],
@@ -87,137 +71,81 @@ function ReactionBar(props: ReactionBarProps) {
     []
   );
 
-  const [showZeroIcons, setShowZeroIcons] = useState(false);
-
-  // These arrays are the real-time order and state of the reactions
-  const [nonZeroOrder, setNonZeroOrder] = useState<number[]>([]);
-  const [zeroOrder, setZeroOrder] = useState<number[]>([]);
-  // these arrays are the display order and state of the reactions, that is updated on leave
-  const [nonZeroOrderDisplay, setNonZeroOrderDisplay] = useState<number[]>([]);
-  const [zeroOrderDisplay, setZeroOrderDisplay] = useState<number[]>([]);
-
-  const [showReactText, setShowReactText] = useState<boolean>(
-    reactionCounts.every((count) => count === 0)
+  const [showReactText, setShowReactText] = useState(
+    reactions.every((reaction) => reaction.reactors.length === 0)
   );
-
+  const [showZeroIcons, setShowZeroIcons] = useState(false);
   const [hideButtonsTimeout, setHideButtonsTimeout] =
     useState<NodeJS.Timeout>();
 
-  const [users, setUsers] = useState<{ _id: string; name: string }[][]>([
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ]);
-
-  const updateOrderArrays = () => {
-    const zero = [];
-    const nonZero = [];
-    for (let i = 0; i < reactionCounts.length; i++) {
-      if (reactionCounts[i] === 0) {
-        zero.push(i);
-      } else {
-        nonZero.push(i);
-      }
-    }
-    return [zero, nonZero];
-  };
-
-  // initialize order arrays once
-  useEffect(() => {
-    const [zero, nonZero] = updateOrderArrays();
-    setZeroOrder(zero);
-    setNonZeroOrder(nonZero);
-    setZeroOrderDisplay(zero);
-    setNonZeroOrderDisplay(nonZero);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const showAll = () => {
-    setShowZeroIcons(true);
-  };
-
-  // when a user hovers off the reaction bar, the display order is updated and zero-count icons are hidden
-  const hideAll = () => {
-    setShowZeroIcons(false);
-    setNonZeroOrderDisplay(nonZeroOrder);
-    setZeroOrderDisplay(zeroOrder);
-    setShowReactText(reactionCounts.every((count) => count === 0));
-  };
-
-  // update non-display orders when the user clicks on a reaction button
-  useEffect(() => {
-    const [zero, nonZero] = updateOrderArrays();
-    setZeroOrder(zero);
-    setNonZeroOrder(nonZero);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reactionCounts]);
-
-  const buttonClick = (reaction: number) => {
-    return async () => {
-      if (user) {
-        const includesUser: boolean = props.reactions[reaction]?.includes(
-          user._id
-        );
-        if (includesUser) {
-          props.reactions[reaction] = props.reactions[reaction].filter(
-            (id) => id !== user?._id
+  const buttonClick = useCallback(
+    (type: ReactionType) => {
+      return async () => {
+        if (user) {
+          const index = reactions.findIndex(
+            (reaction) => reaction.type === type
           );
-          const newUsers = [...users];
-          newUsers[reaction] = newUsers[reaction].filter(
-            (_user) => _user._id !== _user?._id
-          );
-          setUsers(newUsers);
-        } else {
-          if (props.reactions[reaction]) {
-            props.reactions[reaction] = [
-              ...props.reactions[reaction],
-              user._id,
-            ];
+          const includesUser = reactions[index].reactors.includes(user._id);
+          if (includesUser) {
+            setReactions((prev) =>
+              prev.map((reaction) =>
+                reaction.type === type
+                  ? {
+                      ...reaction,
+                      reactors: reaction.reactors.filter(
+                        (id) => id !== user._id
+                      ),
+                    }
+                  : reaction
+              )
+            );
           } else {
-            props.reactions[reaction] = [user._id];
-          }
-          const newUsers = [...users];
-          newUsers[reaction] = newUsers[reaction]
-            ? [...newUsers[reaction], user]
-            : [user];
-          setUsers(newUsers);
-        }
-        countUpdaters[reaction](props.reactions[reaction].length);
-        if (props.type === "post") {
-          await reactToPost(props.postNumber, reaction + 1, !includesUser);
-        } else {
-          if (props.commentNumber) {
-            await reactToComment(
-              props.postNumber,
-              props.commentNumber,
-              reaction + 1,
-              !includesUser
+            setReactions((prev) =>
+              prev.map((reaction) =>
+                reaction.type === type
+                  ? {
+                      ...reaction,
+                      reactors: [...reaction.reactors, user._id],
+                    }
+                  : reaction
+              )
             );
           }
+          if (props.type === "post") {
+            await reactToPost(props.postNumber, type + 1, !includesUser);
+          } else {
+            if (props.commentNumber) {
+              await reactToComment(
+                props.postNumber,
+                props.commentNumber,
+                type + 1,
+                !includesUser
+              );
+            }
+          }
         }
-      }
-    };
-  };
+      };
+    },
+    [reactions, user, props.postNumber, props.commentNumber, props.type]
+  );
 
   return (
     <div
       className={styles.ReactionBar}
-      onMouseOver={() => {
+      onMouseEnter={() => {
         if (!showReactText) {
-          showAll();
+          setShowZeroIcons(true);
         }
         if (hideButtonsTimeout) clearTimeout(hideButtonsTimeout);
       }}
       onMouseLeave={() => {
         setHideButtonsTimeout(
           setTimeout(() => {
-            if (reactionCounts.every((count) => count === 0)) {
+            setShowZeroIcons(false);
+            setReactions((prev) => prev.sort(reactionCompare));
+            if (reactions.every((reaction) => reaction.reactors.length === 0)) {
               setShowReactText(true);
             }
-            hideAll();
           }, 250)
         );
       }}
@@ -229,7 +157,7 @@ function ReactionBar(props: ReactionBarProps) {
             user
               ? () => {
                   setShowReactText(false);
-                  showAll();
+                  setShowZeroIcons(true);
                 }
               : () => setLoginPopupIsOpen(true)
           }
@@ -237,31 +165,24 @@ function ReactionBar(props: ReactionBarProps) {
           react
         </p>
       )}
-      {nonZeroOrderDisplay.map((reaction) => {
-        return (
-          <ReactionButton
-            type={props.type}
-            key={reaction}
-            images={icons[reaction]}
-            count={reactionCounts[reaction]}
-            reactionArray={props.reactions[reaction]}
-            handleClick={user ? buttonClick(reaction) : openPopup}
-          ></ReactionButton>
-        );
-      })}
-      {showZeroIcons &&
-        zeroOrderDisplay.map((reaction) => {
-          return (
-            <ReactionButton
-              type={props.type}
-              key={reaction + 6}
-              images={icons[reaction]}
-              count={reactionCounts[reaction]}
-              reactionArray={props.reactions[reaction]}
-              handleClick={buttonClick(reaction)}
-            ></ReactionButton>
-          );
-        })}
+      {!showReactText &&
+        reactions.map(
+          (reaction) =>
+            (showZeroIcons || reaction.reactors.length > 0) && (
+              <ReactionButton
+                type={props.type}
+                key={reaction.type}
+                image={
+                  icons[reaction.type][reaction.reactors.length > 0 ? 0 : 1]
+                }
+                count={reaction.reactors.length}
+                handleClick={user ? buttonClick(reaction.type) : openPopup}
+                reacted={
+                  (user && reaction.reactors.includes(user._id)) ?? false
+                }
+              ></ReactionButton>
+            )
+        )}
     </div>
   );
 }
