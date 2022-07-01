@@ -19,6 +19,7 @@ function ReactionButton(props: ReactionButtonProps) {
     <div className={styles.ReactionButton + " " + styles[className]}>
       <Image
         src={props.image}
+        priority
         onClick={() => {
           props.handleClick();
         }}

@@ -62,7 +62,13 @@ export default function MainSidebar() {
       <div className={styles.SidebarTop}>
         <Link href="/">
           <a className={styles.SidebarLogo}>
-            <Image src={LogoIcon} alt="Blueno" width={80} height={80} />
+            <Image
+              src={LogoIcon}
+              alt="Blueno"
+              width={80}
+              height={80}
+              priority
+            />
           </a>
         </Link>
         {!isLoading && (

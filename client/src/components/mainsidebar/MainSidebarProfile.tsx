@@ -19,6 +19,7 @@ export default function MainSidebarProfile(props: MainSidebarProfileProps) {
                 alt="Profile picture"
                 width={60}
                 height={60}
+                priority
               />
             </div>
             <div className={styles.MainSidebarProfileNameAndXP}>

@@ -13,6 +13,7 @@ function CommentProfilePicture(props: CommentProfilePictureProps) {
         <div className={styles.CommentProfilePictureImage}>
           <Image
             src={props.link}
+            priority
             alt=""
             draggable={false}
             width="100"
