@@ -16,6 +16,7 @@ import { useState, useMemo, useCallback } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
+import { MdOutlineAddReaction } from "react-icons/md";
 
 type ReactionBarProps = {
   type: "comment" | "post";
@@ -151,8 +152,11 @@ function ReactionBar(props: ReactionBarProps) {
       }}
     >
       {showReactText && (
-        <p
-          className={styles.ReactText}
+        <MdOutlineAddReaction
+          size={props.type === "post" ? "1.15em" : "1em"}
+          color="#789"
+          style={{ transform: "translateY(0.05em)" }}
+          className={styles.IconButton}
           onClick={
             user
               ? () => {
@@ -161,9 +165,7 @@ function ReactionBar(props: ReactionBarProps) {
                 }
               : () => setLoginPopupIsOpen(true)
           }
-        >
-          react
-        </p>
+        />
       )}
       {!showReactText &&
         reactions.map(

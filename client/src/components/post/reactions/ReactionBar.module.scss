@@ -2,6 +2,8 @@
   display: flex;
   box-sizing: border-box;
   gap: 0.5rem;
+  min-height: 1.35rem;
+  align-items: center;
 }
 
 .CommentReactionBar {
@@ -10,16 +12,6 @@
   align-items: center;
 }
 
-.ReactText {
-  font-size: 0.7rem;
-  color: #8e8e8e;
-  user-select: none;
-  display: inline-block;
-  margin-right: 0.4rem;
-  user-select: none;
-}
-
-.ReactText:hover {
-  text-decoration: underline;
+.IconButton {
   cursor: pointer;
 }

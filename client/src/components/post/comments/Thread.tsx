@@ -14,6 +14,7 @@ import { useIsMobile } from "hooks/is-mobile";
 import useUser from "hooks/useUser";
 import ViewMoreButton from "./ViewMoreButton";
 import { useLoginPopup } from "hooks/login-popup";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 type ThreadProps = {
   comment: IThread;
@@ -122,9 +123,14 @@ function Thread(props: ThreadProps) {
                       reactions={props.comment.reactions}
                     />
                     <DividerDot />
-                    <CommentButton
-                      type="reply"
-                      click={
+                    <FaRegCommentAlt
+                      style={{
+                        cursor: "pointer",
+                        transform: "translateY(0.05em)",
+                      }}
+                      color="#789"
+                      size="0.8em"
+                      onClick={
                         user
                           ? () => setShowReplyBox(true)
                           : () => setLoginPopupIsOpen(true)

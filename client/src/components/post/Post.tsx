@@ -4,7 +4,7 @@ import RelativeDate from "./RelativeDate";
 import PostNumber from "./content/PostNumber";
 import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
-import CommentButton from "./comments/CommentButton";
+import { FiShare } from "react-icons/fi";
 import CommentSection from "./comments/CommentSection";
 import { useState } from "react";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
@@ -26,6 +26,7 @@ import UserContent from "./content/UserContent";
 import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 export type PostProps = {
   post: IPost;
@@ -114,15 +115,15 @@ function Post(props: PostProps) {
             <MdNotificationsActive
               size="1.2em"
               fill="#1976d2"
-              className={styles.PostHeaderButton}
+              className={styles.IconButton}
               title="Click to unsubscribe"
               onClick={handleSubscribe}
             />
           ) : (
             <MdNotificationsNone
               size="1.2em"
-              color="#888"
-              className={styles.PostHeaderButton}
+              color="#789"
+              className={styles.IconButton}
               title="Click to subscribe"
               onClick={handleSubscribe}
             />
@@ -131,15 +132,15 @@ function Post(props: PostProps) {
             <MdBookmark
               size="1.2em"
               fill="#4caf50"
-              className={styles.PostHeaderButton}
+              className={styles.IconButton}
               title="Click to remove bookmark"
               onClick={handleBookmark}
             />
           ) : (
             <MdBookmarkBorder
               size="1.2em"
-              color="#888"
-              className={styles.PostHeaderButton}
+              color="#789"
+              className={styles.IconButton}
               title="Click to bookmark"
               onClick={handleBookmark}
             />
@@ -177,16 +178,27 @@ function Post(props: PostProps) {
             reactions={props.post.reactions}
           />
           <DividerDot />
-          <CommentButton
-            type="comment"
-            click={
+          <FaRegCommentAlt
+            className={styles.IconButton}
+            color="#789"
+            onClick={
               user
                 ? () => setShowCommentBox(true)
                 : () => setLoginPopupIsOpen(true)
             }
+            style={{ transform: "translateY(0.05em)" }}
           />
           <DividerDot />
-          <ShareButton postNumber={props.post.postNumber} />
+          <FiShare
+            className={styles.IconButton}
+            style={{ transform: "translateY(-0.05em)" }}
+            color="#789"
+            onClick={() =>
+              navigator.clipboard.writeText(
+                `${window.location.origin}/post/${props.post.postNumber}`
+              )
+            }
+          />
         </div>
       )}
       {!props.post.needsReview && (

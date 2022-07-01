@@ -17,7 +17,7 @@
 /* Larger than mobile */
 @media only screen and (min-width: 46rem) {
   .PostFooter {
-    margin-top: 0.6rem;
+    margin-top: 1rem;
   }
 }
 
@@ -26,7 +26,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
+  margin-top: -0.15rem;
 }
 
 .NumberAndWarning {
@@ -43,7 +44,7 @@
   gap: 0.8rem;
 }
 
-.PostHeaderButton {
+.IconButton {
   cursor: pointer;
 }
 
