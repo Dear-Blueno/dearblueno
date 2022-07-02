@@ -27,7 +27,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 1rem;
   margin-top: -0.5rem;
   padding: 0;
 }
@@ -45,6 +45,9 @@
 .SidebarListItemLink {
   color: black;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .NewPostButton {

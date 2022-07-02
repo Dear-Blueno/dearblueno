@@ -6,11 +6,33 @@ import { useMemo } from "react";
 import Link from "next/link";
 import MainSidebarProfile from "./MainSidebarProfile";
 import useUser from "hooks/useUser";
+import { IconType } from "react-icons";
+import { AiFillHome, AiOutlineHome } from "react-icons/ai";
+import {
+  RiSearch2Line,
+  RiSearch2Fill,
+  RiCalendarEventLine,
+  RiCalendarEventFill,
+} from "react-icons/ri";
+import {
+  MdNotificationsNone,
+  MdNotifications,
+  MdBookmark,
+  MdBookmarkBorder,
+} from "react-icons/md";
+import {
+  IoPersonOutline,
+  IoPerson,
+  IoInformationCircleOutline,
+  IoInformationCircle,
+} from "react-icons/io5";
 
 type MainSidebarItem = {
   path: string;
   label: string;
   requiresUser: boolean;
+  outlineIcon: IconType;
+  filledIcon: IconType;
 };
 
 export default function MainSidebar() {
@@ -22,36 +44,50 @@ export default function MainSidebar() {
         path: "/",
         label: "Home",
         requiresUser: false,
+        outlineIcon: AiOutlineHome,
+        filledIcon: AiFillHome,
       },
       {
         path: "/notifications",
         label: "Notifications",
         requiresUser: true,
+        outlineIcon: MdNotificationsNone,
+        filledIcon: MdNotifications,
       },
       {
         path: "/events",
         label: "Events",
         requiresUser: false,
+        outlineIcon: RiCalendarEventLine,
+        filledIcon: RiCalendarEventFill,
       },
       {
         path: "/bookmarks",
         label: "Bookmarks",
         requiresUser: true,
+        outlineIcon: MdBookmarkBorder,
+        filledIcon: MdBookmark,
       },
       {
         path: "/search",
         label: "Search",
         requiresUser: false,
+        outlineIcon: RiSearch2Line,
+        filledIcon: RiSearch2Fill,
       },
       {
         path: "/profile",
         label: "Profile",
         requiresUser: true,
+        outlineIcon: IoPersonOutline,
+        filledIcon: IoPerson,
       },
       {
         path: "/about",
         label: "About",
         requiresUser: false,
+        outlineIcon: IoInformationCircleOutline,
+        filledIcon: IoInformationCircle,
       },
     ],
     []
@@ -89,6 +125,15 @@ export default function MainSidebar() {
                     >
                       <Link href={item.path} scroll={false}>
                         <a className={styles.SidebarListItemLink}>
+                          {router.pathname === item.path ? (
+                            <item.filledIcon
+                              className={styles.SidebarListItemIcon}
+                            />
+                          ) : (
+                            <item.outlineIcon
+                              className={styles.SidebarListItemIcon}
+                            />
+                          )}
                           {item.label}
                         </a>
                       </Link>
