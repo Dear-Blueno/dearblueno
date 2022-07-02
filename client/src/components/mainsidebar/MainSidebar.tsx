@@ -33,6 +33,8 @@ type MainSidebarItem = {
   requiresUser: boolean;
   outlineIcon: IconType;
   filledIcon: IconType;
+  outlineClassName?: string;
+  filledClassName?: string;
 };
 
 export default function MainSidebar() {
@@ -81,6 +83,7 @@ export default function MainSidebar() {
         requiresUser: true,
         outlineIcon: IoPersonOutline,
         filledIcon: IoPerson,
+        outlineClassName: "ProfileIconOutline",
       },
       {
         path: "/about",
@@ -88,6 +91,7 @@ export default function MainSidebar() {
         requiresUser: false,
         outlineIcon: IoInformationCircleOutline,
         filledIcon: IoInformationCircle,
+        outlineClassName: "AboutIconOutline",
       },
     ],
     []
@@ -127,11 +131,17 @@ export default function MainSidebar() {
                         <a className={styles.SidebarListItemLink}>
                           {router.pathname === item.path ? (
                             <item.filledIcon
-                              className={styles.SidebarListItemIcon}
+                              className={
+                                item.filledClassName &&
+                                styles[item.filledClassName]
+                              }
                             />
                           ) : (
                             <item.outlineIcon
-                              className={styles.SidebarListItemIcon}
+                              className={
+                                item.outlineClassName &&
+                                styles[item.outlineClassName]
+                              }
                             />
                           )}
                           {item.label}

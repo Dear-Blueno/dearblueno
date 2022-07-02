@@ -50,6 +50,18 @@
   gap: 0.5rem;
 }
 
+.ProfileIconOutline {
+  path {
+    stroke-width: 40;
+  }
+}
+
+.AboutIconOutline {
+  path:first-child {
+    stroke-width: 40;
+  }
+}
+
 .NewPostButton {
   display: flex;
   justify-content: center;
