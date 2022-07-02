@@ -23,14 +23,14 @@
 
 .HoverCardName:hover {
   text-decoration: underline;
-  text-underline-offset: .075rem;
+  text-underline-offset: 0.075rem;
 }
 
 .HoverCardImage {
   box-sizing: border-box;
-  width: 70px;
-  height: 70px;
+  display: flex;
   border: 1px solid black;
+  cursor: pointer;
 }
 
 .SocialIcon {

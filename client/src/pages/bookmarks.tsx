@@ -7,7 +7,7 @@ const BookmarksPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Bookmarks</title>
+        <title>Bookmarks - Dear Blueno</title>
       </Head>
       <MainLayout title="Bookmarks" page={<BookmarksFeed />}></MainLayout>
     </>

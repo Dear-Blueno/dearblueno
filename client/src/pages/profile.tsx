@@ -1,8 +1,10 @@
+import useUser from "hooks/useUser";
 import { NextPage } from "next";
 import ProfilePage from "./profile/[id]";
 
 const MyProfilePage: NextPage = () => {
-  return <ProfilePage />;
+  const { user } = useUser();
+  return <ProfilePage user={user} />;
 };
 
 export default MyProfilePage;

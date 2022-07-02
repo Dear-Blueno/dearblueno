@@ -5,6 +5,7 @@ import Post from "components/post/Post";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
 import { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 
 type PostPageProps = {
   post?: IPost;
@@ -16,10 +17,15 @@ const PostPage: NextPage = ({ post }: PostPageProps) => {
   }
 
   return (
-    <MainLayout
-      title={"Post #" + post.postNumber}
-      page={<PostPageMain post={post} />}
-    />
+    <>
+      <Head>
+        <title>Post {post.postNumber} - Dear Blueno</title>
+      </Head>
+      <MainLayout
+        title={"Post #" + post.postNumber}
+        page={<PostPageMain post={post} />}
+      />
+    </>
   );
 };
 

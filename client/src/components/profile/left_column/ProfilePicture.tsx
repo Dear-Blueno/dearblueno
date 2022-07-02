@@ -8,12 +8,14 @@ interface ProfilePictureProps {
 function ProfilePicture(props: ProfilePictureProps) {
   return (
     <div className={styles.ProfilePicture}>
-      {/* need to do something here about width and height */}
       <Image
         className={styles.ProfilePictureImage}
         src={props.link}
         alt=""
         draggable={false}
+        width={200}
+        height={200}
+        priority
       />
     </div>
   );

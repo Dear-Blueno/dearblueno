@@ -7,7 +7,7 @@ const NotificationsPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Notifications</title>
+        <title>Notifications - Dear Blueno</title>
       </Head>
       <MainLayout
         title="Notifications"

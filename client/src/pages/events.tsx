@@ -7,7 +7,7 @@ const Events: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Events</title>
+        <title>Events - Dear Blueno</title>
       </Head>
       <MainLayout title="Events" page={<EventsFeed />}></MainLayout>
     </>

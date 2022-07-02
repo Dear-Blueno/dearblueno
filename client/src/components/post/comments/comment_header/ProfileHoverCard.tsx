@@ -8,6 +8,7 @@ import {
   RiLinkedinBoxLine,
 } from "react-icons/ri";
 import Image from "next/image";
+import Link from "next/link";
 
 type ProfileHoverCardProps = {
   hoverUser: IBasicUser;
@@ -36,11 +37,16 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
       onMouseEnter={props.enterAction}
       onMouseLeave={props.leaveAction}
     >
-      <Image
-        src={props.hoverUser?.profilePicture}
-        alt={props.hoverUser?.name}
-        className={styles.HoverCardImage}
-      />
+      <Link href={`/profile/${props.hoverUser._id}`}>
+        <div className={styles.HoverCardImage}>
+          <Image
+            src={props.hoverUser?.profilePicture}
+            alt={props.hoverUser?.name}
+            width={70}
+            height={70}
+          />
+        </div>
+      </Link>
       <div className={styles.HoverCardSideCol}>
         <a
           href={`/profile/${props.hoverUser?._id}`}

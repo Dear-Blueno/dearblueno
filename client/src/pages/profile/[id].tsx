@@ -44,7 +44,9 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   return (
     <>
       <Head>
-        <title>{profileUser?.name ?? "User Not Found"}</title>
+        <title>
+          {(profileUser?.name ?? "User Not Found") + " - Dear Blueno"}
+        </title>
       </Head>
       <MainLayout
         title={title}
