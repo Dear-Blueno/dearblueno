@@ -86,17 +86,3 @@
   flex-direction: row;
   gap: 6rem;
 }
-
-.PopupAction {
-  text-decoration: underline;
-  text-underline-offset: 0.1rem;
-  appearance: none;
-  background: transparent;
-  border: none;
-  font-size: inherit;
-  padding: 0;
-}
-
-.PopupAction:hover {
-  cursor: pointer;
-}

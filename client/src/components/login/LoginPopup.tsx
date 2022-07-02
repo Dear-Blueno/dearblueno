@@ -20,7 +20,9 @@ function LoginPopup(props: LoginPopupProps) {
         <DialogContent aria-label="Login Popup">
           <div className={styles.LoginPopupContent}>
             <strong>
-              {"You won't be able to interact with the site until you log in."}
+              {
+                "You'll only be able to submit posts on Dear Blueno until you log in."
+              }
             </strong>
             <br />
             <div className={styles.PopupButtons}>
@@ -36,7 +38,7 @@ function LoginPopup(props: LoginPopupProps) {
                 onClick={loginBrown}
                 tabIndex={-1}
               >
-                Login
+                Log in
               </button>
             </div>
           </div>

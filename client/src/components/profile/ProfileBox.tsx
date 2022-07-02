@@ -12,6 +12,8 @@ import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/post/comments/ContextThread";
+import { logout } from "gateways/AuthGateway";
+import { MdLogout } from "react-icons/md";
 
 type ProfileBoxProps = {
   user?: IUser;
@@ -183,6 +185,14 @@ function ProfileBox(props: ProfileBoxProps) {
             <div className={styles.SaveAndCancelButtons}>
               <ProfileSaveButton click={handleProfileEdit} />
               <ProfileCancelButton click={() => setEditing(false)} />
+            </div>
+          )}
+          {ownProfile && (
+            <div className={styles.Logout}>
+              <MdLogout color="red"></MdLogout>
+              <button className={styles.LogoutButton} onClick={logout}>
+                Log out
+              </button>
             </div>
           )}
         </div>
