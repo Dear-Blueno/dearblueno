@@ -1,8 +1,8 @@
-import styles from "styles/EventSubmitPage.module.scss";
 import MainLayout from "components/layout/MainLayout";
 import EventStages from "components/eventstages/EventStages";
+import { NextPage } from "next";
 
-const EventSubmitPage = () => {
+const EventSubmitPage: NextPage = () => {
   return <MainLayout title="Event Submit" page={<EventSubmitMain />} />;
 };
 
