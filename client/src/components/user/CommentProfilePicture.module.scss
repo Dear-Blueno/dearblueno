@@ -3,8 +3,20 @@
   height: 100%;
   width: 100%;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .CommentProfilePicture {
   border: 1px solid black;
-  /* box-shadow: -0.04rem 0.05rem 0rem 0.01rem rgba(0, 0, 0, 1); */
+}
+
+.AnonymousImage {
+  path {
+    stroke-width: 50;
+  }
+  width: 80%;
+  height: 80%;
+  padding: 14% 10% 10% 12%;
 }

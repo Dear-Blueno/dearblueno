@@ -1,6 +1,6 @@
 import styles from "./CommentProfilePicture.module.scss";
-import { MdPersonOutline } from "react-icons/md";
 import Image from "next/image";
+import { IoPersonOutline } from "react-icons/io5";
 
 interface CommentProfilePictureProps {
   link?: string;
@@ -21,7 +21,11 @@ function CommentProfilePicture(props: CommentProfilePictureProps) {
           />
         </div>
       ) : (
-        <MdPersonOutline className={styles.CommentProfilePictureImage} />
+        <IoPersonOutline
+          className={
+            styles.CommentProfilePictureImage + " " + styles.AnonymousImage
+          }
+        />
       )}
     </div>
   );

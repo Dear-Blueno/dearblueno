@@ -51,10 +51,11 @@ button {
 }
 
 .App {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .App-logo {
@@ -78,11 +79,17 @@ button {
 }
 
 .ColumnsContainer {
-  width: 85rem;
+  width: min(85rem, 100vw - 2rem);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
+  gap: 4rem;
+  margin: 0 1rem;
+  @media screen and (max-width: 87rem) {
+    gap: 2rem;
+    margin-left: -3rem;
+  }
 }
 
 [data-reach-dialog-content] {

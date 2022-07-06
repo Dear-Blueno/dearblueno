@@ -9,9 +9,12 @@
 
 .MainSidebarProfilePicture {
   border: 2px solid black;
-  width: 60px;
-  height: 60px;
   flex-shrink: 0;
+  display: flex;
+  @media screen and (max-width: 87rem) {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
 }
 
 .MainSidebarProfileNameAndXP {
@@ -21,6 +24,9 @@
   margin: 0.2rem 0 0.3rem 0;
   justify-content: space-between;
   gap: 0.5rem;
+  @media screen and (max-width: 87rem) {
+    display: none;
+  }
 }
 
 .MainSidebarProfileName {

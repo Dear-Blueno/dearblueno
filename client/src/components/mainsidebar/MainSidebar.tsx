@@ -19,6 +19,7 @@ import {
   MdNotifications,
   MdBookmark,
   MdBookmarkBorder,
+  MdPostAdd,
 } from "react-icons/md";
 import {
   IoPersonOutline,
@@ -102,13 +103,7 @@ export default function MainSidebar() {
       <div className={styles.SidebarTop}>
         <Link href="/">
           <a className={styles.SidebarLogo}>
-            <Image
-              src={LogoIcon}
-              alt="Blueno"
-              width={80}
-              height={80}
-              priority
-            />
+            <Image src={LogoIcon} alt="Blueno" priority />
           </a>
         </Link>
         {!isLoading && (
@@ -135,6 +130,7 @@ export default function MainSidebar() {
                                 item.filledClassName &&
                                 styles[item.filledClassName]
                               }
+                              title={item.label}
                             />
                           ) : (
                             <item.outlineIcon
@@ -142,9 +138,12 @@ export default function MainSidebar() {
                                 item.outlineClassName &&
                                 styles[item.outlineClassName]
                               }
+                              title={item.label}
                             />
                           )}
-                          {item.label}
+                          <span className={styles.SidebarListItemLabel}>
+                            {item.label}
+                          </span>
                         </a>
                       </Link>
                     </li>
@@ -153,7 +152,14 @@ export default function MainSidebar() {
             </ul>
             <Link href="/submit">
               <a className={styles.NewPostButtonLink}>
-                <button className={styles.NewPostButton}>New Post</button>
+                <button className={styles.NewPostButton}>
+                  <MdPostAdd
+                    className={styles.NewPostButtonIcon}
+                    color="black"
+                    size="2em"
+                  />
+                  <span>New Post</span>
+                </button>
               </a>
             </Link>
           </>

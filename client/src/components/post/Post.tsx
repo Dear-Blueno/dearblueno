@@ -187,6 +187,7 @@ function Post(props: PostProps) {
                 : () => setLoginPopupIsOpen(true)
             }
             style={{ transform: "translateY(0.05em)" }}
+            title="Add a comment"
           />
           <DividerDot />
           <FiShare
@@ -198,6 +199,7 @@ function Post(props: PostProps) {
                 `${window.location.origin}/post/${props.post.postNumber}`
               )
             }
+            title="Share this post"
           />
         </div>
       )}

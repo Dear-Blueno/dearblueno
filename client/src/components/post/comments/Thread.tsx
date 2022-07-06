@@ -135,6 +135,7 @@ function Thread(props: ThreadProps) {
                           ? () => setShowReplyBox(true)
                           : () => setLoginPopupIsOpen(true)
                       }
+                      title="Add a reply"
                     />
                   </div>
                 )}
