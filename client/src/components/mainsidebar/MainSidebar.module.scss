@@ -85,6 +85,13 @@
   }
 }
 
+.SearchIconFilled {
+  // second path
+  path:nth-of-type(2) {
+    stroke-width: 1;
+  }
+}
+
 .NewPostButton {
   display: flex;
   justify-content: center;

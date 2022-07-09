@@ -76,7 +76,8 @@ export default function MainSidebar() {
         label: "Search",
         requiresUser: false,
         outlineIcon: RiSearch2Line,
-        filledIcon: RiSearch2Fill,
+        filledIcon: RiSearch2Line,
+        filledClassName: "SearchIconFilled",
       },
       {
         path: "/profile",
