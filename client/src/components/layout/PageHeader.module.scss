@@ -1,6 +1,7 @@
 .pageheader {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   top: 0;
   background-color: #d5ebff;
   min-height: 1.3rem;
@@ -12,4 +13,23 @@
   margin-bottom: 1rem;
   margin-top: 1rem;
   user-select: none;
+}
+
+.HeaderAndOptionsButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.OptionsButton {
+  padding: 0.2rem 0.3rem;
+  cursor: pointer;
+  margin-right: 0.2rem;
+  &:hover {
+    background-color: #bbccdf;
+  }
+  border-radius: 0.2rem;
 }

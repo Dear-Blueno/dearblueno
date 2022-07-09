@@ -2,6 +2,7 @@ import PageHeader from "./PageHeader";
 import PageSidebar from "./PageSidebar";
 import HeaderAndPage from "./HeaderAndPage";
 import Page from "./Page";
+import { useIsMobile } from "hooks/is-mobile";
 
 type MainLayoutProps = {
   title?: string;
@@ -11,10 +12,13 @@ type MainLayoutProps = {
 };
 
 export default function MainLayout(props: MainLayoutProps) {
+  const isMobile = useIsMobile();
   return (
     <>
       <HeaderAndPage>
-        <PageHeader title={props.title}>{props.header}</PageHeader>
+        <PageHeader title={props.title} sidebar={props.sidebar}>
+          {props.header}
+        </PageHeader>
         <Page>{props.page}</Page>
       </HeaderAndPage>
       <PageSidebar>{props.sidebar}</PageSidebar>
