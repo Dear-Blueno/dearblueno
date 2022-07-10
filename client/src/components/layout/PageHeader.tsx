@@ -33,9 +33,11 @@ export default function PageHeader(props: PageHeaderProps) {
         (collapseSidebar ? (
           <div className={styles.HeaderAndOptionsButton}>
             {!props.collapseHeader && props.children}
-            <span className={styles.OptionsButton}>
-              <IoOptions size="2em" />
-            </span>
+            {(props.sidebar || props.collapseHeader) && (
+              <span className={styles.OptionsButton}>
+                <IoOptions size="1.6em" />
+              </span>
+            )}
           </div>
         ) : (
           props.children
