@@ -48,8 +48,7 @@ const reactionCompare = (a: Reaction, b: Reaction) => {
 
 function ReactionBar(props: ReactionBarProps) {
   const { user } = useUser();
-  const setLoginPopupIsOpen = useLoginPopup();
-  const openPopup = () => setLoginPopupIsOpen(true);
+  const { openLoginPopup } = useLoginPopup();
 
   const [reactions, setReactions] = useState<Reaction[]>(
     props.reactions
@@ -163,7 +162,7 @@ function ReactionBar(props: ReactionBarProps) {
                   setShowReactText(false);
                   setShowZeroIcons(true);
                 }
-              : () => setLoginPopupIsOpen(true)
+              : openLoginPopup
           }
         />
       )}
@@ -178,7 +177,7 @@ function ReactionBar(props: ReactionBarProps) {
                   icons[reaction.type][reaction.reactors.length > 0 ? 0 : 1]
                 }
                 count={reaction.reactors.length}
-                handleClick={user ? buttonClick(reaction.type) : openPopup}
+                handleClick={user ? buttonClick(reaction.type) : openLoginPopup}
                 reacted={
                   (user && reaction.reactors.includes(user._id)) ?? false
                 }

@@ -8,8 +8,8 @@ interface LoginPopupProps {
 }
 
 function LoginPopup(props: LoginPopupProps) {
-  const setIsOpen = useLoginPopup();
-  const close = () => setIsOpen(false);
+  const { setLoginPopupIsOpen } = useLoginPopup();
+  const close = () => setLoginPopupIsOpen(false);
   return (
     <div className={styles.LoginPopup}>
       <DialogOverlay

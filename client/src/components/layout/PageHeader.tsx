@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IoOptions } from "react-icons/io5";
+import { IoOptionsOutline } from "react-icons/io5";
 import styles from "./PageHeader.module.scss";
 
 type PageHeaderProps = {
@@ -34,9 +34,9 @@ export default function PageHeader(props: PageHeaderProps) {
           <div className={styles.HeaderAndOptionsButton}>
             {!props.collapseHeader && props.children}
             {(props.sidebar || props.collapseHeader) && (
-              <span className={styles.OptionsButton}>
-                <IoOptions size="1.6em" />
-              </span>
+              <button className={styles.OptionsButton}>
+                <IoOptionsOutline size="2.4em" />
+              </button>
             )}
           </div>
         ) : (

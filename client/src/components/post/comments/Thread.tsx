@@ -31,7 +31,7 @@ const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 
 function Thread(props: ThreadProps) {
   const { user } = useUser();
-  const setLoginPopupIsOpen = useLoginPopup();
+  const { openLoginPopup } = useLoginPopup();
   const [displayedChildren, setDisplayedChildren] = useState(
     props.displayedChildren === undefined ? Infinity : props.displayedChildren
   );
@@ -131,9 +131,7 @@ function Thread(props: ThreadProps) {
                       color="#789"
                       size="0.8em"
                       onClick={
-                        user
-                          ? () => setShowReplyBox(true)
-                          : () => setLoginPopupIsOpen(true)
+                        user ? () => setShowReplyBox(true) : openLoginPopup
                       }
                       title="Add a reply"
                     />

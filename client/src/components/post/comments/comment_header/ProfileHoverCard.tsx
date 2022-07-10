@@ -1,5 +1,4 @@
 import styles from "./ProfileHoverCard.module.scss";
-import React, { useState, useEffect } from "react";
 import { IBasicUser } from "types/IUser";
 import {
   RiFacebookCircleLine,
@@ -17,19 +16,12 @@ type ProfileHoverCardProps = {
 };
 
 function ProfileHoverCard(props: ProfileHoverCardProps) {
-  const [attribute, setAttribute] = useState<string>("");
+  let attribute = "";
 
-  useEffect(() => {
-    props.hoverUser?.concentration
-      ? setAttribute(props.hoverUser.concentration)
-      : setAttribute(attribute);
-    props.hoverUser?.hometown
-      ? setAttribute(props.hoverUser.hometown)
-      : setAttribute(attribute);
-    props.hoverUser?.classYear
-      ? setAttribute("Class of " + props.hoverUser.classYear)
-      : setAttribute(attribute);
-  }, [attribute, props.hoverUser]);
+  props.hoverUser?.concentration && (attribute = props.hoverUser.concentration);
+  props.hoverUser?.hometown && (attribute = props.hoverUser.hometown);
+  props.hoverUser?.classYear &&
+    (attribute = "Class of " + props.hoverUser.classYear);
 
   return (
     <div

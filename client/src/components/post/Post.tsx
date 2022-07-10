@@ -36,7 +36,7 @@ export type PostProps = {
 
 function Post(props: PostProps) {
   const { user, refetchUser } = useUser();
-  const setLoginPopupIsOpen = useLoginPopup();
+  const { userOnlyAction } = useLoginPopup();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
   const [isBookmarked, setIsBookmarked] = useState(
@@ -116,7 +116,7 @@ function Post(props: PostProps) {
               fill="#1976d2"
               className={styles.IconButton}
               title="Click to unsubscribe"
-              onClick={handleSubscribe}
+              onClick={userOnlyAction(handleSubscribe)}
             />
           ) : (
             <MdNotificationsNone
@@ -124,7 +124,7 @@ function Post(props: PostProps) {
               color="#789"
               className={styles.IconButton}
               title="Click to subscribe"
-              onClick={handleSubscribe}
+              onClick={userOnlyAction(handleSubscribe)}
             />
           )}
           {isBookmarked ? (
@@ -133,7 +133,7 @@ function Post(props: PostProps) {
               fill="#4caf50"
               className={styles.IconButton}
               title="Click to remove bookmark"
-              onClick={handleBookmark}
+              onClick={userOnlyAction(handleBookmark)}
             />
           ) : (
             <MdBookmarkBorder
@@ -141,7 +141,7 @@ function Post(props: PostProps) {
               color="#789"
               className={styles.IconButton}
               title="Click to bookmark"
-              onClick={handleBookmark}
+              onClick={userOnlyAction(handleBookmark)}
             />
           )}
           <RelativeDate
@@ -180,11 +180,7 @@ function Post(props: PostProps) {
           <FaRegCommentAlt
             className={styles.IconButton}
             color="#789"
-            onClick={
-              user
-                ? () => setShowCommentBox(true)
-                : () => setLoginPopupIsOpen(true)
-            }
+            onClick={userOnlyAction(() => setShowCommentBox(true))}
             style={{ transform: "translateY(0.05em)" }}
             title="Add a comment"
           />

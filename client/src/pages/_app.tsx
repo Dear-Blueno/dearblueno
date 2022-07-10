@@ -16,16 +16,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <div className="App">
         <IsMobileProvider>
-          <LoginPopupProvider>
-            <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <LoginPopupProvider>
               <div className="ColumnsContainer">
                 <MainSidebar />
                 <Component {...pageProps} />
               </div>
               <LoginFooter></LoginFooter>
               {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </QueryClientProvider>
-          </LoginPopupProvider>
+            </LoginPopupProvider>
+          </QueryClientProvider>
         </IsMobileProvider>
       </div>
     </>
