@@ -47,7 +47,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     }
   );
   const [clicked, setClicked] = useState(false);
-  // const [copied, setCopied] = useState(false);
 
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => {
@@ -180,17 +179,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     </div>
   );
 
-  // const shareAction = () => {
-  //   navigator.clipboard.writeText(
-  //     "https://dearblueno.net/comment/ + necessary data"
-  //   );
-  //   setCopied(true);
-  //   setTimeout(() => {
-  //     setClicked(false);
-  //     setCopied(false);
-  //   }, 1000);
-  // };
-
   return (
     <div className="CommentMenuDropdown" ref={refDropdown}>
       <div className={styles.CommentMenuButton} ref={setReferenceElement}>
@@ -225,9 +213,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                     report
                   </p>
                 )}
-                {/* <p className="MenuDropdownAction" onClick={shareAction}>
-                    share
-                  </p> */}
                 {user &&
                 props.commentUser &&
                 user._id === props.commentUser._id ? (
@@ -241,8 +226,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                   </p>
                 ) : null}
               </>
-              {/* )} */}
-              {/* {copied && <p>copied</p>} */}
             </div>
           </div>
         )}

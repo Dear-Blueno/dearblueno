@@ -13,7 +13,6 @@ import {
   bookmarkPost,
   subscribeToPost,
 } from "gateways/PostGateway";
-import ShareButton from "./ShareButton";
 import IPost from "types/IPost";
 import { RiShieldCheckFill } from "react-icons/ri";
 import {
