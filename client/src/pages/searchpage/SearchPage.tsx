@@ -73,8 +73,10 @@ function SearchPage(props: SearchPageProps) {
         />
       )}
       {loading ? (
-        <div className="NoResults">
-          <h1 className="NoResultsText">...</h1>
+        <div className="LoadingParent NoResults">
+          <div className="LoadingChild NoResultsText">.</div>
+          <div className="LoadingChild LoadingChild2 NoResultsText">.</div>
+          <div className="LoadingChild LoadingChild3 NoResultsText">.</div>
         </div>
       ) : (
         <SearchFeed results={results} hasResults={possiblePost && foundAPost} />
