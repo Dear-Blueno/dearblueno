@@ -1,10 +1,9 @@
 import "./SearchPage.css";
 import SearchHeaderCover from "components/header/SearchHeaderCover";
 import { useState, useEffect } from "react";
-import { searchPosts } from "gateways/PostGateway";
+import { searchPosts, getPost } from "gateways/PostGateway";
 import IPost from "types/IPost";
 import SearchFeed from "components/feeds/SearchFeed";
-import { getPost } from "gateways/PostGateway";
 
 type SearchPageProps = {};
 
@@ -13,10 +12,13 @@ function SearchPage(props: SearchPageProps) {
   const [results, setResults] = useState<IPost[]>([]);
   const [possiblePost, setPossiblePost] = useState<IPost>();
   const [foundAPost, setFoundAPost] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
+      setLoading(true);
       searchPosts(searchQuery).then((response) => {
+        setLoading(false);
         if (response.success && response.payload) {
           console.log(searchQuery, response.payload);
           setResults(response.payload as IPost[]);
@@ -26,6 +28,10 @@ function SearchPage(props: SearchPageProps) {
       });
     }
   }, [searchQuery]);
+
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
 
   useEffect(() => {
     // if searchQuery starts with #
@@ -42,8 +48,7 @@ function SearchPage(props: SearchPageProps) {
           }
         });
       }
-    }
-    else if (Number.isInteger(Number(searchQuery))) {
+    } else if (Number.isInteger(Number(searchQuery))) {
       // get that post
       getPost(Number(searchQuery)).then((response) => {
         if (response.success && response.payload) {
@@ -53,8 +58,7 @@ function SearchPage(props: SearchPageProps) {
           console.log(response.message);
         }
       });
-    }
-    else {
+    } else {
       setFoundAPost(false);
     }
   }, [searchQuery]);
@@ -62,8 +66,19 @@ function SearchPage(props: SearchPageProps) {
   return (
     <div className="SearchPage">
       <SearchHeaderCover setSearchQuery={setSearchQuery} />
-      {possiblePost && foundAPost && <SearchFeed results={[possiblePost]} hasResults={possiblePost && foundAPost}/>}
-      <SearchFeed results={results} hasResults={possiblePost && foundAPost}/>
+      {possiblePost && foundAPost && (
+        <SearchFeed
+          results={[possiblePost]}
+          hasResults={possiblePost && foundAPost}
+        />
+      )}
+      {loading ? (
+        <div className="NoResults">
+          <h1 className="NoResultsText">...</h1>
+        </div>
+      ) : (
+        <SearchFeed results={results} hasResults={possiblePost && foundAPost} />
+      )}
     </div>
   );
 }
