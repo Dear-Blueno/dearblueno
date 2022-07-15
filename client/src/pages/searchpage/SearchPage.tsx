@@ -30,10 +30,6 @@ function SearchPage(props: SearchPageProps) {
   }, [searchQuery]);
 
   useEffect(() => {
-    console.log(loading);
-  }, [loading]);
-
-  useEffect(() => {
     // if searchQuery starts with #
     if (searchQuery.startsWith("#")) {
       const possibleNumber = searchQuery.substring(1);
