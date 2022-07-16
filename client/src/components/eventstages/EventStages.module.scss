@@ -9,15 +9,15 @@
 }
 
 .EventStage1 {
-  height: 29.5rem;
+  height: 32rem;
 }
 
 .EventStage2 {
-  height: 31rem;
+  height: 35rem;
 }
 
 .EventStage3 {
-  height: 42rem;
+  height: 44rem;
 }
 
 .Stage {
@@ -31,8 +31,6 @@
   border: none;
   background-color: rgb(230, 235, 240);
   padding: 0 0.5rem;
-  // border: 2px solid black;
-  // box-sizing: border-box;
   font-size: 1rem;
 }
 
@@ -76,12 +74,13 @@
 }
 
 .StageButtons {
-  padding: 1rem 0;
-  position: fixed;
+  // padding: 1rem 0;
+  // position: fixed;
+  // PROBABLY NEED TO LOOK AT THIS AGAIN LOL!
   bottom: 0;
   background-color: white;
   display: flex;
-  width: calc(100% - 2.5rem);
+  // width: calc(100% - 2.5rem);
   justify-content: space-between;
   & > button {
     width: 6rem;
