@@ -1,7 +1,12 @@
 import styles from "./EventStages.module.scss";
 import Image from "next/image";
 import { GiPartyPopper } from "react-icons/gi";
-type EventStageOneProps = {};
+type EventStageOneProps = {
+  name: string;
+  nameSetter: (name: string) => void;
+  email: string;
+  emailSetter: (email: string) => void;
+};
 
 export default function EventStageOne(props: EventStageOneProps) {
   return (
@@ -22,8 +27,10 @@ export default function EventStageOne(props: EventStageOneProps) {
         Event Name
         <input
           type="text"
-          placeholder="This will be displayed as the title of your event"
+          placeholder="This will be displayed as the title of your event."
           className={styles.EventStageInput}
+          value={props.name}
+          onChange={(e) => props.nameSetter(e.target.value)}
         />
       </label>
       <label className={styles.InputLabel}>
@@ -32,8 +39,10 @@ export default function EventStageOne(props: EventStageOneProps) {
           type="text"
           name="email"
           autoComplete="email"
-          placeholder="Users can contact you here with questions about your event"
+          placeholder="Users can contact you here with questions about your event."
           className={styles.EventStageInput}
+          value={props.email}
+          onChange={(e) => props.emailSetter(e.target.value)}
         />
       </label>
     </div>
