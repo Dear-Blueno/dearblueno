@@ -13,7 +13,7 @@
 }
 
 .EventStage2 {
-  height: 25rem;
+  height: 31rem;
 }
 
 .EventStage3 {
@@ -73,4 +73,11 @@
       background-color: rgb(220, 225, 230);
     }
   }
+}
+
+.DateTimeContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1.5rem;
 }
