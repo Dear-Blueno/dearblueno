@@ -38,7 +38,6 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             autoComplete="email"
             placeholder="ex: January 1st "
             className={styles.EventStageInput}
-            style={{ color: "#757575" }}
             value={props.startDate}
             onChange={(e) => props.startDateSetter(e.target.value)}
           />
@@ -51,7 +50,6 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             autoComplete="email"
             placeholder="ex: 12:01 A.M."
             className={styles.EventStageInput}
-            style={{ color: "#757575" }}
             value={props.startTime}
             onChange={(e) => props.startTimeSetter(e.target.value)}
           />
@@ -66,7 +64,6 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             autoComplete="email"
             placeholder="ex: January 2nd"
             className={styles.EventStageInput}
-            style={{ color: "#757575" }}
             value={props.endDate}
             onChange={(e) => props.endDateSetter(e.target.value)}
           />
@@ -79,7 +76,6 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             autoComplete="email"
             placeholder="ex: 11:59 P.M."
             className={styles.EventStageInput}
-            style={{ color: "#757575" }}
             value={props.endTime}
             onChange={(e) => props.endTimeSetter(e.target.value)}
           />
@@ -87,10 +83,10 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </div>
       <label className={styles.InputLabel}>
         Event Description
-        <input
-          type="text"
+        <textarea
           placeholder="Talk about what participants can expect at your event."
-          className={styles.EventStageInput}
+          rows={3}
+          className={styles.EventStageTextField}
           value={props.description}
           onChange={(e) => props.descriptionSetter(e.target.value)}
         />

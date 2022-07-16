@@ -3,6 +3,8 @@ import EventStagesDisplay from "./EventStagesDisplay";
 import { useState } from "react";
 import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
+import EventCard from "components/event/EventCard";
+import { makeDate, makeTime } from "./RelativeDay";
 
 export default function EventStages() {
   const [stage, setStage] = useState(1);
@@ -58,7 +60,24 @@ export default function EventStages() {
             descriptionSetter={setStageTwoDescription}
           />
         )}
-        {stage === 3 && <div>3</div>}
+        {stage === 3 && (
+          <div className={styles.EventCardContainer}>
+            <label className={styles.InputLabel}>Review your event:</label>
+            <EventCard
+              image="https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
+              title={stageOneName}
+              description={stageTwoDescription}
+              location={stageTwoLocation}
+              date={
+                makeDate(stageTwoStartDate) +
+                " • " +
+                makeTime(stageTwoStartTime, stageTwoEndTime)
+              }
+              // date={stageTwoStartTime}
+              numberOfAttendees={0}
+            />
+          </div>
+        )}
       </form>
       <div className={styles.StageButtons}>
         {stage > 1 && (
@@ -69,6 +88,11 @@ export default function EventStages() {
         {stage < 3 && (
           <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
             Next
+          </button>
+        )}
+        {stage == 3 && (
+          <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
+            Submit
           </button>
         )}
       </div>
