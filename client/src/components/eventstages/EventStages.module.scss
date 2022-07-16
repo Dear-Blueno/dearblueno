@@ -15,11 +15,11 @@
 }
 
 .EventStage2 {
-  height: 33rem;
+  height: 35rem;
 }
 
 .EventStage3 {
-  height: 40rem;
+  height: 44rem;
 }
 
 .Stage {
@@ -33,12 +33,32 @@
   border: none;
   background-color: rgb(230, 235, 240);
   padding: 0 0.5rem;
-  // border: 2px solid black;
-  // box-sizing: border-box;
   font-size: 1rem;
 }
 
+.EventStageInput::placeholder {
+  color: #757575;
+}
+
 .EventStageInput:focus {
+  outline: none;
+}
+
+.EventStageTextField {
+  display: flex;
+  border: none;
+  background-color: rgb(230, 235, 240);
+  padding: 0.5rem;
+  margin: 0;
+  font-size: 1rem;
+  resize: none;
+}
+
+.EventStageTextField::placeholder {
+  color: #757575;
+}
+
+.EventStageTextField:focus {
   outline: none;
 }
 
@@ -82,4 +102,12 @@
   flex-direction: row;
   width: 100%;
   gap: 1.5rem;
+}
+
+.EventCardContainer {
+  display: flex;
+  width: 60%;
+  margin-left: 20%;
+  flex-direction: column;
+  gap: 1rem;
 }
