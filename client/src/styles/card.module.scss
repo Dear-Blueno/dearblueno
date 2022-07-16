@@ -20,13 +20,15 @@
 /* Larger than mobile */
 @media only screen and (min-width: 46rem) {
   .DearBluenoCard {
-    animation: DearBluenoCardAppear2;
-    animation-duration: 0.4s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
+    // animation: DearBluenoCardAppear2;
+    // animation-duration: 0.4s;
+    // animation-timing-function: ease-out;
+    // animation-fill-mode: forwards;
     padding: 1.25rem;
-    width: calc(100% - 0.2rem);
-    margin-left: 0.2rem;
+    // width: calc(100%);
+    // margin-left: 0.2rem;
+    border-radius: 0.3rem;
+    // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 }
 
@@ -46,11 +48,11 @@
   0% {
     opacity: 1;
     box-shadow: none;
-    transform: translate3d(-0.2rem, 0.2rem, 0);
+    // transform: translate3d(-0.2rem, 0.2rem, 0);
   }
   100% {
     opacity: 1;
-    box-shadow: -0.2rem 0.2rem black;
+    // box-shadow: -0.2rem 0.2rem black;
     transform: none;
   }
 }

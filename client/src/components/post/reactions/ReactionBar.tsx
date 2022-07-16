@@ -156,6 +156,7 @@ function ReactionBar(props: ReactionBarProps) {
           color="#789"
           style={{ transform: "translateY(0.05em)" }}
           className={styles.IconButton}
+          title="Add a reaction"
           onClick={
             user
               ? () => {

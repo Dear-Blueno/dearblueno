@@ -42,6 +42,7 @@ export default function MainFeedSidebar() {
         triggerClassName={styles.DropdownTitle}
         triggerOpenedClassName={styles["is-open"] + " " + styles.DropdownTitle}
         transitionTime={100}
+        open
       >
         <div className={styles.DropdownContent}>
           {tags.map((tag, index) => (

@@ -1,3 +1,5 @@
+@use "../../styles/card.module.scss";
+
 .pageheader {
   display: flex;
   flex-direction: row;
@@ -39,4 +41,12 @@
     background-color: #a0b9d4;
   }
   border-radius: 0.2rem;
+}
+
+.Options {
+  @extend .DearBluenoCard;
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  padding: 1rem;
 }

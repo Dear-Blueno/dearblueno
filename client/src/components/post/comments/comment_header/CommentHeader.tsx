@@ -21,10 +21,11 @@ type CommentHeaderProps = {
 };
 
 function CommentHeader(props: CommentHeaderProps) {
-  const [referenceElement, setReferenceElement] = useState<any>(null);
-  const [popperElement, setPopperElement] = useState<any>(null);
-  const [arrowElement, setArrowElement] = useState<any>(null);
-  const { styles: popperStyles, attributes } = usePopper<any>(
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLParagraphElement | null>();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>();
+  const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
     {

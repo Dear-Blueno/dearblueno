@@ -10,7 +10,11 @@
 
 .MainFeedHeaderOption {
   cursor: pointer;
-  padding: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  &:hover {
+    background-color: #bcd;
+  }
+  border-radius: 0.3rem;
 }
 
 .FeedSelectionUnderline {
@@ -19,5 +23,5 @@
   position: absolute;
   transition: left 0.3s ease, width 0.3s ease;
   content: "";
-  margin-top: 24px;
+  margin-top: 1.7rem;
 }

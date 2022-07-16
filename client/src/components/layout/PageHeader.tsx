@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoOptionsOutline } from "react-icons/io5";
+import { usePopper } from "react-popper";
 import styles from "./PageHeader.module.scss";
 
 type PageHeaderProps = {
@@ -13,6 +14,24 @@ export default function PageHeader(props: PageHeaderProps) {
   const [collapseSidebar, setCollapseSidebar] = useState<boolean | undefined>(
     undefined
   );
+  const [showOptions, setShowOptions] = useState<boolean>(false);
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  const { styles: popperStyles, attributes } = usePopper<any>(
+    referenceElement,
+    popperElement,
+    {
+      placement: "bottom-end",
+      modifiers: [
+        {
+          name: "offset",
+          options: { offset: [2, 8] },
+        },
+      ],
+    }
+  );
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
@@ -34,7 +53,11 @@ export default function PageHeader(props: PageHeaderProps) {
           <div className={styles.HeaderAndOptionsButton}>
             {!props.collapseHeader && props.children}
             {(props.sidebar || props.collapseHeader) && (
-              <button className={styles.OptionsButton}>
+              <button
+                className={styles.OptionsButton}
+                ref={setReferenceElement}
+                onClick={() => setShowOptions(!showOptions)}
+              >
                 <IoOptionsOutline size="2.4em" />
               </button>
             )}
@@ -42,6 +65,19 @@ export default function PageHeader(props: PageHeaderProps) {
         ) : (
           props.children
         ))}
+      {collapseSidebar !== undefined && collapseSidebar && (
+        <div
+          className={styles.Options}
+          style={{
+            ...popperStyles.popper,
+            display: showOptions ? "block" : "none",
+          }}
+          ref={setPopperElement}
+          {...attributes.popper}
+        >
+          {props.sidebar}
+        </div>
+      )}
     </header>
   );
 }
