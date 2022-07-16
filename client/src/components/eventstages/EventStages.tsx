@@ -23,15 +23,7 @@ export default function EventStages() {
   };
 
   return (
-    <div
-      className={
-        styles.EventStagesBox +
-        " " +
-        styles.DearBluenoCard +
-        " " +
-        styles[`EventStage${stage}`]
-      }
-    >
+    <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
       <form>
         {stage === 1 && (
@@ -60,17 +52,19 @@ export default function EventStages() {
         )}
         {stage === 3 && <div>3</div>}
       </form>
-      <div className={styles.StageButtons}>
-        {stage > 1 && (
-          <button onClick={decrementStage} style={{ marginRight: "auto" }}>
-            Back
-          </button>
-        )}
-        {stage < 3 && (
-          <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
-            Next
-          </button>
-        )}
+      <div className={styles.StageButtonsWrapper}>
+        <div className={styles.StageButtons}>
+          {stage > 1 && (
+            <button onClick={decrementStage} style={{ marginRight: "auto" }}>
+              Back
+            </button>
+          )}
+          {stage < 3 && (
+            <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
+              Next
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

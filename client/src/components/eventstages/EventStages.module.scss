@@ -1,19 +1,21 @@
 @use "../../styles/card.module.scss";
 
 .EventStagesBox {
+  @extend .DearBluenoCard;
   display: flex;
   flex-direction: column;
   gap: 2rem;
   transition: height 0.3s ease-out;
   overflow: hidden;
+  transform: translate(0, 0);
 }
 
 .EventStage1 {
-  height: 29.5rem;
+  height: 32rem;
 }
 
 .EventStage2 {
-  height: 31rem;
+  height: 33rem;
 }
 
 .EventStage3 {
