@@ -17,6 +17,7 @@ import setupHourlyCron from "./config/cron-hourly";
 import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
+import eventsRouter from "./routes/events";
 
 // Setup logger
 log4js.configure({
@@ -106,6 +107,7 @@ app.get("/", (_req, res) => {
 app.use("/posts", postsRouter);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
+app.use("/events", eventsRouter);
 
 // Setup cron jobs
 setupDailyCron();
