@@ -76,7 +76,7 @@ eventRouter.get(
   }
 );
 
-// GET request that gets 10 posts paginated in order of oldest postDate (only events that need review)
+// GET request that gets 10 posts paginated in order of oldest postTime (only events that need review)
 // (Must be authenticated as a moderator)
 eventRouter.get(
   "/mod-feed",
@@ -93,7 +93,7 @@ eventRouter.get(
     const events = await Event.find({
       needsReview: true,
     })
-      .sort({ postTime: -1 })
+      .sort({ postTime: 1 })
       .skip((page - 1) * 10)
       .limit(10);
 

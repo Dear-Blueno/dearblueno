@@ -292,6 +292,108 @@ describe("Events", () => {
     });
   });
 
+  describe("GET /events/all", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/events/all").expect(401);
+    });
+
+    it("should return 401 if not a moderator", async () => {
+      await request(app).get("/events/all").send({ user }).expect(401);
+    });
+
+    it("should return all events", async () => {
+      await new Event({
+        eventName: "Unapproved Event",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 20),
+        endDate: new Date(Date.now() + 1000 * 30),
+        location: "Event 1 location",
+        approved: false,
+      }).save();
+      await new Event({
+        eventName: "Past Event",
+        eventDescription: "Event 2 description",
+        startDate: new Date(Date.now() - 1000 * 30),
+        endDate: new Date(Date.now() - 1000 * 20),
+        location: "Event 2 location",
+        approved: true,
+      }).save();
+      await new Event({
+        eventName: "Regular Event",
+        eventDescription: "Event 3 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 3 location",
+        approved: true,
+      }).save();
+
+      const res = await request(app)
+        .get("/events/all")
+        .send({ user: modUser })
+        .expect(200);
+      expect(res.body.length).toBe(3);
+
+      const event1 = res.body[0];
+      expect(event1.eventName).toBe("Past Event");
+
+      const event2 = res.body[1];
+      expect(event2.eventName).toBe("Regular Event");
+
+      const event3 = res.body[2];
+      expect(event3.eventName).toBe("Unapproved Event");
+    });
+  });
+
+  describe("GET /events/mod-feed", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/events/mod-feed").expect(401);
+    });
+
+    it("should return 401 if not a moderator", async () => {
+      await request(app).get("/events/mod-feed").send({ user }).expect(401);
+    });
+
+    it("should return events that need review", async () => {
+      await new Event({
+        eventName: "Event 1",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 1 location",
+      }).save();
+      await new Event({
+        eventName: "Event 2",
+        eventDescription: "Event 2 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 2 location",
+        approved: true,
+        needsReview: false,
+      }).save();
+      await new Event({
+        eventName: "Event 3",
+        eventDescription: "Event 3 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 3 location",
+        approved: true,
+        needsReview: true,
+      }).save();
+
+      const res = await request(app)
+        .get("/events/mod-feed")
+        .send({ user: modUser })
+        .expect(200);
+      expect(res.body.length).toBe(2);
+
+      const event1 = res.body[0];
+      expect(event1.eventName).toBe("Event 1");
+
+      const event2 = res.body[1];
+      expect(event2.eventName).toBe("Event 3");
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });
