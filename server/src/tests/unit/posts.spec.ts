@@ -905,54 +905,54 @@ describe("Posts", () => {
         .send({ user, content: "This is a test comment!!", parentId: 1 })
         .expect(404);
     });
-  });
 
-  it("should send notifications to users subscribed to the post", async () => {
-    const post = new Post({
-      content: "This is a test post",
-      approved: true,
-      postNumber: 1,
-      subscribers: [user._id, modUser._id],
+    it("should send notifications to users subscribed to the post", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        subscribers: [user._id, modUser._id],
+      });
+      await post.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({ user, content: "This is a test comment", parentId: -1 })
+        .expect(200);
+
+      const user1 = await User.findById(user._id);
+      expect(user1?.notifications.length).toBe(0);
+      const modUser1 = await User.findById(modUser._id);
+      expect(modUser1?.notifications.length).toBe(1);
+      expect(modUser1?.notifications[0].content.postNumber).toBe(1);
+      expect(modUser1?.notifications[0].content.userName).toBe(user.givenName);
+      expect(modUser1?.notifications[0].timestamp).toBeDefined();
     });
-    await post.save();
 
-    await request(app)
-      .post(`/posts/1/comment`)
-      .send({ user, content: "This is a test comment", parentId: -1 })
-      .expect(200);
+    it("should not send notifications yet if comment is anonymous", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        subscribers: [user._id, modUser._id],
+      });
+      await post.save();
 
-    const user1 = await User.findById(user._id);
-    expect(user1?.notifications.length).toBe(0);
-    const modUser1 = await User.findById(modUser._id);
-    expect(modUser1?.notifications.length).toBe(1);
-    expect(modUser1?.notifications[0].content.postNumber).toBe(1);
-    expect(modUser1?.notifications[0].content.userName).toBe(user.givenName);
-    expect(modUser1?.notifications[0].timestamp).toBeDefined();
-  });
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({
+          user,
+          content: "This is a test comment",
+          parentId: -1,
+          anonymous: true,
+        })
+        .expect(200);
 
-  it("should not send notifications yet if comment is anonymous", async () => {
-    const post = new Post({
-      content: "This is a test post",
-      approved: true,
-      postNumber: 1,
-      subscribers: [user._id, modUser._id],
+      const user1 = await User.findById(user._id);
+      expect(user1?.notifications.length).toBe(0);
+      const modUser1 = await User.findById(modUser._id);
+      expect(modUser1?.notifications.length).toBe(0);
     });
-    await post.save();
-
-    await request(app)
-      .post(`/posts/1/comment`)
-      .send({
-        user,
-        content: "This is a test comment",
-        parentId: -1,
-        anonymous: true,
-      })
-      .expect(200);
-
-    const user1 = await User.findById(user._id);
-    expect(user1?.notifications.length).toBe(0);
-    const modUser1 = await User.findById(modUser._id);
-    expect(modUser1?.notifications.length).toBe(0);
   });
 
   describe("PUT /posts/:id/comment/:commentId/approve", () => {
@@ -1028,41 +1028,41 @@ describe("Posts", () => {
       expect(post3?.comments[0].approved).toBe(false);
       expect(post3?.comments[0].needsReview).toBe(false);
     });
-  });
 
-  it("should send notifications to subscribers if comment is anonymous", async () => {
-    const post = new Post({
-      content: "This is a test post",
-      approved: true,
-      postNumber: 1,
-      subscribers: [user._id, modUser._id],
+    it("should send notifications to subscribers if comment is anonymous", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        subscribers: [user._id, modUser._id],
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+        author: null,
+      });
+      await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      await request(app)
+        .put(`/posts/1/comment/1/approve`)
+        .send({ user: modUser, approved: true })
+        .expect(200);
+
+      const user1 = await User.findById(user._id);
+      expect(user1?.notifications.length).toBe(1);
+      const modUser1 = await User.findById(modUser._id);
+      expect(modUser1?.notifications.length).toBe(1);
+      expect(modUser1?.notifications[0].content.postNumber).toBe(1);
+      expect(modUser1?.notifications[0].content.userName).toBe("Anonymous");
     });
-    await post.save();
-
-    const comment = new Comment({
-      content: "This is a test comment",
-      post: post._id,
-      postNumber: 1,
-      parentCommentNumber: -1,
-      commentNumber: 1,
-      author: null,
-    });
-    await comment.save();
-
-    post.comments.push(comment);
-    await post.save();
-
-    await request(app)
-      .put(`/posts/1/comment/1/approve`)
-      .send({ user: modUser, approved: true })
-      .expect(200);
-
-    const user1 = await User.findById(user._id);
-    expect(user1?.notifications.length).toBe(1);
-    const modUser1 = await User.findById(modUser._id);
-    expect(modUser1?.notifications.length).toBe(1);
-    expect(modUser1?.notifications[0].content.postNumber).toBe(1);
-    expect(modUser1?.notifications[0].content.userName).toBe("Anonymous");
   });
 
   describe("PUT /posts/:id/comment/:commentId/react", () => {
