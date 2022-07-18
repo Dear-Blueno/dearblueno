@@ -140,11 +140,10 @@ eventRouter.post(
     .toDate()
     .isAfter(new Date().toString())
     .custom((value, { req }) => {
-      if (value > req.body.startDate) {
-        return true;
-      } else {
+      if (value <= req.body.startDate) {
         throw new Error("End date must be after start date");
       }
+      return true;
     }),
   body("location").isString().trim().isLength({ min: 1, max: 65 }),
   body("contactEmail").optional().trim().isEmail().normalizeEmail(),
@@ -221,7 +220,7 @@ eventRouter.put(
     }
 
     const event = await Event.findById(req.params.id);
-    if (!event) {
+    if (!event || !event.approved) {
       res.status(404).send("Event not found");
       return;
     }
@@ -229,9 +228,9 @@ eventRouter.put(
     const interested = req.body.interested;
     const user = req.user as IUser;
 
-    if (interested) {
+    if (interested && !event.interested.includes(user._id)) {
       event.interested.push(user._id);
-    } else {
+    } else if (!interested && event.interested.includes(user._id)) {
       event.interested.splice(event.interested.indexOf(user._id), 1);
     }
     await event.save();
@@ -255,7 +254,7 @@ eventRouter.put(
     }
 
     const event = await Event.findById(req.params.id);
-    if (!event) {
+    if (!event || !event.approved) {
       res.status(404).send("Event not found");
       return;
     }
@@ -263,9 +262,9 @@ eventRouter.put(
     const going = req.body.going;
     const user = req.user as IUser;
 
-    if (going) {
+    if (going && !event.going.includes(user._id)) {
       event.going.push(user._id);
-    } else {
+    } else if (!going && event.going.includes(user._id)) {
       event.going.splice(event.going.indexOf(user._id), 1);
     }
     await event.save();
