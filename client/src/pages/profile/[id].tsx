@@ -9,6 +9,8 @@ import Head from "next/head";
 import NotFoundPage from "pages/404";
 import { GetStaticProps, NextPage } from "next";
 
+import ProfileSidebar from "../../components/profile/ProfileSidebar";
+
 type ProfilePageProps = {
   user?: IUser;
 };
@@ -51,6 +53,7 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
       <MainLayout
         title={title}
         page={<ProfilePageMain user={user} profileUser={profileUser} />}
+        sidebar={<ProfileSidebar />}
       />
     </>
   );

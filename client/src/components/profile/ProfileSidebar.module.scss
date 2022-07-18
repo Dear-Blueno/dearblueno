@@ -1,0 +1,30 @@
+.DropdownTitle {
+  display: flex;
+  user-select: none;
+  font-size: 1.3rem;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  line-height: 0.7;
+}
+
+.DropdownTitle::after {
+  content: "›";
+  font-size: 2rem;
+  font-weight: 500;
+  transform: translateY(-0.1rem);
+  transition: transform 100ms;
+  transform-origin: 60% 50%;
+}
+
+.DropdownTitle.is-open::after {
+  transform: rotateZ(90deg);
+}
+
+.DropdownContent {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+}
