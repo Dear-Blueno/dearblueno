@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IUser } from "src/models/User";
+import { IUser } from "../models/User";
 
 // handle optional auth
 export const optionalAuth = (

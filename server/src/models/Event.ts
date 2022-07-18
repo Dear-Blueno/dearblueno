@@ -90,5 +90,5 @@ export interface IEvent {
   approvedTime: Date;
 }
 
-const Event = model("Event", EventSchema);
+const Event = model<IEvent>("Event", EventSchema);
 export default Event;

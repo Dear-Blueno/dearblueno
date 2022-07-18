@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { param, query, validationResult } from "express-validator";
+import { body, param, query, validationResult } from "express-validator";
 import { IUser } from "../models/User";
-import { modCheck, optionalAuth } from "../middleware/auth";
+import { brownCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
 import { Document } from "mongoose";
 
@@ -122,6 +122,153 @@ eventRouter.get(
     const cleanEvent = cleanSensitiveEvent(event.toObject(), req.user as IUser);
 
     res.send(cleanEvent);
+  }
+);
+
+// POST request that creates a new event
+// (Must be authenticated as a Brown member)
+eventRouter.post(
+  "/",
+  brownCheck,
+  body("eventName").isString().trim().isLength({ min: 1, max: 65 }),
+  body("eventDescription").isString().trim().isLength({ min: 1, max: 800 }),
+  body("startDate").isISO8601().toDate().isAfter(new Date().toString()),
+  body("endDate")
+    .isISO8601()
+    .toDate()
+    .isAfter(new Date().toString())
+    .custom((value, { req }) => {
+      if (value > req.body.startDate) {
+        return true;
+      } else {
+        throw new Error("End date must be after start date");
+      }
+    }),
+  body("location").isString().trim().isLength({ min: 1, max: 65 }),
+  body("contactEmail").optional().trim().isEmail().normalizeEmail(),
+  body("coverPicture")
+    .optional()
+    .trim()
+    .isURL({
+      require_protocol: true,
+      protocols: ["https"],
+      host_whitelist: ["i.imgur.com"],
+    }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const event = new Event({
+      eventName: req.body.eventName,
+      eventDescription: req.body.eventDescription,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      location: req.body.location,
+      contactEmail: req.body.contactEmail,
+      coverPicture: req.body.coverPicture,
+    });
+    await event.save();
+    res.send(event);
+  }
+);
+
+// PUT request that updates an event's approved status
+// (Must be authenticated as a moderator)
+eventRouter.put(
+  "/:id/approve",
+  modCheck,
+  param("id").isMongoId(),
+  body("approved").isBoolean(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      res.status(404).send("Event not found");
+      return;
+    }
+
+    event.approved = req.body.approved;
+    event.needsReview = false;
+    event.approvedBy = (req.user as IUser)._id;
+    event.approvedTime = new Date();
+    await event.save();
+    res.send(event);
+  }
+);
+
+// PUT request that marks an event as 'interested'
+// (Must be authenticated as a Brown member)
+eventRouter.put(
+  "/:id/interested",
+  brownCheck,
+  param("id").isMongoId(),
+  body("interested").toBoolean(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      res.status(404).send("Event not found");
+      return;
+    }
+
+    const interested = req.body.interested;
+    const user = req.user as IUser;
+
+    if (interested) {
+      event.interested.push(user._id);
+    } else {
+      event.interested.splice(event.interested.indexOf(user._id), 1);
+    }
+    await event.save();
+
+    res.json({ interested: interested });
+  }
+);
+
+// PUT request that marks an event as 'going'
+// (Must be authenticated as a Brown member)
+eventRouter.put(
+  "/:id/going",
+  brownCheck,
+  param("id").isMongoId(),
+  body("going").toBoolean(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      res.status(404).send("Event not found");
+      return;
+    }
+
+    const going = req.body.going;
+    const user = req.user as IUser;
+
+    if (going) {
+      event.going.push(user._id);
+    } else {
+      event.going.splice(event.going.indexOf(user._id), 1);
+    }
+    await event.save();
+
+    res.json({ going: going });
   }
 );
 
