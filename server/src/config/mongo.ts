@@ -12,4 +12,5 @@ export default function mongoConnection() {
   require("../models/User");
   require("../models/Post");
   require("../models/Comment");
+  require("../models/Event");
 }
