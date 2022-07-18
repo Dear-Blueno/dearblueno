@@ -68,12 +68,17 @@ const EventSchema = new Schema({
     type: Date,
     required: false,
   },
+  notificationSent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Index by approved and startDate for faster queries
 EventSchema.index({ approved: -1, startDate: 1 });
 
 export interface IEvent {
+  _id: string;
   eventName: string;
   eventDescription: string;
   startDate: Date;
@@ -88,6 +93,7 @@ export interface IEvent {
   going: string[];
   postTime: Date;
   approvedTime: Date;
+  notificationSent: boolean;
 }
 
 const Event = model<IEvent>("Event", EventSchema);

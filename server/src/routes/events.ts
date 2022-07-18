@@ -43,7 +43,7 @@ eventRouter.get(
       .sort({ startDate: 1 })
       .skip((page - 1) * 10)
       .limit(10)
-      .select("-approvedBy");
+      .select("-approvedBy -notificationSent");
 
     const cleanEvents = events.map((event: IEvent & Document) =>
       cleanSensitiveEvent(event.toObject(), req.user as IUser)
@@ -113,7 +113,9 @@ eventRouter.get(
       return;
     }
 
-    const event = await Event.findById(req.params.id).select("-approvedBy");
+    const event = await Event.findById(req.params.id).select(
+      "-approvedBy -notificationSent"
+    );
     if (!event || !event.approved) {
       res.status(404).send("Event not found");
       return;

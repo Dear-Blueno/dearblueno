@@ -170,5 +170,24 @@ export interface INewCommentNotification extends INotification {
   };
 }
 
+export interface ITrendingPostNotification extends INotification {
+  type: "trendingPost";
+  content: {
+    postNumber: number;
+    content: string;
+  };
+}
+
+export interface IUpcomingEventNotification extends INotification {
+  type: "upcomingEvent";
+  content: {
+    eventId: string;
+    eventName: string;
+    location: string;
+    startDate: Date;
+    endDate: Date;
+  };
+}
+
 const User = model<IUser>("User", UserSchema);
 export default User;

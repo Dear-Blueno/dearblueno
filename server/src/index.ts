@@ -13,6 +13,7 @@ import mongoConnection from "./config/mongo";
 import passportConfig from "./config/passport";
 import setupDailyCron from "./config/cron-daily";
 import setupHourlyCron from "./config/cron-hourly";
+import setupMinutelyCron from "./config/cron-minutely";
 
 import postsRouter from "./routes/posts";
 import userRouter from "./routes/user";
@@ -112,6 +113,7 @@ app.use("/events", eventsRouter);
 // Setup cron jobs
 setupDailyCron();
 setupHourlyCron();
+setupMinutelyCron();
 
 // Start Express server
 const port = process.env.PORT || 5000;
