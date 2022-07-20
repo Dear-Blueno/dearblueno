@@ -8,7 +8,6 @@ import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import log4js from "log4js";
-import morgan from "morgan";
 
 import mongoConnection from "./config/mongo";
 import passportConfig from "./config/passport";
@@ -60,21 +59,14 @@ app.use(
   })
 );
 app.use(
-  morgan("tiny", {
-    skip: (_, res) => res.statusCode >= 400,
-    stream: { write: (msg) => logger.info(msg.replace(/\n/g, "")) },
-  })
-);
-app.use(
-  morgan("tiny", {
-    skip: (_, res) => res.statusCode < 400 && res.statusCode <= 500,
-    stream: { write: (msg) => logger.warn(msg.replace(/\n/g, "")) },
-  })
-);
-app.use(
-  morgan("tiny", {
-    skip: (_, res) => res.statusCode < 500,
-    stream: { write: (msg) => logger.error(msg.replace(/\n/g, "")) },
+  log4js.connectLogger(logger, {
+    level: "auto",
+    format: ":method :url :status :content-length - :response-time ms",
+    statusRules: [
+      { from: 200, to: 399, level: "info" },
+      { from: 400, to: 499, level: "warn" },
+      { from: 500, to: 599, level: "error" },
+    ],
   })
 );
 
