@@ -14,6 +14,7 @@ import IComment from "types/IComment";
 import ContextThread from "components/post/comments/ContextThread";
 import { logout } from "gateways/AuthGateway";
 import { MdLogout } from "react-icons/md";
+import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
 
 type ProfileBoxProps = {
   user?: IUser;
@@ -155,7 +156,11 @@ function ProfileBox(props: ProfileBoxProps) {
           ></ProfilePicture>
           <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
           {ownProfile && !editing && (
-            <ProfileEditButton click={() => setEditing(true)} />
+            // <ProfileEditButton click={() => setEditing(true)} />
+            <GenericProfileButton
+              click={() => setEditing(true)}
+              text={"Edit"}
+            />
           )}
           <ProfileSocials
             links={[
@@ -183,8 +188,17 @@ function ProfileBox(props: ProfileBoxProps) {
           />
           {editing && (
             <div className={styles.SaveAndCancelButtons}>
-              <ProfileSaveButton click={handleProfileEdit} />
-              <ProfileCancelButton click={() => setEditing(false)} />
+              {/* <ProfileSaveButton click={handleProfileEdit} /> */}
+              <div className={styles.ContainerOne}>
+                <GenericProfileButton click={handleProfileEdit} text={"Save"} />
+              </div>
+              <div className={styles.ContainerOne}>
+                {/* <ProfileCancelButton click={() => setEditing(false)} /> */}
+                <GenericProfileButton
+                  click={() => setEditing(false)}
+                  text={"Cancel"}
+                />
+              </div>
             </div>
           )}
           {ownProfile && (

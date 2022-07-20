@@ -32,8 +32,9 @@ authRouter.get("/", async (req, res) => {
 
 // Logout
 authRouter.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect(process.env.CLIENT_URL || "http://localhost:3000");
+  req.logout(() => {
+    res.redirect(process.env.CLIENT_URL || "http://localhost:3000");
+  });
 });
 
 // Google OAuth2 - Verified Brown users only

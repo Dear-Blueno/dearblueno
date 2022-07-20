@@ -21,11 +21,16 @@ import authRouter from "./routes/auth";
 // Setup logger
 log4js.configure({
   appenders: {
-    out: { type: "stdout" },
-    app: { type: "file", filename: "logs/app.log" },
+    console: { type: "stdout" },
+    file: {
+      type: "dateFile",
+      filename: "logs/app.log",
+      compress: true,
+      keepFileExt: true,
+    },
   },
   categories: {
-    default: { appenders: ["out", "app"], level: "info" },
+    default: { appenders: ["console", "file"], level: "info" },
   },
 });
 const logger = log4js.getLogger("app");
@@ -55,6 +60,17 @@ app.use(
     origin: process.env.CLIENT_URL || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+  })
+);
+app.use(
+  log4js.connectLogger(logger, {
+    level: "auto",
+    format: ":method :url :status :content-length - :response-time ms",
+    statusRules: [
+      { from: 200, to: 399, level: "info" },
+      { from: 400, to: 499, level: "warn" },
+      { from: 500, to: 599, level: "error" },
+    ],
   })
 );
 

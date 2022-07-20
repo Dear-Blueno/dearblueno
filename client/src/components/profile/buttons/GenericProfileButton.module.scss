@@ -1,0 +1,19 @@
+.GenericProfileButton {
+  width: 100%;
+  border-radius: 0.2rem;
+  display: flex;
+  flex-direction: row;
+  appearance: none;
+  -moz-appearance: none;
+  background-color: #cfd7e1;
+  border: none;
+  justify-content: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:active {
+    background-color: #b3b9c0;
+  }
+}
