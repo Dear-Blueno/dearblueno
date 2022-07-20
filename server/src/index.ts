@@ -35,11 +35,6 @@ log4js.configure({
   },
 });
 const logger = log4js.getLogger("app");
-const morganLogger = morgan("tiny", {
-  stream: {
-    write: (message) => logger.info(message.replace(/\n/g, "")),
-  },
-});
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config();
@@ -64,7 +59,24 @@ app.use(
     credentials: true,
   })
 );
-app.use(morganLogger);
+app.use(
+  morgan("tiny", {
+    skip: (_, res) => res.statusCode >= 400,
+    stream: { write: (msg) => logger.info(msg.replace(/\n/g, "")) },
+  })
+);
+app.use(
+  morgan("tiny", {
+    skip: (_, res) => res.statusCode < 400 && res.statusCode <= 500,
+    stream: { write: (msg) => logger.warn(msg.replace(/\n/g, "")) },
+  })
+);
+app.use(
+  morgan("tiny", {
+    skip: (_, res) => res.statusCode < 500,
+    stream: { write: (msg) => logger.error(msg.replace(/\n/g, "")) },
+  })
+);
 
 // Setup MongoDB
 mongoConnection();
