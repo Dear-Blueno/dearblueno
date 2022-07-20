@@ -1,17 +1,9 @@
 .ProfilePicture {
   width: 100%;
   border: 2px solid black;
+  border-radius: 0.3rem;
+  overflow: hidden;
   display: block;
   box-sizing: border-box;
-}
-
-/* Mobile */
-@media only screen and (max-width: 46rem) {
-  .ProfilePictureImage {
-    width: 30%;
-  }
-}
-
-/* Larger than mobile */
-@media only screen and (min-width: 46rem) {
+  line-height: 0;
 }

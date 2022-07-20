@@ -3,10 +3,8 @@
 .ProfileBox {
   @extend .DearBluenoCard;
   display: flex;
+  flex-wrap: nowrap;
   gap: 1rem;
-  background-color: #ffffff;
-  border: 0.1rem solid rgba(0, 0, 0, 1);
-  box-sizing: border-box;
   margin-bottom: 0.2rem;
 }
 
@@ -19,16 +17,16 @@
 .LeftColumn {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  // width: 200px;
+  gap: 1rem;
+  flex: 0 0 15rem;
 }
 
 .RightColumn {
   display: flex;
-  flex: 2;
   flex-direction: column;
-  gap: 0.5rem;
-  position: relative;
+  gap: 0.8rem;
+  min-height: 100%;
+  height: 0;
 }
 
 /* Mobile */
@@ -39,15 +37,6 @@
     width: calc(100% - 1rem);
     flex-direction: column;
     // box-shadow: -0.1rem 0.1rem black;
-  }
-}
-
-/* Larger than mobile */
-@media only screen and (min-width: 46rem) {
-  .ProfileBox {
-    width: calc(100% - 0.2rem);
-    // box-shadow: -0.2rem 0.2rem black;
-    flex-direction: row;
   }
 }
 
@@ -81,28 +70,6 @@
   width: 100%;
 }
 
-.ProfileComments {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  padding: 1rem;
-  margin: -1rem;
-  margin-bottom: -0.75rem;
-}
-
-@media only screen and (min-width: 46rem) {
-  .ProfileComments {
-    height: 30rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-left: -0.5rem;
-    margin-bottom: -1rem;
-  }
-  .LeftColumn {
-    flex: 1;
-  }
-}
-
 .ProfileCommentsHeader {
   font-size: 1.2rem;
 }
@@ -126,4 +93,8 @@
   color: red;
   font-weight: 600;
   padding: 0;
+}
+
+.ScrollArea {
+  overflow-y: auto;
 }

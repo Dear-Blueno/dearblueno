@@ -6,9 +6,6 @@ import ProfileBio from "./left_column/ProfileBio";
 import { getUserComments, updateUserProfile } from "../../gateways/UserGateway";
 import ProfileSocials from "./left_column/ProfileSocials";
 import ProfilePersonalInfo from "./left_column/ProfilePersonalInfo";
-import ProfileEditButton from "./buttons/ProfileEditButton";
-import ProfileSaveButton from "./buttons/ProfileSaveButton";
-import ProfileCancelButton from "./buttons/ProfileCancelButton";
 import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/post/comments/ContextThread";
@@ -156,7 +153,6 @@ function ProfileBox(props: ProfileBoxProps) {
           ></ProfilePicture>
           <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
           {ownProfile && !editing && (
-            // <ProfileEditButton click={() => setEditing(true)} />
             <GenericProfileButton
               click={() => setEditing(true)}
               text={"Edit"}
@@ -188,12 +184,10 @@ function ProfileBox(props: ProfileBoxProps) {
           />
           {editing && (
             <div className={styles.SaveAndCancelButtons}>
-              {/* <ProfileSaveButton click={handleProfileEdit} /> */}
               <div className={styles.ContainerOne}>
                 <GenericProfileButton click={handleProfileEdit} text={"Save"} />
               </div>
               <div className={styles.ContainerOne}>
-                {/* <ProfileCancelButton click={() => setEditing(false)} /> */}
                 <GenericProfileButton
                   click={() => setEditing(false)}
                   text={"Cancel"}
@@ -210,8 +204,8 @@ function ProfileBox(props: ProfileBoxProps) {
             </div>
           )}
         </div>
-        <div className={styles.RightColumn}>
-          <div className={styles.ProfileComments}>
+        <div className={styles.ScrollArea}>
+          <div className={styles.RightColumn}>
             {comments.length > 0 ? (
               comments.map((comment, index) => (
                 <ContextThread

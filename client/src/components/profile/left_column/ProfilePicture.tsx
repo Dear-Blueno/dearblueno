@@ -14,8 +14,8 @@ function ProfilePicture(props: ProfilePictureProps) {
         src={src}
         alt=""
         draggable={false}
-        width={1024}
-        height={1024}
+        width={240}
+        height={240}
         layout="responsive"
         priority
       />

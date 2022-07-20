@@ -104,7 +104,6 @@
   align-items: center;
   flex: 1;
   border: 0.1rem solid black;
-
   border-radius: 0.3rem;
   cursor: pointer;
   width: 100%;
@@ -113,16 +112,12 @@
   font-size: 1.6rem;
   font-family: "Poppins", sans-serif;
   font-weight: bold;
-  &:active {
-  }
   @media screen and (max-width: 87rem) {
     span {
       display: none;
     }
     width: 3.2rem;
     padding: 0.5rem;
-    &:active {
-    }
   }
 }
 

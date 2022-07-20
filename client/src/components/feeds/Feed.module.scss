@@ -6,6 +6,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow: visible;
+  flex-shrink: 1;
 }
 
 .Feed::-webkit-scrollbar {
