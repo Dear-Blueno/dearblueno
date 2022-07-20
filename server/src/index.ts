@@ -8,6 +8,7 @@ import passport from "passport";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import log4js from "log4js";
+import morgan from "morgan";
 
 import mongoConnection from "./config/mongo";
 import passportConfig from "./config/passport";
@@ -21,14 +22,24 @@ import authRouter from "./routes/auth";
 // Setup logger
 log4js.configure({
   appenders: {
-    out: { type: "stdout" },
-    app: { type: "file", filename: "logs/app.log" },
+    console: { type: "stdout" },
+    file: {
+      type: "dateFile",
+      filename: "logs/app.log",
+      compress: true,
+      keepFileExt: true,
+    },
   },
   categories: {
-    default: { appenders: ["out", "app"], level: "info" },
+    default: { appenders: ["console", "file"], level: "info" },
   },
 });
 const logger = log4js.getLogger("app");
+const morganLogger = morgan("tiny", {
+  stream: {
+    write: (message) => logger.info(message.replace(/\n/g, "")),
+  },
+});
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config();
@@ -53,6 +64,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(morganLogger);
 
 // Setup MongoDB
 mongoConnection();
