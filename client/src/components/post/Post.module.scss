@@ -1,5 +1,9 @@
 @use "../../styles/card.module.scss";
 
+.Post {
+  @extend .DearBluenoCard;
+}
+
 .VerifiedBrown {
   margin-left: 0.5rem;
   color: #97592c;
@@ -26,7 +30,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   margin-top: -0.15rem;
 }
 

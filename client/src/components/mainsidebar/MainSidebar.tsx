@@ -10,7 +10,6 @@ import { IconType } from "react-icons";
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import {
   RiSearch2Line,
-  RiSearch2Fill,
   RiCalendarEventLine,
   RiCalendarEventFill,
 } from "react-icons/ri";

@@ -7,19 +7,25 @@ import IUser from "types/IUser";
 import MainLayout from "components/layout/MainLayout";
 import SearchPageHeader from "components/header/SearchPageHeader";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 type SearchPageProps = {
   user?: IUser;
-  searchQuery: string;
+  searchQuery: ParsedUrlQuery;
 };
 
 const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const setSearchQuery = (query: string) => {
+    query ? router.push(`/search?q=${query}`) : router.push("/search");
+  };
+
   return (
     <MainLayout
       title="Search:"
       header={<SearchPageHeader setSearchQuery={setSearchQuery} />}
-      page={<SearchPageMain user={props.user} searchQuery={searchQuery} />}
+      page={<SearchPageMain user={props.user} searchQuery={router.query} />}
     />
   );
 };
@@ -29,17 +35,19 @@ function SearchPageMain(props: SearchPageProps) {
   const [possiblePost, setPossiblePost] = useState<IPost>();
   const [hasQuery, setHasQuery] = useState(false);
 
+  const query = props.searchQuery.q as string | undefined;
+
   useEffect(() => {
-    if (props.searchQuery.length === 0) {
+    if (!query) {
       setResults([]);
       setHasQuery(false);
       return;
     }
-    if (props.searchQuery.length > 0) {
-      searchPosts(props.searchQuery).then((response) => {
+    if (query.length > 0) {
+      searchPosts(query).then((response) => {
         setHasQuery(true);
         if (response.success && response.payload) {
-          console.log(props.searchQuery, response.payload);
+          console.log(query, response.payload);
           setResults(response.payload);
         } else {
           console.log(response.message);
@@ -47,17 +55,15 @@ function SearchPageMain(props: SearchPageProps) {
         }
       });
     }
-  }, [props.searchQuery]);
+  }, [query]);
 
   useEffect(() => {
-    if (props.searchQuery.length === 0) {
+    if (!query) {
       setPossiblePost(undefined);
       setHasQuery(false);
       return;
     }
-    const possibleNumber = props.searchQuery.startsWith("#")
-      ? props.searchQuery.substring(1)
-      : props.searchQuery;
+    const possibleNumber = query.startsWith("#") ? query.substring(1) : query;
     if (Number.isInteger(Number(possibleNumber))) {
       // get that post
       getPost(Number(possibleNumber)).then((response) => {
@@ -69,7 +75,7 @@ function SearchPageMain(props: SearchPageProps) {
         }
       });
     }
-  }, [props.searchQuery]);
+  }, [query]);
 
   return (
     <div className={styles.SearchPage}>

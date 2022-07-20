@@ -82,7 +82,7 @@ function Post(props: PostProps) {
 
   return (
     <div
-      className={styles.DearBluenoCard}
+      className={styles.Post}
       style={{
         animationDelay: props.delay ?? "0",
         // animation: props.skipAnimation ? "none" : undefined,
