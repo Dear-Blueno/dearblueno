@@ -367,7 +367,7 @@ postRouter.post(
     // If the comment is not anonymous, award the user some XP
     if (!req.body.anonymous) {
       user.xp += 2;
-      await User.findByIdAndUpdate(user._id, user);
+      await User.updateOne({ _id: user._id }, { xp: user.xp });
 
       // Send a notification to the post's subscribers (if not anonymous)
       const subscribers = post.subscribers.filter((subscriber) => {
@@ -504,9 +504,10 @@ postRouter.put(
     // If the commenter is not anonymous, award / take-away some XP from the commenter
     const commenter = comment.author;
     if (commenter && reaction <= 3) {
-      await User.findByIdAndUpdate(commenter, {
-        $inc: { xp: state ? 1 : -1 },
-      });
+      await User.updateOne(
+        { _id: commenter },
+        { $inc: { xp: state ? 1 : -1 } }
+      );
     }
 
     const reactions = comment.reactions[reaction - 1] || [];
@@ -573,9 +574,7 @@ postRouter.delete(
     for (let i = 0; i < 3; i++) {
       xpDecr -= comment.reactions[i].length;
     }
-    await User.findByIdAndUpdate(comment.author, {
-      $inc: { xp: xpDecr },
-    });
+    await User.updateOne({ _id: comment.author }, { $inc: { xp: xpDecr } });
 
     res.json({ success: true });
   }

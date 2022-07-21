@@ -68,7 +68,10 @@ userRouter.delete(
     }
 
     user.notifications.splice(index, 1);
-    await User.findByIdAndUpdate(user._id, user);
+    await User.updateOne(
+      { _id: user._id },
+      { notifications: user.notifications }
+    );
 
     res.send(user);
   }

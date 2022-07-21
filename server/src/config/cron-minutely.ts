@@ -38,6 +38,8 @@ export async function minutelyJob() {
     ],
   });
 
+  const promises = [];
+
   for (const event of events) {
     const usersToNotify = event.interested.concat(event.going);
     const notification: IUpcomingEventNotification = {
@@ -52,15 +54,21 @@ export async function minutelyJob() {
       },
     };
 
-    await User.updateMany(
-      { _id: { $in: usersToNotify } },
-      {
-        $push: {
-          notifications: notification,
-        },
-      }
+    promises.push(
+      User.updateMany(
+        { _id: { $in: usersToNotify } },
+        {
+          $push: {
+            notifications: notification,
+          },
+        }
+      )
     );
 
-    await Event.updateOne({ _id: event._id }, { notificationSent: true });
+    promises.push(
+      Event.updateOne({ _id: event._id }, { notificationSent: true })
+    );
   }
+
+  await Promise.all(promises);
 }
