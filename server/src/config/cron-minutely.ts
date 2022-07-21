@@ -15,17 +15,16 @@ export default async function setupCron() {
 
     const endDate = new Date();
     const completedIn = endDate.getTime() - startDate.getTime();
-    logger.info(`Completed in ${completedIn}ms`);
 
     timeTaken.push(completedIn);
-    if (timeTaken.length > 60) {
-      timeTaken.shift();
+    if (timeTaken.length >= 60) {
+      logger.info(
+        `Minutely cron job took an average of ${
+          timeTaken.reduce((a, b) => a + b, 0) / timeTaken.length
+        } for the past hour.`
+      );
+      timeTaken = [];
     }
-    logger.info(
-      `Minutely cron job took an average of ${
-        timeTaken.reduce((a, b) => a + b, 0) / timeTaken.length
-      } for the past hour.`
-    );
   });
 }
 
