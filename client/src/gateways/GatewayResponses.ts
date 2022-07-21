@@ -1,7 +1,15 @@
-export interface IResponse<T> {
+export type IResponse<T> = ISuccessfulResponse<T> | IFailureResponse;
+
+interface ISuccessfulResponse<T> {
+  message: "OK";
+  payload: T;
+  success: true;
+}
+
+interface IFailureResponse {
   message: string;
-  payload: T | null;
-  success: boolean;
+  payload: null;
+  success: false;
 }
 
 export function successfulResponse<T>(payload: T): IResponse<T> {
