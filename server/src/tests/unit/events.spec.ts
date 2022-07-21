@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import User, { IUser } from "../../models/User";
 import Event from "../../models/Event";
 import request from "supertest";
-import setupForTests, { resetCollections } from "../testUtil";
+import setupForTests from "../testUtil";
 
 describe("Events", () => {
   let app: Express;
@@ -15,7 +15,7 @@ describe("Events", () => {
   });
 
   beforeEach(async () => {
-    await resetCollections();
+    await mongoose.connection.dropDatabase();
 
     const userModel = new User({
       googleId: "123",
