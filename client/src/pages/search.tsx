@@ -46,7 +46,7 @@ function SearchPageMain(props: SearchPageProps) {
     if (query.length > 0) {
       searchPosts(query).then((response) => {
         setHasQuery(true);
-        if (response.success && response.payload) {
+        if (response.success) {
           console.log(query, response.payload);
           setResults(response.payload);
         } else {
@@ -68,7 +68,7 @@ function SearchPageMain(props: SearchPageProps) {
       // get that post
       getPost(Number(possibleNumber)).then((response) => {
         setHasQuery(true);
-        if (response.success && response.payload) {
+        if (response.success) {
           setPossiblePost(response.payload);
         } else {
           console.log(response.message);

@@ -22,7 +22,7 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
     data: user,
   } = useQuery("user", () =>
     loadAuth().then((response) => {
-      if (response.success && response.payload) {
+      if (response.success) {
         return response.payload;
       }
     })

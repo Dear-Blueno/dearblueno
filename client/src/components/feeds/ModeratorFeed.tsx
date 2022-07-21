@@ -23,9 +23,9 @@ function ModeratorFeed(props: ModeratorFeedProps) {
   const getMorePosts = useCallback(
     async (nextPageNumber: number): Promise<boolean> => {
       const response = await getModFeedPosts(nextPageNumber);
-      if (response.success && response.payload) {
+      if (response.success) {
         if (response.payload.length > 0) {
-          setPosts((p) => [...p, ...(response.payload as IPost[])]);
+          setPosts((p) => [...p, ...response.payload]);
           return true;
         }
       } else {
@@ -39,9 +39,9 @@ function ModeratorFeed(props: ModeratorFeedProps) {
   const getMoreComments = useCallback(
     async (nextPageNumber: number): Promise<boolean> => {
       const response = await getModFeedComments(nextPageNumber);
-      if (response.success && response.payload) {
+      if (response.success) {
         if (response.payload.length > 0) {
-          setComments((c) => [...c, ...(response.payload as IComment[])]);
+          setComments((c) => [...c, ...(response.payload)]);
           return true;
         }
       } else {

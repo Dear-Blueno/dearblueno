@@ -17,7 +17,7 @@ function SubmitBox(props: SubmitBoxProps) {
     props.submittedSetter(true);
     createPost(text)
       .then((response) => {
-        if (response.success && response.payload) {
+        if (response.success) {
           console.log(response.payload);
         }
       })

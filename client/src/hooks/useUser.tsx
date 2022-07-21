@@ -8,7 +8,7 @@ export default function useUser() {
     refetch: refetchUser,
   } = useQuery("user", async () => {
     const response = await loadAuth();
-    if (response.success && response.payload) {
+    if (response.success) {
       return response.payload;
     }
   });

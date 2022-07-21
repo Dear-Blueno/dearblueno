@@ -48,12 +48,12 @@ function NewCommentBox(props: NewCommentBoxProps) {
           props.parentCommentNumber,
           anonymous
         );
-        if (response.success && response.payload) {
+        if (response.success) {
           textarea.value = "";
           props.setShow(false);
           props.setComments((comments) => {
             const newComments = [...comments];
-            if (response.payload) {
+            if (response.success) {
               const comment = response.payload as IThread;
               comment.children = [];
               comment.author = anonymous ? undefined : user;

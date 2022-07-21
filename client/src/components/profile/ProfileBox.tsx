@@ -35,7 +35,7 @@ function ProfileBox(props: ProfileBoxProps) {
   useEffect(() => {
     if (props.profileUser) {
       getUserComments(props.profileUser._id).then((response) => {
-        if (response.success && response.payload) {
+        if (response.success) {
           setComments(response.payload.reverse());
         } else {
           console.log(response.message);
@@ -138,7 +138,7 @@ function ProfileBox(props: ProfileBoxProps) {
       concentrationInput.current?.value || undefined,
       yearInput.current?.value || undefined
     );
-    if (response.success && response.payload) {
+    if (response.success) {
       // TODO props.refetchProfileUser();
     }
     setEditing(false);

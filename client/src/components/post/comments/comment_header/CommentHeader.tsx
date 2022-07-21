@@ -58,7 +58,7 @@ function CommentHeader(props: CommentHeaderProps) {
   const getHoverUser = async () => {
     if (!hoverUser && props.comment.author) {
       const response = await getUser(props.comment.author._id);
-      if (response.success && response.payload) {
+      if (response.success) {
         setHoverUser(response.payload);
       }
     }
