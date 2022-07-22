@@ -1,3 +1,5 @@
+@use "./card.module.scss";
+
 * {
   margin: 0;
   font-variant-ligatures: none;
@@ -91,11 +93,12 @@ button {
 }
 
 [data-reach-dialog-content] {
+  @extend .DearBluenoCard;
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 18rem !important;
   border: 1px solid black;
-  box-shadow: -0.2rem 0.2rem black;
+  // box-shadow: -0.2rem 0.2rem black;
 }

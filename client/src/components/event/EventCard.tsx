@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./EventCard.module.scss";
-import { BsFillPeopleFill, BsCheckLg } from "react-icons/bs";
+import { BsFillPeopleFill, BsCheckLg, BsSuitHeartFill } from "react-icons/bs";
 import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
 import { useState } from "react";
@@ -16,6 +16,7 @@ type EventCardProps = {
 
 export default function EventCard(props: EventCardProps) {
   const [isGoing, setIsGoing] = useState(false);
+  const [isInterested, setIsInterested] = useState(false);
   const [attendeeNumber, setAttendeeNumber] = useState(props.numberOfAttendees);
 
   return (
@@ -42,7 +43,7 @@ export default function EventCard(props: EventCardProps) {
           {isGoing ? (
             <EventCardButton
               icon={BsCheckLg}
-              text="I'm Going"
+              text="Going"
               onClick={() => {
                 setIsGoing(false);
                 setAttendeeNumber(attendeeNumber - 1);
@@ -59,10 +60,33 @@ export default function EventCard(props: EventCardProps) {
               }}
             />
           )}
+          {isInterested ? (
+            <EventCardButton
+              icon={BsCheckLg}
+              text="Interested"
+              onClick={() => {
+                setIsInterested(false);
+              }}
+              style={styles.EventCardButtonGoing}
+            />
+          ) : (
+            <EventCardButton
+              icon={BsSuitHeartFill}
+              text="Interested"
+              onClick={() => {
+                setIsInterested(true);
+              }}
+            />
+          )}
           <EventCardButton
             icon={IoShareOutline}
             text="Share"
-            onClick={() => console.log("Share")}
+            // fix the event share
+            onClick={() => {
+              navigator.clipboard.writeText(
+                "localhost:3000/event/62da81af4e4f6ccd7bfa5560"
+              );
+            }}
           />
         </div>
       </div>

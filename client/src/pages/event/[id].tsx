@@ -5,6 +5,8 @@ import EventCard from "components/event/EventCard";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
 import { GetStaticProps, NextPage } from "next";
+import { formatInTimeZone } from "date-fns-tz";
+import { makeDate } from "../../components/eventstages/RelativeDay";
 import Head from "next/head";
 
 type EventPageProps = {
@@ -19,7 +21,7 @@ const EventPage: NextPage = ({ event }: EventPageProps) => {
   return (
     <>
       <Head>
-        <title>Event {event.eventName} - Dear Blueno</title>
+        <title>{event.eventName} - Dear Blueno</title>
       </Head>
       <MainLayout
         title={event.eventName}
@@ -34,6 +36,14 @@ type EventPageMainProps = {
 };
 
 function EventPageMain({ event }: EventPageMainProps) {
+  const startTime = formatInTimeZone(
+    event.startDate,
+    "America/New_York",
+    "h:mma"
+  );
+  const endTime = formatInTimeZone(event.endDate, "America/New_York", "h:mma");
+  const startDate = makeDate(event.startDate.split("T")[0]);
+
   return (
     <div className={styles.EventPage}>
       <EventCard
@@ -44,7 +54,7 @@ function EventPageMain({ event }: EventPageMainProps) {
         title={event.eventName}
         description={event.eventDescription}
         location={event.location}
-        date={"July Third"}
+        date={startDate + " • " + startTime + " - " + endTime}
         numberOfAttendees={event.going.length}
       />
     </div>

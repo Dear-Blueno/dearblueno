@@ -1,9 +1,12 @@
+@use "../../../../styles/card.module.scss";
+
 .AnonymousToggleWrapper {
   flex-shrink: 1;
   min-width: 0;
 }
 
 .AnonymousToggle {
+  @extend .DearBluenoCard;
   appearance: none;
   background: transparent;
   border: none;
@@ -27,6 +30,12 @@
   flex-shrink: 0;
 }
 
+.PopupAction {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  cursor: pointer;
+}
+
 .AnonymousDetail {
   display: block;
   max-width: calc(100% - 1.5em);
@@ -36,7 +45,7 @@
   overflow-x: hidden;
 }
 .AnonymousDetail > span {
-  font-family: "Inconsolata", monospace;
+  font-family: "Poppins", sans-serif;
 }
 
 @media only screen and (max-width: 768px) {
