@@ -1,8 +1,15 @@
+@use "../../../../styles/card.module.scss";
+
 .ProfileHoverCard {
+  @extend .DearBluenoCard;
+  // flex-direction: row;
   display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
   padding: 0.8rem;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  padding: 1rem;
 }
 
 .HoverCardSideCol {
@@ -30,6 +37,7 @@
   box-sizing: border-box;
   display: flex;
   border: 1px solid black;
+  border-radius: 0.2rem;
   cursor: pointer;
 }
 

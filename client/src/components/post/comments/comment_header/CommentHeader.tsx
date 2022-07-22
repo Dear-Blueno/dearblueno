@@ -32,19 +32,8 @@ function CommentHeader(props: CommentHeaderProps) {
       placement: "top",
       modifiers: [
         {
-          name: "arrow",
-          options: { element: arrowElement },
-        },
-        {
           name: "offset",
-          options: { offset: [8, 20] },
-        },
-        {
-          name: "flip",
-          options: {
-            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
-            flipVariations: true,
-          },
+          options: { offset: [2, 8] },
         },
       ],
     }
@@ -108,11 +97,6 @@ function CommentHeader(props: CommentHeaderProps) {
           role="tooltip"
           {...attributes.popper}
         >
-          <div
-            className={styles.DropdownArrow}
-            ref={setArrowElement}
-            style={popperStyles.arrow}
-          />
           <ProfileHoverCard
             hoverUser={hoverUser}
             leaveAction={() => {
