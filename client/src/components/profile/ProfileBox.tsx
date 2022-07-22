@@ -12,6 +12,7 @@ import ContextThread from "components/post/comments/ContextThread";
 import { logout } from "gateways/AuthGateway";
 import { MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
+import { Scrollbars } from "react-custom-scrollbars";
 
 type ProfileBoxProps = {
   user?: IUser;
