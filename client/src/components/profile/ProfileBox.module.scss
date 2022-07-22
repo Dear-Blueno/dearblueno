@@ -105,12 +105,6 @@
   width: 0.5em;
 }
 
-/* Demonstrate a "mostly customized" scrollbar
-* (won't be visible otherwise if width/height is specified) */
-.ScrollArea::-webkit-scrollbar-track {
-}
-
-/* Add a thumb */
 .ScrollArea::-webkit-scrollbar-thumb {
   border-radius: 0.3rem;
   background-color: #abc;
