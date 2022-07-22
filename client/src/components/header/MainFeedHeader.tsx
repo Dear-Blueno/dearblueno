@@ -52,17 +52,29 @@ export default function MainFeedHeader() {
   return (
     <div className={styles.MainFeedHeader}>
       <div className={styles.MainFeedHeaderOption}>
-        <h3 ref={hotRef} onClick={() => setActive("hot")}>
+        <h3
+          className={styles.MainFeedHeaderOptionText}
+          ref={hotRef}
+          onClick={() => setActive("hot")}
+        >
           Hot
         </h3>
       </div>
       <div className={styles.MainFeedHeaderOption}>
-        <h3 ref={topRef} onClick={() => setActive("top")}>
+        <h3
+          className={styles.MainFeedHeaderOptionText}
+          ref={topRef}
+          onClick={() => setActive("top")}
+        >
           Top
         </h3>
       </div>
       <div className={styles.MainFeedHeaderOption}>
-        <h3 ref={newRef} onClick={() => setActive("new")}>
+        <h3
+          className={styles.MainFeedHeaderOptionText}
+          ref={newRef}
+          onClick={() => setActive("new")}
+        >
           New
         </h3>
       </div>

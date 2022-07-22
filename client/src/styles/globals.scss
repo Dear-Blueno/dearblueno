@@ -6,6 +6,7 @@
 body {
   margin: 0;
   font-family: "Poppins", monospace;
+  font-size: 0.9rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #d5ebff;
@@ -33,19 +34,6 @@ input[type="submit"],
 
 button {
   font-family: "Poppins", monospace;
-}
-
-/* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 46rem) {
-  body {
-    font-size: 0.9rem;
-  }
-}
-
-@media only screen and (min-width: 46rem) {
-  body {
-    font-size: 0.9rem;
-  }
 }
 
 .App {
@@ -84,10 +72,21 @@ button {
   justify-content: center;
   align-content: center;
   gap: 4rem;
-  margin: 0 1rem;
   @media screen and (max-width: 87rem) {
     gap: 2rem;
     margin-left: calc(-15vw + 8rem);
+  }
+  @media screen and (max-width: 54rem) {
+    margin-left: 0;
+    margin: 0 1rem;
+    gap: 1rem;
+    width: calc(100vw - 2rem);
+    max-width: 100vw;
+  }
+  @media screen and (max-width: 30rem) {
+    margin: 0;
+    width: calc(100vw);
+    max-width: 100vw;
   }
 }
 

@@ -3,24 +3,9 @@
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
-  /* border: 0.01rem solid black; */
   position: relative;
   padding: 0.1rem;
   border-top: 0.01rem solid #ccc;
   padding-top: 1rem;
   padding-bottom: 0.2rem;
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 46rem) {
-  .CommentSection {
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
-  }
-}
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (min-width: 46rem) {
-  .CommentSection {
-    padding-top: 1rem;
-  }
 }

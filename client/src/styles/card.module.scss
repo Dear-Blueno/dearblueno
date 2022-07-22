@@ -2,12 +2,6 @@
   border: 0.1rem solid black;
   background-color: #ffffff;
   box-sizing: border-box;
-}
-
-/* Larger than mobile */
-@media only screen and (min-width: 46rem) {
-  .DearBluenoCard {
-    padding: 1.25rem;
-    border-radius: 0.3rem;
-  }
+  padding: 1.25rem;
+  border-radius: 0.3rem;
 }

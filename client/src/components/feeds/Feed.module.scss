@@ -6,27 +6,10 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow: visible;
-  flex-shrink: 1;
 }
 
 .Feed::-webkit-scrollbar {
   display: none;
-}
-
-@media only screen and (max-width: 46rem) {
-  .Feed {
-    width: calc(100% - 1rem);
-    margin-left: 0.5rem;
-    gap: 0.3rem;
-  }
-}
-
-@media only screen and (min-width: 46rem) {
-  .Feed {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 .FeedLoading {

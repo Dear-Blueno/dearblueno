@@ -7,7 +7,14 @@
   top: 0;
   background-color: #d5ebff;
   min-height: 1.3rem;
-  width: 45rem;
+  @media screen and (max-width: 30rem) {
+    position: sticky;
+    min-height: 1rem;
+    z-index: 1;
+    background: rgba(213, 235, 255, 0.7);
+    backdrop-filter: saturate(180%) blur(20px);
+    padding: 0 1rem;
+  }
 }
 
 .title {
@@ -17,6 +24,9 @@
   margin-top: 1rem;
   user-select: none;
   flex-shrink: 0;
+  @media screen and (max-width: 30rem) {
+    font-size: 1.6rem;
+  }
 }
 
 .HeaderAndOptionsButton {
@@ -26,6 +36,9 @@
   align-items: center;
   gap: 1.5rem;
   width: 100%;
+  @media screen and (max-width: 30rem) {
+    gap: 0.5rem;
+  }
 }
 
 .OptionsButton {

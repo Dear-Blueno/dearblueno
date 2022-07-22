@@ -14,17 +14,6 @@
   color: #d34b33;
 }
 
-/* Mobile */
-@media only screen and (max-width: 46rem) {
-}
-
-/* Larger than mobile */
-@media only screen and (min-width: 46rem) {
-  .PostFooter {
-    margin-top: 1rem;
-  }
-}
-
 .PostHeader {
   display: flex;
   flex-direction: row;
@@ -53,6 +42,7 @@
 }
 
 .PostFooter {
+  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;

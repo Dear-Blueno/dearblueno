@@ -12,6 +12,7 @@ const Events: NextPage = () => {
       </Head>
 
       <MainLayout
+        title="Events"
         header={
           <div
             className="EventsHeader"
@@ -20,21 +21,9 @@ const Events: NextPage = () => {
               width: "100%",
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
             }}
           >
-            <h1
-              style={{
-                fontSize: "2.4rem",
-                fontWeight: "bold",
-                marginBottom: "1rem",
-                marginTop: "1rem",
-                userSelect: "none",
-                flexShrink: "0",
-              }}
-            >
-              Events
-            </h1>
             <NewEventButton />
           </div>
         }

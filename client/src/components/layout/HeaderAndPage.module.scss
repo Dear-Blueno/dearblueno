@@ -1,4 +1,9 @@
 .HeaderAndPage {
   display: flex;
   flex-direction: column;
+  flex: 0 1 45rem;
+  @media screen and (max-width: 30rem) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }

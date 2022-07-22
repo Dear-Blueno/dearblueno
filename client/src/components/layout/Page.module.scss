@@ -2,8 +2,11 @@
   display: flex;
   flex-direction: column;
   scrollbar-width: none;
-  width: 45rem;
   margin-bottom: 1.2rem;
+  @media screen and (max-width: 30rem) {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 }
 
 .page::-webkit-scrollbar {
