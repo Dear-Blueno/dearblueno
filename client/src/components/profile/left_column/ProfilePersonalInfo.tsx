@@ -26,7 +26,10 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
           </div>
           {props.contents.map((content, index) => {
             return (
-              <div className={styles.ProfilePersonalInfoEditingEntry} key={index}>
+              <div
+                className={styles.ProfilePersonalInfoEditingEntry}
+                key={index}
+              >
                 {icons[index]({
                   className: "PersonalInfoIcon",
                   size: "1.2em",

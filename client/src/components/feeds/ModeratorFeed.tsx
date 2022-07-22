@@ -41,7 +41,7 @@ function ModeratorFeed(props: ModeratorFeedProps) {
       const response = await getModFeedComments(nextPageNumber);
       if (response.success) {
         if (response.payload.length > 0) {
-          setComments((c) => [...c, ...(response.payload)]);
+          setComments((c) => [...c, ...response.payload]);
           return true;
         }
       } else {
