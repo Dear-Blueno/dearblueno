@@ -115,7 +115,7 @@ export async function reactInterestedToEvent(
   interested: boolean
 ): Promise<IResponse<boolean>> {
   try {
-    const response = await axios.post(`/events/${eventId}/interested`, {
+    const response = await axios.put(`/events/${eventId}/interested`, {
       interested,
     });
     if (response.status === 200) {
@@ -133,7 +133,7 @@ export async function reactGoingToEvent(
   going: boolean
 ): Promise<IResponse<boolean>> {
   try {
-    const response = await axios.post(`/events/${eventId}/going`, {
+    const response = await axios.put(`/events/${eventId}/going`, {
       going,
     });
     if (response.status === 200) {
