@@ -7,8 +7,6 @@ import MainLayout from "components/layout/MainLayout";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 
-// EVERYTHING HERE NEEDS TO BE CHECKED
-
 type EventPageProps = {
   event?: IEvent;
 };
@@ -24,7 +22,7 @@ const EventPage: NextPage = ({ event }: EventPageProps) => {
         <title>Event {event.eventName} - Dear Blueno</title>
       </Head>
       <MainLayout
-        title={"event.eventName"}
+        title={event.eventName}
         page={<EventPageMain event={event} />}
       />
     </>
@@ -39,7 +37,10 @@ function EventPageMain({ event }: EventPageMainProps) {
   return (
     <div className={styles.EventPage}>
       <EventCard
-        image={event.coverPicture ?? ""}
+        image={
+          event.coverPicture ??
+          "https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
+        }
         title={event.eventName}
         description={event.eventDescription}
         location={event.location}
@@ -51,16 +52,13 @@ function EventPageMain({ event }: EventPageMainProps) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const eventID = context.params?.eventNumber as string;
+  const eventID = context.params?.id as string;
   const event = await getEvent(eventID);
   if (event.success) {
     return {
       props: {
         event: event.payload,
       },
-      // Next.js will attempt to re-generate the page:
-      // - When a request comes in
-      // - At most every 30 seconds
       revalidate: 30,
     };
   }
@@ -73,7 +71,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export async function getStaticPaths() {
-  // Server-render and cache pages on the fly.
   return { fallback: "blocking", paths: [] };
 }
 

@@ -97,7 +97,7 @@ export async function approveEvent(
   approved: boolean
 ): Promise<IResponse<IEvent>> {
   try {
-    const response = await axios.post(`/events/${eventId}/approve`, {
+    const response = await axios.put(`/events/${eventId}/approve`, {
       approved,
     });
     if (response.status === 200) {
