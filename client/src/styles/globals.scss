@@ -78,6 +78,7 @@ button {
 
 .ColumnsContainer {
   width: min(85rem, 100vw - 2rem);
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

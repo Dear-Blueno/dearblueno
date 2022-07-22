@@ -21,7 +21,13 @@ export default function EventCard(props: EventCardProps) {
   return (
     <div className={styles.EventCard}>
       <div className={styles.EventCardImageContainer}>
-        <Image src={props.image} width={650} height={1007} alt="" />
+        <Image
+          className={styles.EventCardImage}
+          src={props.image}
+          width={650}
+          height={1007}
+          alt=""
+        />
       </div>
       <div className={styles.EventCardInfo}>
         <strong className={styles.EventCardTitle}>{props.title}</strong>

@@ -18,7 +18,7 @@ const AboutPage: NextPage = () => {
 
 function AboutPageMain() {
   return (
-    <div className={styles.AboutPagePost + " " + styles.DearBluenoCard}>
+    <div className={styles.AboutPagePost}>
       <div className={styles.AboutPageSection}>
         <h3 className="SectionHeader">COMMUNITY GUIDELINES</h3>
         <p>

@@ -1,6 +1,7 @@
 @use "./card.module.scss";
 
 .AboutPagePost {
+  @extend .DearBluenoCard;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -72,30 +73,4 @@
 
 .AboutPageIcon {
   transform: translateY(0.1rem);
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 46rem) {
-  .AboutPagePost {
-    width: calc(100% - 1rem);
-    margin-left: 0.5rem;
-    box-shadow: -0.1rem 0.1rem rgba(0, 0, 0, 1);
-    padding: 1.5rem;
-  }
-}
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 46rem) {
-  .AboutPage {
-    display: flex;
-    height: fit-content;
-    align-items: top;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-  .AboutPagePost {
-    margin-left: auto;
-    margin-right: auto;
-    width: 45rem;
-    box-shadow: -0.2rem 0.2rem rgba(0, 0, 0, 1);
-  }
 }

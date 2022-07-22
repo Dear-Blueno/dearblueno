@@ -18,13 +18,13 @@ import {
   MdNotifications,
   MdBookmark,
   MdBookmarkBorder,
-  MdPostAdd,
 } from "react-icons/md";
 import {
   IoPersonOutline,
   IoPerson,
   IoInformationCircleOutline,
   IoInformationCircle,
+  IoAdd,
 } from "react-icons/io5";
 
 type MainSidebarItem = {
@@ -153,11 +153,7 @@ export default function MainSidebar() {
             <Link href="/submit">
               <a className={styles.NewPostButtonLink}>
                 <button className={styles.NewPostButton}>
-                  <MdPostAdd
-                    className={styles.NewPostButtonIcon}
-                    color="black"
-                    size="2em"
-                  />
+                  <IoAdd className={styles.NewPostButtonIcon} size="3em" />
                   <span>New Post</span>
                 </button>
               </a>

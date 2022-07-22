@@ -1,15 +1,16 @@
 .ReactionBar {
   display: flex;
   box-sizing: border-box;
-  gap: 0.5rem;
   min-height: 1.35rem;
   align-items: center;
 }
 
+.PostReactionBar {
+  gap: 0.6rem;
+}
+
 .CommentReactionBar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  gap: 0.5rem;
 }
 
 .IconButton {

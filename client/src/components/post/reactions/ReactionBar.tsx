@@ -129,9 +129,12 @@ function ReactionBar(props: ReactionBarProps) {
     [reactions, user, props.postNumber, props.commentNumber, props.type]
   );
 
+  const className =
+    props.type === "comment" ? "CommentReactionBar" : "PostReactionBar";
+
   return (
     <div
-      className={styles.ReactionBar}
+      className={styles.ReactionBar + " " + styles[className]}
       onMouseEnter={() => {
         if (!showReactText) {
           setShowZeroIcons(true);

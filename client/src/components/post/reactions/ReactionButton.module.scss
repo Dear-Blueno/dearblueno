@@ -3,22 +3,23 @@
 }
 
 .PostReactionButton {
-  gap: 0.15rem;
+  gap: 0.3rem;
 }
 
 .CommentReactionButton {
-  gap: 0.1rem;
+  gap: 0.25rem;
   font-size: 0.8rem;
+}
+
+.PostReactionButtonCount {
+  margin-top: 0.1rem;
+}
+
+.CommentReactionButtonCount {
+  margin-top: 0.1rem;
 }
 
 .Reacted {
   font-weight: bold;
   color: #164b7b;
-}
-
-/* Extra extra small devices (phones, 400px and down) */
-@media only screen and (max-width: 46rem) {
-}
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (min-width: 46rem) {
 }

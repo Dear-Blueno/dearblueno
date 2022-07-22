@@ -1,10 +1,9 @@
 .Sidebar {
   position: sticky;
-  top: 0;
-  padding-top: 1rem;
+  top: 1rem;
   display: flex;
   flex-direction: column;
-  flex: 1 1 10%;
+  flex: 1 0 10%;
   @media screen and (max-width: 87rem) {
     flex: 0 1 4rem;
     display: flex;
@@ -12,7 +11,7 @@
     align-items: center;
   }
   overflow: auto;
-  height: calc(100vh - 1rem);
+  height: calc(100vh - 2rem);
   justify-content: space-between;
 }
 
@@ -117,7 +116,7 @@
       display: none;
     }
     width: 3.2rem;
-    padding: 0.5rem;
+    padding: 0.3rem;
   }
 }
 
@@ -125,6 +124,9 @@
   display: none;
   @media screen and (max-width: 87rem) {
     display: block;
+    path {
+      stroke-width: 40;
+    }
   }
 }
 
