@@ -28,6 +28,9 @@
   width: 100vw;
   justify-content: center;
   align-items: center;
+  @media screen and (min-width: 30rem) {
+    display: none;
+  }
 }
 
 .SidebarTop {
