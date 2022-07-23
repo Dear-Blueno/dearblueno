@@ -89,6 +89,9 @@ button {
     margin: 0;
     width: calc(100vw);
     max-width: 100vw;
+    flex-direction: column-reverse;
+    gap: 0;
+    justify-content: space-between;
   }
 }
 

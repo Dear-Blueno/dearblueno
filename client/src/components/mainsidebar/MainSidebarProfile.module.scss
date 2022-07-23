@@ -4,6 +4,9 @@
   gap: 1rem;
   cursor: pointer;
   align-items: center;
+  @media screen and (max-width: 30rem) {
+    display: none;
+  }
 }
 
 .MainSidebarProfilePicture {

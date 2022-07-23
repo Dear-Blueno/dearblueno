@@ -25,8 +25,8 @@ export default function EventCard(props: EventCardProps) {
         <Image
           className={styles.EventCardImage}
           src={props.image}
-          width={650}
-          height={1007}
+          width={1200}
+          height={600}
           alt=""
         />
       </div>

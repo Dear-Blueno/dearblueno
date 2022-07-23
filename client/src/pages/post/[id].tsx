@@ -1,4 +1,3 @@
-import styles from "styles/PostPage.module.scss";
 import IPost from "../../types/IPost";
 import { getPost } from "../../gateways/PostGateway";
 import Post from "components/post/Post";
@@ -34,11 +33,7 @@ interface PostPageMainProps {
 }
 
 function PostPageMain({ post }: PostPageMainProps) {
-  return (
-    <div className={styles.PostPage}>
-      <Post post={post} skipAnimation={false} />
-    </div>
-  );
+  return <Post post={post} skipAnimation={false} />;
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {

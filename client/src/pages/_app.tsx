@@ -1,6 +1,6 @@
 import "styles/globals.scss";
 import type { AppProps } from "next/app";
-import MainSidebar from "components/mainsidebar/MainSidebar";
+import MainNavigation from "components/mainsidebar/MainNavigation";
 import axiosInit from "config/axios";
 import { QueryClient, QueryClientProvider } from "react-query";
 // import { ReactQueryDevtools } from "react-query/devtools";
@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <QueryClientProvider client={queryClient}>
             <LoginPopupProvider>
               <div className="ColumnsContainer">
-                <MainSidebar />
+                <MainNavigation />
                 <Component {...pageProps} />
               </div>
               <LoginFooter></LoginFooter>
