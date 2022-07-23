@@ -159,15 +159,13 @@ type INotification =
   | IUpcomingEventNotification;
 
 interface Notification {
-  _id: string;
+  _id?: string;
   timestamp: Date;
   type: "newComment" | "trendingPost" | "upcomingEvent";
   content: unknown;
 }
 
 export interface INewCommentNotification extends Notification {
-  _id: string;
-  timestamp: Date;
   type: "newComment";
   content: {
     postNumber: number;
@@ -178,8 +176,6 @@ export interface INewCommentNotification extends Notification {
 }
 
 export interface ITrendingPostNotification extends Notification {
-  _id: string;
-  timestamp: Date;
   type: "trendingPost";
   content: {
     postNumber: number;
@@ -188,8 +184,6 @@ export interface ITrendingPostNotification extends Notification {
 }
 
 export interface IUpcomingEventNotification extends Notification {
-  _id: string;
-  timestamp: Date;
   type: "upcomingEvent";
   content: {
     eventId: string;
