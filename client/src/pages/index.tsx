@@ -7,9 +7,9 @@ import { GetStaticProps, NextPage } from "next";
 import { getPosts } from "gateways/PostGateway";
 import IPost from "types/IPost";
 
-type HomePageProps = {
+interface HomePageProps {
   initialPosts: IPost[];
-};
+}
 
 const HomePage: NextPage<HomePageProps> = (props) => {
   return (

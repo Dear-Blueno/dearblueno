@@ -11,14 +11,14 @@ import { getUser } from "gateways/UserGateway";
 import ProfileHoverCard from "./ProfileHoverCard";
 import RelativeDate from "../../RelativeDate";
 
-type CommentHeaderProps = {
+interface CommentHeaderProps {
   comment: IThread;
   collapsed: boolean;
   expand: () => void;
   postNumber?: number;
   inContext: boolean;
   setComments?: React.Dispatch<React.SetStateAction<IThread[]>>;
-};
+}
 
 function CommentHeader(props: CommentHeaderProps) {
   const [referenceElement, setReferenceElement] =
@@ -57,7 +57,7 @@ function CommentHeader(props: CommentHeaderProps) {
     <div className={styles.CommentHeader}>
       {props.comment.author ? (
         <a
-          href={`/profile/${props.comment.author?._id}`}
+          href={`/profile/${props.comment.author._id}`}
           className={styles.ProfileLink}
         >
           <p
@@ -115,7 +115,7 @@ function CommentHeader(props: CommentHeaderProps) {
       ) : null}
 
       {/* if comments author badges array contains "Top Fan", verified developer */}
-      {props.comment.author?.badges?.includes("Top Fan") ? (
+      {props.comment.author?.badges.includes("Top Fan") ? (
         <RiVipDiamondFill className={styles.TopFanBadge} title="Top Fan" />
       ) : null}
 

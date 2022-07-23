@@ -9,9 +9,9 @@ import { formatInTimeZone } from "date-fns-tz";
 import { makeDate } from "../../components/eventstages/RelativeDay";
 import Head from "next/head";
 
-type EventPageProps = {
+interface EventPageProps {
   event?: IEvent;
-};
+}
 
 const EventPage: NextPage = ({ event }: EventPageProps) => {
   if (!event) {
@@ -31,9 +31,9 @@ const EventPage: NextPage = ({ event }: EventPageProps) => {
   );
 };
 
-type EventPageMainProps = {
+interface EventPageMainProps {
   event: IEvent;
-};
+}
 
 function EventPageMain({ event }: EventPageMainProps) {
   const startTime = formatInTimeZone(
@@ -80,8 +80,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   return { fallback: "blocking", paths: [] };
 }
 
 export default EventPage;
+

@@ -4,11 +4,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import useUser from "hooks/useUser";
 
-type AnonymousToggleProps = {
+interface AnonymousToggleProps {
   anonymous: boolean;
   top?: boolean;
   anonymousToggle: () => void;
-};
+}
 
 function AnonymousToggle(props: AnonymousToggleProps) {
   const { user } = useUser();

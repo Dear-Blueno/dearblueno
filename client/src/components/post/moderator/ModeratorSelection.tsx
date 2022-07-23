@@ -1,9 +1,9 @@
 import "./ModeratorSelection.css";
 
-type ModeratorSelectionProps = {
+interface ModeratorSelectionProps {
   selection: boolean;
   toggle: () => void;
-};
+}
 
 function ModeratorSelection(props: ModeratorSelectionProps) {
   const postClass = props.selection ? "Selected" : "";

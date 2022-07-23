@@ -1,8 +1,8 @@
 import styles from "./EventStagesDisplay.module.scss";
 
-type EventStagesDisplayProps = {
+interface EventStagesDisplayProps {
   stage: number;
-};
+}
 
 export default function EventStagesDisplay(props: EventStagesDisplayProps) {
   const selected = (stage: number) => {

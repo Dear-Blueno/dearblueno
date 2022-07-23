@@ -5,9 +5,9 @@ import { useInfiniteQuery } from "react-query";
 import IPost from "types/IPost";
 import { useEffect, useState } from "react";
 
-type MainFeedProps = {
+interface MainFeedProps {
   initialPosts: IPost[];
-};
+}
 
 function MainFeed(props: MainFeedProps) {
   const [pageNumber, setPageNumber] = useState(2);

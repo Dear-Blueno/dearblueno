@@ -18,12 +18,12 @@ import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { MdOutlineAddReaction } from "react-icons/md";
 
-type ReactionBarProps = {
+interface ReactionBarProps {
   type: "comment" | "post";
   reactions: string[][];
   postNumber: number;
   commentNumber?: number;
-};
+}
 
 enum ReactionType {
   LIKE,
@@ -34,10 +34,10 @@ enum ReactionType {
   SURPRISE,
 }
 
-type Reaction = {
+interface Reaction {
   type: ReactionType;
   reactors: string[];
-};
+}
 
 const reactionCompare = (a: Reaction, b: Reaction) => {
   if (a.reactors.length === 0 || b.reactors.length === 0) {

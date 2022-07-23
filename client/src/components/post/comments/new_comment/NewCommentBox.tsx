@@ -7,13 +7,13 @@ import { useIsMobile } from "hooks/is-mobile";
 import AnonymousToggle from "./AnonymousToggle";
 import useUser from "hooks/useUser";
 
-type NewCommentBoxProps = {
+interface NewCommentBoxProps {
   firstComment: boolean;
   postNumber: number;
   parentCommentNumber: number;
   setShow: (show: boolean) => void;
   setComments: React.Dispatch<React.SetStateAction<IThread[]>>;
-};
+}
 
 export const findComment = (
   comments: IThread[],

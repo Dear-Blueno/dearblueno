@@ -10,10 +10,10 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
-type SearchPageProps = {
+interface SearchPageProps {
   user?: IUser;
   searchQuery: ParsedUrlQuery;
-};
+}
 
 const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
   const router = useRouter();

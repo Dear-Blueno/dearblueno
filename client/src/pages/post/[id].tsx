@@ -7,9 +7,9 @@ import MainLayout from "components/layout/MainLayout";
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 
-type PostPageProps = {
+interface PostPageProps {
   post?: IPost;
-};
+}
 
 const PostPage: NextPage = ({ post }: PostPageProps) => {
   if (!post) {
@@ -29,9 +29,9 @@ const PostPage: NextPage = ({ post }: PostPageProps) => {
   );
 };
 
-type PostPageMainProps = {
+interface PostPageMainProps {
   post: IPost;
-};
+}
 
 function PostPageMain({ post }: PostPageMainProps) {
   return (

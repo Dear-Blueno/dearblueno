@@ -4,16 +4,16 @@ import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import { IResponse } from "gateways/GatewayResponses";
 import IPost from "types/IPost";
 
-type FeedProps = {
+interface FeedProps {
   children: React.ReactNode | React.ReactNode[];
   getMore: (
     options?: FetchNextPageOptions | undefined
-  ) => Promise<InfiniteQueryObserverResult<IResponse<IPost[]>, unknown>>;
+  ) => Promise<InfiniteQueryObserverResult<IResponse<IPost[]>>>;
   animated: boolean;
   status: "idle" | "loading" | "error" | "success";
   hasNextPage: boolean | undefined;
   isFetchingNextPage: boolean | undefined;
-};
+}
 
 function Feed(props: FeedProps) {
   const {

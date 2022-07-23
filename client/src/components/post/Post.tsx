@@ -27,12 +27,12 @@ import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 
-export type PostProps = {
+export interface PostProps {
   post: IPost;
   delay?: string;
   skipAnimation?: boolean;
   setFeed?: React.Dispatch<React.SetStateAction<IPost[]>>;
-};
+}
 
 function Post(props: PostProps) {
   const { user, refetchUser } = useUser();

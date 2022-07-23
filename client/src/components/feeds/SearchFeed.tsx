@@ -5,11 +5,11 @@ import IUser from "../../types/IUser";
 import Feed from "./Feed";
 import Post from "../post/Post";
 
-type SearchFeedProps = {
+interface SearchFeedProps {
   user?: IUser;
   results: IPost[];
   hasQuery: boolean;
-};
+}
 
 function SearchFeed(props: SearchFeedProps) {
   const [pageNumber, setPageNumber] = useState(1);

@@ -6,13 +6,13 @@ import "@reach/dialog/styles.css";
 import AnonymousToggle from "./AnonymousToggle";
 import { useIsMobile } from "hooks/is-mobile";
 
-type NewCommentBoxFooterProps = {
+interface NewCommentBoxFooterProps {
   submit: () => Promise<boolean>;
   anonymous: boolean;
   anonymousToggle: () => void;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
   setShow: (show: boolean) => void;
-};
+}
 
 function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
   const [showCancelPopup, setShowCancelPopup] = useState(false);

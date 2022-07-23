@@ -1,9 +1,9 @@
 import styles from "./CommentButton.module.scss";
 
-type CommentButtonProps = {
+interface CommentButtonProps {
   click: () => void;
   type: "comment" | "reply";
-};
+}
 
 function CommentButton(props: CommentButtonProps) {
   return (

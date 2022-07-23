@@ -5,14 +5,14 @@ import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
 import { useState } from "react";
 
-type EventCardProps = {
+interface EventCardProps {
   image: string;
   title: string;
   description: string;
   location: string;
   date: string;
   numberOfAttendees: number;
-};
+}
 
 export default function EventCard(props: EventCardProps) {
   const [isGoing, setIsGoing] = useState(false);

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./MainSidebarProfile.module.scss";
 
-type MainSidebarProfileProps = {};
+interface MainSidebarProfileProps {}
 
 export default function MainSidebarProfile(props: MainSidebarProfileProps) {
   const { user } = useUser();

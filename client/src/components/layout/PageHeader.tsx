@@ -3,12 +3,12 @@ import { IoOptionsOutline } from "react-icons/io5";
 import { usePopper } from "react-popper";
 import styles from "./PageHeader.module.scss";
 
-type PageHeaderProps = {
+interface PageHeaderProps {
   title?: string;
   children?: React.ReactNode;
   sidebar?: React.ReactNode;
   collapseHeader?: boolean;
-};
+}
 
 export default function PageHeader(props: PageHeaderProps) {
   const [collapseSidebar, setCollapseSidebar] = useState<boolean | undefined>(

@@ -3,10 +3,10 @@ import UserContent from "components/post/content/UserContent";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import IComment from "types/IComment";
 
-type CommentContextProps = {
+interface CommentContextProps {
   thread: IComment;
   showProfilePicture?: boolean;
-};
+}
 
 export default function CommentContext(props: CommentContextProps) {
   const isReply = props.thread.parentComment !== undefined;

@@ -2,12 +2,12 @@ import styles from "./Feed.module.scss";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import IUser from "../../types/IUser";
 
-type FeedProps = {
+interface FeedProps {
   user?: IUser;
   children: React.ReactNode[];
   getMore: (nextPageNumber: number) => Promise<boolean>;
   animated: boolean;
-};
+}
 
 function Feed(props: FeedProps) {
   const [pageNumber, setPageNumber] = useState(1);

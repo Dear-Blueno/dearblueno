@@ -14,10 +14,10 @@ import { MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
 import { Scrollbars } from "react-custom-scrollbars";
 
-type ProfileBoxProps = {
+interface ProfileBoxProps {
   user?: IUser;
   profileUser?: IBasicUser;
-};
+}
 
 function ProfileBox(props: ProfileBoxProps) {
   const ownProfile = props.user && props.user._id === props.profileUser?._id;

@@ -5,14 +5,14 @@ import NewCommentBox from "./new_comment/NewCommentBox";
 import { useState } from "react";
 import ViewMoreButton from "./ViewMoreButton";
 
-export type CommentSectionProps = {
+export interface CommentSectionProps {
   postNumber: number;
   comments: IComment[];
   showTopLevelCommentBox: boolean;
   setShowTopLevelCommentBox: (show: boolean) => void;
   blurred: boolean;
   setBlurred: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 export interface IThread extends IComment {
   children: IThread[];
@@ -30,7 +30,7 @@ const convertToThreads = (commentList: IComment[]) => {
 };
 
 const nestComments = (commentList: IThread[]) => {
-  const commentMap: { [key: number]: IThread } = {};
+  const commentMap: Record<number, IThread> = {};
 
   // move all the comments into a map of id => comment
   commentList.forEach(

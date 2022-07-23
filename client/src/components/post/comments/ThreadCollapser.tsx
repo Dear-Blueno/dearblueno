@@ -1,10 +1,10 @@
 import styles from "./ThreadCollapser.module.scss";
 import { useRef } from "react";
 
-type ThreadCollapserProps = {
+interface ThreadCollapserProps {
   collapse: () => void;
   color: string;
-};
+}
 
 function ThreadCollapser(props: ThreadCollapserProps) {
   const line = useRef<HTMLDivElement>(null);

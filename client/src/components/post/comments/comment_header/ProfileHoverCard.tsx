@@ -9,18 +9,18 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-type ProfileHoverCardProps = {
+interface ProfileHoverCardProps {
   hoverUser: IBasicUser;
   leaveAction: () => void;
   enterAction: () => void;
-};
+}
 
 function ProfileHoverCard(props: ProfileHoverCardProps) {
   let attribute = "";
 
-  props.hoverUser?.concentration && (attribute = props.hoverUser.concentration);
-  props.hoverUser?.hometown && (attribute = props.hoverUser.hometown);
-  props.hoverUser?.classYear &&
+  props.hoverUser.concentration && (attribute = props.hoverUser.concentration);
+  props.hoverUser.hometown && (attribute = props.hoverUser.hometown);
+  props.hoverUser.classYear &&
     (attribute = "Class of " + props.hoverUser.classYear);
 
   return (
@@ -32,8 +32,8 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
       <Link href={`/profile/${props.hoverUser._id}`}>
         <div className={styles.HoverCardImage}>
           <Image
-            src={props.hoverUser?.profilePicture}
-            alt={props.hoverUser?.name}
+            src={props.hoverUser.profilePicture}
+            alt={props.hoverUser.name}
             width={70}
             height={70}
           />
@@ -41,15 +41,15 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
       </Link>
       <div className={styles.HoverCardSideCol}>
         <a
-          href={`/profile/${props.hoverUser?._id}`}
+          href={`/profile/${props.hoverUser._id}`}
           className={styles.HoverCardName}
         >
-          <p>{props.hoverUser?.name}</p>
+          <p>{props.hoverUser.name}</p>
         </a>
         <div className={styles.SocialBar}>
-          {props.hoverUser?.instagram && (
+          {props.hoverUser.instagram && (
             <a
-              href={props.hoverUser?.instagram}
+              href={props.hoverUser.instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="SocialLink"
@@ -57,9 +57,9 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               <RiInstagramLine className={styles.SocialIcon} />
             </a>
           )}
-          {props.hoverUser?.twitter && (
+          {props.hoverUser.twitter && (
             <a
-              href={props.hoverUser?.twitter}
+              href={props.hoverUser.twitter}
               target="_blank"
               rel="noopener noreferrer"
               className="SocialLink"
@@ -67,9 +67,9 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               <RiTwitterLine className={styles.SocialIcon} />
             </a>
           )}
-          {props.hoverUser?.facebook && (
+          {props.hoverUser.facebook && (
             <a
-              href={props.hoverUser?.facebook}
+              href={props.hoverUser.facebook}
               target="_blank"
               rel="noopener noreferrer"
               className="SocialLink"
@@ -77,9 +77,9 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
               <RiFacebookCircleLine className={styles.SocialIcon} />
             </a>
           )}
-          {props.hoverUser?.linkedin && (
+          {props.hoverUser.linkedin && (
             <a
-              href={props.hoverUser?.linkedin}
+              href={props.hoverUser.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="SocialLink"

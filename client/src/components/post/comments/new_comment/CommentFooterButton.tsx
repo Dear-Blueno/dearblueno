@@ -1,10 +1,10 @@
 import styles from "./CommentFooterButton.module.scss";
 import { useState } from "react";
 
-type CommentFooterButtonProps = {
+interface CommentFooterButtonProps {
   handleClick: () => Promise<boolean>;
   text: string;
-};
+}
 
 function CommentFooterButton(props: CommentFooterButtonProps) {
   const [disabled, setDisabled] = useState(false);

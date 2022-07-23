@@ -1,9 +1,9 @@
 import styles from "./XPBar.module.scss";
 
-type XPBarProps = {
+interface XPBarProps {
   xp: number;
   maxXp: number;
-};
+}
 
 export default function XPBar(props: XPBarProps) {
   return (

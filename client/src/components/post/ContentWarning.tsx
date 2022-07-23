@@ -1,8 +1,8 @@
 import styles from "./ContentWarning.module.scss";
 
-export type ContentWarningProps = {
+export interface ContentWarningProps {
   ContentWarningText: string;
-};
+}
 
 function ContentWarning(props: ContentWarningProps) {
   return (

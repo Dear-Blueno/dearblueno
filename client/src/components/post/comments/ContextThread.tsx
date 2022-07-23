@@ -7,13 +7,13 @@ import ApproveOrDeny from "../moderator/ApproveOrDeny";
 import { approveComment } from "gateways/PostGateway";
 import CommentContext from "./CommentContext";
 
-export type ContextThreadProps = {
+export interface ContextThreadProps {
   user?: IUser;
   thread: IComment;
   delay?: string;
   moderatorView?: boolean;
   setFeed?: React.Dispatch<React.SetStateAction<IComment[]>>;
-};
+}
 
 function ContextThread(props: ContextThreadProps) {
   return (

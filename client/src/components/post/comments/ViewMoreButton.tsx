@@ -1,10 +1,10 @@
 import styles from "./ViewMoreButton.module.scss";
 
-type ViewMoreButtonProps = {
+interface ViewMoreButtonProps {
   count: number;
   type: "comment" | "reply";
   action?: () => void;
-};
+}
 
 export default function ViewMoreButton(props: ViewMoreButtonProps) {
   let suffix;

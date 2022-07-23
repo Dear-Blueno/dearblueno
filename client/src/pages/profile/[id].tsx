@@ -11,9 +11,9 @@ import { GetStaticProps, NextPage } from "next";
 
 import ProfileSidebar from "../../components/profile/ProfileSidebar";
 
-type ProfilePageProps = {
+interface ProfilePageProps {
   user?: IUser;
-};
+}
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   const {
@@ -41,14 +41,12 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   const title =
     user?._id === profileUser._id
       ? "My Profile"
-      : profileUser?.name + "'s Profile";
+      : profileUser.name + "'s Profile";
 
   return (
     <>
       <Head>
-        <title>
-          {(profileUser?.name ?? "User Not Found") + " - Dear Blueno"}
-        </title>
+        <title>{profileUser.name + " - Dear Blueno"}</title>
       </Head>
       <MainLayout
         title={title}
@@ -59,10 +57,10 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   );
 };
 
-type ProfilePageMainProps = {
+interface ProfilePageMainProps {
   user?: IUser;
   profileUser: IBasicUser;
-};
+}
 
 function ProfilePageMain(props: ProfilePageMainProps) {
   return (
@@ -91,9 +89,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = () => {
   // Server-render and cache pages on the fly.
   return { fallback: "blocking", paths: [] };
 };
 
 export default ProfilePage;
+

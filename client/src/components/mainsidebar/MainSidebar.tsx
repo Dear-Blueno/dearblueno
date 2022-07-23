@@ -27,7 +27,7 @@ import {
   IoAdd,
 } from "react-icons/io5";
 
-type MainSidebarItem = {
+interface MainSidebarItem {
   path: string;
   label: string;
   requiresUser: boolean;
@@ -35,7 +35,7 @@ type MainSidebarItem = {
   filledIcon: IconType;
   outlineClassName?: string;
   filledClassName?: string;
-};
+}
 
 export default function MainSidebar() {
   const { user, isLoading } = useUser();

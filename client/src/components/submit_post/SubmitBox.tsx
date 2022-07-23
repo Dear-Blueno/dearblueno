@@ -6,11 +6,11 @@ import { createPost } from "../../gateways/PostGateway";
 import Image from "next/image";
 import Link from "next/link";
 
-type SubmitBoxProps = {
+interface SubmitBoxProps {
   user: IUser | undefined;
   submitted: boolean;
   submittedSetter: (arg: boolean) => void;
-};
+}
 
 function SubmitBox(props: SubmitBoxProps) {
   const post = (text: string) => {
@@ -60,7 +60,7 @@ function SubmitBox(props: SubmitBoxProps) {
               <p
                 className={styles.Submit}
                 onClick={() => {
-                  let element = document.getElementById(
+                  const element = document.getElementById(
                     "TextBox"
                   ) as HTMLTextAreaElement;
                   post(element.value);

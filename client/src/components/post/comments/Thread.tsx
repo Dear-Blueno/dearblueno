@@ -16,7 +16,7 @@ import ViewMoreButton from "./ViewMoreButton";
 import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 
-type ThreadProps = {
+interface ThreadProps {
   comment: IThread;
   depth: number;
   postNumber?: number;
@@ -25,7 +25,7 @@ type ThreadProps = {
   blurred?: boolean;
   setBlurred?: React.Dispatch<React.SetStateAction<boolean>>;
   displayedChildren?: number;
-};
+}
 
 const colors = ["#99b2c2", "#b5cbde", "#bed3e6", "#c7dbee", "#d9eafd"];
 

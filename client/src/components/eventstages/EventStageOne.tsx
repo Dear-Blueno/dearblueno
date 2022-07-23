@@ -1,12 +1,12 @@
 import styles from "./EventStages.module.scss";
 import Image from "next/image";
 import { GiPartyPopper } from "react-icons/gi";
-type EventStageOneProps = {
+interface EventStageOneProps {
   name: string;
   nameSetter: (name: string) => void;
   email: string;
   emailSetter: (email: string) => void;
-};
+}
 
 export default function EventStageOne(props: EventStageOneProps) {
   return (

@@ -11,9 +11,9 @@ import ContextThread from "components/post/comments/ContextThread";
 import ModeratorSelection from "components/post/moderator/ModeratorSelection";
 import Post from "components/post/Post";
 
-type ModeratorFeedProps = {
+interface ModeratorFeedProps {
   user?: IUser;
-};
+}
 
 function ModeratorFeed(props: ModeratorFeedProps) {
   const [posts, setPosts] = useState<IPost[]>([]);

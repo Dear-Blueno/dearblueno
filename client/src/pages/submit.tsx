@@ -5,9 +5,9 @@ import SubmitBox from "components/submit_post/SubmitBox";
 import IUser from "types/IUser";
 import { NextPage } from "next";
 
-type SubmitPageProps = {
+interface SubmitPageProps {
   user?: IUser;
-};
+}
 
 const SubmitPage: NextPage = () => {
   return <MainLayout title="Submit" page={<SubmitPageMain />} />;

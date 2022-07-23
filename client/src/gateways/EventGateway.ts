@@ -1,5 +1,4 @@
 import axios from "axios";
-import IUser from "../types/IUser";
 import IEvent from "../types/IEvent";
 import {
   failureResponse,
@@ -13,10 +12,10 @@ export async function getEvents(page: number): Promise<IResponse<IEvent[]>> {
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -27,10 +26,10 @@ export async function getAllEvents(page: number): Promise<IResponse<IEvent[]>> {
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -43,10 +42,10 @@ export async function getModFeedEvents(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -56,10 +55,10 @@ export async function getEvent(id: string): Promise<IResponse<IEvent>> {
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -85,10 +84,10 @@ export async function createEvent(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -103,10 +102,10 @@ export async function approveEvent(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -119,12 +118,13 @@ export async function reactInterestedToEvent(
       interested,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data.interested);
+      const data = response.data as { interested: boolean };
+      return successfulResponse(data.interested);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -137,11 +137,13 @@ export async function reactGoingToEvent(
       going,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data.going);
+      const data = response.data as { going: boolean };
+      return successfulResponse(data.going);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
+

@@ -3,12 +3,12 @@ import PageSidebar from "./PageSidebar";
 import HeaderAndPage from "./HeaderAndPage";
 import Page from "./Page";
 
-type MainLayoutProps = {
+interface MainLayoutProps {
   title?: string;
   header?: React.ReactNode;
   page?: React.ReactNode;
   sidebar?: React.ReactNode;
-};
+}
 
 export default function MainLayout(props: MainLayoutProps) {
   return (

@@ -2,9 +2,9 @@ import styles from "./SearchPageHeader.module.scss";
 import { useDebouncedCallback } from "use-debounce";
 import { useRef, useEffect } from "react";
 
-type SearchPageHeaderProps = {
+interface SearchPageHeaderProps {
   setSearchQuery: (searchQuery: string) => void;
-};
+}
 
 export default function SearchPageHeader(props: SearchPageHeaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);

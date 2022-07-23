@@ -1,9 +1,9 @@
 import styles from "./LevelAndXPBar.module.scss";
 import XPBar from "./XPBar";
 
-type LevelAndXPBarProps = {
+interface LevelAndXPBarProps {
   xp: number;
-};
+}
 
 const levelToXp = (level: number) => {
   return Math.pow(1.3, level) - 1;

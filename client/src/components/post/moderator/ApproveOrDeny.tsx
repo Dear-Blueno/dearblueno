@@ -2,11 +2,11 @@ import styles from "./ApproveOrDeny.module.scss";
 import { useRef } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
-type ApproveOrDenyProps = {
+interface ApproveOrDenyProps {
   approve: (contentWarningString: string) => void;
   deny: (contentWarningString: string) => void;
   type: "post" | "comment";
-};
+}
 
 function ApproveOrDeny(props: ApproveOrDenyProps) {
   const contentWarningInputRef = useRef<HTMLInputElement>(null);

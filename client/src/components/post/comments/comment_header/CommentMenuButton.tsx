@@ -62,7 +62,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   };
   const closeDeletePopup = () => setShowDeletePopup(false);
 
-  let refDropdown = useRef<HTMLDivElement>(null);
+  const refDropdown = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
     if (refDropdown.current && !refDropdown.current.contains(event.target)) {

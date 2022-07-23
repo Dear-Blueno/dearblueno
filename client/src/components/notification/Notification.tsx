@@ -5,9 +5,9 @@ import { INotification } from "types/IUser";
 import RelativeDate from "components/post/RelativeDate";
 import { deleteNotification } from "gateways/UserGateway";
 
-type NotificationProps = {
+interface NotificationProps {
   notification: INotification;
-};
+}
 
 export default function Notification(props: NotificationProps) {
   let notifText;
@@ -21,7 +21,7 @@ export default function Notification(props: NotificationProps) {
     );
   }
   console.log(props.notification);
-  let notifDate = new Date(props.notification.timestamp).toISOString();
+  const notifDate = new Date(props.notification.timestamp).toISOString();
   const context = props.notification.content.commentContent;
 
   return (

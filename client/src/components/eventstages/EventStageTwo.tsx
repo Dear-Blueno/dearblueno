@@ -1,7 +1,7 @@
 import styles from "./EventStages.module.scss";
 import Image from "next/image";
 import { GiPartyPopper } from "react-icons/gi";
-type EventStageTwoProps = {
+interface EventStageTwoProps {
   location: string;
   locationSetter: (location: string) => void;
   startDate: string;
@@ -14,7 +14,7 @@ type EventStageTwoProps = {
   endTimeSetter: (endTime: string) => void;
   description: string;
   descriptionSetter: (description: string) => void;
-};
+}
 
 export default function EventStageTwo(props: EventStageTwoProps) {
   return (
