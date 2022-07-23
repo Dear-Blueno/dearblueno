@@ -27,6 +27,7 @@ log4js.configure({
       filename: "logs/app.log",
       compress: true,
       keepFileExt: true,
+      numBackups: 180,
     },
   },
   categories: {
