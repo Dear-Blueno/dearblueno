@@ -153,14 +153,21 @@ export interface IUser extends IBasicUser {
   subscriptions: any[];
 }
 
-interface INotification {
-  _id?: string;
+type INotification =
+  | INewCommentNotification
+  | ITrendingPostNotification
+  | IUpcomingEventNotification;
+
+interface Notification {
+  _id: string;
   timestamp: Date;
-  type: string;
-  content: any;
+  type: "newComment" | "trendingPost" | "upcomingEvent";
+  content: unknown;
 }
 
-export interface INewCommentNotification extends INotification {
+export interface INewCommentNotification extends Notification {
+  _id: string;
+  timestamp: Date;
   type: "newComment";
   content: {
     postNumber: number;
@@ -170,7 +177,9 @@ export interface INewCommentNotification extends INotification {
   };
 }
 
-export interface ITrendingPostNotification extends INotification {
+export interface ITrendingPostNotification extends Notification {
+  _id: string;
+  timestamp: Date;
   type: "trendingPost";
   content: {
     postNumber: number;
@@ -178,7 +187,9 @@ export interface ITrendingPostNotification extends INotification {
   };
 }
 
-export interface IUpcomingEventNotification extends INotification {
+export interface IUpcomingEventNotification extends Notification {
+  _id: string;
+  timestamp: Date;
   type: "upcomingEvent";
   content: {
     eventId: string;
