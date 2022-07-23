@@ -27,15 +27,19 @@ export default function MainFeedHeader() {
     const selectedRef = switchFeed(active);
     if (underlineRef.current && selectedRef.current) {
       if (active === "new") {
-        underlineRef.current.style.left =
-          selectedRef.current.offsetLeft - 2 + "px";
-        underlineRef.current.style.width =
-          selectedRef.current.offsetWidth + 4 + "px";
+        underlineRef.current.style.left = `${
+          selectedRef.current.offsetLeft - 2
+        }px`;
+        underlineRef.current.style.width = `${
+          selectedRef.current.offsetWidth + 4
+        }px`;
       } else {
-        underlineRef.current.style.left =
-          selectedRef.current.offsetLeft - 1 + "px";
-        underlineRef.current.style.width =
-          selectedRef.current.offsetWidth + 4 + "px";
+        underlineRef.current.style.left = `${
+          selectedRef.current.offsetLeft - 1
+        }px`;
+        underlineRef.current.style.width = `${
+          selectedRef.current.offsetWidth + 4
+        }px`;
       }
     }
   }, [active]);

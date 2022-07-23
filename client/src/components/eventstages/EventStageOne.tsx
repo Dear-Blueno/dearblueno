@@ -1,5 +1,4 @@
 import styles from "./EventStages.module.scss";
-import Image from "next/image";
 import { GiPartyPopper } from "react-icons/gi";
 interface EventStageOneProps {
   name: string;

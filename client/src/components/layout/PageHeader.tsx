@@ -18,7 +18,7 @@ export default function PageHeader(props: PageHeaderProps) {
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const { styles: popperStyles, attributes } = usePopper<any>(
+  const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
     {

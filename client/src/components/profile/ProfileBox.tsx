@@ -12,7 +12,6 @@ import ContextThread from "components/post/comments/ContextThread";
 import { logout } from "gateways/AuthGateway";
 import { MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
-import { Scrollbars } from "react-custom-scrollbars";
 
 interface ProfileBoxProps {
   user?: IUser;
@@ -35,13 +34,17 @@ function ProfileBox(props: ProfileBoxProps) {
 
   useEffect(() => {
     if (props.profileUser) {
-      getUserComments(props.profileUser._id).then((response) => {
-        if (response.success) {
-          setComments(response.payload.reverse());
-        } else {
-          console.log(response.message);
-        }
-      });
+      getUserComments(props.profileUser._id)
+        .then((response) => {
+          if (response.success) {
+            setComments(response.payload.reverse());
+          } else {
+            console.log(response.message);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, [props.profileUser]);
 
@@ -128,21 +131,21 @@ function ProfileBox(props: ProfileBoxProps) {
     return "https://www.facebook.com/" + link;
   };
 
-  const handleProfileEdit = async () => {
-    const response = await updateUserProfile(
-      bioTextArea.current?.value || undefined,
-      hometownInput.current?.value || undefined,
+  const handleProfileEdit = () => {
+    updateUserProfile(
+      bioTextArea.current?.value ?? undefined,
+      hometownInput.current?.value ?? undefined,
       handleInstagram(instagramInput.current?.value),
       handleTwitter(twitterInput.current?.value),
       handleFacebook(facebookInput.current?.value),
       handleLinkedIn(linkedinInput.current?.value),
-      concentrationInput.current?.value || undefined,
-      yearInput.current?.value || undefined
-    );
-    if (response.success) {
-      // TODO props.refetchProfileUser();
-    }
-    setEditing(false);
+      concentrationInput.current?.value ?? undefined,
+      yearInput.current?.value ?? undefined
+    )
+      .then(() => setEditing(false))
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -213,7 +216,7 @@ function ProfileBox(props: ProfileBoxProps) {
                   user={props.user}
                   key={comment._id}
                   thread={comment}
-                  delay={index * 80 + "ms"}
+                  delay={`${index * 80}ms`}
                 />
               ))
             ) : (

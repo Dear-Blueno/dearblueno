@@ -41,7 +41,6 @@ const nestComments = (commentList: IThread[]) => {
   commentList.forEach((comment) => {
     if (comment.parentCommentNumber !== -1) {
       const parent = commentMap[comment.parentCommentNumber];
-      parent.children = parent.children || [];
       parent.children.push(comment);
       const parentClone = { ...parent, children: undefined };
       comment.parentComment = parentClone;
@@ -61,9 +60,7 @@ const nestComments = (commentList: IThread[]) => {
 const calculateScore = (comment: IThread) => {
   let reactionCount = 0;
   for (const reaction of comment.reactions) {
-    if (reaction) {
-      reactionCount += reaction.length;
-    }
+    reactionCount += reaction.length;
   }
   let childrenScoreSum = 0;
   for (const child of comment.children) {
@@ -80,14 +77,12 @@ const calculateScores = (commentList: IThread[]) => {
 };
 
 const sortComment = (comment: IThread) => {
-  if (comment.children) {
-    comment.children.sort((a, b) => {
-      return b.score - a.score;
-    });
-    comment.children.forEach((child) => {
-      sortComment(child);
-    });
-  }
+  comment.children.sort((a, b) => {
+    return b.score - a.score;
+  });
+  comment.children.forEach((child) => {
+    sortComment(child);
+  });
 };
 
 const sortComments = (commentList: IThread[]) => {

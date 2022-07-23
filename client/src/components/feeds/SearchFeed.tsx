@@ -15,12 +15,12 @@ function SearchFeed(props: SearchFeedProps) {
   const [pageNumber, setPageNumber] = useState(1);
 
   const getMore = useCallback(
-    async (nextPageNumber: number): Promise<boolean> => {
+    (nextPageNumber: number): Promise<boolean> => {
       setPageNumber(nextPageNumber);
       if (nextPageNumber * 10 >= props.results.length) {
-        return false;
+        return Promise.resolve(false);
       }
-      return true;
+      return Promise.resolve(true);
     },
     [props.results.length]
   );
@@ -30,7 +30,7 @@ function SearchFeed(props: SearchFeedProps) {
       {props.results.length > 0 && (
         <Feed user={props.user} getMore={getMore} animated={false}>
           {props.results.slice(0, pageNumber * 10).map((post, index) => (
-            <Post key={index} post={post} delay={index * 80 + "ms"} />
+            <Post key={index} post={post} delay={`${index * 80}ms`} />
           ))}
         </Feed>
       )}

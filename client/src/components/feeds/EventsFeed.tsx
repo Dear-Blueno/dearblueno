@@ -1,10 +1,8 @@
-import useUser from "hooks/useUser";
 import EventCard from "components/event/EventCard";
 import Masonry from "react-masonry-css";
 import styles from "./EventsFeed.module.scss";
 
 export default function EventsFeed() {
-  const { user } = useUser();
   const breakpointColumnsObj = {
     default: 2,
     700: 1,

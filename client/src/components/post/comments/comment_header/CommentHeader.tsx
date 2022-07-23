@@ -2,7 +2,6 @@ import styles from "./CommentHeader.module.scss";
 import CommentMenuButton from "./CommentMenuButton";
 import { IThread } from "../CommentSection";
 import { BsCode } from "react-icons/bs";
-import { FaStar } from "react-icons/fa";
 import { RiVipDiamondFill } from "react-icons/ri";
 import { IBasicUser } from "types/IUser";
 import { useState, useRef } from "react";
@@ -24,7 +23,6 @@ function CommentHeader(props: CommentHeaderProps) {
   const [referenceElement, setReferenceElement] =
     useState<HTMLParagraphElement | null>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>();
   const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
@@ -53,6 +51,8 @@ function CommentHeader(props: CommentHeaderProps) {
     }
   };
 
+  console.log(props.comment);
+
   return (
     <div className={styles.CommentHeader}>
       {props.comment.author ? (
@@ -65,12 +65,17 @@ function CommentHeader(props: CommentHeaderProps) {
             ref={setReferenceElement}
             onMouseEnter={() => {
               isHovering.current = true;
-              getHoverUser();
-              setTimeout(() => {
-                if (isHovering.current) {
-                  setShowCard(true);
-                }
-              }, 400);
+              getHoverUser()
+                .then(() => {
+                  setTimeout(() => {
+                    if (isHovering.current) {
+                      setShowCard(true);
+                    }
+                  }, 400);
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
             }}
             onMouseLeave={() => {
               isHovering.current = false;
@@ -110,14 +115,14 @@ function CommentHeader(props: CommentHeaderProps) {
         </div>
       )}
 
-      {props.comment.author?._id === "61f343cfa90eee523f25f222" ? (
+      {props.comment.author?._id === "61f343cfa90eee523f25f222" && (
         <BsCode className={styles.DevBadge} title="Verified Developer" />
-      ) : null}
+      )}
 
       {/* if comments author badges array contains "Top Fan", verified developer */}
-      {props.comment.author?.badges.includes("Top Fan") ? (
+      {props.comment.author?.badges.includes("Top Fan") && (
         <RiVipDiamondFill className={styles.TopFanBadge} title="Top Fan" />
-      ) : null}
+      )}
 
       <p className={styles.CommentDate}>
         <RelativeDate date={props.comment.commentTime} />

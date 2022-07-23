@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import MainSidebar from "components/mainsidebar/MainSidebar";
 import axiosInit from "config/axios";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import { IsMobileProvider } from "hooks/is-mobile";
 import LoginFooter from "components/login/LoginFooter";
 import { LoginPopupProvider } from "hooks/login-popup";

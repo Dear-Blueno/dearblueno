@@ -22,12 +22,12 @@ function NewCommentBoxFooter(props: NewCommentBoxFooterProps) {
   const isMobile = useIsMobile();
 
   const cancelHandler = () => {
-    if (props.textAreaRef.current && props.textAreaRef.current.value) {
+    if (props.textAreaRef.current?.value) {
       openCancelPopup();
     } else {
       props.setShow(false);
     }
-    return new Promise<boolean>((resolve) => resolve(true));
+    return Promise.resolve(true);
   };
 
   const CancelPopUp = (

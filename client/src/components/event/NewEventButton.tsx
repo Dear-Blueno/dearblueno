@@ -1,4 +1,3 @@
-import { IconType } from "react-icons";
 import styles from "./NewEventButton.module.scss";
 import Link from "next/link";
 

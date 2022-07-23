@@ -1,6 +1,4 @@
 import styles from "./EventStages.module.scss";
-import Image from "next/image";
-import { GiPartyPopper } from "react-icons/gi";
 interface EventStageTwoProps {
   location: string;
   locationSetter: (location: string) => void;

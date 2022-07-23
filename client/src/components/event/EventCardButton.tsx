@@ -11,7 +11,7 @@ interface EventCardButtonProps {
 export default function EventCardButton(props: EventCardButtonProps) {
   return (
     <button
-      className={styles.EventCardButton + " " + props.style}
+      className={`${styles.EventCardButton} ${props.style ?? ""}`}
       onClick={props.onClick}
     >
       <props.icon />

@@ -12,12 +12,12 @@ export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts?page=${page}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost[]);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -26,12 +26,12 @@ export async function getAllPosts(page: number): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts/all?page=${page}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost[]);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -42,12 +42,12 @@ export async function getModFeedPosts(
   try {
     const response = await axios.get(`/posts/mod-feed?page=${page}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost[]);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -58,12 +58,12 @@ export async function getModFeedComments(
   try {
     const response = await axios.get(`/posts/mod-feed/comments?page=${page}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IComment[]);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -71,12 +71,12 @@ export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   try {
     const response = await axios.get(`/posts/${postNumber}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -84,12 +84,12 @@ export async function createPost(content: string): Promise<IResponse<IPost>> {
   try {
     const response = await axios.post("/posts", { content });
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -104,12 +104,13 @@ export async function reactToPost(
       state,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data.reaction);
+      const data = response.data as { reaction: boolean };
+      return successfulResponse(data.reaction);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -126,12 +127,12 @@ export async function commentOnPost(
       anonymous,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IComment);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -150,12 +151,13 @@ export async function reactToComment(
       }
     );
     if (response.status === 200) {
-      return successfulResponse(response.data.reaction);
+      const data = response.data as { reaction: boolean };
+      return successfulResponse(data.reaction);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -170,12 +172,12 @@ export async function approvePost(
       contentWarning,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -190,12 +192,12 @@ export async function approveComment(
       { approved }
     );
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -203,12 +205,12 @@ export async function searchPosts(query: string): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts/search?query=${query}`);
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IPost[]);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -221,12 +223,13 @@ export async function deleteComment(
       `/posts/${postNumber}/comment/${commentNumber}`
     );
     if (response.status === 200) {
-      return successfulResponse(response.data.success);
+      const data = response.data as { success: boolean };
+      return successfulResponse(data.success);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -239,12 +242,12 @@ export async function bookmarkPost(
       bookmark,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data);
+      return successfulResponse(response.data as IUser);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -257,11 +260,12 @@ export async function subscribeToPost(
       subscribe,
     });
     if (response.status === 200) {
-      return successfulResponse(response.data.subscribed);
+      const data = response.data as { subscribed: boolean };
+      return successfulResponse(data.subscribed);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }

@@ -146,4 +146,3 @@ export async function reactGoingToEvent(
     return failureResponse(error as string);
   }
 }
-

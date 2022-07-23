@@ -13,13 +13,17 @@ function CommentFooterButton(props: CommentFooterButtonProps) {
     <div className={styles.CommentFooterButton}>
       <p
         className="CommentFooterButtonClickable"
-        onClick={async () => {
+        onClick={() => {
           if (!disabled) {
             setDisabled(true);
-            const success = await props.handleClick();
-            if (!success) {
-              setDisabled(false);
-            }
+            props
+              .handleClick()
+              .then((success) => {
+                if (!success) {
+                  setDisabled(false);
+                }
+              })
+              .catch((error) => console.error(error));
           }
         }}
       >

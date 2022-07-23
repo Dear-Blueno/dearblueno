@@ -64,7 +64,7 @@ function Post(props: PostProps) {
       !isSubscribed
     );
     if (response.success) {
-      refetchUser();
+      await refetchUser();
     } else {
       setIsSubscribed(!isSubscribed);
     }
@@ -74,7 +74,7 @@ function Post(props: PostProps) {
     setIsBookmarked((bookmarked) => !bookmarked);
     const response = await bookmarkPost(props.post.postNumber, !isBookmarked);
     if (response.success) {
-      refetchUser();
+      await refetchUser();
     } else {
       setIsBookmarked((bookmarked) => !bookmarked);
     }
@@ -116,7 +116,7 @@ function Post(props: PostProps) {
               fill="#1976d2"
               className={styles.IconButton}
               title="Click to unsubscribe"
-              onClick={userOnlyAction(handleSubscribe)}
+              onClick={userOnlyAction(() => void handleSubscribe())}
             />
           ) : (
             <MdNotificationsNone
@@ -124,7 +124,7 @@ function Post(props: PostProps) {
               color="#789"
               className={styles.IconButton}
               title="Click to subscribe"
-              onClick={userOnlyAction(handleSubscribe)}
+              onClick={userOnlyAction(() => void handleSubscribe())}
             />
           )}
           {isBookmarked ? (
@@ -133,7 +133,7 @@ function Post(props: PostProps) {
               fill="#4caf50"
               className={styles.IconButton}
               title="Click to remove bookmark"
-              onClick={userOnlyAction(handleBookmark)}
+              onClick={userOnlyAction(() => void handleBookmark())}
             />
           ) : (
             <MdBookmarkBorder
@@ -141,7 +141,7 @@ function Post(props: PostProps) {
               color="#789"
               className={styles.IconButton}
               title="Click to bookmark"
-              onClick={userOnlyAction(handleBookmark)}
+              onClick={userOnlyAction(() => void handleBookmark())}
             />
           )}
           <RelativeDate
@@ -162,16 +162,16 @@ function Post(props: PostProps) {
         <ApproveOrDeny
           type="post"
           approve={(contentWarningString: string) =>
-            approveOrDeny(true, contentWarningString)
+            void approveOrDeny(true, contentWarningString)
           }
           deny={(contentWarningString: string) => {
-            approveOrDeny(false, contentWarningString);
+            void approveOrDeny(false, contentWarningString);
           }}
         />
       ) : (
         <div className={styles.PostFooter}>
           <ReactionBar
-            postNumber={props.post.postNumber ?? 0}
+            postNumber={props.post.postNumber}
             commentNumber={undefined}
             type="post"
             reactions={props.post.reactions}
@@ -190,7 +190,7 @@ function Post(props: PostProps) {
             style={{ transform: "translateY(-0.05em)" }}
             color="#789"
             onClick={() =>
-              navigator.clipboard.writeText(
+              void navigator.clipboard.writeText(
                 `${window.location.origin}/post/${props.post.postNumber}`
               )
             }
@@ -203,7 +203,7 @@ function Post(props: PostProps) {
           comments={props.post.comments}
           blurred={blurred}
           setBlurred={setBlurred}
-          postNumber={props.post.postNumber ?? 0}
+          postNumber={props.post.postNumber}
           showTopLevelCommentBox={showCommentBox}
           setShowTopLevelCommentBox={setShowCommentBox}
         />

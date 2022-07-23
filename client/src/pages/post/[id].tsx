@@ -22,7 +22,7 @@ const PostPage: NextPage = ({ post }: PostPageProps) => {
         <title>Post {post.postNumber} - Dear Blueno</title>
       </Head>
       <MainLayout
-        title={"Post #" + post.postNumber}
+        title={`Post #${post.postNumber}`}
         page={<PostPageMain post={post} />}
       />
     </>
@@ -63,7 +63,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   // Server-render and cache pages on the fly.
   return { fallback: "blocking", paths: [] };
 }

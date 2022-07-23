@@ -28,16 +28,19 @@ function Feed(props: FeedProps) {
   const loadingRef = useRef<HTMLDivElement>(null);
 
   // scroll action
-  const onScroll = useCallback(async () => {
+  const onScroll = useCallback(() => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
       window.innerHeight + 500
     ) {
       window.removeEventListener("scroll", onScroll);
-      const response = await getMore();
-      if (response.hasNextPage) {
-        window.addEventListener("scroll", onScroll);
-      }
+      getMore()
+        .then((response) => {
+          if (response.hasNextPage) {
+            window.addEventListener("scroll", onScroll);
+          }
+        })
+        .catch((error) => console.error(error));
     }
   }, [getMore]);
 

@@ -18,8 +18,8 @@ function replaceEmoji(text: string) {
   let lastIndex = 0;
   for (const match of matches) {
     const emoji = match[0];
-    const index = match.index!;
-    if (index > lastIndex) {
+    const index = match.index;
+    if (index && index > lastIndex) {
       children.push(text.slice(lastIndex, index));
     }
     children.push(
@@ -27,7 +27,7 @@ function replaceEmoji(text: string) {
         {emoji}
       </span>
     );
-    lastIndex = index + emoji.length;
+    lastIndex = (index ?? 0) + emoji.length;
   }
   if (lastIndex < text.length) {
     children.push(text.slice(lastIndex));

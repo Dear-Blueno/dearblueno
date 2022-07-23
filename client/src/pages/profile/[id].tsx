@@ -16,11 +16,7 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
-  const {
-    isLoading: isLoadingUser,
-    error: errorUser,
-    data: user,
-  } = useQuery("user", () =>
+  const { isLoading: isLoadingUser, data: user } = useQuery("user", () =>
     loadAuth().then((response) => {
       if (response.success) {
         return response.payload;
@@ -95,4 +91,3 @@ export const getStaticPaths = () => {
 };
 
 export default ProfilePage;
-

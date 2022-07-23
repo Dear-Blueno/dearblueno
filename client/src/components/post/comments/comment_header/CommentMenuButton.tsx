@@ -19,10 +19,11 @@ interface CommentMenuButtonProps {
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
   const { user } = useUser();
-  const [referenceElement, setReferenceElement] = useState<any>(null);
-  const [popperElement, setPopperElement] = useState<any>(null);
-  const [arrowElement, setArrowElement] = useState<any>(null);
-  const { styles: popperStyles, attributes } = usePopper<any>(
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLDivElement | null>();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>();
+  const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
     {
@@ -64,8 +65,11 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
 
   const refDropdown = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: any) => {
-    if (refDropdown.current && !refDropdown.current.contains(event.target)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      refDropdown.current &&
+      !refDropdown.current.contains(event.target as Node)
+    ) {
       setClicked(false);
     }
   };
@@ -145,28 +149,29 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                 No
               </p>
               <p
-                onClick={async () => {
+                onClick={() => {
                   closeDeletePopup();
-
-                  const response = await deleteComment(
-                    props.postNumber,
-                    props.commentNumber
-                  );
-                  console.log(props.setComments);
-                  if (response.success && props.setComments) {
-                    props.setComments((comments) => {
-                      const newComments = [...comments];
-                      const deleted = findComment(
-                        newComments,
-                        props.commentNumber
-                      );
-                      if (deleted) {
-                        deleted.author = undefined;
-                        deleted.content = "[deleted]";
+                  deleteComment(props.postNumber, props.commentNumber)
+                    .then((response) => {
+                      console.log(props.setComments);
+                      if (response.success && props.setComments) {
+                        props.setComments((comments) => {
+                          const newComments = [...comments];
+                          const deleted = findComment(
+                            newComments,
+                            props.commentNumber
+                          );
+                          if (deleted) {
+                            deleted.author = undefined;
+                            deleted.content = "[deleted]";
+                          }
+                          return newComments;
+                        });
                       }
-                      return newComments;
+                    })
+                    .catch((error) => {
+                      console.error(error);
                     });
-                  }
                 }}
                 className={styles.PopupAction}
               >

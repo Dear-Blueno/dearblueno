@@ -4,7 +4,6 @@ import ThreadCollapser from "./ThreadCollapser";
 import { IThread } from "./CommentSection";
 import { useState } from "react";
 import NewCommentBox from "components/post/comments/new_comment/NewCommentBox";
-import CommentButton from "./CommentButton";
 import DividerDot from "components/post/content/DividerDot";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import CommentHeader from "components/post/comments/comment_header/CommentHeader";
@@ -81,7 +80,7 @@ function Thread(props: ThreadProps) {
 
   return (
     <div className="Thread" key={props.comment.commentNumber}>
-      {isMobile && props.depth > 4 && props.comment.parentComment.content && (
+      {isMobile && props.depth > 4 && props.comment.parentComment?.content && (
         <div className={styles.ThreadCommentContext}>
           <CommentContext thread={props.comment} />
         </div>
@@ -144,7 +143,7 @@ function Thread(props: ThreadProps) {
                   postNumber={props.comment.postNumber}
                   parentCommentNumber={props.comment.commentNumber}
                   setShow={setShowReplyBox}
-                  setComments={props.setComments ?? (() => {})}
+                  setComments={props.setComments ?? (() => ({}))}
                 />
               )}
             </div>

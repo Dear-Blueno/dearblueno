@@ -8,16 +8,16 @@ import {
 } from "react";
 import useUser from "./useUser";
 
-type LoginPopupContextType = {
+interface LoginPopupContextType {
   setLoginPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   openLoginPopup: () => void;
   userOnlyAction: (action: () => void) => () => void;
-};
+}
 
 const LoginPopupContext = createContext<LoginPopupContextType>({
   setLoginPopupIsOpen: () => undefined,
   openLoginPopup: () => undefined,
-  userOnlyAction: (_action) => () => undefined,
+  userOnlyAction: () => () => undefined,
 });
 
 export const useLoginPopup = () => useContext(LoginPopupContext);

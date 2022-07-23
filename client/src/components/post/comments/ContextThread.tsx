@@ -19,7 +19,7 @@ function ContextThread(props: ContextThreadProps) {
   return (
     <a
       className={styles.ContextThreadLink}
-      href={props.moderatorView ? "" : "/post/" + props.thread.postNumber}
+      href={props.moderatorView ? "" : `/post/${props.thread.postNumber}`}
     >
       <div
         className={styles.ContextThread}
@@ -35,7 +35,7 @@ function ContextThread(props: ContextThreadProps) {
           <div className={styles.ContextThreadModeratorLinkContainer}>
             <a
               className={styles.ContextThreadModeratorLink}
-              href={"/post/" + props.thread.postNumber}
+              href={`/post/${props.thread.postNumber}`}
             >
               Show full context
             </a>
@@ -45,29 +45,33 @@ function ContextThread(props: ContextThreadProps) {
           <div className={styles.ApproveOrDenyContainer}>
             <ApproveOrDeny
               type="comment"
-              approve={async () => {
-                const response = await approveComment(
-                  props.thread.postNumber,
-                  props.thread.commentNumber,
-                  true
-                );
-                if (response.success && props.setFeed) {
-                  props.setFeed((comments) =>
-                    comments.filter((c) => c._id !== props.thread._id)
+              approve={() => {
+                (async () => {
+                  const response = await approveComment(
+                    props.thread.postNumber,
+                    props.thread.commentNumber,
+                    true
                   );
-                }
+                  if (response.success && props.setFeed) {
+                    props.setFeed((comments) =>
+                      comments.filter((c) => c._id !== props.thread._id)
+                    );
+                  }
+                })().catch((e) => console.error(e));
               }}
-              deny={async () => {
-                const response = await approveComment(
-                  props.thread.postNumber,
-                  props.thread.commentNumber,
-                  false
-                );
-                if (response.success && props.setFeed) {
-                  props.setFeed((comments) =>
-                    comments.filter((c) => c._id !== props.thread._id)
+              deny={() => {
+                (async () => {
+                  const response = await approveComment(
+                    props.thread.postNumber,
+                    props.thread.commentNumber,
+                    false
                   );
-                }
+                  if (response.success && props.setFeed) {
+                    props.setFeed((comments) =>
+                      comments.filter((c) => c._id !== props.thread._id)
+                    );
+                  }
+                })().catch((e) => console.error(e));
               }}
             />
           </div>

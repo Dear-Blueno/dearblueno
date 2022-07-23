@@ -1,4 +1,3 @@
-import { useLoginPopup } from "hooks/login-popup";
 import useUser from "hooks/useUser";
 import { NextPage } from "next";
 import ProfilePage from "./profile/[id]";

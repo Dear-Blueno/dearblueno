@@ -18,7 +18,7 @@ interface SearchPageProps {
 const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
   const router = useRouter();
   const setSearchQuery = (query: string) => {
-    query ? router.push(`/search?q=${query}`) : router.push("/search");
+    void (query ? router.push(`/search?q=${query}`) : router.push("/search"));
   };
 
   return (
@@ -44,16 +44,18 @@ function SearchPageMain(props: SearchPageProps) {
       return;
     }
     if (query.length > 0) {
-      searchPosts(query).then((response) => {
-        setHasQuery(true);
-        if (response.success) {
-          console.log(query, response.payload);
-          setResults(response.payload);
-        } else {
-          console.log(response.message);
-          setResults([]);
-        }
-      });
+      searchPosts(query)
+        .then((response) => {
+          setHasQuery(true);
+          if (response.success) {
+            console.log(query, response.payload);
+            setResults(response.payload);
+          } else {
+            console.log(response.message);
+            setResults([]);
+          }
+        })
+        .catch((error) => console.error(error));
     }
   }, [query]);
 
@@ -66,14 +68,18 @@ function SearchPageMain(props: SearchPageProps) {
     const possibleNumber = query.startsWith("#") ? query.substring(1) : query;
     if (Number.isInteger(Number(possibleNumber))) {
       // get that post
-      getPost(Number(possibleNumber)).then((response) => {
-        setHasQuery(true);
-        if (response.success) {
-          setPossiblePost(response.payload);
-        } else {
-          console.log(response.message);
-        }
-      });
+      getPost(Number(possibleNumber))
+        .then((response) => {
+          setHasQuery(true);
+          if (response.success) {
+            setPossiblePost(response.payload);
+          } else {
+            console.log(response.message);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, [query]);
 

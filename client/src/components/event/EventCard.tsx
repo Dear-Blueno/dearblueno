@@ -83,9 +83,7 @@ export default function EventCard(props: EventCardProps) {
             text="Share"
             // fix the event share
             onClick={() => {
-              navigator.clipboard.writeText(
-                "localhost:3000/event/62da81af4e4f6ccd7bfa5560"
-              );
+              console.log("Share");
             }}
           />
         </div>

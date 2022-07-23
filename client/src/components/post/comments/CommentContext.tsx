@@ -9,7 +9,8 @@ interface CommentContextProps {
 }
 
 export default function CommentContext(props: CommentContextProps) {
-  const isReply = props.thread.parentComment !== undefined;
+  const parentComment = props.thread.parentComment;
+  const isReply = parentComment !== undefined;
 
   return (
     <div className={styles.CommentContext}>
@@ -22,34 +23,30 @@ export default function CommentContext(props: CommentContextProps) {
             <div className={styles.CommentContextParentPicture}>
               <CommentProfilePicture
                 link={
-                  props.thread.parentComment.author
-                    ? props.thread.parentComment.author.profilePicture
+                  parentComment.author
+                    ? parentComment.author.profilePicture
                     : undefined
                 }
               />
             </div>
           )}
           <div className={styles.CommentContextReplyAuthor}>
-            {props.thread.parentComment.author
-              ? props.thread.parentComment.author.name
-              : "Anonymous"}
+            {parentComment.author ? parentComment.author.name : "Anonymous"}
           </div>
           <div className={styles.CommentContextReplyText}>
             <UserContent>
-              {props.thread.parentComment.content.substring(0, 10) +
-                (props.thread.parentComment.content.length > 10 ? "…" : "")}
+              {parentComment.content.substring(0, 10) +
+                (parentComment.content.length > 10 ? "…" : "")}
             </UserContent>
           </div>
         </>
       )}
       {!isReply && (
         <>
-          <div className={styles.CommentContextPostNumber}>
-            #{props.thread.postNumber}
-          </div>
+          <div>#{props.thread.postNumber}</div>
           <div className={styles.CommentContextPostContent}>
-            {(props.thread.post.content as string).substring(0, 70)}
-            {(props.thread.post.content as string).length > 70 ? "…" : ""}
+            {props.thread.post.content.substring(0, 70)}
+            {props.thread.post.content.length > 70 ? "…" : ""}
           </div>
         </>
       )}

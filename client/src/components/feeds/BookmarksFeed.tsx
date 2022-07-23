@@ -5,22 +5,15 @@ import { getBookmarks } from "gateways/UserGateway";
 
 export default function BookmarksFeed() {
   const fetchBookmarks = ({ pageParam = 1 }) => getBookmarks(pageParam);
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery("bookmarks", fetchBookmarks, {
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.payload?.length === 0) {
-        return undefined;
-      }
-      return pages.length + 1;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetching, status } =
+    useInfiniteQuery("bookmarks", fetchBookmarks, {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.payload?.length === 0) {
+          return undefined;
+        }
+        return pages.length + 1;
+      },
+    });
 
   const posts = data?.pages
     .map((page) => page.payload)

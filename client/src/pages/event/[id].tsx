@@ -85,4 +85,3 @@ export function getStaticPaths() {
 }
 
 export default EventPage;
-

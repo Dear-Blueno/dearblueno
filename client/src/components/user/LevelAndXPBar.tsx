@@ -22,7 +22,7 @@ export default function LevelAndXPBar(props: LevelAndXPBarProps) {
   return (
     <div
       className={styles.LevelAndXPBar}
-      title={"XP: " + Math.floor(levelXp) + "/" + Math.ceil(levelMax)}
+      title={`XP: ${Math.floor(levelXp)}/${Math.ceil(levelMax)}`}
     >
       <div className={styles.LevelAndXPBarLevel}>lvl {level}</div>
       <XPBar xp={levelXp} maxXp={levelMax} />

@@ -10,32 +10,21 @@ interface MainFeedProps {
 }
 
 function MainFeed(props: MainFeedProps) {
-  const [pageNumber, setPageNumber] = useState(2);
   const [posts, setPosts] = useState<IPost[]>(props.initialPosts);
   const fetchPosts = ({ pageParam = 2 }) => getPosts(pageParam);
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery("posts", fetchPosts, {
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.payload?.length === 0) {
-        return undefined;
-      }
-      return pages.length + 2;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery("posts", fetchPosts, {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.payload?.length === 0) {
+          return undefined;
+        }
+        return pages.length + 2;
+      },
+    });
 
   useEffect(() => {
     setPosts((prev) =>
-      prev.concat(
-        data?.pages[data.pages.length - 1].payload?.filter(
-          (post) => post !== null
-        ) ?? []
-      )
+      prev.concat(data?.pages[data.pages.length - 1].payload ?? [])
     );
   }, [data?.pages]);
 
@@ -47,7 +36,9 @@ function MainFeed(props: MainFeedProps) {
       hasNextPage={hasNextPage}
       animated
     >
-      {posts.map((post) => post && <Post key={post._id} post={post} />)}
+      {posts.map((post) => (
+        <Post key={post._id} post={post} />
+      ))}
     </Feed>
   );
 }

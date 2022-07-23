@@ -14,10 +14,10 @@ export async function getUser(_id: string): Promise<IResponse<IBasicUser>> {
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -29,10 +29,10 @@ export async function searchUsers(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -60,10 +60,10 @@ export async function updateUserProfile(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -77,10 +77,10 @@ export async function updateProfilePicture(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -96,10 +96,10 @@ export async function banUser(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -111,10 +111,10 @@ export async function getUserComments(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -124,10 +124,10 @@ export async function getBookmarks(page: number): Promise<IResponse<IPost[]>> {
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }
 
@@ -141,9 +141,9 @@ export async function deleteNotification(
     if (response.status === 200) {
       return successfulResponse(response.data);
     } else {
-      return failureResponse(response.data);
+      return failureResponse(response.data as string);
     }
-  } catch (error: any) {
-    return failureResponse(error);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
   }
 }

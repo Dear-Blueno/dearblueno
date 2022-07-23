@@ -1,7 +1,9 @@
 import styles from "./GoogleFormOption.module.scss";
 import IUser from "../../types/IUser";
 
-interface GoogleFormOptionProps { user?: IUser }
+interface GoogleFormOptionProps {
+  user?: IUser;
+}
 
 function GoogleFormOption(props: GoogleFormOptionProps) {
   return (

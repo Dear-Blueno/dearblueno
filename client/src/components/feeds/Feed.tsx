@@ -41,7 +41,7 @@ function Feed(props: FeedProps) {
         setReachedEnd(true);
       }
     };
-    loadMore();
+    loadMore().catch((error) => console.error(error));
     return () => {
       window.removeEventListener("scroll", onScroll);
     };

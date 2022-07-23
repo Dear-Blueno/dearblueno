@@ -41,7 +41,7 @@ function NewCommentBox(props: NewCommentBoxProps) {
   const submit = async () => {
     if (user) {
       const textarea = textAreaRef.current;
-      if (textarea && textarea.value) {
+      if (textarea?.value) {
         const response = await commentOnPost(
           props.postNumber,
           textarea.value,
@@ -53,22 +53,17 @@ function NewCommentBox(props: NewCommentBoxProps) {
           props.setShow(false);
           props.setComments((comments) => {
             const newComments = [...comments];
-            if (response.success) {
-              const comment = response.payload as IThread;
-              comment.children = [];
-              comment.author = anonymous ? undefined : user;
-              if (anonymous) {
-                comment.content = "[under review]";
-              }
-              const parent = findComment(
-                newComments,
-                props.parentCommentNumber
-              );
-              if (parent) {
-                parent.children.push(comment);
-              } else {
-                newComments.push(comment);
-              }
+            const comment = response.payload as IThread;
+            comment.children = [];
+            comment.author = anonymous ? undefined : user;
+            if (anonymous) {
+              comment.content = "[under review]";
+            }
+            const parent = findComment(newComments, props.parentCommentNumber);
+            if (parent) {
+              parent.children.push(comment);
+            } else {
+              newComments.push(comment);
             }
             return newComments;
           });

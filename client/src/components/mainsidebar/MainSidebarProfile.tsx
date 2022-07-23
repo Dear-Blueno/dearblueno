@@ -4,9 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./MainSidebarProfile.module.scss";
 
-interface MainSidebarProfileProps {}
-
-export default function MainSidebarProfile(props: MainSidebarProfileProps) {
+export default function MainSidebarProfile() {
   const { user } = useUser();
   return (
     <Link href="/profile">
@@ -23,9 +21,7 @@ export default function MainSidebarProfile(props: MainSidebarProfileProps) {
               />
             </div>
             <div className={styles.MainSidebarProfileNameAndXP}>
-              <div className={styles.MainSidebarProfileName}>
-                {user && user.name}
-              </div>
+              <div className={styles.MainSidebarProfileName}>{user.name}</div>
               <LevelAndXPBar xp={user.xp} />
             </div>
           </>

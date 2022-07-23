@@ -178,7 +178,9 @@ function ReactionBar(props: ReactionBarProps) {
                 type={props.type}
                 key={reaction.type}
                 image={
-                  icons[reaction.type][reaction.reactors.length > 0 ? 0 : 1]
+                  icons[reaction.type][
+                    reaction.reactors.length > 0 ? 0 : 1
+                  ] as string
                 }
                 count={reaction.reactors.length}
                 handleClick={user ? buttonClick(reaction.type) : openLoginPopup}

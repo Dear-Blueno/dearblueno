@@ -20,7 +20,7 @@ function PostNumber(props: PostNumberProps) {
             #{props.number}
           </a>
         ) : (
-          "id: " + props._id
+          <>{`id: ${props._id ?? ""}`}</>
         )}
       </h3>
     </div>

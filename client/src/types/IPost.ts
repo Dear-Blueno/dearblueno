@@ -10,8 +10,7 @@ export default interface IPost {
   approvedTime: string; // ISO-8601-formatted date
   approved: boolean;
   needsReview: boolean;
-  approvedBy: any;
   comments: IComment[];
-  reactions: any[][];
+  reactions: string[][];
   pinned: boolean;
 }
