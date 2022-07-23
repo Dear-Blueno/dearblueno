@@ -34,7 +34,7 @@ userRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture",
+          select: "name profilePicture badges",
         },
       });
 
