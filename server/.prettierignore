@@ -1,0 +1,5 @@
+coverage/
+logs/
+build/
+dist/
+globalConfig.json

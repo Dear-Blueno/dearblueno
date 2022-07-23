@@ -8,7 +8,9 @@
     "build": "tsc",
     "test": "jest --runInBand --testPathPattern=src/tests/unit",
     "test:e2e": "jest --runInBand",
-    "test:coverage": "jest --coverage --runInBand"
+    "test:coverage": "jest --coverage --runInBand",
+    "lint": "eslint . && prettier -c .",
+    "lint:fix": "eslint --fix . && prettier -w ."
   },
   "repository": {
     "type": "git",
@@ -39,8 +41,12 @@
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/response-time": "^2.3.5",
     "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "eslint": "^8.20.0",
     "jest": "^27.4.5",
     "nodemon": "^2.0.15",
+    "prettier": "^2.7.1",
     "supertest": "^6.1.6",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
