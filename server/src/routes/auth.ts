@@ -11,17 +11,10 @@ authRouter.get("/", async (req, res) => {
       success: true,
       user: req.user,
     });
-    const user = await User.findByIdAndUpdate(
-      (req.user as IUser)._id,
-      {
-        lastLoggedIn: Date.now(),
-      },
-      { new: true }
+    await User.updateOne(
+      { _id: (req.user as IUser)._id },
+      { lastLoggedIn: Date.now() }
     );
-    if (user) {
-      (req.session as any).passport.user = user;
-      req.session.save();
-    }
   } else {
     // The user is not logged in
     res.status(401).json({
@@ -33,7 +26,7 @@ authRouter.get("/", async (req, res) => {
 // Logout
 authRouter.get("/logout", (req, res) => {
   req.logout(() => {
-    res.redirect(process.env.CLIENT_URL || "http://localhost:3000");
+    res.redirect(process.env.CLIENT_URL ?? "http://localhost:3000");
   });
 });
 
@@ -60,7 +53,7 @@ authRouter.get(
 authRouter.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_URL || "http://localhost:3000",
+    successRedirect: process.env.CLIENT_URL ?? "http://localhost:3000",
     failureRedirect: "/auth/login/unverified",
   })
 );

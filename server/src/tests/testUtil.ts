@@ -7,7 +7,7 @@ import eventsRouter from "../routes/events";
 
 export default async function setupForTests() {
   // Connect to MongoDB
-  await mongoose.connect(process.env.MONGO_URL || "");
+  await mongoose.connect(process.env.MONGO_URL ?? "");
 
   // Init the mongoose models
   require("../models/User");

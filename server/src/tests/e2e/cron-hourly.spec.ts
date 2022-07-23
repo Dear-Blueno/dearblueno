@@ -29,8 +29,8 @@ describe("Hourly Cron (E2E)", () => {
     beforeAll(async () => {
       // Setup connection to google spreadsheet
       const creds = {
-        client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL || "",
-        private_key: process.env.GOOGLE_SHEET_PRIVATE_KEY || "",
+        client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL ?? "",
+        private_key: process.env.GOOGLE_SHEET_PRIVATE_KEY ?? "",
       };
 
       document = new GoogleSpreadsheet(process.env.VERIFIED_GOOGLE_SHEET_ID);

@@ -4,7 +4,7 @@ import log4js from "log4js";
 
 const logger = log4js.getLogger("cron-daily");
 
-export default async function setupCron() {
+export default function setupCron() {
   // Daily at midnight, handle daily streak related stuff
   cron.schedule("0 0 * * *", async () => {
     const startDate = new Date();

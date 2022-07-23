@@ -36,7 +36,7 @@ export const modCheck = (req: Request, res: Response, next: NextFunction) => {
     req.user = req.body.user;
   }
 
-  const user = req.user as IUser;
+  const user = req.user as IUser | undefined;
   if (!user || !user.moderator) {
     res.status(401).send("You are not a moderator");
     return;
@@ -51,7 +51,7 @@ export const brownCheck = (req: Request, res: Response, next: NextFunction) => {
     req.user = req.body.user;
   }
 
-  const user = req.user as IUser;
+  const user = req.user as IUser | undefined;
   if (!user || !user.verifiedBrown) {
     res.status(401).send("You are not a verified Brown University member");
     return;

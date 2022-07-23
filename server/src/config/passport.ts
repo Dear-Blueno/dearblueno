@@ -25,9 +25,9 @@ export default function passportConfig() {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID || "",
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-        callbackURL: process.env.GOOGLE_CALLBACK_URL || "",
+        clientID: process.env.GOOGLE_CLIENT_ID ?? "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+        callbackURL: process.env.GOOGLE_CALLBACK_URL ?? "",
       },
       async (
         _accessToken: string,
@@ -35,12 +35,6 @@ export default function passportConfig() {
         profile: Profile,
         done: VerifyCallback
       ) => {
-        // Error handling
-        if (!profile) {
-          done(new Error("Profile is undefined"));
-          return;
-        }
-
         // Extract user information from the profile
         const { sub, name, email, picture, given_name, family_name } =
           profile._json;

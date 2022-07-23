@@ -44,11 +44,6 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
-if (process.env.MONGODB_URI === undefined) {
-  logger.fatal("MONGODB_URI is not defined in environment variables");
-  process.exit(1);
-}
-
 // Setup Passport.js
 passportConfig();
 
@@ -59,7 +54,7 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: process.env.CLIENT_URL ?? "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -82,7 +77,7 @@ mongoConnection();
 // Express session cookie
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "secret",
+    secret: process.env.SESSION_SECRET ?? "secret",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -116,7 +111,7 @@ setupHourlyCron();
 setupMinutelyCron();
 
 // Start Express server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT ?? 5000;
 app.listen(port, () => {
   logger.info(`Server listening on port ${port}`);
 });

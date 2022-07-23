@@ -35,7 +35,7 @@ eventRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const events = await Event.find({
       approved: true,
       endDate: { $gte: new Date() },
@@ -66,7 +66,7 @@ eventRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const events = await Event.find()
       .sort({ startDate: 1 })
       .skip((page - 1) * 10)
@@ -89,7 +89,7 @@ eventRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const events = await Event.find({
       needsReview: true,
     })

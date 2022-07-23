@@ -67,7 +67,7 @@ describe("Cron Daily", () => {
       await dailyJob();
 
       const updatedUser = await User.findOne();
-      const badges = updatedUser?.badges || [];
+      const badges = updatedUser?.badges ?? [];
       expect(badges).toContain("One Week Streak");
       expect(badges).not.toContain("One Month Streak");
 
@@ -81,7 +81,7 @@ describe("Cron Daily", () => {
       await dailyJob();
 
       const updatedUser2 = await User.findOne();
-      const badges2 = updatedUser2?.badges || [];
+      const badges2 = updatedUser2?.badges ?? [];
       expect(badges2).toContain("One Month Streak");
       expect(badges2).toContain("One Week Streak");
     });
@@ -140,7 +140,7 @@ describe("Cron Daily", () => {
 
       // Check that the active user has the Top Fan badge
       const user = await User.findOne({ googleId: "activeUser" });
-      const badges = user?.badges || [];
+      const badges = user?.badges ?? [];
       expect(badges).toContain("Top Fan");
       expect(badges.filter((badge) => badge === "Top Fan").length).toBe(1);
       expect(await User.countDocuments({ badges: "Top Fan" })).toBe(1);
@@ -149,7 +149,7 @@ describe("Cron Daily", () => {
       await dailyJob();
 
       const user2 = await User.findOne({ googleId: "activeUser" });
-      const badges2 = user2?.badges || [];
+      const badges2 = user2?.badges ?? [];
       expect(badges2).toContain("Top Fan");
       expect(badges2.filter((badge) => badge === "Top Fan").length).toBe(1);
       expect(await User.countDocuments({ badges: "Top Fan" })).toBe(1);

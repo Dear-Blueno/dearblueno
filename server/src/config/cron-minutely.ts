@@ -6,7 +6,7 @@ import log4js from "log4js";
 const logger = log4js.getLogger("cron-minutely");
 let timeTaken = [] as number[];
 
-export default async function setupCron() {
+export default function setupCron() {
   // Every minute, handle notifications for events
   cron.schedule("* * * * *", async () => {
     const startDate = new Date();

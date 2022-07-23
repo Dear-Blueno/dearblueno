@@ -5,7 +5,7 @@ import log4js from "log4js";
 
 const logger = log4js.getLogger("cron-hourly");
 
-export default async function setupCron() {
+export default function setupCron() {
   // Hourly, import posts from Google Sheets
   cron.schedule("30 * * * *", async () => {
     const startDate = new Date();
@@ -24,9 +24,9 @@ export async function hourlyJob() {
   try {
     // Setup connection to google spreadsheet
     const creds = {
-      client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL || "",
+      client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL ?? "",
       private_key:
-        process.env.GOOGLE_SHEET_PRIVATE_KEY?.replace(/\\n/g, "\n") || "",
+        process.env.GOOGLE_SHEET_PRIVATE_KEY?.replace(/\\n/g, "\n") ?? "",
     };
 
     const verifiedDoc = new GoogleSpreadsheet(
@@ -53,7 +53,7 @@ export async function hourlyJob() {
       if (row._rawData.length === 0) continue;
 
       // Create a post from the row
-      const postTime = new Date(row.Timestamp);
+      const postTime = new Date(row.Timestamp as string);
       const content = row.Post;
       const post = new Post({
         content,
@@ -84,7 +84,7 @@ export async function hourlyJob() {
       if (row._rawData.length === 0) continue;
 
       // Create a post from the row
-      const postTime = new Date(row.Timestamp);
+      const postTime = new Date(row.Timestamp as string);
       const content = row.Post;
       const post = new Post({
         content,

@@ -5,7 +5,7 @@ const logger = log4js.getLogger("mongo");
 
 export default function mongoConnection() {
   // Connect to MongoDB
-  mongoose.connect(process.env.MONGODB_URI || "", () => {
+  mongoose.connect(process.env.MONGODB_URI ?? "", () => {
     logger.info("Connected to MongoDB!");
   });
   // Init the mongoose models

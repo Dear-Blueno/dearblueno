@@ -287,7 +287,7 @@ describe("User", () => {
         .expect(200);
 
       const newUser = await User.findOne({ googleId: user.googleId });
-      const time = new Date(newUser?.bannedUntil || 0);
+      const time = new Date(newUser?.bannedUntil ?? 0);
       expect(new Date(time).getTime()).toBeGreaterThan(Date.now());
     });
   });

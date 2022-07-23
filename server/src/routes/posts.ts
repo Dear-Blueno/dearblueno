@@ -11,7 +11,7 @@ const postRouter = Router();
 
 // Cleans the sensitive data from the post object, including reactions and unapproved comments
 function cleanSensitivePost(post: IPost, user?: IUser): IPost {
-  const anonymizeReactionList = (reactionList: any[]) =>
+  const anonymizeReactionList = (reactionList: string[]) =>
     reactionList.map((reaction) =>
       String(reaction) == String(user?._id) ? reaction : "anon"
     );
@@ -43,7 +43,7 @@ postRouter.get(
       return;
     }
 
-    const page: number = Number(req.query?.page) || 1;
+    const page: number = Number(req.query.page) || 1;
     const posts = await Post.find({
       approved: true,
     })
@@ -81,7 +81,7 @@ postRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const posts = await Post.find()
       .sort({ postTime: "descending" })
       .skip((page - 1) * 10)
@@ -111,7 +111,7 @@ postRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const posts = await Post.find({ needsReview: true })
       .sort({ postTime: "ascending" })
       .skip((page - 1) * 10)
@@ -133,7 +133,7 @@ postRouter.get(
       return;
     }
 
-    const page = Number(req.query?.page) || 1;
+    const page = Number(req.query.page) || 1;
     const comments = await Comment.find({ needsReview: true })
       .sort({ commentTime: "ascending" })
       .skip((page - 1) * 10)
@@ -161,7 +161,7 @@ postRouter.get(
   query("query").isString().isLength({ min: 3 }).isAscii(),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.query) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -197,7 +197,7 @@ postRouter.get(
   param("id").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -237,7 +237,7 @@ postRouter.post(
 
     const content = req.body.content;
     const user = req.user as IUser | undefined;
-    const verifiedBrown = user?.verifiedBrown || false;
+    const verifiedBrown = user?.verifiedBrown ?? false;
     const post = new Post({
       content,
       verifiedBrown,
@@ -257,7 +257,7 @@ postRouter.put(
   param("id").isMongoId(),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -294,7 +294,7 @@ postRouter.put(
   param("id").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -337,7 +337,7 @@ postRouter.post(
   param("id").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -417,7 +417,7 @@ postRouter.put(
   param("commentId").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -433,7 +433,7 @@ postRouter.put(
     }
 
     const comment = post.comments.find(
-      (c: IComment) => c.commentNumber === parseInt(req.params?.commentId)
+      (c: IComment) => c.commentNumber === parseInt(req.params.commentId)
     );
     if (!comment) {
       res.status(404).send("Comment not found");
@@ -476,7 +476,7 @@ postRouter.put(
   param("commentId").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -490,7 +490,7 @@ postRouter.put(
     }
 
     const comment = post.comments.find(
-      (c: IComment) => c.commentNumber === parseInt(req.params?.commentId)
+      (c: IComment) => c.commentNumber === parseInt(req.params.commentId)
     );
     if (!comment) {
       res.status(404).send("Comment not found");
@@ -532,7 +532,7 @@ postRouter.delete(
   param("commentNumber").isInt({ min: 1 }),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -589,7 +589,7 @@ postRouter.post(
   body("bookmark").toBoolean(),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -603,7 +603,7 @@ postRouter.post(
     }
 
     const user = req.user as IUser;
-    const bookmarks = user.bookmarks || [];
+    const bookmarks = user.bookmarks;
     const bookmark = bookmarks.find(
       (b: IPost) => b._id.toString() === post._id.toString()
     );
@@ -631,7 +631,7 @@ postRouter.post(
   body("subscribe").toBoolean(),
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.params) {
+    if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
       return;
     }
@@ -645,7 +645,7 @@ postRouter.post(
     }
 
     const user = req.user as IUser;
-    const subscribers = post.subscribers || [];
+    const subscribers = post.subscribers;
     const subscriber = subscribers.find(
       (s: IUser) => s._id.toString() === user._id.toString()
     );

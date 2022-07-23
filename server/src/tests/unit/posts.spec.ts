@@ -870,7 +870,7 @@ describe("Posts", () => {
         profilePicture: "https://i.imgur.com/removed.png",
         bannedUntil: new Date(Date.now() + 100000),
       });
-      bannedUser.save();
+      await bannedUser.save();
 
       await request(app)
         .post(`/posts/1/comment`)
