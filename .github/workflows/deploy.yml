@@ -6,14 +6,12 @@ on:
     branches: [main]
 
 jobs:
-  build-deploy:
-    name: 🎉 Build and Deploy
-
+  build-deploy-backend:
+    name: 🎉 Build, Test, and Deploy Backend
     runs-on: ubuntu-latest
-
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2
 
       - name: 🔨 Set up Node 14.18.1
         uses: actions/setup-node@v2
@@ -24,7 +22,9 @@ jobs:
         run: |
           cd server
           npm ci
+          npm run lint
           npm run build
+          npm test
           cd ..
 
           mkdir -p deploy/server/dist
@@ -33,18 +33,10 @@ jobs:
 
           mkdir deploy/server/tmp
           touch deploy/server/tmp/restart.txt
-
-      - name: ⛏ Build Frontend
-        run: |
-          cd client
-          npm ci
-          npm run build
-          cd ..
-
-          mkdir -p deploy/public
-          cp -r client/build/* deploy/public
         env:
-          REACT_APP_API_URL: ${{ secrets.API_URL }}
+          TESTING_GOOGLE_SHEET_ID: ${{ secrets.TESTING_GOOGLE_SHEET_ID }}
+          GOOGLE_SHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_SHEET_CLIENT_EMAIL }}
+          GOOGLE_SHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEET_PRIVATE_KEY }}
 
       - name: ☁ SFTP Deploy
         uses: easingthemes/ssh-deploy@v2
@@ -55,3 +47,28 @@ jobs:
           REMOTE_PORT: 21098
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SOURCE: ${{ secrets.SOURCE_DIR }}
+
+  build-frontend:
+    name: 🎉 Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: 🔨 Set up Node 14.18.1
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.18.1
+
+      - name: ⛏ Build Frontend
+        run: |
+          cd client
+          npm ci
+          npm run lint
+          npm run build
+          cd ..
+
+          mkdir -p deploy/public
+          cp -r client/build/* deploy/public
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.API_URL }}

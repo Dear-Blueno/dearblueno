@@ -21,12 +21,15 @@ jobs:
         run: |
           cd server
           npm ci
+          npm run lint
           npm run build
+          npm test
           cd ..
 
       - name: ⛏ Build Frontend
         run: |
           cd client
           npm ci
+          npm run lint
           npm run build
           cd ..
