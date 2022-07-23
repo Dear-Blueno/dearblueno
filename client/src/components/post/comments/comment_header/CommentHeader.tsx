@@ -51,8 +51,6 @@ function CommentHeader(props: CommentHeaderProps) {
     }
   };
 
-  console.log(props.comment);
-
   return (
     <div className={styles.CommentHeader}>
       {props.comment.author ? (
