@@ -2,6 +2,14 @@
   "name": "dear-blueno-client",
   "version": "0.1.0",
   "description": "Frontend client for the Dear Blueno web app",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint && prettier -c .",
+    "lint:fix": "next lint --fix && prettier -w .",
+    "export": "next export"
+  },
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@popperjs/core": "^2.11.2",
@@ -32,18 +40,11 @@
     "@types/react": "^18.0.15",
     "@types/react-custom-scrollbars": "^4.0.10",
     "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
     "eslint": "^8.19.0",
     "eslint-config-next": "^12.2.2",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint && prettier -c .",
-    "lint:fix": "next lint --fix && prettier -w .",
-    "export": "next export"
   },
   "browserslist": {
     "production": [
