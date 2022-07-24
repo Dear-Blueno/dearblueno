@@ -190,6 +190,40 @@ postRouter.get(
   }
 );
 
+// GET request that returns only the cleansed reactions of a page of posts
+// (Must be authenticated)
+postRouter.get(
+  "/reactions",
+  authCheck,
+  query("page").optional().isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const page = Number(req.query.page) || 1;
+    const posts = await Post.find({
+      approved: true,
+    })
+      .sort({ pinned: -1, postNumber: -1 })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .select("reactions comments")
+      .populate({
+        path: "comments",
+        select: "reactions approved",
+      });
+
+    const cleanPosts = posts.map((post: IPost & Document) =>
+      cleanSensitivePost(post.toObject(), req.user as IUser)
+    );
+
+    res.send(cleanPosts);
+  }
+);
+
 // GET request that gets a single post by id (only approved posts)
 postRouter.get(
   "/:id",

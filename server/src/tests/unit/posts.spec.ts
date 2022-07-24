@@ -54,7 +54,7 @@ describe("Posts", () => {
       }).save();
 
       const res = await request(app).get("/posts").expect(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body).toHaveLength(2);
 
       expect(res.body[1].content).toBe("This is a test post");
       expect(res.body[1].postNumber).toBe(1);
@@ -76,13 +76,13 @@ describe("Posts", () => {
       }).save();
 
       const res = await request(app).get("/posts?page=1").expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       expect(res.body[0].content).toBe("This is a test post");
       expect(res.body[0].postNumber).toBe(1);
 
       const res2 = await request(app).get("/posts?page=2").expect(200);
-      expect(res2.body.length).toBe(0);
+      expect(res2.body).toHaveLength(0);
     });
 
     it("should not display posts that are not approved", async () => {
@@ -91,7 +91,7 @@ describe("Posts", () => {
       }).save();
 
       const res = await request(app).get("/posts").expect(200);
-      expect(res.body.length).toBe(0);
+      expect(res.body).toHaveLength(0);
     });
 
     it("should not display more than 10 posts per page", async () => {
@@ -104,7 +104,7 @@ describe("Posts", () => {
       }
 
       const res = await request(app).get("/posts").expect(200);
-      expect(res.body.length).toBe(10);
+      expect(res.body).toHaveLength(10);
     });
 
     it("should include comments in the response but not unapproved comments", async () => {
@@ -139,7 +139,7 @@ describe("Posts", () => {
       await post.save();
 
       const res = await request(app).get("/posts").expect(200);
-      expect(res.body[0].comments.length).toBe(1);
+      expect(res.body[0].comments).toHaveLength(1);
       expect(res.body[0].comments[0].content).toBe("This is a test comment");
       expect(res.body[0].comments[0].commentNumber).toBe(1);
       expect(res.body[0].comments[0].author.name).toBe("Bob");
@@ -155,12 +155,12 @@ describe("Posts", () => {
       await post.save();
 
       const res = await request(app).get("/posts").expect(200);
-      expect(res.body[0].reactions[0].length).toBe(1);
+      expect(res.body[0].reactions[0]).toHaveLength(1);
       expect(res.body[0].reactions[0][0].name).toBeUndefined();
       expect(res.body[0].reactions[0][0]).toBe("anon");
 
       const res2 = await request(app).get("/posts").send({ user }).expect(200);
-      expect(res2.body[0].reactions[0].length).toBe(1);
+      expect(res2.body[0].reactions[0]).toHaveLength(1);
       expect(res2.body[0].reactions[0][0]).toBe(String(user._id));
     });
 
@@ -260,7 +260,7 @@ describe("Posts", () => {
         .get("/posts/all")
         .send({ user: modUser })
         .expect(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body).toHaveLength(2);
 
       expect(res.body[1].content).toBe("This is a test post");
       expect(res.body[1].postNumber).toBe(1);
@@ -307,7 +307,7 @@ describe("Posts", () => {
         .send({ user: modUser })
         .expect(200);
 
-      expect(res.body[0].comments.length).toBe(2);
+      expect(res.body[0].comments).toHaveLength(2);
       expect(res.body[0].comments[0].content).toBe("This is a test comment");
       expect(res.body[0].comments[0].commentNumber).toBe(1);
       expect(res.body[0].comments[0].author.name).toBe("Bob");
@@ -354,7 +354,7 @@ describe("Posts", () => {
         .get("/posts/mod-feed")
         .send({ user: modUser })
         .expect(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body).toHaveLength(2);
 
       expect(res.body[1].content).toBe("This is another test post");
       expect(res.body[1].postNumber).toBe(2);
@@ -415,7 +415,7 @@ describe("Posts", () => {
         .get("/posts/mod-feed/comments")
         .send({ user: modUser })
         .expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       expect(res.body[0].content).toBe("This is a test comment");
       expect(res.body[0].postNumber).toBe(1);
@@ -488,7 +488,7 @@ describe("Posts", () => {
       await post.save();
 
       const res = await request(app).get("/posts/1").expect(200);
-      expect(res.body.comments.length).toBe(1);
+      expect(res.body.comments).toHaveLength(1);
       expect(res.body.comments[0].content).toBe("This is a test comment");
       expect(res.body.comments[0].commentNumber).toBe(1);
       expect(res.body.comments[0].author.name).toBe("Bob");
@@ -568,8 +568,8 @@ describe("Posts", () => {
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
       expect(post?.needsReview).toBe(true);
-      expect(post?.reactions[0].length).toBe(0);
-      expect(post?.comments.length).toBe(0);
+      expect(post?.reactions[0]).toHaveLength(0);
+      expect(post?.comments).toHaveLength(0);
       expect(post?.verifiedBrown).toBe(false);
     });
 
@@ -586,8 +586,8 @@ describe("Posts", () => {
       expect(post?.content).toBe("This is a test post");
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
-      expect(post?.reactions[0].length).toBe(0);
-      expect(post?.comments.length).toBe(0);
+      expect(post?.reactions[0]).toHaveLength(0);
+      expect(post?.comments).toHaveLength(0);
       expect(post?.verifiedBrown).toBe(false);
     });
 
@@ -605,7 +605,7 @@ describe("Posts", () => {
       expect(post?.postNumber).toBeUndefined();
       expect(post?.approved).toBe(false);
       expect(post?.needsReview).toBe(true);
-      expect(post?.comments.length).toBe(0);
+      expect(post?.comments).toHaveLength(0);
       expect(post?.verifiedBrown).toBe(true);
     });
   });
@@ -723,7 +723,7 @@ describe("Posts", () => {
         .expect(400);
 
       const post2 = await Post.findOne();
-      expect(post2?.reactions[0].length).toBe(0);
+      expect(post2?.reactions[0]).toHaveLength(0);
     });
 
     it("should return 200 if logged in and the post exists and the reaction is valid", async () => {
@@ -740,7 +740,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne();
-      expect(post2?.reactions[0].length).toBe(1);
+      expect(post2?.reactions[0]).toHaveLength(1);
       expect(post2?.reactions[0][0]).toStrictEqual(user._id);
     });
 
@@ -763,7 +763,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne();
-      expect(post2?.reactions[0].length).toBe(0);
+      expect(post2?.reactions[0]).toHaveLength(0);
     });
   });
 
@@ -790,7 +790,7 @@ describe("Posts", () => {
       await request(app).post(`/posts/1/comment`).send({ user }).expect(400);
 
       const post2 = await Post.findOne();
-      expect(post2?.comments.length).toBe(0);
+      expect(post2?.comments).toHaveLength(0);
     });
 
     it("should return 200 if logged in and the post exists and the comment is valid", async () => {
@@ -807,7 +807,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne().populate("comments");
-      expect(post2?.comments.length).toBe(1);
+      expect(post2?.comments).toHaveLength(1);
       const comment = post2?.comments[0];
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toStrictEqual(user._id);
@@ -842,7 +842,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne().populate("comments");
-      expect(post2?.comments.length).toBe(1);
+      expect(post2?.comments).toHaveLength(1);
       const comment = post2?.comments[0];
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toBe(null);
@@ -921,9 +921,9 @@ describe("Posts", () => {
         .expect(200);
 
       const user1 = await User.findById(user._id);
-      expect(user1?.notifications.length).toBe(0);
+      expect(user1?.notifications).toHaveLength(0);
       const modUser1 = await User.findById(modUser._id);
-      expect(modUser1?.notifications.length).toBe(1);
+      expect(modUser1?.notifications).toHaveLength(1);
       const notification = modUser1
         ?.notifications[0] as INewCommentNotification;
       expect(notification.type).toBe("newComment");
@@ -952,9 +952,9 @@ describe("Posts", () => {
         .expect(200);
 
       const user1 = await User.findById(user._id);
-      expect(user1?.notifications.length).toBe(0);
+      expect(user1?.notifications).toHaveLength(0);
       const modUser1 = await User.findById(modUser._id);
-      expect(modUser1?.notifications.length).toBe(0);
+      expect(modUser1?.notifications).toHaveLength(0);
     });
   });
 
@@ -1060,9 +1060,9 @@ describe("Posts", () => {
         .expect(200);
 
       const user1 = await User.findById(user._id);
-      expect(user1?.notifications.length).toBe(1);
+      expect(user1?.notifications).toHaveLength(1);
       const modUser1 = await User.findById(modUser._id);
-      expect(modUser1?.notifications.length).toBe(1);
+      expect(modUser1?.notifications).toHaveLength(1);
       const notification = modUser1
         ?.notifications[0] as INewCommentNotification;
       expect(notification.type).toBe("newComment");
@@ -1151,7 +1151,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne().populate("comments");
-      expect(post2?.comments[0].reactions[0].length).toBe(1);
+      expect(post2?.comments[0].reactions[0]).toHaveLength(1);
       expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
 
       const commenter = await User.findById(user._id);
@@ -1163,7 +1163,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post3 = await Post.findOne().populate("comments");
-      expect(post3?.comments[0].reactions[0].length).toBe(0);
+      expect(post3?.comments[0].reactions[0]).toHaveLength(0);
 
       const commenter2 = await User.findById(user._id);
       expect(commenter2?.xp).toBe(0);
@@ -1195,7 +1195,7 @@ describe("Posts", () => {
         .get("/posts/search?query=test")
         .expect(200);
 
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
       expect(res.body[0].postNumber).toBe(1);
     });
 
@@ -1211,7 +1211,7 @@ describe("Posts", () => {
         .get("/posts/search?query=test")
         .expect(200);
 
-      expect(res.body.length).toBe(0);
+      expect(res.body).toHaveLength(0);
     });
 
     it("should sort posts by relevance", async () => {
@@ -1240,7 +1240,7 @@ describe("Posts", () => {
         .get("/posts/search?query=test")
         .expect(200);
 
-      expect(res.body.length).toBe(3);
+      expect(res.body).toHaveLength(3);
       expect(res.body[0].postNumber).toBe(2);
       expect(res.body[1].postNumber).toBe(3);
       expect(res.body[2].postNumber).toBe(1);
@@ -1249,7 +1249,7 @@ describe("Posts", () => {
         .get("/posts/search?query=test post")
         .expect(200);
 
-      expect(res2.body.length).toBe(3);
+      expect(res2.body).toHaveLength(3);
       expect(res2.body[0].postNumber).toBe(1);
     });
 
@@ -1454,7 +1454,7 @@ describe("Posts", () => {
         .expect(200);
 
       const userRes2 = await User.findById(user._id).select("bookmarks");
-      expect(userRes2?.bookmarks.length).toBe(0);
+      expect(userRes2?.bookmarks).toHaveLength(0);
     });
   });
 
@@ -1518,9 +1518,111 @@ describe("Posts", () => {
         .expect(200);
 
       const postRes2 = await Post.findById(post._id).select("subscribers");
-      expect(postRes2?.subscribers.length).toBe(0);
+      expect(postRes2?.subscribers).toHaveLength(0);
       const userRes2 = await User.findById(user._id).select("subscriptions");
-      expect(userRes2?.subscriptions.length).toBe(0);
+      expect(userRes2?.subscriptions).toHaveLength(0);
+    });
+  });
+
+  describe("GET /posts/reactions", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/posts/reactions").expect(401);
+    });
+
+    it("should return a list of cleansed reactions for posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
+      });
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/reactions")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      const resPost = res.body[0];
+      expect(resPost.reactions).toHaveLength(6);
+      expect(resPost.reactions[0]).toHaveLength(1);
+      expect(resPost.reactions[0][0]).toBe(user._id.toString());
+      expect(resPost.reactions[1]).toHaveLength(2);
+      expect(resPost.reactions[1][0]).toBe(user._id.toString());
+      expect(resPost.reactions[1][1]).toBe("anon");
+    });
+
+    it("should return a list of cleansed reactions for multiple pages of posts", async () => {
+      const promises = [];
+      const post1 = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        reactions: [[], [], [], [], [], [user._id, modUser._id]],
+      });
+      promises.push(post1.save());
+      for (let i = 2; i < 15; i++) {
+        const post = new Post({
+          content: "This is a test post",
+          approved: true,
+          postNumber: i,
+          reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
+        });
+        promises.push(post.save());
+      }
+      await Promise.all(promises);
+
+      const res = await request(app)
+        .get("/posts/reactions?page=2")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(4);
+      const resPost = res.body[3];
+      expect(resPost.reactions).toHaveLength(6);
+      expect(resPost.reactions[0]).toHaveLength(0);
+      expect(resPost.reactions[5]).toHaveLength(2);
+      expect(resPost.reactions[5][0]).toBe(user._id.toString());
+      expect(resPost.reactions[5][1]).toBe("anon");
+    });
+
+    it("should return a list of cleansed reactions for comments", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+        reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/reactions")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      const resPost = res.body[0];
+      expect(resPost.comments).toHaveLength(1);
+      expect(resPost.comments[0].reactions).toHaveLength(6);
+      expect(resPost.comments[0].reactions[0]).toHaveLength(1);
+      expect(resPost.comments[0].reactions[0][0]).toBe(user._id.toString());
+      expect(resPost.comments[0].reactions[1]).toHaveLength(2);
+      expect(resPost.comments[0].reactions[1][0]).toBe(user._id.toString());
+      expect(resPost.comments[0].reactions[1][1]).toBe("anon");
     });
   });
 
