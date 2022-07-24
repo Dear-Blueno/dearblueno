@@ -59,7 +59,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body).toHaveLength(2);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Event 1");
@@ -133,7 +133,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(6);
+      expect(res.body).toHaveLength(6);
 
       const event0 = res.body[0];
       expect(event0.eventName).toBe("Already Started Event");
@@ -176,7 +176,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Event 1");
@@ -205,7 +205,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Event 1");
@@ -228,7 +228,7 @@ describe("Events", () => {
       await Promise.all(promises);
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(10);
+      expect(res.body).toHaveLength(10);
     });
 
     it("should return paginated list when page is specified", async () => {
@@ -248,7 +248,7 @@ describe("Events", () => {
       await Promise.all(promises);
 
       const res = await request(app).get("/events?page=2").expect(200);
-      expect(res.body.length).toBe(5);
+      expect(res.body).toHaveLength(5);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Event 10");
@@ -269,7 +269,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
       expect(event1.approvedBy).toBeUndefined();
@@ -288,7 +288,7 @@ describe("Events", () => {
       }).save();
 
       const res = await request(app).get("/events").send({ user }).expect(200);
-      expect(res.body.length).toBe(1);
+      expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
       expect(event1.interested).toHaveLength(2);
@@ -339,7 +339,7 @@ describe("Events", () => {
         .get("/events/all")
         .send({ user: modUser })
         .expect(200);
-      expect(res.body.length).toBe(3);
+      expect(res.body).toHaveLength(3);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Past Event");
@@ -392,7 +392,7 @@ describe("Events", () => {
         .get("/events/mod-feed")
         .send({ user: modUser })
         .expect(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body).toHaveLength(2);
 
       const event1 = res.body[0];
       expect(event1.eventName).toBe("Event 1");
@@ -736,10 +736,10 @@ describe("Events", () => {
 
       const event1 = await Event.findById(event._id);
       if (rsvpMode === "interested") {
-        expect(event1?.interested.length).toBe(1);
+        expect(event1?.interested).toHaveLength(1);
         expect(event1?.interested[0].toString()).toBe(modUser._id.toString());
       } else {
-        expect(event1?.going.length).toBe(1);
+        expect(event1?.going).toHaveLength(1);
         expect(event1?.going[0].toString()).toBe(modUser._id.toString());
       }
     });
@@ -763,9 +763,9 @@ describe("Events", () => {
 
       const event1 = await Event.findById(event._id);
       if (rsvpMode === "interested") {
-        expect(event1?.interested.length).toBe(0);
+        expect(event1?.interested).toHaveLength(0);
       } else {
-        expect(event1?.going.length).toBe(0);
+        expect(event1?.going).toHaveLength(0);
       }
     });
 
@@ -788,10 +788,10 @@ describe("Events", () => {
 
       const event1 = await Event.findById(event._id);
       if (rsvpMode === "interested") {
-        expect(event1?.interested.length).toBe(1);
+        expect(event1?.interested).toHaveLength(1);
         expect(event1?.interested[0].toString()).toBe(modUser._id.toString());
       } else {
-        expect(event1?.going.length).toBe(1);
+        expect(event1?.going).toHaveLength(1);
         expect(event1?.going[0].toString()).toBe(modUser._id.toString());
       }
     });
@@ -809,6 +809,168 @@ describe("Events", () => {
       await request(app)
         .put(`/events/${event._id}/${rsvpMode}`)
         .send({ user: modUser, interested: true, going: true })
+        .expect(404);
+    });
+  });
+
+  describe("GET /events/reactions", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/events/reactions").expect(401);
+    });
+
+    it("should return a list of cleansed reactions for events", async () => {
+      await Event.create({
+        eventName: "Event 1",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 1 location",
+        approved: true,
+        approvedBy: modUser._id,
+        going: [user._id, modUser._id],
+        interested: [user._id, modUser._id],
+      });
+
+      const res = await request(app)
+        .get("/events/reactions")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      const resEvent = res.body[0];
+      expect(resEvent.approvedBy).toBeUndefined();
+      expect(resEvent.going).toHaveLength(2);
+      expect(resEvent.interested[0]).toBe(user._id.toString());
+      expect(resEvent.interested[1]).toBe("anon");
+      expect(resEvent.interested).toHaveLength(2);
+      expect(resEvent.going[0]).toBe(user._id.toString());
+      expect(resEvent.going[1]).toBe("anon");
+    });
+
+    it("should return a list of cleansed reactions for events with no reactions", async () => {
+      await Event.create({
+        eventName: "Event 1",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 1 location",
+        approved: true,
+      });
+
+      const res = await request(app)
+        .get("/events/reactions")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      const resEvent = res.body[0];
+      expect(resEvent.going).toHaveLength(0);
+      expect(resEvent.interested).toHaveLength(0);
+    });
+
+    it("should return multiple pages of events", async () => {
+      const promises = [];
+      promises.push(
+        Event.create({
+          eventName: "Event 1",
+          eventDescription: "Event 1 description",
+          startDate: new Date(Date.now() + 1000 * 20),
+          endDate: new Date(Date.now() + 1000 * 30),
+          location: "Event 1 location",
+          approved: true,
+          approvedBy: modUser._id,
+          going: [modUser._id],
+          interested: [user._id],
+        })
+      );
+      for (let i = 2; i < 13; i++) {
+        promises.push(
+          Event.create({
+            eventName: `Event ${i}`,
+            eventDescription: `Event ${i} description`,
+            startDate: new Date(Date.now() + 1000 * 10),
+            endDate: new Date(Date.now() + 1000 * 20),
+            location: `Event ${i} location`,
+            approved: true,
+            approvedBy: modUser._id,
+            going: [user._id, modUser._id],
+            interested: [user._id, modUser._id],
+          })
+        );
+      }
+      await Promise.all(promises);
+
+      const res = await request(app)
+        .get("/events/reactions")
+        .send({ user })
+        .expect(200);
+
+      expect(res.body).toHaveLength(10);
+
+      const res2 = await request(app)
+        .get("/events/reactions?page=2")
+        .send({ user })
+        .expect(200);
+
+      expect(res2.body).toHaveLength(2);
+      const resEvent = res2.body[1];
+      expect(resEvent.going).toHaveLength(1);
+      expect(resEvent.interested).toHaveLength(1);
+      expect(resEvent.going[0]).toBe("anon");
+      expect(resEvent.interested[0]).toBe(user._id.toString());
+    });
+  });
+
+  describe("GET /events/:id/reactions", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/events/1/reactions").expect(401);
+    });
+
+    it("should return cleansed reactions for an event", async () => {
+      const event = await Event.create({
+        eventName: "Event 1",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 1 location",
+        approved: true,
+        approvedBy: modUser._id,
+        going: [user._id, modUser._id],
+        interested: [user._id, modUser._id],
+      });
+
+      const res = await request(app)
+        .get(`/events/${event._id}/reactions`)
+        .send({ user })
+        .expect(200);
+
+      expect(res.body.approvedBy).toBeUndefined();
+      expect(res.body.going).toHaveLength(2);
+      expect(res.body.interested).toHaveLength(2);
+      expect(res.body.going[0]).toBe(user._id.toString());
+      expect(res.body.going[1]).toBe("anon");
+      expect(res.body.interested[0]).toBe(user._id.toString());
+      expect(res.body.interested[1]).toBe("anon");
+    });
+
+    it("should return 404 if event not found or not approved", async () => {
+      await request(app)
+        .get(`/events/${user._id}/reactions`)
+        .send({ user })
+        .expect(404);
+
+      const event = await Event.create({
+        eventName: "Event 1",
+        eventDescription: "Event 1 description",
+        startDate: new Date(Date.now() + 1000 * 10),
+        endDate: new Date(Date.now() + 1000 * 20),
+        location: "Event 1 location",
+        approved: false,
+      });
+
+      await request(app)
+        .get(`/events/${event._id}/reactions`)
+        .send({ user })
         .expect(404);
     });
   });

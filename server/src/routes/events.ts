@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 import { IUser } from "../models/User";
-import { brownCheck, modCheck, optionalAuth } from "../middleware/auth";
+import {
+  authCheck,
+  brownCheck,
+  modCheck,
+  optionalAuth,
+} from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
 import { Document } from "mongoose";
 import { validate } from "../middleware/validate";
@@ -87,6 +92,32 @@ eventRouter.get(
   }
 );
 
+// GET request that returns only the cleansed reactions of a page of events
+// (Must be authenticated)
+eventRouter.get(
+  "/reactions",
+  authCheck,
+  query("page").optional().isInt({ min: 1 }),
+  validate,
+  async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const events = await Event.find({
+      approved: true,
+      endDate: { $gte: new Date() },
+    })
+      .sort({ startDate: 1 })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .select("going interested");
+
+    const cleanEvents = events.map((event: IEvent & Document) =>
+      cleanSensitiveEvent(event.toObject(), req.user as IUser)
+    );
+
+    res.send(cleanEvents);
+  }
+);
+
 // GET request that gets a single event by id (only approved events)
 eventRouter.get(
   "/:id",
@@ -96,6 +127,28 @@ eventRouter.get(
   async (req, res) => {
     const event = await Event.findById(req.params.id).select(
       "-approvedBy -notificationSent"
+    );
+    if (!event || !event.approved) {
+      res.status(404).send("Event not found");
+      return;
+    }
+
+    const cleanEvent = cleanSensitiveEvent(event.toObject(), req.user as IUser);
+
+    res.send(cleanEvent);
+  }
+);
+
+// GET request that returns only the cleansed reactions of a single event
+// (Must be authenticated)
+eventRouter.get(
+  "/:id/reactions",
+  authCheck,
+  param("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const event = await Event.findById(req.params.id).select(
+      "approved going interested"
     );
     if (!event || !event.approved) {
       res.status(404).send("Event not found");

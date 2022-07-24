@@ -1537,6 +1537,7 @@ describe("Posts", () => {
       const post = new Post({
         content: "This is a test post",
         approved: true,
+        approvedBy: modUser._id,
         postNumber: 1,
         reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
       });
@@ -1549,6 +1550,7 @@ describe("Posts", () => {
 
       expect(res.body).toHaveLength(1);
       const resPost = res.body[0];
+      expect(resPost.approvedBy).toBeUndefined();
       expect(resPost.reactions).toHaveLength(6);
       expect(resPost.reactions[0]).toHaveLength(1);
       expect(resPost.reactions[0][0]).toBe(user._id.toString());
@@ -1562,6 +1564,7 @@ describe("Posts", () => {
       const post1 = new Post({
         content: "This is a test post",
         approved: true,
+        approvedBy: modUser._id,
         postNumber: 1,
         reactions: [[], [], [], [], [], [user._id, modUser._id]],
       });
@@ -1584,6 +1587,7 @@ describe("Posts", () => {
 
       expect(res.body).toHaveLength(4);
       const resPost = res.body[3];
+      expect(resPost.approvedBy).toBeUndefined();
       expect(resPost.reactions).toHaveLength(6);
       expect(resPost.reactions[0]).toHaveLength(0);
       expect(resPost.reactions[5]).toHaveLength(2);
@@ -1595,6 +1599,7 @@ describe("Posts", () => {
       const post = new Post({
         content: "This is a test post",
         approved: true,
+        approvedBy: modUser._id,
         postNumber: 1,
       });
       await post.save();
@@ -1639,6 +1644,7 @@ describe("Posts", () => {
       const post = new Post({
         content: "This is a test post",
         approved: true,
+        approvedBy: modUser._id,
         postNumber: 1,
         reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
       });
@@ -1650,6 +1656,7 @@ describe("Posts", () => {
         .expect(200);
 
       const resPost = res.body;
+      expect(resPost.approvedBy).toBeUndefined();
       expect(resPost.reactions).toHaveLength(6);
       expect(resPost.reactions[0]).toHaveLength(1);
       expect(resPost.reactions[0][0]).toBe(user._id.toString());
