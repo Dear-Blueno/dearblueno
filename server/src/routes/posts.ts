@@ -257,6 +257,36 @@ postRouter.get(
   }
 );
 
+// GET request that gets only the cleansed reactions of a single post
+// (Must be authenticated)
+postRouter.get(
+  "/:id/reactions",
+  authCheck,
+  param("id").isInt({ min: 1 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const post = await Post.findOne({ postNumber: req.params.id })
+      .select("reactions comments approved")
+      .populate({
+        path: "comments",
+        select: "reactions approved",
+      });
+    if (!post || !post.approved) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const cleanPost = cleanSensitivePost(post.toObject(), req.user as IUser);
+
+    res.send(cleanPost);
+  }
+);
+
 // POST request that creates a new post
 postRouter.post(
   "/",

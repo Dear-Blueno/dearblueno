@@ -1630,6 +1630,84 @@ describe("Posts", () => {
     });
   });
 
+  describe("GET /posts/:postNumber/reactions", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).get("/posts/1/reactions").expect(401);
+    });
+
+    it("should return a list of cleansed reactions for a post", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
+      });
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/1/reactions")
+        .send({ user })
+        .expect(200);
+
+      const resPost = res.body;
+      expect(resPost.reactions).toHaveLength(6);
+      expect(resPost.reactions[0]).toHaveLength(1);
+      expect(resPost.reactions[0][0]).toBe(user._id.toString());
+      expect(resPost.reactions[1]).toHaveLength(2);
+      expect(resPost.reactions[1][0]).toBe(user._id.toString());
+      expect(resPost.reactions[1][1]).toBe("anon");
+    });
+
+    it("should return a list of cleansed reactions for a comment", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+        reactions: [[user._id], [user._id, modUser._id], [], [], [], []],
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      const res = await request(app)
+        .get("/posts/1/reactions")
+        .send({ user })
+        .expect(200);
+
+      const resPost = res.body;
+      expect(resPost.comments).toHaveLength(1);
+      expect(resPost.comments[0].reactions).toHaveLength(6);
+      expect(resPost.comments[0].reactions[0]).toHaveLength(1);
+      expect(resPost.comments[0].reactions[0][0]).toBe(user._id.toString());
+      expect(resPost.comments[0].reactions[1]).toHaveLength(2);
+      expect(resPost.comments[0].reactions[1][0]).toBe(user._id.toString());
+      expect(resPost.comments[0].reactions[1][1]).toBe("anon");
+    });
+
+    it("should return 404 if post does not exist or is not approved", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: false,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app).get("/posts/1/reactions").send({ user }).expect(404);
+      await request(app).get("/posts/2/reactions").send({ user }).expect(404);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });
