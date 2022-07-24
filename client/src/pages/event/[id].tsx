@@ -46,17 +46,7 @@ function EventPageMain({ event }: EventPageMainProps) {
 
   return (
     <div className={styles.EventPage}>
-      <EventCard
-        image={
-          event.coverPicture ??
-          "https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
-        }
-        title={event.eventName}
-        description={event.eventDescription}
-        location={event.location}
-        date={startDate + " • " + startTime + " - " + endTime}
-        numberOfAttendees={event.going.length}
-      />
+      <EventCard event={event} />
     </div>
   );
 }

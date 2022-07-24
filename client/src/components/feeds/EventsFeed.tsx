@@ -1,61 +1,96 @@
 import EventCard from "components/event/EventCard";
 import Masonry from "react-masonry-css";
 import styles from "./EventsFeed.module.scss";
+import { useInfiniteQuery } from "react-query";
+import { getEvents } from "gateways/EventGateway";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export default function EventsFeed() {
+  const fetchEvents = ({ pageParam = 1 }) => getEvents(pageParam);
+
+  const { data, fetchNextPage, hasNextPage, isFetching, status } =
+    useInfiniteQuery("events", fetchEvents, {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.payload?.length === 0) {
+          return undefined;
+        }
+        return pages.length + 1;
+      },
+    });
+
+  const events = data?.pages
+    .map((page) => page.payload)
+    .flat()
+    .reverse();
+
+  const reachedEnd = hasNextPage !== undefined && !hasNextPage;
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const onScroll = useCallback(() => {
+    if (
+      (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
+      window.innerHeight + 500
+    ) {
+      window.removeEventListener("scroll", onScroll);
+      fetchNextPage()
+        .then((response) => {
+          if (response.hasNextPage) {
+            window.addEventListener("scroll", onScroll);
+          }
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [fetchNextPage]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+  }, [onScroll]);
+
+  const loadingDiv = useMemo(
+    () => (
+      <div
+        className={
+          reachedEnd
+            ? styles.FeedLoading + " " + styles.FeedFinished
+            : styles.FeedLoading
+        }
+        ref={loadingRef}
+        style={{
+          opacity: status === "loading" || isFetching || reachedEnd ? 1 : 0,
+        }}
+      >
+        {reachedEnd ? (
+          "You’ve reached the end! Here be dragons."
+        ) : (
+          <>
+            Loading more posts
+            <span className={styles.FeedLoadingDot}>.</span>
+            <span className={styles.FeedLoadingDot}>.</span>
+            <span className={styles.FeedLoadingDot}>.</span>
+          </>
+        )}
+      </div>
+    ),
+    [status, isFetching, reachedEnd]
+  );
+
   const breakpointColumnsObj = {
     default: 2,
     700: 1,
   };
 
   return (
-    <div>
+    <>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className={styles.myMasonryGrid}
         columnClassName={styles.myMasonryGridColumn}
       >
-        <EventCard
-          image="https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
-          title="Brown Orchestra Concert"
-          description="Come watch the Brown Orchestra at Sayles! Performance includes Firebird, Price’s 3rd Symphony, and more!"
-          location="Sayles Hall"
-          date="May 1, 2020"
-          numberOfAttendees={10}
-        />
-        <EventCard
-          image="https://awards.cs.brown.edu/media/filer_public_thumbnails/filer_public/eb/94/eb942db3-3026-481e-bb0c-235aae1ec043/img_5577.jpg__250x250_q85_subsampling-2.jpg"
-          title="Brown Orchestra Concert"
-          description="Come watch the Brown Orchestra at Sayles! Performance includes Firebird, Price’s 3rd Symphony, and more. We will also have kenji bunch and a whole lot of cool people!"
-          location="Sayles Hall"
-          date="May 1, 2020"
-          numberOfAttendees={10}
-        />
-        <EventCard
-          image="https://www.brown.edu/Departments/Music/sites/orchestra/images/uploads/buo-3.jpg"
-          title="Brown Orchestra Concert"
-          description="Come watch the Brown Orchestra at Sayles! Performance includes Firebird, Price’s 3rd Symphony, and more!"
-          location="Sayles Hall"
-          date="May 1, 2020"
-          numberOfAttendees={10}
-        />
-        <EventCard
-          image="https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
-          title="Brown Orchestra Concert"
-          description="Come watch the Brown Orchestra at Sayles! Performance includes Firebird, Price’s 3rd Symphony, and more!"
-          location="Sayles Hall"
-          date="May 1, 2020"
-          numberOfAttendees={10}
-        />
-        <EventCard
-          image="https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
-          title="Brown Orchestra Concert"
-          description="Come watch the Brown Orchestra at Sayles! Performance includes Firebird, Price’s 3rd Symphony, and more!"
-          location="Sayles Hall"
-          date="May 1, 2020"
-          numberOfAttendees={10}
-        />
+        {events?.map(
+          (event) => event && <EventCard key={event._id} event={event} />
+        )}
       </Masonry>
-    </div>
+      {loadingDiv}
+    </>
   );
 }

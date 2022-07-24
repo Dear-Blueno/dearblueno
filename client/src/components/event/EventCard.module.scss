@@ -6,6 +6,8 @@
   flex-direction: column;
   padding: 0;
   overflow: hidden;
+  text-decoration: none;
+  color: black;
 }
 
 .EventCardImageContainer {
@@ -17,7 +19,7 @@
 .EventCardAttendees {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
 }
 
@@ -46,4 +48,15 @@
 
 .EventCardButtonGoing {
   background-color: #c2f0bc !important;
+}
+
+.EventCardButtonInterested {
+  background-color: rgb(240, 223, 223) !important;
+}
+
+.AttendeeContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
 }

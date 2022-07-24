@@ -6,6 +6,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "www.brown.edu",
       "awards.cs.brown.edu",
+      "i.imgur.com",
     ],
   },
 };
