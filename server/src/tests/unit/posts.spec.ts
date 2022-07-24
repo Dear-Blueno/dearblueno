@@ -2,7 +2,7 @@ import { Express } from "express";
 import mongoose from "mongoose";
 import Post from "../../models/Post";
 import Comment from "../../models/Comment";
-import User, { IUser } from "../../models/User";
+import User, { INewCommentNotification, IUser } from "../../models/User";
 import request from "supertest";
 import setupForTests, { resetCollections } from "../testUtil";
 
@@ -924,9 +924,12 @@ describe("Posts", () => {
       expect(user1?.notifications.length).toBe(0);
       const modUser1 = await User.findById(modUser._id);
       expect(modUser1?.notifications.length).toBe(1);
-      expect(modUser1?.notifications[0].content.postNumber).toBe(1);
-      expect(modUser1?.notifications[0].content.userName).toBe(user.givenName);
-      expect(modUser1?.notifications[0].timestamp).toBeDefined();
+      const notification = modUser1
+        ?.notifications[0] as INewCommentNotification;
+      expect(notification.type).toBe("newComment");
+      expect(notification.content.postNumber).toBe(1);
+      expect(notification.content.userName).toBe(user.givenName);
+      expect(notification.timestamp).toBeDefined();
     });
 
     it("should not send notifications yet if comment is anonymous", async () => {
@@ -1060,8 +1063,11 @@ describe("Posts", () => {
       expect(user1?.notifications.length).toBe(1);
       const modUser1 = await User.findById(modUser._id);
       expect(modUser1?.notifications.length).toBe(1);
-      expect(modUser1?.notifications[0].content.postNumber).toBe(1);
-      expect(modUser1?.notifications[0].content.userName).toBe("Anonymous");
+      const notification = modUser1
+        ?.notifications[0] as INewCommentNotification;
+      expect(notification.type).toBe("newComment");
+      expect(notification.content.postNumber).toBe(1);
+      expect(notification.content.userName).toBe("Anonymous");
     });
   });
 

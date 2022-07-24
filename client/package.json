@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && prettier -c .",
-    "lint:fix": "next lint --fix && prettier -w .",
+    "lint": "eslint . && prettier -c .",
+    "lint:fix": "eslint --fix . && prettier -w .",
     "export": "next export"
   },
   "dependencies": {

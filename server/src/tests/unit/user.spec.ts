@@ -1,6 +1,6 @@
 import { Express } from "express";
 import mongoose from "mongoose";
-import User, { IUser } from "../../models/User";
+import User, { INewCommentNotification, IUser } from "../../models/User";
 import request from "supertest";
 import setupForTests from "../testUtil";
 import Comment from "../../models/Comment";
@@ -324,6 +324,7 @@ describe("User", () => {
       const response = await request(app).get(`/user/${user._id}/comments`);
       expect(response.body.length).toBe(1);
       expect(response.body[0].content).toBe("This is a comment");
+      expect(response.body[0].post.content).toBe("This is a post");
     });
 
     it("should only return approved comments", async () => {
@@ -346,6 +347,34 @@ describe("User", () => {
 
       const response = await request(app).get(`/user/${user._id}/comments`);
       expect(response.body.length).toBe(0);
+    });
+
+    it("should not return sensitive data on posts or comments", async () => {
+      const post = new Post({
+        content: "This is a post",
+        postNumber: 1,
+        approved: true,
+        approvedBy: user._id,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        author: user._id,
+        commentNumber: 1,
+        parentCommentNumber: -1,
+        post: post._id,
+        postNumber: 1,
+        content: "This is a comment",
+        approved: true,
+        reactions: [[user._id], [], [], [], [], []],
+      });
+      await comment.save();
+
+      const response = await request(app).get(`/user/${user._id}/comments`);
+      expect(response.body.length).toBe(1);
+      expect(response.body[0].reactions).toBeUndefined();
+      expect(response.body[0].post.approvedBy).toBeUndefined();
+      expect(response.body[0].post.reactions).toBeUndefined();
     });
   });
 
@@ -411,7 +440,7 @@ describe("User", () => {
           postNumber: 1,
           userName: "Anonymous",
         },
-      });
+      } as INewCommentNotification);
       user.notifications.push({
         timestamp: new Date(),
         type: "newComment",
@@ -419,7 +448,7 @@ describe("User", () => {
           postNumber: 2,
           userName: "Bob",
         },
-      });
+      } as INewCommentNotification);
       await User.findByIdAndUpdate(user._id, user);
 
       await request(app)
@@ -439,7 +468,7 @@ describe("User", () => {
           postNumber: 1,
           userName: "Anonymous",
         },
-      });
+      } as INewCommentNotification);
       user.notifications.push({
         timestamp: new Date(),
         type: "newComment",
@@ -447,7 +476,7 @@ describe("User", () => {
           postNumber: 2,
           userName: "Bob",
         },
-      });
+      } as INewCommentNotification);
       const savedUser = await User.findByIdAndUpdate(user._id, user, {
         new: true,
       });
