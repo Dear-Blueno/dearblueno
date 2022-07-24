@@ -407,6 +407,7 @@ postRouter.post(
       const subscribers = post.subscribers.filter((subscriber) => {
         return subscriber._id.toString() !== user._id.toString();
       }); // remove the user from the list of subscribers
+      const promises = [];
       for (const subscriber of subscribers) {
         const notification: INewCommentNotification = {
           timestamp: new Date(),
@@ -419,8 +420,9 @@ postRouter.post(
           },
         };
         subscriber.notifications.push(notification);
-        await subscriber.save();
+        promises.push(subscriber.save());
       }
+      await Promise.all(promises);
     }
 
     const comment = new Comment({
@@ -479,6 +481,7 @@ postRouter.put(
     await comment.save();
     if (comment.approved && !comment.author) {
       // Send a notification to the post's subscribers
+      const promises = [];
       for (const subscriber of post.subscribers) {
         const notification: INewCommentNotification = {
           timestamp: new Date(),
@@ -491,8 +494,9 @@ postRouter.put(
           },
         };
         subscriber.notifications.push(notification);
-        await subscriber.save();
+        promises.push(subscriber.save());
       }
+      await Promise.all(promises);
     }
 
     res.send(comment);

@@ -95,13 +95,17 @@ describe("Posts", () => {
     });
 
     it("should not display more than 10 posts per page", async () => {
+      const promises = [];
       for (let i = 0; i < 15; i++) {
-        await new Post({
-          content: `This is a test post ${i}`,
-          postNumber: i,
-          approved: true,
-        }).save();
+        promises.push(
+          new Post({
+            content: `This is a test post ${i}`,
+            postNumber: i,
+            approved: true,
+          }).save()
+        );
       }
+      await Promise.all(promises);
 
       const res = await request(app).get("/posts").expect(200);
       expect(res.body).toHaveLength(10);

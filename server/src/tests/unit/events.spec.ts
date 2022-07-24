@@ -212,32 +212,40 @@ describe("Events", () => {
     });
 
     it("should not display more than 10 events per page", async () => {
+      const promises = [];
       for (let i = 0; i < 15; i++) {
-        await new Event({
-          eventName: `Event ${i}`,
-          eventDescription: `Event ${i} description`,
-          startDate: new Date(Date.now() + 1000 * 10),
-          endDate: new Date(Date.now() + 1000 * 20),
-          location: `Event ${i} location`,
-          approved: true,
-        }).save();
+        promises.push(
+          new Event({
+            eventName: `Event ${i}`,
+            eventDescription: `Event ${i} description`,
+            startDate: new Date(Date.now() + 1000 * 10),
+            endDate: new Date(Date.now() + 1000 * 20),
+            location: `Event ${i} location`,
+            approved: true,
+          }).save()
+        );
       }
+      await Promise.all(promises);
 
       const res = await request(app).get("/events").expect(200);
       expect(res.body.length).toBe(10);
     });
 
     it("should return paginated list when page is specified", async () => {
+      const promises = [];
       for (let i = 0; i < 15; i++) {
-        await new Event({
-          eventName: `Event ${i}`,
-          eventDescription: `Event ${i} description`,
-          startDate: new Date(Date.now() + 1000 * 10),
-          endDate: new Date(Date.now() + 1000 * 20),
-          location: `Event ${i} location`,
-          approved: true,
-        }).save();
+        promises.push(
+          new Event({
+            eventName: `Event ${i}`,
+            eventDescription: `Event ${i} description`,
+            startDate: new Date(Date.now() + 1000 * 10),
+            endDate: new Date(Date.now() + 1000 * 20),
+            location: `Event ${i} location`,
+            approved: true,
+          }).save()
+        );
       }
+      await Promise.all(promises);
 
       const res = await request(app).get("/events?page=2").expect(200);
       expect(res.body.length).toBe(5);

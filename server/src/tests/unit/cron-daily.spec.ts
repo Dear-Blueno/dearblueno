@@ -114,16 +114,20 @@ describe("Cron Daily", () => {
 
     it("should properly award Top Fan badges to most active users", async () => {
       // Create 19 dummy users with 11 xp each
+      const promises = [];
       for (let i = 1; i <= 20; i++) {
-        await new User({
-          googleId: `${i}`,
-          name: `User ${i}`,
-          email: "user@dearblueno.net",
-          profilePicture: "https://i.imgur.com/removed.png",
-          xp: 11,
-          badges: ["Top Fan"],
-        }).save();
+        promises.push(
+          new User({
+            googleId: `${i}`,
+            name: `User ${i}`,
+            email: "user@dearblueno.net",
+            profilePicture: "https://i.imgur.com/removed.png",
+            xp: 11,
+            badges: ["Top Fan"],
+          }).save()
+        );
       }
+      await Promise.all(promises);
 
       // Create one active user with 300 xp
       const activeUser = new User({

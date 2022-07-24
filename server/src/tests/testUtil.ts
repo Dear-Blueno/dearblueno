@@ -29,7 +29,9 @@ export default async function setupForTests() {
 
 export async function resetCollections() {
   // Clear all the data from each collection
+  const promises = [];
   for (const collection in mongoose.connection.collections) {
-    await mongoose.connection.collections[collection].deleteMany({});
+    promises.push(mongoose.connection.collections[collection].deleteMany({}));
   }
+  await Promise.all(promises);
 }

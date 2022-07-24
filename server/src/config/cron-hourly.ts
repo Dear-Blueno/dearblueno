@@ -48,6 +48,7 @@ export async function hourlyJob() {
     logger.debug("Loaded verified rows");
 
     // For all rows in the sheet
+    let promises = [];
     for (const row of verifiedRows) {
       // Skip if the row is empty
       if (row._rawData.length === 0) continue;
@@ -60,8 +61,9 @@ export async function hourlyJob() {
         postTime,
         verifiedBrown: true,
       });
-      await post.save();
+      promises.push(post.save());
     }
+    await Promise.all(promises);
 
     logger.debug("Loaded verified posts");
 
@@ -79,6 +81,7 @@ export async function hourlyJob() {
     const unverifiedRows = await unverifiedSheet.getRows();
     logger.debug("Loaded unverified rows");
     // For all rows in the sheet
+    promises = [];
     for (const row of unverifiedRows) {
       // Skip if the row is empty
       if (row._rawData.length === 0) continue;
@@ -91,8 +94,9 @@ export async function hourlyJob() {
         postTime,
         verifiedBrown: false,
       });
-      await post.save();
+      promises.push(post.save());
     }
+    await Promise.all(promises);
 
     logger.debug("Loaded unverified posts");
 

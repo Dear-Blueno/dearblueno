@@ -27,6 +27,7 @@ module.exports = {
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-misused-promises": "off",
+        "no-await-in-loop": "warn",
       },
     },
   ],
