@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { body, param, query, validationResult } from "express-validator";
+import { body, param, query } from "express-validator";
 import { IUser } from "../models/User";
 import { brownCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
 import { Document } from "mongoose";
+import { validate } from "../middleware/validate";
 
 const eventRouter = Router();
 
@@ -28,13 +29,8 @@ eventRouter.get(
   "/",
   optionalAuth,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const events = await Event.find({
       approved: true,
@@ -59,13 +55,8 @@ eventRouter.get(
   "/all",
   modCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const events = await Event.find()
       .sort({ startDate: 1 })
@@ -82,13 +73,8 @@ eventRouter.get(
   "/mod-feed",
   modCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const events = await Event.find({
       needsReview: true,
@@ -106,13 +92,8 @@ eventRouter.get(
   "/:id",
   optionalAuth,
   param("id").isMongoId(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const event = await Event.findById(req.params.id).select(
       "-approvedBy -notificationSent"
     );
@@ -155,13 +136,8 @@ eventRouter.post(
       protocols: ["https"],
       host_whitelist: ["i.imgur.com"],
     }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const event = new Event({
       eventName: req.body.eventName,
       eventDescription: req.body.eventDescription,
@@ -183,13 +159,8 @@ eventRouter.put(
   modCheck,
   param("id").isMongoId(),
   body("approved").isBoolean(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const event = await Event.findById(req.params.id);
     if (!event) {
       res.status(404).send("Event not found");
@@ -212,13 +183,8 @@ eventRouter.put(
   brownCheck,
   param("id").isMongoId(),
   body("interested").toBoolean(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const event = await Event.findById(req.params.id);
     if (!event || !event.approved) {
       res.status(404).send("Event not found");
@@ -246,13 +212,8 @@ eventRouter.put(
   brownCheck,
   param("id").isMongoId(),
   body("going").toBoolean(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const event = await Event.findById(req.params.id);
     if (!event || !event.approved) {
       res.status(404).send("Event not found");

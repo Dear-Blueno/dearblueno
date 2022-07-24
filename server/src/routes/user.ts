@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { body, param, query, validationResult } from "express-validator";
+import { body, param, query } from "express-validator";
 import Comment from "../models/Comment";
 import { authCheck, modCheck } from "../middleware/auth";
 import User, { IUser } from "../models/User";
 import Post from "../models/Post";
+import { validate } from "../middleware/validate";
 
 const userRouter = Router();
 
@@ -13,13 +14,8 @@ userRouter.get(
   "/bookmarks",
   authCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const user = req.user as IUser;
     const bookmarks = user.bookmarks;
     const page = Number(req.query.page) || 1;
@@ -48,13 +44,8 @@ userRouter.delete(
   "/notifications/:notificationId",
   authCheck,
   param("notificationId").isMongoId(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const user = req.user as IUser;
     const notificationId = req.params.notificationId;
 
@@ -84,13 +75,8 @@ userRouter.get(
     .isString()
     .isLength({ min: 3, max: 20 })
     .isAlpha(undefined, { ignore: " '-,." }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty() || !req.query) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     // Search for users by name, case insensitive, and return the first 5 results
     // Remove sensitive information from the response
     const users = await User.find({
@@ -112,13 +98,7 @@ userRouter.get(
 );
 
 // GET request that gets a user by id
-userRouter.get("/:id", param("id").isMongoId(), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty() || !req.params) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
-
+userRouter.get("/:id", param("id").isMongoId(), validate, async (req, res) => {
   // Get user by id, remove sensitive information from the response
   const user = await User.findById(req.params.id).select(
     "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions"
@@ -182,13 +162,8 @@ userRouter.put(
       return (value * 2) % 1 === 0;
     })
     .isLength({ min: 4, max: 6 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const user = req.user as IUser;
     const {
       bio,
@@ -234,12 +209,8 @@ userRouter.put(
       host_whitelist: ["i.imgur.com"],
     })
     .isLength({ max: 200 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
     // Check if the url is a valid imgur url to an image
     const profilePicture = req.body.profilePicture as string;
     const urlRegex =
@@ -265,13 +236,8 @@ userRouter.post(
   modCheck,
   body("id").isMongoId(),
   body("duration").isInt({ min: 0 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const user = await User.findById(req.body.id);
     if (!user) {
       res.status(404).send("User not found");
@@ -286,38 +252,37 @@ userRouter.post(
 );
 
 // GET request that gets all the comments made by a user
-userRouter.get("/:id/comments", param("id").isMongoId(), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty() || !req.params) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
+userRouter.get(
+  "/:id/comments",
+  param("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(404).send("User not found");
+      return;
+    }
 
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    res.status(404).send("User not found");
-    return;
-  }
-
-  const comments = await Comment.find({ author: user._id, approved: true })
-    .select("-reactions")
-    .populate({
-      path: "author",
-      select: "name profilePicture badges",
-    })
-    .populate({
-      path: "post",
-      select: "content contentWarning",
-    })
-    .populate({
-      path: "parentComment",
-      populate: {
+    const comments = await Comment.find({ author: user._id, approved: true })
+      .select("-reactions")
+      .populate({
         path: "author",
         select: "name profilePicture badges",
-      },
-    });
+      })
+      .populate({
+        path: "post",
+        select: "content contentWarning",
+      })
+      .populate({
+        path: "parentComment",
+        populate: {
+          path: "author",
+          select: "name profilePicture badges",
+        },
+      });
 
-  res.send(comments);
-});
+    res.send(comments);
+  }
+);
 
 export default userRouter;

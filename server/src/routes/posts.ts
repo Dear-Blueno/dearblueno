@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { body, param, query, validationResult } from "express-validator";
+import { body, param, query } from "express-validator";
 import User, { INewCommentNotification, IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
 import { Document } from "mongoose";
 import { notBanned } from "../middleware/ban";
+import { validate } from "../middleware/validate";
 
 const postRouter = Router();
 
@@ -36,13 +37,8 @@ postRouter.get(
   "/",
   optionalAuth,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page: number = Number(req.query.page) || 1;
     const posts = await Post.find({
       approved: true,
@@ -74,13 +70,8 @@ postRouter.get(
   "/all",
   modCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const posts = await Post.find()
       .sort({ postTime: "descending" })
@@ -104,13 +95,8 @@ postRouter.get(
   "/mod-feed",
   modCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const posts = await Post.find({ needsReview: true })
       .sort({ postTime: "ascending" })
@@ -126,13 +112,8 @@ postRouter.get(
   "/mod-feed/comments",
   modCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const comments = await Comment.find({ needsReview: true })
       .sort({ commentTime: "ascending" })
@@ -159,13 +140,8 @@ postRouter.get(
   "/search",
   optionalAuth,
   query("query").isString().isLength({ min: 3 }).isAscii(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const searchQuery = String(req.query.query);
     const posts = await Post.find({
       approved: true,
@@ -196,13 +172,8 @@ postRouter.get(
   "/reactions",
   authCheck,
   query("page").optional().isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const page = Number(req.query.page) || 1;
     const posts = await Post.find({
       approved: true,
@@ -229,13 +200,8 @@ postRouter.get(
   "/:id",
   optionalAuth,
   param("id").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({ postNumber: req.params.id })
       .select("-approvedBy -subscribers")
       .populate("comments")
@@ -263,13 +229,8 @@ postRouter.get(
   "/:id/reactions",
   authCheck,
   param("id").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({ postNumber: req.params.id })
       .select("reactions comments approved")
       .populate({
@@ -292,13 +253,8 @@ postRouter.post(
   "/",
   optionalAuth,
   body("content").isString().trim().isLength({ min: 1, max: 5000 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const content = req.body.content;
     const user = req.user as IUser | undefined;
     const verifiedBrown = user?.verifiedBrown ?? false;
@@ -319,13 +275,8 @@ postRouter.put(
   body("approved").toBoolean(),
   body("contentWarning").trim().optional().isLength({ max: 100 }),
   param("id").isMongoId(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findById(req.params.id);
     if (!post) {
       res.status(404).send("Post not found");
@@ -356,13 +307,8 @@ postRouter.put(
   body("reaction").isInt({ min: 1, max: 6 }),
   body("state").toBoolean(),
   param("id").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     }).select("-approvedBy -subscribers");
@@ -399,13 +345,8 @@ postRouter.post(
   body("parentId").isInt({ min: -1 }),
   body("anonymous").toBoolean(),
   param("id").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const user = req.user as IUser;
 
     const post = await Post.findOne({
@@ -481,13 +422,8 @@ postRouter.put(
   body("approved").toBoolean(),
   param("id").isInt({ min: 1 }),
   param("commentId").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     })
@@ -542,13 +478,8 @@ postRouter.put(
   body("state").toBoolean(),
   param("id").isInt({ min: 1 }),
   param("commentId").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     }).populate("comments");
@@ -598,13 +529,8 @@ postRouter.delete(
   authCheck,
   param("postNumber").isInt({ min: 1 }),
   param("commentNumber").isInt({ min: 1 }),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const comment = await Comment.findOne({
       commentNumber: req.params.commentNumber,
       postNumber: req.params.postNumber,
@@ -655,13 +581,8 @@ postRouter.post(
   authCheck,
   param("id").isInt({ min: 1 }),
   body("bookmark").toBoolean(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     });
@@ -697,13 +618,8 @@ postRouter.post(
   authCheck,
   param("id").isInt({ min: 1 }),
   body("subscribe").toBoolean(),
+  validate,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    }
-
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     });
