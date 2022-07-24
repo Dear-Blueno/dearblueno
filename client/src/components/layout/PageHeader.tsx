@@ -70,7 +70,7 @@ export default function PageHeader(props: PageHeaderProps) {
           className={styles.Options}
           style={{
             ...popperStyles.popper,
-            display: showOptions ? "block" : "none",
+            visibility: showOptions ? "visible" : "hidden",
           }}
           ref={setPopperElement}
           {...attributes.popper}
