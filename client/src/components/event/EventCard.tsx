@@ -12,7 +12,8 @@ import {
   reactInterestedToEvent,
 } from "gateways/EventGateway";
 import { useLoginPopup } from "hooks/login-popup";
-import { formatInTimeZone } from "date-fns-tz";
+import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
+import { format } from "date-fns";
 import { makeDate } from "components/eventstages/RelativeDay";
 
 interface EventCardProps {
@@ -34,7 +35,6 @@ export default function EventCard(props: EventCardProps) {
     "America/New_York",
     "h:mma"
   );
-
   const endTime = formatInTimeZone(
     props.event.endDate,
     "America/New_York",

@@ -4,7 +4,9 @@ import { useState } from "react";
 import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
+import { zonedTimeToUtc } from "date-fns-tz";
 import { makeDate, makeTime } from "./RelativeDay";
+import IEvent from "types/IEvent";
 
 export default function EventStages() {
   const [stage, setStage] = useState(1);
@@ -27,6 +29,20 @@ export default function EventStages() {
   return (
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
+      {/* <button onClick={() => console.log(stageTwoStartDate)}>startDate</button>
+      <button onClick={() => console.log(stageTwoStartTime)}>startTime</button>
+      <button
+        onClick={() =>
+          console.log(
+            zonedTimeToUtc(
+              `${stageTwoStartDate}T${stageTwoStartTime}:00.000Z`,
+              "America/New_York"
+            )
+          )
+        }
+      >
+        endDate
+      </button> */}
       <form>
         {stage === 1 && (
           <EventStageOne
@@ -56,17 +72,27 @@ export default function EventStages() {
           <div className={styles.EventCardContainer}>
             <label className={styles.InputLabel}>Review your event:</label>
             <EventCard
-              image="https://www.brown.edu/Departments/Music/sites/orchestra/images/2022-04/2022-spring-flyer-2.png"
-              title={stageOneName}
-              description={stageTwoDescription}
-              location={stageTwoLocation}
-              date={
-                makeDate(stageTwoStartDate) +
-                " • " +
-                makeTime(stageTwoStartTime, stageTwoEndTime)
-              }
-              // date={stageTwoStartTime}
-              numberOfAttendees={0}
+              event={{
+                _id: "",
+                eventName: stageOneName,
+                eventDescription: stageTwoDescription,
+                // add 4 hours to before performing the zonedTimeToUtc conversion
+                startDate: zonedTimeToUtc(
+                  `${stageTwoStartDate}T${stageTwoStartTime}:00.000Z`,
+                  "America/New_York"
+                ).toISOString(),
+                endDate: zonedTimeToUtc(
+                  `${stageTwoEndDate}T${stageTwoEndTime}:00.000Z`,
+                  "America/New_York"
+                ).toISOString(),
+                location: stageTwoLocation,
+                approved: true,
+                needsReview: false,
+                interested: [],
+                going: [],
+                postTime: new Date().toUTCString(),
+                notificationSent: false,
+              }}
             />
           </div>
         )}

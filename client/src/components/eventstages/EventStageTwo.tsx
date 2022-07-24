@@ -37,7 +37,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             placeholder="ex: January 1st "
             className={styles.EventStageInput}
             value={props.startDate}
-            onChange={(e) => props.startDateSetter(e.target.value)}
+            onChange={(e) => {
+              props.startDateSetter(e.target.value);
+            }}
           />
         </label>
         <label className={styles.InputLabel}>
