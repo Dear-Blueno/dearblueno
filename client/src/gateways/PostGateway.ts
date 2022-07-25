@@ -11,11 +11,7 @@ import {
 export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -25,11 +21,7 @@ export async function getAllPosts(page: number): Promise<IResponse<IPost[]>> {
   // only for moderators! gets all posts, regardless of approval or review status
   try {
     const response = await axios.get(`/posts/all?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -41,11 +33,7 @@ export async function getModFeedPosts(
   // only for moderators! gets posts that need moderation
   try {
     const response = await axios.get(`/posts/mod-feed?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -57,11 +45,7 @@ export async function getModFeedComments(
   // only for moderators! gets comments that need moderation
   try {
     const response = await axios.get(`/posts/mod-feed/comments?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IComment[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IComment[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -70,11 +54,7 @@ export async function getModFeedComments(
 export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   try {
     const response = await axios.get(`/posts/${postNumber}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -83,11 +63,7 @@ export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
 export async function createPost(content: string): Promise<IResponse<IPost>> {
   try {
     const response = await axios.post("/posts", { content });
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -103,12 +79,8 @@ export async function reactToPost(
       reaction,
       state,
     });
-    if (response.status === 200) {
-      const data = response.data as { reaction: boolean };
-      return successfulResponse(data.reaction);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { reaction: boolean };
+    return successfulResponse(data.reaction);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -126,11 +98,7 @@ export async function commentOnPost(
       parentId: parentCommentNumber,
       anonymous,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data as IComment);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IComment);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -150,12 +118,8 @@ export async function reactToComment(
         state,
       }
     );
-    if (response.status === 200) {
-      const data = response.data as { reaction: boolean };
-      return successfulResponse(data.reaction);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { reaction: boolean };
+    return successfulResponse(data.reaction);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -171,11 +135,7 @@ export async function approvePost(
       approved,
       contentWarning,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -191,11 +151,7 @@ export async function approveComment(
       `/posts/${postNumber}/comment/${commentNumber}/approve`,
       { approved }
     );
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -204,11 +160,7 @@ export async function approveComment(
 export async function searchPosts(query: string): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/posts/search?query=${query}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPost[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -222,12 +174,8 @@ export async function deleteComment(
     const response = await axios.delete(
       `/posts/${postNumber}/comment/${commentNumber}`
     );
-    if (response.status === 200) {
-      const data = response.data as { success: boolean };
-      return successfulResponse(data.success);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { success: boolean };
+    return successfulResponse(data.success);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -241,11 +189,7 @@ export async function bookmarkPost(
     const response = await axios.post(`/posts/${postNumber}/bookmark`, {
       bookmark,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data as IUser);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IUser);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -259,12 +203,8 @@ export async function subscribeToPost(
     const response = await axios.post(`/posts/${postNumber}/subscribe`, {
       subscribe,
     });
-    if (response.status === 200) {
-      const data = response.data as { subscribed: boolean };
-      return successfulResponse(data.subscribed);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { subscribed: boolean };
+    return successfulResponse(data.subscribed);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -275,11 +215,7 @@ export async function getPostReactionsByPage(
 ): Promise<IResponse<IPostReactions[]>> {
   try {
     const response = await axios.get(`/posts/reactions?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPostReactions[]);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPostReactions[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -290,11 +226,7 @@ export async function getPostReactionsByPost(
 ): Promise<IResponse<IPostReactions>> {
   try {
     const response = await axios.get(`/posts/${postNumber}/reactions`);
-    if (response.status === 200) {
-      return successfulResponse(response.data as IPostReactions);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data as IPostReactions);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }

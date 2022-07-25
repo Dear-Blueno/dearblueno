@@ -9,11 +9,7 @@ import {
 export async function getEvents(page: number): Promise<IResponse<IEvent[]>> {
   try {
     const response = await axios.get(`/events?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -23,11 +19,7 @@ export async function getAllEvents(page: number): Promise<IResponse<IEvent[]>> {
   // only for moderators! gets all events, regardless of approval or review status
   try {
     const response = await axios.get(`/events/all?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -39,11 +31,7 @@ export async function getModFeedEvents(
   // only for moderators! gets events that need moderation
   try {
     const response = await axios.get(`/events/mod-feed?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -52,11 +40,7 @@ export async function getModFeedEvents(
 export async function getEvent(id: string): Promise<IResponse<IEvent>> {
   try {
     const response = await axios.get(`/events/${id}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -81,11 +65,7 @@ export async function createEvent(
       contactEmail,
       coverPicture,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -99,11 +79,7 @@ export async function approveEvent(
     const response = await axios.put(`/events/${eventId}/approve`, {
       approved,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -117,12 +93,8 @@ export async function reactInterestedToEvent(
     const response = await axios.put(`/events/${eventId}/interested`, {
       interested,
     });
-    if (response.status === 200) {
-      const data = response.data as { interested: boolean };
-      return successfulResponse(data.interested);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { interested: boolean };
+    return successfulResponse(data.interested);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -136,12 +108,8 @@ export async function reactGoingToEvent(
     const response = await axios.put(`/events/${eventId}/going`, {
       going,
     });
-    if (response.status === 200) {
-      const data = response.data as { going: boolean };
-      return successfulResponse(data.going);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    const data = response.data as { going: boolean };
+    return successfulResponse(data.going);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -152,11 +120,7 @@ export async function getEventReactionsByPage(
 ): Promise<IResponse<IEventReactions[]>> {
   try {
     const response = await axios.get(`/events/reactions?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -167,11 +131,7 @@ export async function getEventReactionsByEvent(
 ): Promise<IResponse<IEventReactions>> {
   try {
     const response = await axios.get(`/events/${eventId}/reactions`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }

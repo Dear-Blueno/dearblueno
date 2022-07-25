@@ -11,11 +11,7 @@ import {
 export async function getUser(_id: string): Promise<IResponse<IBasicUser>> {
   try {
     const response = await axios.get(`/user/${_id}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -26,11 +22,7 @@ export async function searchUsers(
 ): Promise<IResponse<IBasicUser[]>> {
   try {
     const response = await axios.get(`/user/search/${query}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -57,11 +49,7 @@ export async function updateUserProfile(
       concentration,
       classYear,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -74,11 +62,7 @@ export async function updateProfilePicture(
     const response = await axios.put(`/user/profilePicture`, {
       profilePicture,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -93,11 +77,7 @@ export async function banUser(
       id: _id,
       duration: banLengthMinutes,
     });
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -108,11 +88,7 @@ export async function getUserComments(
 ): Promise<IResponse<IComment[]>> {
   try {
     const response = await axios.get(`/user/${_id}/comments`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -121,11 +97,7 @@ export async function getUserComments(
 export async function getBookmarks(page: number): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get(`/user/bookmarks?page=${page}`);
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
@@ -138,11 +110,7 @@ export async function deleteNotification(
     const response = await axios.delete(
       `/user/notifications/${notificationId}`
     );
-    if (response.status === 200) {
-      return successfulResponse(response.data);
-    } else {
-      return failureResponse(response.data as string);
-    }
+    return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
