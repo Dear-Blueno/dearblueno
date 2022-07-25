@@ -31,14 +31,10 @@ export default function EventCard(props: EventCardProps) {
   const [isInterested, setIsInterested] = useState(false);
 
   const startTime = formatInTimeZone(
-    props.event.startDate,
-    "America/New_York",
-    "h:mma"
+    new Date(props.event.startDate),"America/New_York", "h:mma"
   );
   const endTime = formatInTimeZone(
-    props.event.endDate,
-    "America/New_York",
-    "h:mma"
+    new Date(props.event.endDate),"America/New_York", "h:mma"
   );
   const startDate = makeDate(props.event.startDate.split("T")[0]);
 

@@ -12,20 +12,24 @@ const EventSubmitPage: NextPage = () => {
 // DUMMY EVENT ASSETS
 
 const makeDummyEvent = () => {
-  const event = new Date("05 October 2022 14:48 UTC");
-  const end = new Date("06 October 2022 14:48 UTC");
+  const start = new Date("2022-07-29T08:00");
+  const end = new Date("2022-07-29T13:00");
+  const estTime = new Date(start.toLocaleString('en-US', { timeZone: 'America/New_York'}));
+  const diff = start.getTime() - estTime.getTime();
+  const event = new Date(start.getTime() + diff);
+  const eventEnd = new Date(end.getTime() + diff);
   console.log("LOL");
   void createEvent(
     "Dummy Event",
     "Dummy LOL Event",
     event,
-    end,
+    eventEnd,
     "Dummy Location"
   );
 };
 
 const approveDummyEvent = () => {
-  void approveEvent("62dcf4bd3c4d7a16acf44267", true);
+  void approveEvent("62deb141210f1365bbcba846", true);
 };
 
 function EventSubmitMain() {

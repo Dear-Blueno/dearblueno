@@ -17,24 +17,9 @@ export const makeDate = (date: string) => {
   return format(newDate, "MMMM d");
 };
 
-export const makeTime = (startTime: string, endTime: string) => {
-  const startTimeArray = startTime.split(":");
-  const endTimeArray = endTime.split(":");
-  const arbitraryStartDate = new Date(
-    0,
-    0,
-    0,
-    parseInt(startTimeArray[0]),
-    parseInt(startTimeArray[1])
-  );
-  const arbitraryEndDate = new Date(
-    0,
-    0,
-    0,
-    parseInt(endTimeArray[0]),
-    parseInt(endTimeArray[1])
-  );
-  const startTimeString = format(arbitraryStartDate, "h:mma");
-  const endTimeString = format(arbitraryEndDate, "h:mma");
-  return `${startTimeString} - ${endTimeString}`;
+export const estTheDate = (date: Date) => {
+  const undiffedDate = date;
+  const estDate = new Date(undiffedDate.toLocaleString("en-US", {timeZone: "America/New_York"}));
+  const diff = estDate.getTime() - undiffedDate.getTime();
+  return new Date(undiffedDate.getTime() + diff);
 };

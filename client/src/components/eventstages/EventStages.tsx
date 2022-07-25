@@ -34,10 +34,8 @@ export default function EventStages() {
       <button
         onClick={() =>
           console.log(
-            zonedTimeToUtc(
-              `${stageTwoStartDate}T${stageTwoStartTime}:00.000Z`,
-              "America/New_York"
-            )
+            new Date(
+              `${stageTwoStartDate}T${stageTwoStartTime}:00`).toISOString()
           )
         }
       >
@@ -77,13 +75,11 @@ export default function EventStages() {
                 eventName: stageOneName,
                 eventDescription: stageTwoDescription,
                 // add 4 hours to before performing the zonedTimeToUtc conversion
-                startDate: zonedTimeToUtc(
-                  `${stageTwoStartDate}T${stageTwoStartTime}:00.000Z`,
-                  "America/New_York"
+                startDate: new Date(
+                  `${stageTwoStartDate}T${stageTwoStartTime}`
                 ).toISOString(),
-                endDate: zonedTimeToUtc(
-                  `${stageTwoEndDate}T${stageTwoEndTime}:00.000Z`,
-                  "America/New_York"
+                endDate: new Date(
+                  `${stageTwoEndDate}T${stageTwoEndTime}`,
                 ).toISOString(),
                 location: stageTwoLocation,
                 approved: true,
