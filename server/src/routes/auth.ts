@@ -8,7 +8,7 @@ const authRouter = Router();
 authRouter.get("/", async (req, res) => {
   if (req.user) {
     res.status(200).json({
-      success: true,
+      loggedIn: true,
       user: req.user,
     });
     await User.updateOne(
@@ -17,9 +17,7 @@ authRouter.get("/", async (req, res) => {
     );
   } else {
     // The user is not logged in
-    res.status(401).json({
-      success: false,
-    });
+    res.status(204).send();
   }
 });
 

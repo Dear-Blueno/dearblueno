@@ -10,12 +10,11 @@ import {
 export async function loadAuth(): Promise<IResponse<IUser>> {
   try {
     const response = await axios.get("/auth");
-    if (response.status === 200) {
-      const data = response.data as { user: IUser };
+    const data = response.data as { loggedIn: boolean; user: IUser };
+    if (data.loggedIn) {
       return successfulResponse(data.user);
     } else {
-      const data = response.data as { message: string };
-      return failureResponse(data.message);
+      return failureResponse("Not logged in");
     }
   } catch (error: unknown) {
     return failureResponse(error as string);
