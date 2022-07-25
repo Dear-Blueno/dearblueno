@@ -63,7 +63,7 @@ describe("User", () => {
       const response = await request(app)
         .get(`/user/search?name=tom`)
         .expect(200);
-      expect(response.body.length).toBe(1);
+      expect(response.body).toHaveLength(1);
       expect(response.body[0].name).toBe("Tom");
     });
 
@@ -322,7 +322,7 @@ describe("User", () => {
       await comment.save();
 
       const response = await request(app).get(`/user/${user._id}/comments`);
-      expect(response.body.length).toBe(1);
+      expect(response.body).toHaveLength(1);
       expect(response.body[0].content).toBe("This is a comment");
       expect(response.body[0].post.content).toBe("This is a post");
     });
@@ -346,7 +346,7 @@ describe("User", () => {
       await comment.save();
 
       const response = await request(app).get(`/user/${user._id}/comments`);
-      expect(response.body.length).toBe(0);
+      expect(response.body).toHaveLength(0);
     });
 
     it("should not return sensitive data on posts or comments", async () => {
@@ -371,7 +371,7 @@ describe("User", () => {
       await comment.save();
 
       const response = await request(app).get(`/user/${user._id}/comments`);
-      expect(response.body.length).toBe(1);
+      expect(response.body).toHaveLength(1);
       expect(response.body[0].reactions).toBeUndefined();
       expect(response.body[0].post.approvedBy).toBeUndefined();
       expect(response.body[0].post.reactions).toBeUndefined();
@@ -387,7 +387,7 @@ describe("User", () => {
       const response = await request(app).get("/user/bookmarks?page=1").send({
         user,
       });
-      expect(response.body.length).toBe(0);
+      expect(response.body).toHaveLength(0);
     });
 
     it("should return array of bookmarks", async () => {
@@ -404,7 +404,7 @@ describe("User", () => {
         user,
       });
 
-      expect(response.body.length).toBe(1);
+      expect(response.body).toHaveLength(1);
       expect(response.body[0].content).toBe("This is a post");
       expect(response.body[0]._id.toString()).toBe(post._id.toString());
     });
@@ -423,16 +423,79 @@ describe("User", () => {
         user,
       });
 
-      expect(response.body.length).toBe(0);
+      expect(response.body).toHaveLength(0);
     });
   });
 
-  describe("DELETE /user/notifications/:postNum", () => {
+  describe("DELETE /user/notifications", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).delete("/user/notifications").expect(401);
+    });
+
+    it("should return 200 if user has no notifications", async () => {
+      await request(app)
+        .delete("/user/notifications")
+        .send({ user })
+        .expect(200);
+
+      const newUser = await User.findById(user._id);
+      expect(newUser?.notifications).toHaveLength(0);
+    });
+
+    it("should mark all notifications as read", async () => {
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 1,
+          userName: "Anonymous",
+        },
+      } as INewCommentNotification);
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        content: {
+          postNumber: 2,
+          userName: "Bob",
+        },
+      } as INewCommentNotification);
+      user.notifications.push({
+        timestamp: new Date(),
+        type: "newComment",
+        read: true,
+        content: {
+          postNumber: 3,
+          userName: "George",
+        },
+      } as INewCommentNotification);
+      await User.updateOne(
+        { _id: user._id },
+        { notifications: user.notifications }
+      );
+
+      await request(app)
+        .delete("/user/notifications")
+        .send({ user })
+        .expect(200);
+
+      const newUser = await User.findById(user._id);
+      expect(newUser?.notifications).toHaveLength(3);
+
+      expect(newUser?.notifications[0].type).toBe("newComment");
+      expect(newUser?.notifications[0].read).toBe(true);
+      expect(newUser?.notifications[1].type).toBe("newComment");
+      expect(newUser?.notifications[1].read).toBe(true);
+      expect(newUser?.notifications[2].type).toBe("newComment");
+      expect(newUser?.notifications[2].read).toBe(true);
+    });
+  });
+
+  describe("DELETE /user/notifications/:id", () => {
     it("should return 401 if user is not logged in", async () => {
       await request(app).delete("/user/notifications/1").expect(401);
     });
 
-    it("should 404 if nonexistent notification is deleted", async () => {
+    it("should 404 if nonexistent notification is marked as read", async () => {
       user.notifications.push({
         timestamp: new Date(),
         type: "newComment",
@@ -457,10 +520,10 @@ describe("User", () => {
         .expect(404);
 
       const newUser = await User.findById(user._id);
-      expect(newUser?.notifications.length).toBe(2);
+      expect(newUser?.notifications).toHaveLength(2);
     });
 
-    it("should delete notification", async () => {
+    it("should mark notification as read", async () => {
       user.notifications.push({
         timestamp: new Date(),
         type: "newComment",
@@ -487,7 +550,12 @@ describe("User", () => {
         .expect(200);
 
       const newUser = await User.findById(user._id);
-      expect(newUser?.notifications.length).toBe(1);
+      expect(newUser?.notifications).toHaveLength(2);
+
+      expect(newUser?.notifications[0].type).toBe("newComment");
+      expect(newUser?.notifications[0].read).toBe(true);
+      expect(newUser?.notifications[1].type).toBe("newComment");
+      expect(newUser?.notifications[1].read).toBe(false);
     });
   });
 

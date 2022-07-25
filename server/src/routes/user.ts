@@ -38,7 +38,21 @@ userRouter.get(
   }
 );
 
-// DELETE request that deletes a notification
+// DELETE request that marks all notifications as read
+// (Must be authenticated)
+userRouter.delete("/notifications", authCheck, async (req, res) => {
+  const user = req.user as IUser;
+
+  // Set all notifications to read
+  await User.updateOne(
+    { _id: user._id },
+    { $set: { "notifications.$[].read": true } }
+  );
+
+  res.send();
+});
+
+// DELETE request that marks a notification as read
 // (Must be authenticated)
 userRouter.delete(
   "/notifications/:notificationId",
@@ -49,22 +63,21 @@ userRouter.delete(
     const user = req.user as IUser;
     const notificationId = req.params.notificationId;
 
-    // Delete the notification in the user's notifications
-    const index = user.notifications.findIndex(
-      (notification) => notification._id == notificationId
-    );
-    if (index === -1) {
+    if (
+      !user.notifications.some(
+        (notification) => notification._id == notificationId
+      )
+    ) {
       res.status(404).send("Notification not found");
       return;
     }
 
-    user.notifications.splice(index, 1);
     await User.updateOne(
-      { _id: user._id },
-      { notifications: user.notifications }
+      { _id: user._id, "notifications._id": notificationId },
+      { $set: { "notifications.$.read": true } }
     );
 
-    res.send(user);
+    res.send();
   }
 );
 

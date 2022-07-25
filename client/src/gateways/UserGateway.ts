@@ -103,14 +103,23 @@ export async function getBookmarks(page: number): Promise<IResponse<IPost[]>> {
   }
 }
 
-export async function deleteNotification(
+export async function markNotificationAsRead(
   notificationId: string
-): Promise<IResponse<IUser>> {
+): Promise<IResponse<boolean>> {
   try {
-    const response = await axios.delete(
-      `/user/notifications/${notificationId}`
-    );
-    return successfulResponse(response.data);
+    await axios.delete(`/user/notifications/${notificationId}`);
+    return successfulResponse(true);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function markAllNotificationsAsRead(): Promise<
+  IResponse<boolean>
+> {
+  try {
+    await axios.delete(`/user/notifications`);
+    return successfulResponse(true);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }

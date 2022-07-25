@@ -1,5 +1,24 @@
 import { model, Schema } from "mongoose";
 
+const NotificationSchema = new Schema({
+  read: {
+    type: Boolean,
+    default: false,
+  },
+  timestamp: {
+    type: Date,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: Object,
+    required: true,
+  },
+});
+
 const UserSchema = new Schema({
   googleId: {
     type: String,
@@ -95,22 +114,10 @@ const UserSchema = new Schema({
       ref: "Post",
     },
   ],
-  notifications: [
-    {
-      timestamp: {
-        type: Date,
-        required: true,
-      },
-      type: {
-        type: String,
-        required: true,
-      },
-      content: {
-        type: Object,
-        required: true,
-      },
-    },
-  ],
+  notifications: {
+    type: [NotificationSchema],
+    default: [],
+  },
   subscriptions: [
     {
       type: Schema.Types.ObjectId,
@@ -160,6 +167,7 @@ type INotification =
 
 interface Notification {
   _id?: string;
+  read?: boolean;
   timestamp: Date;
   type: "newComment" | "trendingPost" | "upcomingEvent";
   content: unknown;
