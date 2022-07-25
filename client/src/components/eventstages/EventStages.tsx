@@ -38,6 +38,10 @@ export default function EventStages() {
     if (stage != 4) {
       setStage((prev) => prev - 1);
     }
+    if (stage === 4) {
+      setStage(1);
+      window.location.href = "/events";
+    }
   };
 
   const submitTheEvent = () => {
@@ -48,7 +52,7 @@ export default function EventStages() {
       estTheDate(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
       stageTwoLocation,
       undefined,
-      (stageOneEmail ? stageOneEmail : undefined) 
+      stageOneEmail ? stageOneEmail : undefined
     );
     setStage(4);
   };
@@ -107,8 +111,18 @@ export default function EventStages() {
           </div>
         )}
         {stage === 4 && (
-          <div style={{marginTop: "4rem", marginBottom: "4rem", display: "flex", alignItems: "center", width: "100%"}}>
-              Your event has been submitted.
+          <div
+            style={{
+              marginTop: ".5rem",
+              marginBottom: "4rem",
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            Your event has been submitted. It will be reviewed by moderators and
+            you will be notified on the decision if your provided an optional
+            contact email.
           </div>
         )}
       </form>
