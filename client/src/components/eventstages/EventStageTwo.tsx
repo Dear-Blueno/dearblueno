@@ -57,7 +57,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </div>
       <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          Start Time (EST)*
+          Start Time (ET)*
           <input
             type="time"
             name="email"
@@ -69,7 +69,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          End Time (EST)*
+          End Time (ET)*
           <input
             type="time"
             name="email"

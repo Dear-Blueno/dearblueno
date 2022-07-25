@@ -8,7 +8,7 @@ import { estTheDate } from "./RelativeDay";
 import { createEvent } from "gateways/EventGateway";
 
 export default function EventStages() {
-  const [stage, setStage] = useState(4);
+  const [stage, setStage] = useState(1);
   const [stageOneName, setStageOneName] = useState("");
   const [stageOneEmail, setStageOneEmail] = useState("");
   const [stageTwoLocation, setStageTwoLocation] = useState("");
@@ -39,7 +39,6 @@ export default function EventStages() {
       setStage((prev) => prev - 1);
     }
     if (stage === 4) {
-      setStage(1);
       window.location.href = "/events";
     }
   };

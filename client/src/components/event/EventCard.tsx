@@ -69,7 +69,7 @@ export default function EventCard(props: EventCardProps) {
         </p>
         <p>{props.event.location}</p>
         <p>
-          {startDate} • {startTime} - {endTime} EST
+          {startDate} • {startTime} - {endTime} ET
         </p>
         <div className={styles.AttendeeContainer}>
           <div className={styles.EventCardAttendees}>
