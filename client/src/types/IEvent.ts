@@ -16,3 +16,9 @@ export default interface IEvent {
   approvedTime?: string; // ISO-8601-formatted date
   notificationSent: boolean;
 }
+
+export interface IEventReactions {
+  _id: string;
+  interested: string[];
+  going: string[];
+}

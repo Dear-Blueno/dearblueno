@@ -1,5 +1,5 @@
 import axios from "axios";
-import IEvent from "../types/IEvent";
+import IEvent, { IEventReactions } from "../types/IEvent";
 import {
   failureResponse,
   IResponse,
@@ -139,6 +139,36 @@ export async function reactGoingToEvent(
     if (response.status === 200) {
       const data = response.data as { going: boolean };
       return successfulResponse(data.going);
+    } else {
+      return failureResponse(response.data as string);
+    }
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function getEventReactionsByPage(
+  page: number
+): Promise<IResponse<IEventReactions[]>> {
+  try {
+    const response = await axios.get(`/events/reactions?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
+    } else {
+      return failureResponse(response.data as string);
+    }
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function getEventReactionsByEvent(
+  eventId: string
+): Promise<IResponse<IEventReactions>> {
+  try {
+    const response = await axios.get(`/events/${eventId}/reactions`);
+    if (response.status === 200) {
+      return successfulResponse(response.data);
     } else {
       return failureResponse(response.data as string);
     }

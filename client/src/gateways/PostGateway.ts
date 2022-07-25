@@ -1,7 +1,7 @@
 import axios from "axios";
 import IUser from "types/IUser";
 import IComment from "../types/IComment";
-import IPost from "../types/IPost";
+import IPost, { IPostReactions } from "../types/IPost";
 import {
   failureResponse,
   IResponse,
@@ -262,6 +262,36 @@ export async function subscribeToPost(
     if (response.status === 200) {
       const data = response.data as { subscribed: boolean };
       return successfulResponse(data.subscribed);
+    } else {
+      return failureResponse(response.data as string);
+    }
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function getPostReactionsByPage(
+  page: number
+): Promise<IResponse<IPostReactions[]>> {
+  try {
+    const response = await axios.get(`/posts/reactions?page=${page}`);
+    if (response.status === 200) {
+      return successfulResponse(response.data as IPostReactions[]);
+    } else {
+      return failureResponse(response.data as string);
+    }
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function getPostReactionsByPost(
+  postNumber: number
+): Promise<IResponse<IPostReactions>> {
+  try {
+    const response = await axios.get(`/posts/${postNumber}/reactions`);
+    if (response.status === 200) {
+      return successfulResponse(response.data as IPostReactions);
     } else {
       return failureResponse(response.data as string);
     }

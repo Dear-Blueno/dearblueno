@@ -15,3 +15,8 @@ export default interface IComment {
   needsReview: boolean;
   reactions: string[][];
 }
+
+export interface ICommentReactions {
+  _id: string;
+  reactions: string[][];
+}

@@ -1,4 +1,4 @@
-import IComment from "./IComment";
+import IComment, { ICommentReactions } from "./IComment";
 
 export default interface IPost {
   _id: string;
@@ -13,4 +13,10 @@ export default interface IPost {
   comments: IComment[];
   reactions: string[][];
   pinned: boolean;
+}
+
+export interface IPostReactions {
+  _id: string;
+  comments: ICommentReactions[];
+  reactions: string[][];
 }
