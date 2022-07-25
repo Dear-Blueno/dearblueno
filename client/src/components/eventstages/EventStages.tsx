@@ -8,7 +8,7 @@ import { estTheDate } from "./RelativeDay";
 import { createEvent } from "gateways/EventGateway";
 
 export default function EventStages() {
-  const [stage, setStage] = useState(1);
+  const [stage, setStage] = useState(4);
   const [stageOneName, setStageOneName] = useState("");
   const [stageOneEmail, setStageOneEmail] = useState("");
   const [stageTwoLocation, setStageTwoLocation] = useState("");
@@ -19,10 +19,25 @@ export default function EventStages() {
   const [stageTwoDescription, setStageTwoDescription] = useState("");
 
   const incrementStage = () => {
-    setStage((prev) => prev + 1);
+    if (stage === 1 && stageOneName) {
+      setStage(2);
+    }
+    if (
+      stage === 2 &&
+      stageTwoLocation &&
+      stageTwoStartDate &&
+      stageTwoStartTime &&
+      stageTwoEndDate &&
+      stageTwoEndTime &&
+      stageTwoDescription
+    ) {
+      setStage(3);
+    }
   };
   const decrementStage = () => {
-    setStage((prev) => prev - 1);
+    if (stage != 4) {
+      setStage((prev) => prev - 1);
+    }
   };
 
   const submitTheEvent = () => {
@@ -31,8 +46,11 @@ export default function EventStages() {
       stageTwoDescription,
       estTheDate(new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)),
       estTheDate(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
-      stageTwoLocation
+      stageTwoLocation,
+      undefined,
+      (stageOneEmail ? stageOneEmail : undefined) 
     );
+    setStage(4);
   };
 
   return (
@@ -86,6 +104,11 @@ export default function EventStages() {
                 notificationSent: false,
               }}
             />
+          </div>
+        )}
+        {stage === 4 && (
+          <div style={{marginTop: "4rem", marginBottom: "4rem", display: "flex", alignItems: "center", width: "100%"}}>
+              Your event has been submitted.
           </div>
         )}
       </form>

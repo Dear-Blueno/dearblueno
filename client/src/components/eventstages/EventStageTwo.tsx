@@ -18,7 +18,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
   return (
     <div className={styles.Stage}>
       <label className={styles.InputLabel}>
-        Event Location
+        Event Location*
         <input
           type="text"
           placeholder="This will be displayed as the location of your event."
@@ -29,7 +29,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </label>
       <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          Start Date
+          Start Date*
           <input
             type="date"
             name="email"
@@ -43,7 +43,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          End Date
+          End Date*
           <input
             type="date"
             name="email"
@@ -57,7 +57,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </div>
       <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          Start Time (EST)
+          Start Time (EST)*
           <input
             type="time"
             name="email"
@@ -69,7 +69,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          End Time (EST)
+          End Time (EST)*
           <input
             type="time"
             name="email"
@@ -82,7 +82,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
         </label>
       </div>
       <label className={styles.InputLabel}>
-        Event Description
+        Event Description*
         <textarea
           placeholder="Talk about what participants can expect at your event."
           rows={3}

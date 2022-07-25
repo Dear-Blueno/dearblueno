@@ -23,7 +23,7 @@ export default function EventStageOne(props: EventStageOneProps) {
         </div>
       </label>
       <label className={styles.InputLabel}>
-        Event Name
+        Event Name*
         <input
           type="text"
           placeholder="This will be displayed as the title of your event."
