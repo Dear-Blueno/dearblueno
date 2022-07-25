@@ -12,8 +12,7 @@ import {
   reactInterestedToEvent,
 } from "gateways/EventGateway";
 import { useLoginPopup } from "hooks/login-popup";
-import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { makeDate } from "components/eventstages/RelativeDay";
 
 interface EventCardProps {
@@ -31,10 +30,14 @@ export default function EventCard(props: EventCardProps) {
   const [isInterested, setIsInterested] = useState(false);
 
   const startTime = formatInTimeZone(
-    new Date(props.event.startDate),"America/New_York", "h:mma"
+    new Date(props.event.startDate),
+    "America/New_York",
+    "h:mma"
   );
   const endTime = formatInTimeZone(
-    new Date(props.event.endDate),"America/New_York", "h:mma"
+    new Date(props.event.endDate),
+    "America/New_York",
+    "h:mma"
   );
   const startDate = makeDate(props.event.startDate.split("T")[0]);
 
@@ -66,7 +69,7 @@ export default function EventCard(props: EventCardProps) {
         </p>
         <p>{props.event.location}</p>
         <p>
-          {startDate} • {startTime} - {endTime}
+          {startDate} • {startTime} - {endTime} EST
         </p>
         <div className={styles.AttendeeContainer}>
           <div className={styles.EventCardAttendees}>
@@ -114,9 +117,7 @@ export default function EventCard(props: EventCardProps) {
           <EventCardButton
             icon={IoShareOutline}
             text="Share"
-            // fix the event share
             onClick={() => {
-              // copy the id to clipboard
               void navigator.clipboard.writeText(
                 `localhost:3000/event/${props.event._id}`
               );

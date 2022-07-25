@@ -43,20 +43,6 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          Start Time
-          <input
-            type="time"
-            name="email"
-            autoComplete="email"
-            placeholder="ex: 12:01 A.M."
-            className={styles.EventStageInput}
-            value={props.startTime}
-            onChange={(e) => props.startTimeSetter(e.target.value)}
-          />
-        </label>
-      </div>
-      <div className={styles.DateTimeContainer}>
-        <label className={styles.InputLabel}>
           End Date
           <input
             type="date"
@@ -68,8 +54,22 @@ export default function EventStageTwo(props: EventStageTwoProps) {
             onChange={(e) => props.endDateSetter(e.target.value)}
           />
         </label>
+      </div>
+      <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          End Time
+          Start Time (EST)
+          <input
+            type="time"
+            name="email"
+            autoComplete="email"
+            placeholder="ex: 12:01 A.M."
+            className={styles.EventStageInput}
+            value={props.startTime}
+            onChange={(e) => props.startTimeSetter(e.target.value)}
+          />
+        </label>
+        <label className={styles.InputLabel}>
+          End Time (EST)
           <input
             type="time"
             name="email"

@@ -4,9 +4,8 @@ import { useState } from "react";
 import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
-import { zonedTimeToUtc } from "date-fns-tz";
-import { makeDate, makeTime } from "./RelativeDay";
-import IEvent from "types/IEvent";
+import { estTheDate } from "./RelativeDay";
+import { createEvent } from "gateways/EventGateway";
 
 export default function EventStages() {
   const [stage, setStage] = useState(1);
@@ -26,21 +25,19 @@ export default function EventStages() {
     setStage((prev) => prev - 1);
   };
 
+  const submitTheEvent = () => {
+    void createEvent(
+      stageOneName,
+      stageTwoDescription,
+      estTheDate(new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)),
+      estTheDate(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
+      stageTwoLocation
+    );
+  };
+
   return (
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
-      {/* <button onClick={() => console.log(stageTwoStartDate)}>startDate</button>
-      <button onClick={() => console.log(stageTwoStartTime)}>startTime</button>
-      <button
-        onClick={() =>
-          console.log(
-            new Date(
-              `${stageTwoStartDate}T${stageTwoStartTime}:00`).toISOString()
-          )
-        }
-      >
-        endDate
-      </button> */}
       <form>
         {stage === 1 && (
           <EventStageOne
@@ -74,12 +71,11 @@ export default function EventStages() {
                 _id: "",
                 eventName: stageOneName,
                 eventDescription: stageTwoDescription,
-                // add 4 hours to before performing the zonedTimeToUtc conversion
-                startDate: new Date(
-                  `${stageTwoStartDate}T${stageTwoStartTime}`
+                startDate: estTheDate(
+                  new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)
                 ).toISOString(),
-                endDate: new Date(
-                  `${stageTwoEndDate}T${stageTwoEndTime}`,
+                endDate: estTheDate(
+                  new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)
                 ).toISOString(),
                 location: stageTwoLocation,
                 approved: true,
@@ -105,7 +101,7 @@ export default function EventStages() {
           </button>
         )}
         {stage == 3 && (
-          <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
+          <button onClick={submitTheEvent} style={{ marginLeft: "auto" }}>
             Submit
           </button>
         )}
