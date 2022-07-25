@@ -15,9 +15,9 @@ describe("Auth", () => {
   });
 
   describe("GET /auth", () => {
-    it("should return 401 if no user is authenticated", async () => {
-      const res = await request(app).get("/auth").expect(401);
-      expect(res.body.success).toBe(false);
+    it("should return 204 if no user is authenticated", async () => {
+      const res = await request(app).get("/auth").expect(204);
+      expect(res.body.loggedIn).toBeFalsy();
     });
   });
 
