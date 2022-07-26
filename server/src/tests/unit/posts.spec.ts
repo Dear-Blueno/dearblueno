@@ -936,6 +936,53 @@ describe("Posts", () => {
       expect(notification.timestamp).toBeDefined();
     });
 
+    it("should send notifications while limiting max notifications to 100", async () => {
+      await Promise.all(
+        Array.from({ length: 3 }, (_, i) =>
+          Post.create({
+            content: "This is a test post",
+            approved: true,
+            postNumber: i + 1,
+            subscribers: [modUser._id],
+          })
+        )
+      );
+
+      await Promise.all(
+        Array.from({ length: 5 }, () =>
+          request(app)
+            .post("/posts/1/comment")
+            .send({ user, content: "This is a test comment", parentId: -1 })
+            .expect(200)
+        )
+      );
+      await Promise.all(
+        Array.from({ length: 100 }, () =>
+          request(app)
+            .post("/posts/2/comment")
+            .send({ user, content: "This is a test comment", parentId: -1 })
+            .expect(200)
+        )
+      );
+      await Promise.all(
+        Array.from({ length: 5 }, () =>
+          request(app)
+            .post("/posts/3/comment")
+            .send({ user, content: "This is a test comment", parentId: -1 })
+            .expect(200)
+        )
+      );
+
+      const modUser1 = await User.findById(modUser._id);
+      expect(modUser1?.notifications).toHaveLength(100);
+
+      const notifications =
+        modUser1?.notifications as INewCommentNotification[];
+      expect(notifications.some((n) => n.content.postNumber === 1)).toBe(false);
+      expect(notifications[0].content.postNumber).toBe(2);
+      expect(notifications[99].content.postNumber).toBe(3);
+    });
+
     it("should not send notifications yet if comment is anonymous", async () => {
       const post = new Post({
         content: "This is a test post",
@@ -1072,6 +1119,59 @@ describe("Posts", () => {
       expect(notification.type).toBe("newComment");
       expect(notification.content.postNumber).toBe(1);
       expect(notification.content.userName).toBe("Anonymous");
+    });
+
+    it("should send notifications while limiting max notifications to 100", async () => {
+      const post = await Post.create({
+        content: "My post!",
+        approved: true,
+        postNumber: 1,
+        subscribers: [user._id],
+      });
+
+      const comments = await Promise.all(
+        Array.from({ length: 5 }, (_, i) =>
+          Comment.create({
+            content: "This is a test comment",
+            post: post._id,
+            postNumber: 1,
+            parentCommentNumber: -1,
+            commentNumber: i + 1,
+            author: null,
+          })
+        )
+      );
+      post.comments.push(...comments);
+      await post.save();
+
+      const user1 = await User.findById(user._id);
+      for (let i = 0; i < 100; i++) {
+        user1?.notifications.push({
+          type: "trendingPost",
+          timestamp: new Date(),
+          content: {
+            postNumber: 1,
+            content: "My post!",
+          },
+        });
+      }
+      await user1?.save();
+
+      await Promise.all(
+        Array.from({ length: 5 }, (_, i) =>
+          request(app)
+            .put(`/posts/1/comment/${i + 1}/approve`)
+            .send({ user: modUser, approved: true })
+            .expect(200)
+        )
+      );
+
+      const user2 = await User.findById(user._id);
+      expect(user2?.notifications).toHaveLength(100);
+
+      const notifications = user2?.notifications ?? [];
+      expect(notifications[0].type).toBe("trendingPost");
+      expect(notifications[99].type).toBe("newComment");
     });
   });
 

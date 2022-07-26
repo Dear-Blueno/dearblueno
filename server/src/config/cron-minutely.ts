@@ -58,7 +58,10 @@ export async function minutelyJob() {
         { _id: { $in: usersToNotify } },
         {
           $push: {
-            notifications: notification,
+            notifications: {
+              $each: [notification],
+              $slice: -100,
+            },
           },
         }
       )

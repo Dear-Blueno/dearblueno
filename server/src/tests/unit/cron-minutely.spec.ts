@@ -186,6 +186,40 @@ describe("Cron Minutely", () => {
       expect(updatedUsers[0]?.notifications).toHaveLength(1);
       expect(updatedUsers[1]?.notifications).toHaveLength(1);
     });
+
+    it("should send notification while limiting to 100 notifications", async () => {
+      const event = new Event({
+        eventName: "Test Event",
+        eventDescription: "Test Description",
+        startDate: new Date(Date.now() + 60 * 60 * 1000),
+        endDate: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        location: "Test Location",
+        approved: true,
+        interested: [user._id],
+      });
+      await event.save();
+
+      const user1 = await User.findOne();
+      for (let i = 0; i < 100; i++) {
+        user1?.notifications.push({
+          type: "trendingPost",
+          timestamp: new Date(),
+          content: {
+            postNumber: i,
+            content: "Test Content",
+          },
+        });
+      }
+      await user1?.save();
+
+      await minutelyJob();
+
+      const updatedUser = await User.findOne();
+      expect(updatedUser?.notifications).toHaveLength(100);
+      const notification = updatedUser
+        ?.notifications[99] as IUpcomingEventNotification;
+      expect(notification.type).toBe("upcomingEvent");
+    });
   });
 
   afterAll(async () => {
