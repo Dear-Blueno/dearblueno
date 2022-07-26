@@ -9,7 +9,6 @@ interface MainFeedProps {
 }
 
 function MainFeed(props: MainFeedProps) {
-  // const [posts, setPosts] = useState<IPost[]>(props.initialPosts);
   const fetchPosts = ({ pageParam = 1 }) =>
     getPosts(pageParam).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
@@ -22,12 +21,6 @@ function MainFeed(props: MainFeedProps) {
         return pages.length + 1;
       },
     });
-
-  // useEffect(() => {
-  //   setPosts((prev) =>
-  //     prev.concat(data?.pages[data.pages.length - 1].payload ?? [])
-  //   );
-  // }, [data?.pages]);
 
   return (
     <Feed

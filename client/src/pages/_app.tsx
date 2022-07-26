@@ -9,7 +9,13 @@ import LoginFooter from "components/login/LoginFooter";
 import { LoginPopupProvider } from "hooks/login-popup";
 
 axiosInit();
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
