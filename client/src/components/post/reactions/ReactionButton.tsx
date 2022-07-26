@@ -7,6 +7,7 @@ interface ReactionButtonProps {
   count: number;
   handleClick: () => void;
   reacted: boolean;
+  hidden: boolean;
 }
 
 function ReactionButton(props: ReactionButtonProps) {
@@ -16,7 +17,10 @@ function ReactionButton(props: ReactionButtonProps) {
   const size = props.type === "comment" ? 14 : 18;
 
   return (
-    <div className={styles.ReactionButton + " " + styles[className]}>
+    <div
+      className={styles.ReactionButton + " " + styles[className]}
+      style={{ display: props.hidden ? "none" : "flex" }}
+    >
       <Image
         src={props.image}
         priority

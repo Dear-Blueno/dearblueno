@@ -153,43 +153,42 @@ function ReactionBar(props: ReactionBarProps) {
         );
       }}
     >
-      {showReactText && (
-        <MdOutlineAddReaction
-          size={props.type === "post" ? "1.15em" : "1em"}
-          color="#789"
-          style={{ transform: "translateY(0.05em)" }}
-          className={styles.IconButton}
-          title="Add a reaction"
-          onClick={
-            user
-              ? () => {
-                  setShowReactText(false);
-                  setShowZeroIcons(true);
-                }
-              : openLoginPopup
-          }
-        />
+      <MdOutlineAddReaction
+        size={props.type === "post" ? "1.15em" : "1em"}
+        color="#789"
+        style={{
+          display: showReactText ? "initial" : "none",
+          transform: "translateY(0.05em)",
+        }}
+        className={styles.IconButton}
+        title="Add a reaction"
+        onClick={
+          user
+            ? () => {
+                setShowReactText(false);
+                setShowZeroIcons(true);
+              }
+            : openLoginPopup
+        }
+      />
+      {reactions.map(
+        (reaction) =>
+          (showZeroIcons || reaction.reactors.length > 0) && (
+            <ReactionButton
+              hidden={showReactText}
+              type={props.type}
+              key={reaction.type}
+              image={
+                icons[reaction.type][
+                  reaction.reactors.length > 0 ? 0 : 1
+                ] as string
+              }
+              count={reaction.reactors.length}
+              handleClick={user ? buttonClick(reaction.type) : openLoginPopup}
+              reacted={(user && reaction.reactors.includes(user._id)) ?? false}
+            ></ReactionButton>
+          )
       )}
-      {!showReactText &&
-        reactions.map(
-          (reaction) =>
-            (showZeroIcons || reaction.reactors.length > 0) && (
-              <ReactionButton
-                type={props.type}
-                key={reaction.type}
-                image={
-                  icons[reaction.type][
-                    reaction.reactors.length > 0 ? 0 : 1
-                  ] as string
-                }
-                count={reaction.reactors.length}
-                handleClick={user ? buttonClick(reaction.type) : openLoginPopup}
-                reacted={
-                  (user && reaction.reactors.includes(user._id)) ?? false
-                }
-              ></ReactionButton>
-            )
-        )}
     </div>
   );
 }
