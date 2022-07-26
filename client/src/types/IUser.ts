@@ -39,6 +39,7 @@ export type INotification =
 
 interface Notification {
   _id: string;
+  read: boolean;
   timestamp: Date;
   type: "newComment" | "trendingPost" | "upcomingEvent";
   content: unknown;
