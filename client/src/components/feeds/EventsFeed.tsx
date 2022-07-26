@@ -6,22 +6,18 @@ import { getEvents } from "gateways/EventGateway";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export default function EventsFeed() {
-  const fetchEvents = ({ pageParam = 1 }) => getEvents(pageParam);
+  const fetchEvents = ({ pageParam = 1 }) =>
+    getEvents(pageParam).then((res) => res.payload ?? []);
 
   const { data, fetchNextPage, hasNextPage, isFetching, status } =
     useInfiniteQuery(["events"], fetchEvents, {
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage.payload?.length === 0) {
+        if (lastPage.length === 0) {
           return undefined;
         }
         return pages.length + 1;
       },
     });
-
-  const events = data?.pages
-    .map((page) => page.payload)
-    .flat()
-    .reverse();
 
   const reachedEnd = hasNextPage !== undefined && !hasNextPage;
   const loadingRef = useRef<HTMLDivElement>(null);
@@ -86,8 +82,8 @@ export default function EventsFeed() {
         className={styles.myMasonryGrid}
         columnClassName={styles.myMasonryGridColumn}
       >
-        {events?.map(
-          (event) => event && <EventCard key={event._id} event={event} />
+        {data?.pages.map((page) =>
+          page.map((event) => <EventCard key={event._id} event={event} />)
         )}
       </Masonry>
       {loadingDiv}

@@ -4,14 +4,13 @@ import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
 } from "@tanstack/react-query";
-import { IResponse } from "gateways/GatewayResponses";
 import IPost from "types/IPost";
 
 interface FeedProps {
   children: React.ReactNode | React.ReactNode[];
   getMore: (
     options?: FetchNextPageOptions | undefined
-  ) => Promise<InfiniteQueryObserverResult<IResponse<IPost[]>>>;
+  ) => Promise<InfiniteQueryObserverResult<IPost[]>>;
   animated: boolean;
   status: "idle" | "loading" | "error" | "success";
   hasNextPage: boolean | undefined;

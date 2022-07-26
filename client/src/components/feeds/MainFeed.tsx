@@ -3,30 +3,31 @@ import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import IPost from "types/IPost";
-import { useEffect, useState } from "react";
 
 interface MainFeedProps {
   initialPosts: IPost[];
 }
 
 function MainFeed(props: MainFeedProps) {
-  const [posts, setPosts] = useState<IPost[]>(props.initialPosts);
-  const fetchPosts = ({ pageParam = 2 }) => getPosts(pageParam);
+  // const [posts, setPosts] = useState<IPost[]>(props.initialPosts);
+  const fetchPosts = ({ pageParam = 1 }) =>
+    getPosts(pageParam).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery(["posts"], fetchPosts, {
+      initialData: { pages: [props.initialPosts], pageParams: [1] },
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage.payload?.length === 0) {
+        if (lastPage.length === 0) {
           return undefined;
         }
-        return pages.length + 2;
+        return pages.length + 1;
       },
     });
 
-  useEffect(() => {
-    setPosts((prev) =>
-      prev.concat(data?.pages[data.pages.length - 1].payload ?? [])
-    );
-  }, [data?.pages]);
+  // useEffect(() => {
+  //   setPosts((prev) =>
+  //     prev.concat(data?.pages[data.pages.length - 1].payload ?? [])
+  //   );
+  // }, [data?.pages]);
 
   return (
     <Feed
@@ -36,9 +37,9 @@ function MainFeed(props: MainFeedProps) {
       hasNextPage={hasNextPage}
       animated
     >
-      {posts.map((post) => (
-        <Post key={post._id} post={post} />
-      ))}
+      {data?.pages.map((page) =>
+        page.map((post) => <Post key={post._id} post={post} />)
+      )}
     </Feed>
   );
 }

@@ -4,21 +4,19 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getBookmarks } from "gateways/UserGateway";
 
 export default function BookmarksFeed() {
-  const fetchBookmarks = ({ pageParam = 1 }) => getBookmarks(pageParam);
+  const fetchBookmarks = ({ pageParam = 1 }) =>
+    getBookmarks(pageParam).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetching, status } =
     useInfiniteQuery(["bookmarks"], fetchBookmarks, {
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage.payload?.length === 0) {
+        if (lastPage.length === 0) {
           return undefined;
         }
         return pages.length + 1;
       },
     });
 
-  const posts = data?.pages
-    .map((page) => page.payload)
-    .flat()
-    .reverse();
+  const bookmarkedPosts = data?.pages.flat().reverse() ?? [];
 
   return (
     <Feed
@@ -28,7 +26,9 @@ export default function BookmarksFeed() {
       hasNextPage={hasNextPage}
       animated
     >
-      {posts?.map((post) => post && <Post key={post._id} post={post} />)}
+      {bookmarkedPosts.map((post) => (
+        <Post key={post._id} post={post} />
+      ))}
     </Feed>
   );
 }
