@@ -13,7 +13,7 @@ function MainFeed(props: MainFeedProps) {
   const [posts, setPosts] = useState<IPost[]>(props.initialPosts);
   const fetchPosts = ({ pageParam = 2 }) => getPosts(pageParam);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery("posts", fetchPosts, {
+    useInfiniteQuery(["posts"], fetchPosts, {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.payload?.length === 0) {
           return undefined;
