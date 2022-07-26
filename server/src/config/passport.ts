@@ -40,10 +40,16 @@ export default function passportConfig() {
           profile._json;
 
         // Verify user if from brown.edu domain
-        const verifiedBrown = profile._json.hd === "brown.edu";
+        const verifiedBrown =
+          profile._json.hd === "brown.edu" ||
+          profile._json.hd === "alumni.brown.edu";
+
+        if (!verifiedBrown) {
+          return done("Not a verified Brown user");
+        }
 
         try {
-          // Check if user already exists in our database
+          // Find user by google id, or upsert if not found
           const existingUser = await User.findOneAndUpdate(
             { googleId: sub },
             {
@@ -53,25 +59,11 @@ export default function passportConfig() {
               email,
               profilePicture: picture,
               lastLoggedIn: new Date(),
+              verifiedBrown,
             },
-            { new: true }
+            { new: true, upsert: true }
           );
-          if (existingUser) {
-            // Found existing user
-            return done(null, existingUser);
-          }
-
-          // If no existing user found, create a new user
-          const user = await new User({
-            googleId: sub,
-            name,
-            givenName: given_name,
-            familyName: family_name,
-            email,
-            profilePicture: picture,
-            verifiedBrown,
-          }).save();
-          done(null, user);
+          return done(null, existingUser);
         } catch (err) {
           done(String(err));
         }
