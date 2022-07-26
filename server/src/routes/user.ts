@@ -30,7 +30,7 @@ userRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
 
@@ -175,6 +175,8 @@ userRouter.put(
       return (value * 2) % 1 === 0;
     })
     .isLength({ min: 4, max: 6 }),
+  body("displayName").optional().isString().isLength({ max: 50 }),
+  body("pronouns").optional().isString().isLength({ max: 20 }),
   validate,
   async (req, res) => {
     const user = req.user as IUser;
@@ -187,6 +189,8 @@ userRouter.put(
       linkedin,
       concentration,
       classYear,
+      displayName,
+      pronouns,
     } = req.body;
 
     const newUser = await User.findByIdAndUpdate(
@@ -201,6 +205,8 @@ userRouter.put(
           linkedin: linkedin || null,
           concentration: concentration || null,
           classYear: classYear || null,
+          displayName: displayName || null,
+          pronouns: pronouns || null,
         },
       },
       { new: true }
@@ -280,7 +286,7 @@ userRouter.get(
       .select("-reactions")
       .populate({
         path: "author",
-        select: "name profilePicture badges",
+        select: "name profilePicture badges displayName pronouns",
       })
       .populate({
         path: "post",
@@ -290,7 +296,7 @@ userRouter.get(
         path: "parentComment",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
 

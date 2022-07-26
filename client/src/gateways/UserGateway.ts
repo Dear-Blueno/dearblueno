@@ -36,7 +36,9 @@ export async function updateUserProfile(
   facebook?: string,
   linkedin?: string,
   concentration?: string,
-  classYear?: string
+  classYear?: string,
+  displayName?: string,
+  pronouns?: string
 ): Promise<IResponse<IUser>> {
   try {
     const response = await axios.put(`/user/profile`, {
@@ -48,6 +50,8 @@ export async function updateUserProfile(
       linkedin,
       concentration,
       classYear,
+      displayName,
+      pronouns,
     });
     return successfulResponse(response.data);
   } catch (error: unknown) {

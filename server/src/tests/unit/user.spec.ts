@@ -193,6 +193,8 @@ describe("User", () => {
           twitter: "https://twitter.com/test",
           facebook: "https://facebook.com/test",
           bio: "This is a bio",
+          pronouns: "they/them",
+          displayName: "Robot",
         })
         .expect(200);
 
@@ -204,6 +206,8 @@ describe("User", () => {
       expect(newUser?.twitter).toBe("https://twitter.com/test");
       expect(newUser?.facebook).toBe("https://facebook.com/test");
       expect(newUser?.bio).toBe("This is a bio");
+      expect(newUser?.pronouns).toBe("they/them");
+      expect(newUser?.displayName).toBe("Robot");
     });
 
     it("should clear fields if undefined is provided", async () => {

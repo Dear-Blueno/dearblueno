@@ -28,6 +28,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  displayName: {
+    type: String,
+    required: false,
+  },
   givenName: {
     type: String,
     required: false,
@@ -45,6 +49,10 @@ const UserSchema = new Schema({
     required: true,
   },
   bio: {
+    type: String,
+    required: false,
+  },
+  pronouns: {
     type: String,
     required: false,
   },
@@ -131,10 +139,12 @@ export interface IBasicUser {
   _id: string;
   googleId: string;
   name: string;
+  displayName?: string;
   givenName: string;
   familyName: string;
   profilePicture: string;
   bio?: string;
+  pronouns?: string;
   hometown?: string;
   instagram?: string;
   twitter?: string;

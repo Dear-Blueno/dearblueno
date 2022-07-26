@@ -52,7 +52,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
 
@@ -82,7 +82,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
     res.send(posts);
@@ -121,14 +121,14 @@ postRouter.get(
       .limit(10)
       .populate({
         path: "author",
-        select: "name profilePicture badges",
+        select: "name profilePicture badges displayName pronouns",
       })
       .populate("post")
       .populate({
         path: "parentComment",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
     res.send(comments);
@@ -154,7 +154,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
 
@@ -209,7 +209,7 @@ postRouter.get(
         path: "comments",
         populate: {
           path: "author",
-          select: "name profilePicture badges",
+          select: "name profilePicture badges displayName pronouns",
         },
       });
     if (!post || !post.approved) {
