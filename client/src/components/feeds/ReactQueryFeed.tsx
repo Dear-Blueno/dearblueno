@@ -1,6 +1,9 @@
 import styles from "./Feed.module.scss";
 import React, { useEffect, useCallback, useRef, useMemo } from "react";
-import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
+import {
+  FetchNextPageOptions,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import { IResponse } from "gateways/GatewayResponses";
 import IPost from "types/IPost";
 

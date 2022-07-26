@@ -1,16 +1,16 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { loadAuth } from "gateways/AuthGateway";
 
 export default function useUser() {
   const {
     data: user,
-    isLoading,
+    isLoading: isLoadingUser,
     refetch: refetchUser,
-  } = useQuery("user", async () => {
+  } = useQuery(["user"], async () => {
     const response = await loadAuth();
     if (response.success) {
       return response.payload;
     }
   });
-  return { user, isLoading, refetchUser };
+  return { user, isLoadingUser, refetchUser };
 }

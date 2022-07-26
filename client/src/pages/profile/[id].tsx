@@ -2,27 +2,20 @@ import styles from "styles/ProfilePage.module.scss";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
-import { loadAuth } from "gateways/AuthGateway";
-import { useQuery } from "react-query";
 import MainLayout from "components/layout/MainLayout";
 import Head from "next/head";
 import NotFoundPage from "pages/404";
 import { GetStaticProps, NextPage } from "next";
 
 import ProfileSidebar from "../../components/profile/ProfileSidebar";
+import useUser from "hooks/useUser";
 
 interface ProfilePageProps {
   user?: IUser;
 }
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
-  const { isLoading: isLoadingUser, data: user } = useQuery("user", () =>
-    loadAuth().then((response) => {
-      if (response.success) {
-        return response.payload;
-      }
-    })
-  );
+  const { user, isLoadingUser: isLoading } = useUser();
 
   const profileUser = props.user;
 
@@ -30,7 +23,7 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
     return <NotFoundPage />;
   }
 
-  if (isLoadingUser) {
+  if (isLoading) {
     return <MainLayout page={<div>Loading...</div>} />;
   }
 

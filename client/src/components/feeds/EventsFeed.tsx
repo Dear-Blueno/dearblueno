@@ -1,7 +1,7 @@
 import EventCard from "components/event/EventCard";
 import Masonry from "react-masonry-css";
 import styles from "./EventsFeed.module.scss";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getEvents } from "gateways/EventGateway";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
@@ -9,7 +9,7 @@ export default function EventsFeed() {
   const fetchEvents = ({ pageParam = 1 }) => getEvents(pageParam);
 
   const { data, fetchNextPage, hasNextPage, isFetching, status } =
-    useInfiniteQuery("events", fetchEvents, {
+    useInfiniteQuery(["events"], fetchEvents, {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.payload?.length === 0) {
           return undefined;

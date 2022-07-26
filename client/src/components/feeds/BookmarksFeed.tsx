@@ -1,12 +1,12 @@
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getBookmarks } from "gateways/UserGateway";
 
 export default function BookmarksFeed() {
   const fetchBookmarks = ({ pageParam = 1 }) => getBookmarks(pageParam);
   const { data, fetchNextPage, hasNextPage, isFetching, status } =
-    useInfiniteQuery("bookmarks", fetchBookmarks, {
+    useInfiniteQuery(["bookmarks"], fetchBookmarks, {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.payload?.length === 0) {
           return undefined;

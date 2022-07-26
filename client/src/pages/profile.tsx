@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import ProfilePage from "./profile/[id]";
 
 const MyProfilePage: NextPage = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoadingUser: isLoading } = useUser();
   if (isLoading) {
     return null;
   }

@@ -3,7 +3,7 @@ import useUser from "hooks/useUser";
 import styles from "./LoginFooter.module.scss";
 
 export default function LoginFooter() {
-  const { user, isLoading } = useUser();
+  const { user, isLoadingUser: isLoading } = useUser();
   if (isLoading || user) return null;
   return (
     <footer className={styles.LoginFooter}>

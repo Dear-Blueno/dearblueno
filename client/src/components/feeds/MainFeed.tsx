@@ -1,7 +1,7 @@
 import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import IPost from "types/IPost";
 import { useEffect, useState } from "react";
 

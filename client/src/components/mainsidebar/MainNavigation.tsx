@@ -38,7 +38,7 @@ interface MainSidebarItem {
 }
 
 export default function MainNavigation() {
-  const { user, isLoading } = useUser();
+  const { user, isLoadingUser: isLoading } = useUser();
   const router = useRouter();
 
   return (
