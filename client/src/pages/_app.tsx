@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { IsMobileProvider } from "hooks/is-mobile";
 import LoginFooter from "components/login/LoginFooter";
 import { LoginPopupProvider } from "hooks/login-popup";
+import ToasterProvider from "components/toast/ToasterProvider";
 
 axiosInit();
 const queryClient = new QueryClient({
@@ -24,11 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <IsMobileProvider>
           <QueryClientProvider client={queryClient}>
             <LoginPopupProvider>
-              <div className="ColumnsContainer">
-                <MainNavigation />
-                <Component {...pageProps} />
-              </div>
-              <LoginFooter></LoginFooter>
+              <ToasterProvider>
+                <div className="ColumnsContainer">
+                  <MainNavigation />
+                  <Component {...pageProps} />
+                </div>
+                <LoginFooter></LoginFooter>
+              </ToasterProvider>
               {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             </LoginPopupProvider>
           </QueryClientProvider>

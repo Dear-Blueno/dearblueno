@@ -26,6 +26,7 @@ import { AiFillPushpin } from "react-icons/ai";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export interface PostProps {
   post: IPost;
@@ -189,11 +190,12 @@ function Post(props: PostProps) {
             className={styles.IconButton}
             style={{ transform: "translateY(-0.05em)" }}
             color="#789"
-            onClick={() =>
+            onClick={() => {
               void navigator.clipboard.writeText(
                 `${window.location.origin}/post/${props.post.postNumber}`
-              )
-            }
+              );
+              toast("Link copied to clipboard!", { icon: "📋" });
+            }}
             title="Share this post"
           />
         </div>

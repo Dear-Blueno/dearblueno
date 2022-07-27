@@ -8,10 +8,15 @@ import {
 } from "react";
 import useUser from "./useUser";
 
+// type that takes in a function, returns a function of the same type or void
+type FunctionToFunction = <T extends unknown[], R>(
+  f: (...args: T) => R
+) => ((...args: T) => R) | VoidFunction;
+
 interface LoginPopupContextType {
   setLoginPopupIsOpen: Dispatch<SetStateAction<boolean>>;
   openLoginPopup: () => void;
-  userOnlyAction: (action: () => void) => () => void;
+  userOnlyAction: FunctionToFunction;
 }
 
 const LoginPopupContext = createContext<LoginPopupContextType>({
@@ -25,8 +30,12 @@ export const useLoginPopup = () => useContext(LoginPopupContext);
 export function LoginPopupProvider(props: { children: React.ReactNode }) {
   const { user } = useUser();
   const [isOpen, setLoginPopupIsOpen] = useState(false);
-  const openLoginPopup = () => setLoginPopupIsOpen(true);
-  const userOnlyAction = (action: () => void) =>
+  const openLoginPopup = () => {
+    setLoginPopupIsOpen(true);
+    return undefined;
+  };
+  // userOnlyAction takes in a function that returns a function.
+  const userOnlyAction: FunctionToFunction = (action) =>
     user ? action : openLoginPopup;
   return (
     <LoginPopupContext.Provider

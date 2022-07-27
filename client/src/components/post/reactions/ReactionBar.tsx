@@ -48,7 +48,7 @@ const reactionCompare = (a: Reaction, b: Reaction) => {
 
 function ReactionBar(props: ReactionBarProps) {
   const { user } = useUser();
-  const { openLoginPopup } = useLoginPopup();
+  const { userOnlyAction } = useLoginPopup();
 
   const [reactions, setReactions] = useState<Reaction[]>(
     props.reactions
@@ -80,7 +80,7 @@ function ReactionBar(props: ReactionBarProps) {
 
   const buttonClick = useCallback(
     (type: ReactionType) => {
-      return async () => {
+      return () => {
         if (user) {
           const index = reactions.findIndex(
             (reaction) => reaction.type === type
@@ -112,17 +112,22 @@ function ReactionBar(props: ReactionBarProps) {
             );
           }
           if (props.type === "post") {
-            await reactToPost(props.postNumber, type + 1, !includesUser);
+            return reactToPost(props.postNumber, type + 1, !includesUser);
           } else {
             if (props.commentNumber) {
-              await reactToComment(
+              return reactToComment(
                 props.postNumber,
                 props.commentNumber,
                 type + 1,
                 !includesUser
               );
+            } else {
+              throw new Error("commentNumber is required");
             }
           }
+        } else {
+          // should not happen
+          throw new Error("User not logged in");
         }
       };
     },
@@ -162,14 +167,10 @@ function ReactionBar(props: ReactionBarProps) {
         }}
         className={styles.IconButton}
         title="Add a reaction"
-        onClick={
-          user
-            ? () => {
-                setShowReactText(false);
-                setShowZeroIcons(true);
-              }
-            : openLoginPopup
-        }
+        onClick={userOnlyAction(() => {
+          setShowReactText(false);
+          setShowZeroIcons(true);
+        })}
       />
       {reactions.map(
         (reaction) =>
@@ -184,7 +185,7 @@ function ReactionBar(props: ReactionBarProps) {
                 ] as string
               }
               count={reaction.reactors.length}
-              handleClick={user ? buttonClick(reaction.type) : openLoginPopup}
+              handleClick={userOnlyAction(buttonClick(reaction.type))}
               reacted={(user && reaction.reactors.includes(user._id)) ?? false}
             ></ReactionButton>
           )

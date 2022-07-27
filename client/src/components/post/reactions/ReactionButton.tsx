@@ -1,11 +1,13 @@
 import styles from "./ReactionButton.module.scss";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { IResponse } from "gateways/GatewayResponses";
 
 interface ReactionButtonProps {
   type: "comment" | "post";
   image: string;
   count: number;
-  handleClick: () => void;
+  handleClick: VoidFunction | (() => Promise<IResponse<boolean>>);
   reacted: boolean;
   hidden: boolean;
 }
@@ -25,7 +27,18 @@ function ReactionButton(props: ReactionButtonProps) {
         src={props.image}
         priority
         onClick={() => {
-          props.handleClick();
+          const result = props.handleClick();
+          if (result) {
+            result
+              .then((response) => {
+                if (!response.success) {
+                  toast.error(
+                    (response.message as unknown as { message: string }).message
+                  );
+                }
+              })
+              .catch(() => toast.error("Uh oh, something went wrong"));
+          }
         }}
         alt="reaction"
         draggable={false}

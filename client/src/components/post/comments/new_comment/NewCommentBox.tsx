@@ -6,6 +6,7 @@ import { IThread } from "../CommentSection";
 import { useIsMobile } from "hooks/is-mobile";
 import AnonymousToggle from "./AnonymousToggle";
 import useUser from "hooks/useUser";
+import toast from "react-hot-toast";
 
 interface NewCommentBoxProps {
   firstComment: boolean;
@@ -49,6 +50,13 @@ function NewCommentBox(props: NewCommentBoxProps) {
           anonymous
         );
         if (response.success) {
+          const commentOrReply =
+            props.parentCommentNumber === -1 ? "Comment" : "Reply";
+          toast.success(
+            anonymous
+              ? `${commentOrReply} submitted for approval!`
+              : `${commentOrReply} published!`
+          );
           textarea.value = "";
           props.setShow(false);
           props.setComments((comments) => {
@@ -69,6 +77,9 @@ function NewCommentBox(props: NewCommentBoxProps) {
           });
           return true;
         }
+        toast.error(
+          (response.message as unknown as { message: string }).message
+        );
         return false;
       }
       return false;

@@ -11,12 +11,13 @@ export function IsMobileProvider({ children }: { children: React.ReactNode }) {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 480);
       };
+      handleResize();
       window.addEventListener("resize", handleResize);
       return () => {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, []);
+  });
 
   return (
     <IsMobileContext.Provider value={isMobile}>

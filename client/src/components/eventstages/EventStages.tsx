@@ -4,7 +4,7 @@ import { useState } from "react";
 import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
-import { estTheDate } from "./RelativeDay";
+import { estTheDate as shiftToEST } from "./RelativeDay";
 import { createEvent } from "gateways/EventGateway";
 
 export default function EventStages() {
@@ -21,7 +21,7 @@ export default function EventStages() {
   const incrementStage = () => {
     if (stage === 1 && stageOneName) {
       if (stageOneEmail) {
-        emailChecker(stageOneEmail) ? setStage(2) : () => {};
+        emailChecker(stageOneEmail) && setStage(2);
       } else {
         setStage(2);
       }
@@ -59,11 +59,11 @@ export default function EventStages() {
     void createEvent(
       stageOneName,
       stageTwoDescription,
-      estTheDate(new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)),
-      estTheDate(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
+      shiftToEST(new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)),
+      shiftToEST(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
       stageTwoLocation,
       undefined,
-      stageOneEmail ?? undefined
+      stageOneEmail === "" ? undefined : stageOneEmail
     );
     setStage(4);
   };
@@ -104,10 +104,10 @@ export default function EventStages() {
                 _id: "",
                 eventName: stageOneName,
                 eventDescription: stageTwoDescription,
-                startDate: estTheDate(
+                startDate: shiftToEST(
                   new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)
                 ).toISOString(),
-                endDate: estTheDate(
+                endDate: shiftToEST(
                   new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)
                 ).toISOString(),
                 location: stageTwoLocation,
