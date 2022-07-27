@@ -20,7 +20,11 @@ export default function EventStages() {
 
   const incrementStage = () => {
     if (stage === 1 && stageOneName) {
-      setStage(2);
+      if (stageOneEmail) {
+        emailChecker(stageOneEmail) ? setStage(2) : () => {};
+      } else {
+        setStage(2);
+      }
     }
     if (
       stage === 2 &&
@@ -34,6 +38,7 @@ export default function EventStages() {
       setStage(3);
     }
   };
+
   const decrementStage = () => {
     if (stage != 4) {
       setStage((prev) => prev - 1);
@@ -41,6 +46,13 @@ export default function EventStages() {
     if (stage === 4) {
       window.location.href = "/events";
     }
+  };
+
+  const emailChecker = (inputEmail: string) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail)) {
+      return true;
+    }
+    return false;
   };
 
   const submitTheEvent = () => {
@@ -51,7 +63,7 @@ export default function EventStages() {
       estTheDate(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
       stageTwoLocation,
       undefined,
-      stageOneEmail ? stageOneEmail : undefined
+      stageOneEmail ?? undefined
     );
     setStage(4);
   };
