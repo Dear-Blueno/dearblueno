@@ -6,7 +6,7 @@ import ReactionBar from "./reactions/ReactionBar";
 import DividerDot from "./content/DividerDot";
 import { FiShare } from "react-icons/fi";
 import CommentSection from "./comments/CommentSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApproveOrDeny from "./moderator/ApproveOrDeny";
 import {
   approvePost,
@@ -27,69 +27,76 @@ import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface PostProps {
   post: IPost;
-  delay?: string;
-  skipAnimation?: boolean;
-  setFeed?: React.Dispatch<React.SetStateAction<IPost[]>>;
+  bookmarked?: boolean;
+  subscribed?: boolean;
 }
 
 function Post(props: PostProps) {
+  const queryClient = useQueryClient();
   const { user, refetchUser } = useUser();
   const { userOnlyAction } = useLoginPopup();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
-  const [isBookmarked, setIsBookmarked] = useState(
-    user?.bookmarks.includes(props.post._id)
-  );
-  const [isSubscribed, setIsSubscribed] = useState(
-    user?.subscriptions.includes(props.post._id)
-  );
+  const [isBookmarked, setIsBookmarked] = useState(props.bookmarked);
+  const [isSubscribed, setIsSubscribed] = useState(props.subscribed);
+
+  useEffect(() => {
+    setIsBookmarked(user?.bookmarks.includes(props.post._id));
+    setIsSubscribed(user?.subscriptions.includes(props.post._id));
+  }, [user, props.post._id]);
 
   const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
-    const response = await approvePost(
-      props.post._id,
-      bool,
-      contentWarningString
-    );
-    if (response.success && props.setFeed) {
-      props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
-    }
+    await approvePost(props.post._id, bool, contentWarningString);
+    // if (response.success && props.setFeed) {
+    // props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
+    // }
   };
 
   const handleSubscribe = async () => {
+    const initialIsSubscribed = isSubscribed;
+    console.log("initialIsSubscribed", initialIsSubscribed);
     setIsSubscribed((subscribed) => !subscribed);
     const response = await subscribeToPost(
       props.post.postNumber,
-      !isSubscribed
+      !initialIsSubscribed
     );
+    console.log("response", response);
     if (response.success) {
+      const action = initialIsSubscribed
+        ? "Unsubscribed from"
+        : "Subscribed to";
+      toast.success(`${action} #${props.post.postNumber}`);
       await refetchUser();
     } else {
+      toast.error((response.message as unknown as { message: string }).message);
       setIsSubscribed(!isSubscribed);
     }
   };
 
   const handleBookmark = async () => {
+    const initialIsBookmarked = isBookmarked;
     setIsBookmarked((bookmarked) => !bookmarked);
-    const response = await bookmarkPost(props.post.postNumber, !isBookmarked);
+    const response = await bookmarkPost(
+      props.post.postNumber,
+      !initialIsBookmarked
+    );
     if (response.success) {
+      const action = initialIsBookmarked ? "Unbookmarked" : "Bookmarked";
+      toast.success(`${action} #${props.post.postNumber}`);
+      void queryClient.refetchQueries(["bookmarks"]);
       await refetchUser();
     } else {
-      setIsBookmarked((bookmarked) => !bookmarked);
+      toast.error((response.message as unknown as { message: string }).message);
+      setIsBookmarked(initialIsBookmarked);
     }
   };
 
   return (
-    <div
-      className={styles.Post}
-      style={{
-        animationDelay: props.delay ?? "0",
-        // animation: props.skipAnimation ? "none" : undefined,
-        opacity: props.skipAnimation ? 1 : undefined,
-      }}
-    >
+    <div className={styles.Post}>
       <div className={styles.PostHeader}>
         <div className={styles.NumberAndWarning}>
           <PostNumber

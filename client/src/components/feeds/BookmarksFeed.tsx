@@ -27,7 +27,7 @@ export default function BookmarksFeed() {
       animated
     >
       {bookmarkedPosts.map((post) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} post={post} bookmarked />
       ))}
     </Feed>
   );

@@ -33,7 +33,7 @@ interface PostPageMainProps {
 }
 
 function PostPageMain({ post }: PostPageMainProps) {
-  return <Post post={post} skipAnimation={false} />;
+  return <Post post={post} />;
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
