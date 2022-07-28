@@ -199,7 +199,6 @@ export async function subscribeToPost(
   postNumber: number,
   subscribe: boolean
 ): Promise<IResponse<boolean>> {
-  console.log("subscribe", subscribe);
   try {
     const response = await axios.post(`/posts/${postNumber}/subscribe`, {
       subscribe,

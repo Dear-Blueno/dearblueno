@@ -58,13 +58,11 @@ function Post(props: PostProps) {
 
   const handleSubscribe = async () => {
     const initialIsSubscribed = isSubscribed;
-    console.log("initialIsSubscribed", initialIsSubscribed);
     setIsSubscribed((subscribed) => !subscribed);
     const response = await subscribeToPost(
       props.post.postNumber,
       !initialIsSubscribed
     );
-    console.log("response", response);
     if (response.success) {
       const action = initialIsSubscribed
         ? "Unsubscribed from"
