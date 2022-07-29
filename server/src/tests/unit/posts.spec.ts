@@ -1626,6 +1626,26 @@ describe("Posts", () => {
       const userRes2 = await User.findById(user._id).select("subscriptions");
       expect(userRes2?.subscriptions).toHaveLength(0);
     });
+
+    it("should recover from de-synced subscription arrays", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+        subscribers: [user._id],
+      });
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/subscribe")
+        .send({ user, subscribe: true })
+        .expect(200);
+
+      const postRes = await Post.findById(post._id).select("subscribers");
+      expect(postRes?.subscribers[0].toString()).toBe(user._id.toString());
+      const userRes = await User.findById(user._id).select("subscriptions");
+      expect(userRes?.subscriptions[0].toString()).toBe(post._id.toString());
+    });
   });
 
   describe("GET /posts/reactions", () => {

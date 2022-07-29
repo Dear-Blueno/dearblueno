@@ -639,24 +639,27 @@ postRouter.post(
     }
 
     const user = req.user as IUser;
-    const subscribers = post.subscribers;
-    const subscriber = subscribers.find(
-      (s: IUser) => s._id.toString() === user._id.toString()
-    );
+
     if (req.body.subscribe) {
-      if (!subscriber) {
-        subscribers.push(user);
-        user.subscriptions.push(post);
-      }
+      await Promise.all([
+        User.updateOne(
+          { _id: user._id },
+          { $addToSet: { subscriptions: post._id } }
+        ),
+        Post.updateOne(
+          { _id: post._id },
+          { $addToSet: { subscribers: user._id } }
+        ),
+      ]);
     } else {
-      if (subscriber) {
-        subscribers.splice(subscribers.indexOf(subscriber), 1);
-        user.subscriptions.splice(user.subscriptions.indexOf(post), 1);
-      }
+      await Promise.all([
+        User.updateOne(
+          { _id: user._id },
+          { $pull: { subscriptions: post._id } }
+        ),
+        Post.updateOne({ _id: post._id }, { $pull: { subscribers: user._id } }),
+      ]);
     }
-    post.subscribers = subscribers;
-    await post.save();
-    await User.updateOne({ _id: user._id }, user);
 
     res.json({
       subscribed: req.body.subscribe,
