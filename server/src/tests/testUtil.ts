@@ -14,6 +14,7 @@ export default async function setupForTests() {
   require("../models/Post");
   require("../models/Comment");
   require("../models/Event");
+  require("../models/Report");
 
   // Setup Express server
   const app = express();

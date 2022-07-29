@@ -1,3 +1,5 @@
+@use "../../../../styles/card.module.scss";
+
 .CommentMenuButton {
   cursor: pointer;
   color: #8e8e8e;
@@ -10,6 +12,7 @@
 }
 
 .MenuDropdownActions {
+  @extend .DearBluenoCard;
   position: relative;
   text-align: left;
   display: flex;
@@ -33,45 +36,27 @@
   display: block;
 }
 
-.DropdownArrow,
-.DropdownArrow::before {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: inherit;
-  z-index: -1;
-}
+// .PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
+//   bottom: -4px;
+// }
 
-.DropdownArrow {
-  visibility: hidden;
-}
+// .PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
+//   bottom: -4px;
+//   border-bottom: 1px solid black;
+//   border-right: 1px solid black;
+//   transform: translateY(-0.17rem) rotate(45deg);
+// }
 
-.DropdownArrow::before {
-  visibility: visible;
-  content: "";
-}
+// .PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
+//   top: -4px;
+// }
 
-.PopperContainer[data-popper-placement^="top"] > .DropdownArrow {
-  bottom: -4px;
-}
-
-.PopperContainer[data-popper-placement^="top"] > .DropdownArrow::before {
-  bottom: -4px;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  transform: translateY(-0.17rem) rotate(45deg);
-}
-
-.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow {
-  top: -4px;
-}
-
-.PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
-  top: -4px;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  transform: translateY(0.17rem) rotate(45deg);
-}
+// .PopperContainer[data-popper-placement^="bottom"] > .DropdownArrow::before {
+//   top: -4px;
+//   border-top: 1px solid black;
+//   border-left: 1px solid black;
+//   transform: translateY(0.17rem) rotate(45deg);
+// }
 
 .DeleteBox {
   display: flex;

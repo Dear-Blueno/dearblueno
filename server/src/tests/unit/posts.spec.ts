@@ -2,6 +2,7 @@ import { Express } from "express";
 import mongoose from "mongoose";
 import Post from "../../models/Post";
 import Comment from "../../models/Comment";
+import Report, { IReport } from "../../models/Report";
 import User, { INewCommentNotification, IUser } from "../../models/User";
 import request from "supertest";
 import setupForTests, { resetCollections } from "../testUtil";
@@ -1832,6 +1833,457 @@ describe("Posts", () => {
 
       await request(app).get("/posts/1/reactions").send({ user }).expect(404);
       await request(app).get("/posts/2/reactions").send({ user }).expect(404);
+    });
+  });
+
+  describe("POST /posts/:postNumber/comment/:commentNumber/flag", () => {
+    it("should return 401 if not logged in", async () => {
+      await request(app).post("/posts/1/comment/1/flag").expect(401);
+    });
+
+    it("should return 400 if does not include reason or if reason is not a string", async () => {
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user })
+        .expect(400);
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: 1 })
+        .expect(400);
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "test" })
+        .expect(400);
+    });
+
+    it("should return 404 if post or comment does not exist or is not approved", async () => {
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "This comment is so bad!" })
+        .expect(404);
+
+      const post = new Post({
+        content: "This is a test post",
+        approved: false,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "This comment is so bad!" })
+        .expect(404);
+
+      post.approved = true;
+      await post.save();
+
+      comment.approved = false;
+      await comment.save();
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "This comment is so bad!" })
+        .expect(404);
+    });
+
+    it("should create a report when a comment is flagged", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      const posts = await Post.find({});
+      const comments = await Comment.find({});
+      expect(posts).toHaveLength(1);
+      expect(comments).toHaveLength(1);
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "This comment is so bad!" })
+        .expect(200);
+
+      const resReport = await Report.findOne();
+      expect(resReport).toBeDefined();
+      expect(resReport?.post).toStrictEqual(post._id);
+      expect(resReport?.comment).toStrictEqual(comment._id);
+      expect(resReport?.reason).toBe("This comment is so bad!");
+      expect(resReport?.timeSubmitted).toBeDefined();
+    });
+
+    it("should not create duplicate reports", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      await Report.create({
+        post: post._id,
+        comment: comment._id,
+        reason: "This comment is so bad!",
+      });
+
+      await request(app)
+        .post("/posts/1/comment/1/flag")
+        .send({ user, reason: "This comment is so bad!" })
+        .expect(200);
+
+      const reportsCount = await Report.countDocuments();
+      expect(reportsCount).toBe(1);
+    });
+  });
+
+  describe("GET /posts/mod-feed/reports", () => {
+    it("should return 401 if not logged in or if user is not a moderator", async () => {
+      await request(app).get("/posts/mod-feed/reports").expect(401);
+      await request(app)
+        .get("/posts/mod-feed/reports")
+        .send({ user })
+        .expect(401);
+    });
+
+    it("should should return feed of unresolved reports", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+        author: user._id,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      await Promise.all([
+        Array(2)
+          .fill(null)
+          .map(async () =>
+            Report.create({
+              post: post._id,
+              comment: comment._id,
+              reason: "This comment is so bad!",
+            })
+          ),
+        Report.create({
+          post: post._id,
+          comment: comment._id,
+          reason: "Already resolved...",
+          resolved: true,
+        }),
+      ]);
+
+      const res = await request(app)
+        .get("/posts/mod-feed/reports")
+        .send({ user: modUser })
+        .expect(200);
+
+      expect(res.body).toHaveLength(2);
+
+      const resReport = res.body[0] as IReport;
+      expect(resReport.post._id).toBe(post._id.toString());
+      expect(resReport.post.content).toBe("This is a test post");
+      expect(resReport.post.postNumber).toBe(1);
+      expect(resReport.comment._id).toBe(comment._id.toString());
+      expect(resReport.comment.content).toBe("This is a test comment");
+      expect(resReport.comment.commentNumber).toBe(1);
+      expect(resReport.comment.author._id).toBe(user._id.toString());
+      expect(resReport.comment.author.name).toBe("Bob");
+      expect(resReport.reason).toBe("This comment is so bad!");
+      expect(resReport.timeSubmitted).toBeDefined();
+      expect(resReport.resolved).toBe(false);
+
+      const resReport2 = res.body[1] as IReport;
+      expect(resReport2.resolved).toBe(false);
+    });
+
+    it("should should return paginated feed of reports", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      await Promise.all(
+        Array(11)
+          .fill(null)
+          .map(async () =>
+            Report.create({
+              post: post._id,
+              comment: comment._id,
+              reason: "Severely offensive",
+            })
+          )
+      );
+
+      const res = await request(app)
+        .get("/posts/mod-feed/reports?page=1")
+        .send({ user: modUser })
+        .expect(200);
+
+      expect(res.body).toHaveLength(10);
+
+      const resReport = res.body[0] as IReport;
+      expect(resReport.post._id).toBe(post._id.toString());
+      expect(resReport.post.content).toBe("This is a test post");
+
+      const res2 = await request(app)
+        .get("/posts/mod-feed/reports?page=2")
+        .send({ user: modUser })
+        .expect(200);
+
+      expect(res2.body).toHaveLength(1);
+    });
+
+    it("should populate reports with parent comments", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is the parent comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+        author: user._id,
+      });
+      await comment.save();
+
+      const comment2 = new Comment({
+        content: "This is the child comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: 1,
+        parentComment: comment._id,
+        commentNumber: 2,
+      });
+      await comment2.save();
+
+      post.comments.push(comment._id);
+      post.comments.push(comment2._id);
+      await post.save();
+
+      await Report.create({
+        post: post._id,
+        comment: comment2._id,
+        reason: "This comment is so bad!",
+      });
+
+      const res = await request(app)
+        .get("/posts/mod-feed/reports")
+        .send({ user: modUser })
+        .expect(200);
+
+      const resReport = res.body[0] as IReport;
+      expect(resReport.comment.parentComment).toBeDefined();
+      expect(resReport.comment.parentComment?.content).toBe(
+        "This is the parent comment"
+      );
+      expect(resReport.comment.parentComment?.commentNumber).toBe(1);
+      expect(resReport.comment.parentComment?.author.name).toBe("Bob");
+    });
+  });
+
+  describe("PUT /posts/:postId/comment/:commentId/resolve", () => {
+    it("should return 401 if not logged in or if user is not a moderator", async () => {
+      await request(app).put("/posts/1/comment/1/resolve").expect(401);
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user })
+        .expect(401);
+    });
+
+    it("should return 404 if post or comment does not exist", async () => {
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user: modUser })
+        .expect(404);
+
+      await Post.create({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user: modUser })
+        .expect(404);
+    });
+
+    it("should return 404 if report does not exist", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user: modUser })
+        .expect(404);
+    });
+
+    it("should return 200 if report is resolved", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      const report = await Report.create({
+        post: post._id,
+        comment: comment._id,
+        reason: "This comment is so bad!",
+      });
+
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user: modUser })
+        .expect(200);
+
+      const resReport = await Report.findById(report._id);
+      expect(resReport?.resolved).toBe(true);
+      expect(resReport?.resolvedBy).toStrictEqual(modUser._id);
+    });
+
+    it("should have no effect if report is already resolved", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        approved: true,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        commentNumber: 1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      const report = await Report.create({
+        post: post._id,
+        comment: comment._id,
+        reason: "This comment is so bad!",
+        resolved: true,
+      });
+
+      await request(app)
+        .put("/posts/1/comment/1/resolve")
+        .send({ user: modUser })
+        .expect(200);
+
+      const resReport = await Report.findById(report._id);
+      expect(resReport?.resolved).toBe(true);
+      expect(resReport?.resolvedBy).toStrictEqual(modUser._id);
     });
   });
 

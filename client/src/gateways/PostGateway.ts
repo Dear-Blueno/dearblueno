@@ -1,5 +1,6 @@
 import axios from "axios";
-import IUser from "types/IUser";
+import { IReport } from "types/IReport";
+import IUser from "../types/IUser";
 import IComment from "../types/IComment";
 import IPost, { IPostReactions } from "../types/IPost";
 import {
@@ -227,6 +228,48 @@ export async function getPostReactionsByPost(
   try {
     const response = await axios.get(`/posts/${postNumber}/reactions`);
     return successfulResponse(response.data as IPostReactions);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function getModFeedReports(
+  page: number
+): Promise<IResponse<IReport[]>> {
+  try {
+    const response = await axios.get(`/posts/mod-feed/reports?page=${page}`);
+    return successfulResponse(response.data as IReport[]);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function flagComment(
+  postNumber: number,
+  commentNumber: number,
+  reason: string
+): Promise<IResponse<boolean>> {
+  try {
+    const response = await axios.post(
+      `/posts/${postNumber}/comment/${commentNumber}/flag`,
+      { reason }
+    );
+    const data = response.data as { success: boolean };
+    return successfulResponse(data.success);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function resolveReport(
+  postNumber: number,
+  commentNumber: number
+): Promise<IResponse<IReport>> {
+  try {
+    const response = await axios.put(
+      `/posts/${postNumber}/comment/${commentNumber}/resolve`
+    );
+    return successfulResponse(response.data as IReport);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }

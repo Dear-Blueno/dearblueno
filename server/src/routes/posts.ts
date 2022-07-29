@@ -4,6 +4,7 @@ import User, { INewCommentNotification, IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
+import Report from "../models/Report";
 import { Document } from "mongoose";
 import { notBanned } from "../middleware/ban";
 import { validate } from "../middleware/validate";
@@ -119,10 +120,6 @@ postRouter.get(
       .sort({ commentTime: "ascending" })
       .skip((page - 1) * 10)
       .limit(10)
-      .populate({
-        path: "author",
-        select: "name profilePicture badges displayName pronouns",
-      })
       .populate("post")
       .populate({
         path: "parentComment",
@@ -132,6 +129,40 @@ postRouter.get(
         },
       });
     res.send(comments);
+  }
+);
+
+// GET request that gets 10 reports paginated in order of oldest (only unresolved reports)
+// (Must be authenticated as a moderator)
+postRouter.get(
+  "/mod-feed/reports",
+  modCheck,
+  query("page").optional().isInt({ min: 1 }),
+  validate,
+  async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const reports = await Report.find({ resolved: false })
+      .sort({ timeSubmitted: "ascending" })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .populate("post")
+      .populate({
+        path: "comment",
+        populate: [
+          {
+            path: "author",
+            select: "name profilePicture badges displayName pronouns",
+          },
+          {
+            path: "parentComment",
+            populate: {
+              path: "author",
+              select: "name profilePicture badges displayName pronouns",
+            },
+          },
+        ],
+      });
+    res.send(reports);
   }
 );
 
@@ -664,6 +695,93 @@ postRouter.post(
     res.json({
       subscribed: req.body.subscribe,
     });
+  }
+);
+
+// POST request that flags a comment and submits a report
+// (Must be authenticated)
+postRouter.post(
+  "/:id/comment/:commentId/flag",
+  authCheck,
+  param("id").isInt({ min: 1 }),
+  param("commentId").isInt({ min: 1 }),
+  body("reason").isString().isLength({ min: 5, max: 100 }),
+  validate,
+  async (req, res) => {
+    const post = await Post.findOne({
+      postNumber: Number(req.params.id),
+    }).populate("comments");
+    if (!post || !post.approved) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const comment = post.comments.find(
+      (c: IComment) => c.commentNumber === Number(req.params.commentId)
+    );
+    if (!comment || !comment.approved) {
+      res.status(404).send("Comment not found");
+      return;
+    }
+
+    const exists = await Report.exists({
+      post: post._id,
+      comment: comment._id,
+    });
+
+    if (!exists) {
+      await Report.create({
+        post: post._id,
+        comment: comment._id,
+        reason: req.body.reason,
+      });
+    }
+
+    res.json({ success: true });
+  }
+);
+
+// PUT request that marks a comment's report as resolved
+// (Must be authenticated as moderator)
+postRouter.put(
+  "/:id/comment/:commentId/resolve",
+  modCheck,
+  param("id").isInt({ min: 1 }),
+  param("commentId").isInt({ min: 1 }),
+  validate,
+  async (req, res) => {
+    const post = await Post.findOne({
+      postNumber: req.params.id,
+    }).populate("comments");
+    if (!post || !post.approved) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const comment = post.comments.find(
+      (c: IComment) => c.commentNumber === Number(req.params.commentId)
+    );
+    if (!comment || !comment.approved) {
+      res.status(404).send("Comment not found");
+      return;
+    }
+
+    const report = await Report.findOne({
+      post: post._id,
+      comment: comment._id,
+    });
+    if (!report) {
+      res.status(404).send("Report not found");
+      return;
+    }
+
+    const user = req.user as IUser;
+
+    report.resolved = true;
+    report.resolvedBy = user._id;
+    await report.save();
+
+    res.send(report);
   }
 );
 

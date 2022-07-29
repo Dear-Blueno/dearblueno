@@ -5,7 +5,7 @@ import { DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import { IBasicUser } from "types/IUser";
 import { IThread } from "../CommentSection";
-import { deleteComment } from "gateways/PostGateway";
+import { deleteComment, flagComment } from "gateways/PostGateway";
 import { findComment } from "../new_comment/NewCommentBox";
 import useUser from "hooks/useUser";
 
@@ -22,27 +22,15 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>();
   const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
     {
-      placement: "bottom-end",
+      placement: "bottom",
       modifiers: [
         {
-          name: "arrow",
-          options: { element: arrowElement },
-        },
-        {
           name: "offset",
-          options: { offset: [8, 8] },
-        },
-        {
-          name: "flip",
-          options: {
-            allowedAutoPlacements: ["top", "bottom"], // by default, all the placements are allowed
-            flipVariations: false,
-          },
+          options: { offset: [2, 8] },
         },
       ],
     }
@@ -105,8 +93,13 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
               <button
                 key={reason}
                 className={styles.PopupAction}
-                style={{ paddingBlock: "0.25em" }}
+                style={{
+                  all: "unset",
+                  cursor: "pointer",
+                  paddingBlock: "0.25em",
+                }}
                 onClick={() => {
+                  flagComment(props.postNumber, props.commentNumber, reason);
                   closePopup();
                 }}
                 tabIndex={-1}
@@ -118,7 +111,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
           <br />
           <button
             className={styles.PopupAction}
-            style={{ float: "right" }}
+            style={{ all: "unset", cursor: "pointer", float: "right" }}
             onClick={() => {
               closePopup();
             }}
@@ -203,11 +196,6 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
             role="tooltip"
             {...attributes.popper}
           >
-            <div
-              className={styles.DropdownArrow}
-              ref={setArrowElement}
-              style={popperStyles.arrow}
-            />
             <div className={styles.MenuDropdownActions}>
               {/* {!copied && ( */}
               <>
