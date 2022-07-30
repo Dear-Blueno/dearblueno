@@ -5,7 +5,7 @@ import IPost from "types/IPost";
 import SearchFeed from "components/feeds/SearchFeed";
 import IUser from "types/IUser";
 import MainLayout from "components/layout/MainLayout";
-import SearchPageHeader from "components/header/SearchPageHeader";
+import SearchPageHeader from "components/header/search/SearchPageHeader";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";

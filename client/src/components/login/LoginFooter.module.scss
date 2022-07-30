@@ -3,31 +3,70 @@
   height: 3rem;
   background-color: #164b7b;
   color: white;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  @media screen and (max-width: 30rem) {
+    bottom: 3rem;
+  }
 }
 
 .LoginFooterBody {
-  padding-left: calc((100vw - 45rem) / 2);
-  padding-right: calc((100vw - 45rem) / 2);
+  padding-left: max(calc((100vw - 45rem) / 2), calc(3rem + 1px));
+  padding-right: max(calc((100vw - 45rem) / 2), calc(1rem + 1px));
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  flex: 1 0 auto;
 }
 
 .LoginFooterText {
   font-size: larger;
+  @media screen and (max-width: 30rem) {
+    font-size: 3vw;
+  }
 }
 
 .LoginButton {
   appearance: none;
   background-color: white;
-  border: 2px solid black;
+  border: none;
+  border-radius: 0.1rem;
   width: 7rem;
   height: 1.8rem;
   font-size: 1rem;
   font-weight: bold;
-  font-family: "Inconsolata";
   cursor: pointer;
+  @media screen and (max-width: 30rem) {
+    width: 20vw;
+    height: 1.6rem;
+    font-size: 3.5vw;
+    padding-top: 0.2rem;
+  }
+}
+
+.LoginFooterClose {
+  position: absolute;
+  height: 100%;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+}
+
+.LoginFooterCloseButton {
+  width: 1.5rem;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-weight: bold;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  font-size: 2rem;
+  @media screen and (max-width: 30rem) {
+    font-size: 1.4rem;
+  }
 }

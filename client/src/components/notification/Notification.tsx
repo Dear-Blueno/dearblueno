@@ -18,13 +18,16 @@ export default function Notification(props: NotificationProps) {
       </p>
     );
   }
-  console.log(props.notification);
   const notifDate = new Date(props.notification.timestamp).toISOString();
 
   if (props.notification.type === "newComment") {
     return (
       <Link href={`/post/${props.notification.content.postNumber}`}>
-        <div className={styles.Notification}>
+        <div
+          className={`${styles.Notification} ${
+            !props.notification.read ? styles.UnreadNotification : ""
+          }`}
+        >
           <div className={styles.NotificationHeader}>
             <div className={styles.NotificationHeaderLeft}>
               <div className={styles.NotificationImageBox}>
@@ -38,8 +41,6 @@ export default function Notification(props: NotificationProps) {
               </div>
               {notifText}
             </div>
-            {/* convert timestamp to iso string */}
-
             <RelativeDate date={notifDate} />
           </div>
           <p className={styles.NotificationContext}>

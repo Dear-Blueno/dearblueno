@@ -1,0 +1,62 @@
+import styles from "./NotificationsPageHeader.module.scss";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+enum NotificationsSort {
+  Unread,
+  All,
+}
+
+export default function NotificationsPageHeader() {
+  const unreadRef = useRef<HTMLHeadingElement>(null);
+  const allRef = useRef<HTMLHeadingElement>(null);
+  const underlineRef = useRef<HTMLSpanElement>(null);
+  const [active, setActive] = useState<NotificationsSort>(
+    NotificationsSort.Unread
+  );
+
+  const handleSwitch = useCallback(() => {
+    const refs = [unreadRef, allRef];
+    const selectedRef = refs[active];
+    const leftAdjust = active === NotificationsSort.Unread ? -1 : -2;
+    if (underlineRef.current && selectedRef.current) {
+      underlineRef.current.style.left = `${
+        selectedRef.current.offsetLeft + leftAdjust
+      }px`;
+      underlineRef.current.style.width = `${
+        selectedRef.current.offsetWidth + 4
+      }px`;
+    }
+  }, [active]);
+
+  useEffect(handleSwitch, [handleSwitch]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleSwitch);
+    return () => {
+      window.removeEventListener("resize", handleSwitch);
+    };
+  }, [handleSwitch]);
+
+  return (
+    <div className={styles.MainFeedHeader}>
+      <div
+        className={styles.MainFeedHeaderOption}
+        onClick={() => setActive(NotificationsSort.Unread)}
+      >
+        <h3 className={styles.MainFeedHeaderOptionText} ref={unreadRef}>
+          Unread
+        </h3>
+      </div>
+      <div
+        className={styles.MainFeedHeaderOption}
+        onClick={() => setActive(NotificationsSort.All)}
+      >
+        <h3 className={styles.MainFeedHeaderOptionText} ref={allRef}>
+          All
+        </h3>
+      </div>
+      <span className={styles.FeedSelectionUnderline} ref={underlineRef} />
+    </div>
+  );
+}
+

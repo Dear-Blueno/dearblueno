@@ -20,24 +20,22 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <div className="App">
-        <IsMobileProvider>
-          <QueryClientProvider client={queryClient}>
-            <LoginPopupProvider>
-              <ToasterProvider>
-                <div className="ColumnsContainer">
-                  <MainNavigation />
-                  <Component {...pageProps} />
-                </div>
-                <LoginFooter></LoginFooter>
-              </ToasterProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </LoginPopupProvider>
-          </QueryClientProvider>
-        </IsMobileProvider>
-      </div>
-    </>
+    <div className="App">
+      <IsMobileProvider>
+        <QueryClientProvider client={queryClient}>
+          <LoginPopupProvider>
+            <ToasterProvider>
+              <div className="ColumnsContainer">
+                <MainNavigation />
+                <Component {...pageProps} />
+              </div>
+              <LoginFooter></LoginFooter>
+            </ToasterProvider>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          </LoginPopupProvider>
+        </QueryClientProvider>
+      </IsMobileProvider>
+    </div>
   );
 }
 
