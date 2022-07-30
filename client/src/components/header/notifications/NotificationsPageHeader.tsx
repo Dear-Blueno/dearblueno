@@ -1,5 +1,6 @@
 import styles from "./NotificationsPageHeader.module.scss";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 enum NotificationsSort {
   Unread,
@@ -10,14 +11,15 @@ export default function NotificationsPageHeader() {
   const unreadRef = useRef<HTMLHeadingElement>(null);
   const allRef = useRef<HTMLHeadingElement>(null);
   const underlineRef = useRef<HTMLSpanElement>(null);
+  const router = useRouter();
   const [active, setActive] = useState<NotificationsSort>(
-    NotificationsSort.Unread
+    router.query.sort ? NotificationsSort.All : NotificationsSort.Unread
   );
 
   const handleSwitch = useCallback(() => {
     const refs = [unreadRef, allRef];
     const selectedRef = refs[active];
-    const leftAdjust = active === NotificationsSort.Unread ? -1 : -2;
+    const leftAdjust = active === NotificationsSort.Unread ? -1.5 : -2;
     if (underlineRef.current && selectedRef.current) {
       underlineRef.current.style.left = `${
         selectedRef.current.offsetLeft + leftAdjust
@@ -41,7 +43,10 @@ export default function NotificationsPageHeader() {
     <div className={styles.MainFeedHeader}>
       <div
         className={styles.MainFeedHeaderOption}
-        onClick={() => setActive(NotificationsSort.Unread)}
+        onClick={() => {
+          setActive(NotificationsSort.Unread);
+          void router.push("/notifications");
+        }}
       >
         <h3 className={styles.MainFeedHeaderOptionText} ref={unreadRef}>
           Unread
@@ -49,7 +54,10 @@ export default function NotificationsPageHeader() {
       </div>
       <div
         className={styles.MainFeedHeaderOption}
-        onClick={() => setActive(NotificationsSort.All)}
+        onClick={() => {
+          setActive(NotificationsSort.All);
+          void router.push("/notifications?sort=all");
+        }}
       >
         <h3 className={styles.MainFeedHeaderOptionText} ref={allRef}>
           All

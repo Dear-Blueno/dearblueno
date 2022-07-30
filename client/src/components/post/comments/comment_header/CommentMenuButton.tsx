@@ -8,6 +8,8 @@ import { IThread } from "../CommentSection";
 import { deleteComment, flagComment } from "gateways/PostGateway";
 import { findComment } from "../new_comment/NewCommentBox";
 import useUser from "hooks/useUser";
+import { useLoginPopup } from "hooks/login-popup";
+import toast from "react-hot-toast";
 
 interface CommentMenuButtonProps {
   commentNumber: number;
@@ -19,6 +21,7 @@ interface CommentMenuButtonProps {
 
 function CommentMenuButton(props: CommentMenuButtonProps) {
   const { user } = useUser();
+  const { userOnlyAction } = useLoginPopup();
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
@@ -99,8 +102,24 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                   paddingBlock: "0.25em",
                 }}
                 onClick={() => {
-                  flagComment(props.postNumber, props.commentNumber, reason);
-                  closePopup();
+                  const action = userOnlyAction(async () => {
+                    const response = await flagComment(
+                      props.postNumber,
+                      props.commentNumber,
+                      reason
+                    );
+                    if (response.success) {
+                      toast.success("Comment reported");
+                    } else {
+                      toast.error(
+                        (response.message as unknown as { message: string })
+                          .message
+                      );
+                      console.log(response);
+                    }
+                    closePopup();
+                  });
+                  void action();
                 }}
                 tabIndex={-1}
               >

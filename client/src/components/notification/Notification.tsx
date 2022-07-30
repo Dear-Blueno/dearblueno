@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { INotification } from "types/IUser";
 import RelativeDate from "components/post/RelativeDate";
+import { markNotificationAsRead } from "gateways/UserGateway";
 interface NotificationProps {
   notification: INotification;
 }
@@ -27,6 +28,9 @@ export default function Notification(props: NotificationProps) {
           className={`${styles.Notification} ${
             !props.notification.read ? styles.UnreadNotification : ""
           }`}
+          onClick={() => {
+            void markNotificationAsRead(props.notification._id);
+          }}
         >
           <div className={styles.NotificationHeader}>
             <div className={styles.NotificationHeaderLeft}>

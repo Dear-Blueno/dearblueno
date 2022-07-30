@@ -1,3 +1,9 @@
+.NotificationsFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 .LoginPrompt {
   text-align: center;
   font-size: large;
@@ -5,7 +11,7 @@
 }
 
 .LoginPromptLink {
-  color: rgb(54, 73, 129);
+  color: #bcd;
   text-decoration: underline;
   cursor: pointer;
 }
