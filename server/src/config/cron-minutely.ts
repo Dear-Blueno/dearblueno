@@ -18,10 +18,11 @@ export default function setupCron() {
 
     timeTaken.push(completedIn);
     if (timeTaken.length >= 60) {
+      const average = Math.round(
+        timeTaken.reduce((a, b) => a + b, 0) / timeTaken.length
+      );
       logger.info(
-        `Minutely cron job took an average of ${
-          timeTaken.reduce((a, b) => a + b, 0) / timeTaken.length
-        } for the past hour.`
+        `Minutely cron job took an average of ${average}ms for the past hour.`
       );
       timeTaken = [];
     }
