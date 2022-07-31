@@ -140,7 +140,9 @@ function ProfileBox(props: ProfileBoxProps) {
       handleFacebook(facebookInput.current?.value),
       handleLinkedIn(linkedinInput.current?.value),
       concentrationInput.current?.value ?? undefined,
-      yearInput.current?.value ?? undefined
+      yearInput.current?.value ?? undefined,
+      "Nick Vadasz",
+      "he/him"
     )
       .then(() => setEditing(false))
       .catch((error) => {
@@ -155,7 +157,7 @@ function ProfileBox(props: ProfileBoxProps) {
           <ProfilePicture
             link={props.profileUser ? props.profileUser.profilePicture : ""}
           ></ProfilePicture>
-          <ProfileName name={props.profileUser ? props.profileUser.name : ""} />
+          <ProfileName name={props.profileUser ? (props.profileUser.displayName ?? props.profileUser.name) : ""} />
           {ownProfile && !editing && (
             <GenericProfileButton
               click={() => setEditing(true)}

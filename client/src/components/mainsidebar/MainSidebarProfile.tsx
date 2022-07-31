@@ -21,7 +21,7 @@ export default function MainSidebarProfile() {
               />
             </div>
             <div className={styles.MainSidebarProfileNameAndXP}>
-              <div className={styles.MainSidebarProfileName}>{user.name}</div>
+              <div className={styles.MainSidebarProfileName}>{user.displayName ?? user.name}</div>
               <LevelAndXPBar xp={user.xp} />
             </div>
           </>

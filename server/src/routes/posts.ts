@@ -414,7 +414,7 @@ postRouter.post(
         type: "newComment",
         content: {
           postNumber: post.postNumber,
-          userName: user.name,
+          userName: user.displayName ?? user.name,
           commentContent: req.body.content,
           profilePicture: user.profilePicture,
         },

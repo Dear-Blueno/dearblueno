@@ -30,12 +30,12 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   const title =
     user?._id === profileUser._id
       ? "My Profile"
-      : profileUser.name + "'s Profile";
+      : (profileUser.displayName ?? profileUser.name)  + "'s Profile";
 
   return (
     <>
       <Head>
-        <title>{profileUser.name + " - Dear Blueno"}</title>
+        <title>{profileUser.displayName ?? profileUser.name + " - Dear Blueno"}</title>
       </Head>
       <MainLayout
         title={title}

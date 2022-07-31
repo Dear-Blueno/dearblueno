@@ -84,7 +84,7 @@ function CommentHeader(props: CommentHeaderProps) {
               }, 200);
             }}
           >
-            {props.comment.author.name}
+            {props.comment.author.displayName ?? props.comment.author.name}
           </p>
         </a>
       ) : (

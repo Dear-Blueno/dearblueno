@@ -33,7 +33,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
         <div className={styles.HoverCardImage}>
           <Image
             src={props.hoverUser.profilePicture}
-            alt={props.hoverUser.name}
+            alt={props.hoverUser.displayName ?? props.hoverUser.name}
             width={70}
             height={70}
           />
@@ -44,7 +44,7 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
           href={`/profile/${props.hoverUser._id}`}
           className={styles.HoverCardName}
         >
-          <p>{props.hoverUser.name}</p>
+          <p>{props.hoverUser.displayName ?? props.hoverUser.name}</p>
         </a>
         <div className={styles.SocialBar}>
           {props.hoverUser.instagram && (

@@ -40,7 +40,7 @@ function AnonymousToggle(props: AnonymousToggleProps) {
           <AiOutlineEye className={styles.AnonymousIcon} />
           <small className={styles.AnonymousDetail}>
             <span>
-              Posting as <strong>{user?.name}</strong>
+              Posting as <strong>{user?.displayName ?? user?.name}</strong>
             </span>
           </small>
         </button>
