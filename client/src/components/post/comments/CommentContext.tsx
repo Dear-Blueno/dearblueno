@@ -31,7 +31,9 @@ export default function CommentContext(props: CommentContextProps) {
             </div>
           )}
           <div className={styles.CommentContextReplyAuthor}>
-            {parentComment.author ? (parentComment.author.displayName ?? parentComment.author.name) : "Anonymous"}
+            {parentComment.author
+              ? parentComment.author.displayName ?? parentComment.author.name
+              : "Anonymous"}
           </div>
           <div className={styles.CommentContextReplyText}>
             <UserContent>
@@ -39,7 +41,7 @@ export default function CommentContext(props: CommentContextProps) {
                 (parentComment.content.length > 10 ? "…" : "")}
             </UserContent>
           </div>
-        </> 
+        </>
       )}
       {!isReply && (
         <>

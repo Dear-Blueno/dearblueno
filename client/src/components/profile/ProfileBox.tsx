@@ -159,94 +159,89 @@ function ProfileBox(props: ProfileBoxProps) {
   };
 
   return (
-    <>
-      <div className={styles.ProfileBox}>
-        <div className={styles.LeftColumn}>
-          <ProfilePicture
-            link={props.profileUser ? props.profileUser.profilePicture : ""}
-          ></ProfilePicture>
-          <ProfileName
-            name={
-              props.profileUser
-                ? props.profileUser.displayName ?? props.profileUser.name
-                : ""
-            }
-          />
-          {ownProfile && !editing && (
-            <GenericProfileButton
-              click={() => setEditing(true)}
-              text={"Edit"}
-            />
-          )}
-          <ProfileSocials
-            links={[
-              props.profileUser?.instagram,
-              props.profileUser?.twitter,
-              props.profileUser?.facebook,
-              props.profileUser?.linkedin,
-            ]}
-            refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
-            editing={editing}
-          />
-          <ProfileBio
-            bio={props.profileUser?.bio ? props.profileUser.bio : ""}
-            editing={editing}
-            bioRef={bioTextArea}
-          />
-          <ProfilePersonalInfo
-            contents={[
-              props.profileUser?.hometown,
-              props.profileUser?.classYear,
-              props.profileUser?.concentration,
-            ]}
-            refs={[hometownInput, yearInput, concentrationInput]}
-            editing={editing}
-          />
-          {editing && (
-            <div className={styles.SaveAndCancelButtons}>
-              <div className={styles.ContainerOne}>
-                <GenericProfileButton click={handleProfileEdit} text={"Save"} />
-              </div>
-              <div className={styles.ContainerOne}>
-                <GenericProfileButton
-                  click={() => setEditing(false)}
-                  text={"Cancel"}
+    <div className={styles.ProfileBox}>
+      <div className={styles.LeftColumn}>
+        <ProfilePicture
+          link={props.profileUser ? props.profileUser.profilePicture : ""}
+        ></ProfilePicture>
+        <ProfileName
+          name={
+            props.profileUser
+              ? props.profileUser.displayName ?? props.profileUser.name
+              : ""
+          }
+        />
+        {ownProfile && !editing && (
+          <GenericProfileButton click={() => setEditing(true)} text={"Edit"} />
+        )}
+        <ProfileSocials
+          links={[
+            props.profileUser?.instagram,
+            props.profileUser?.twitter,
+            props.profileUser?.facebook,
+            props.profileUser?.linkedin,
+          ]}
+          refs={[instagramInput, twitterInput, facebookInput, linkedinInput]}
+          editing={editing}
+        />
+        <ProfileBio
+          bio={props.profileUser?.bio ? props.profileUser.bio : ""}
+          editing={editing}
+          bioRef={bioTextArea}
+        />
+        <ProfilePersonalInfo
+          contents={[
+            props.profileUser?.hometown,
+            props.profileUser?.classYear,
+            props.profileUser?.concentration,
+          ]}
+          refs={[hometownInput, yearInput, concentrationInput]}
+          editing={editing}
+        />
+        {editing && (
+          <div className={styles.SaveAndCancelButtons}>
+            <div className={styles.ContainerOne}>
+              <GenericProfileButton click={handleProfileEdit} text={"Save"} />
+            </div>
+            <div className={styles.ContainerOne}>
+              <GenericProfileButton
+                click={() => setEditing(false)}
+                text={"Cancel"}
+              />
+            </div>
+          </div>
+        )}
+        {ownProfile && (
+          <div className={styles.Logout}>
+            <MdLogout color="red"></MdLogout>
+            <button className={styles.LogoutButton} onClick={logout}>
+              Log out
+            </button>
+          </div>
+        )}
+      </div>
+      <div className={styles.ScrollArea}>
+        <div className={styles.CommentsContainer}>
+          <h2>Comments</h2>
+          <div className={styles.ProfileCommentsList}>
+            {comments === undefined ? (
+              <div>Loading...</div>
+            ) : comments.length > 0 ? (
+              comments.map((comment, index) => (
+                <ContextThread
+                  user={props.user}
+                  key={comment._id}
+                  thread={comment}
+                  delay={`${index * 80}ms`}
                 />
-              </div>
-            </div>
-          )}
-          {ownProfile && (
-            <div className={styles.Logout}>
-              <MdLogout color="red"></MdLogout>
-              <button className={styles.LogoutButton} onClick={logout}>
-                Log out
-              </button>
-            </div>
-          )}
-        </div>
-        <div className={styles.ScrollArea}>
-          <div className={styles.CommentsContainer}>
-            <h2>Comments</h2>
-            <div className={styles.ProfileCommentsList}>
-              {comments === undefined ? (
-                <div>Loading...</div>
-              ) : comments.length > 0 ? (
-                comments.map((comment, index) => (
-                  <ContextThread
-                    user={props.user}
-                    key={comment._id}
-                    thread={comment}
-                    delay={`${index * 80}ms`}
-                  />
-                ))
-              ) : (
-                <p className={styles.ProfileCommentsEmpty}>No comments yet!</p>
-              )}
-            </div>
+              ))
+            ) : (
+              <p className={styles.ProfileCommentsEmpty}>No comments yet!</p>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
