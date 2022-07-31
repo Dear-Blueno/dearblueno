@@ -28,7 +28,7 @@
   text-align: center;
 }
 
-#TextBox {
+.TextBox {
   resize: none;
   flex-grow: 3;
   padding: 0.5rem;
@@ -37,7 +37,7 @@
   font-size: 1rem;
 }
 
-#TextBox:focus {
+.TextBox:focus {
   outline: none;
 }
 

@@ -12,6 +12,7 @@ import ContextThread from "components/post/comments/ContextThread";
 import { logout } from "gateways/AuthGateway";
 import { MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
+import toast from "react-hot-toast";
 
 interface ProfileBoxProps {
   user?: IUser;
@@ -30,7 +31,7 @@ function ProfileBox(props: ProfileBoxProps) {
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
 
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [comments, setComments] = useState<IComment[] | undefined>(undefined);
 
   useEffect(() => {
     if (props.profileUser) {
@@ -140,11 +141,18 @@ function ProfileBox(props: ProfileBoxProps) {
       handleFacebook(facebookInput.current?.value),
       handleLinkedIn(linkedinInput.current?.value),
       concentrationInput.current?.value ?? undefined,
-      yearInput.current?.value ?? undefined,
-      "Nick Vadasz",
-      "he/him"
+      yearInput.current?.value ?? undefined
     )
-      .then(() => setEditing(false))
+      .then((response) => {
+        if (response.success) {
+          setEditing(false);
+          toast.success("Profile updated successfully!");
+        } else {
+          toast.error(
+            (response.message as unknown as { message: string }).message
+          );
+        }
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -157,7 +165,13 @@ function ProfileBox(props: ProfileBoxProps) {
           <ProfilePicture
             link={props.profileUser ? props.profileUser.profilePicture : ""}
           ></ProfilePicture>
-          <ProfileName name={props.profileUser ? (props.profileUser.displayName ?? props.profileUser.name) : ""} />
+          <ProfileName
+            name={
+              props.profileUser
+                ? props.profileUser.displayName ?? props.profileUser.name
+                : ""
+            }
+          />
           {ownProfile && !editing && (
             <GenericProfileButton
               click={() => setEditing(true)}
@@ -211,19 +225,24 @@ function ProfileBox(props: ProfileBoxProps) {
           )}
         </div>
         <div className={styles.ScrollArea}>
-          <div className={styles.RightColumn}>
-            {comments.length > 0 ? (
-              comments.map((comment, index) => (
-                <ContextThread
-                  user={props.user}
-                  key={comment._id}
-                  thread={comment}
-                  delay={`${index * 80}ms`}
-                />
-              ))
-            ) : (
-              <p className="ProfileCommentsEmpty">No comments yet!</p>
-            )}
+          <div className={styles.CommentsContainer}>
+            <h2>Comments</h2>
+            <div className={styles.ProfileCommentsList}>
+              {comments === undefined ? (
+                <div>Loading...</div>
+              ) : comments.length > 0 ? (
+                comments.map((comment, index) => (
+                  <ContextThread
+                    user={props.user}
+                    key={comment._id}
+                    thread={comment}
+                    delay={`${index * 80}ms`}
+                  />
+                ))
+              ) : (
+                <p className={styles.ProfileCommentsEmpty}>No comments yet!</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -3,11 +3,11 @@ import { NextPage } from "next";
 import ProfilePage from "./profile/[id]";
 
 const MyProfilePage: NextPage = () => {
-  const { user, isLoadingUser: isLoading } = useUser();
-  if (isLoading) {
+  const { user, isLoadingUser } = useUser();
+  if (isLoadingUser) {
     return null;
   }
-  return <ProfilePage user={user} />;
+  return <ProfilePage profileUser={user} />;
 };
 
 export default MyProfilePage;

@@ -11,35 +11,37 @@ import ProfileSidebar from "../../components/profile/ProfileSidebar";
 import useUser from "hooks/useUser";
 
 interface ProfilePageProps {
-  user?: IUser;
+  profileUser?: IUser;
 }
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
-  const { user, isLoadingUser: isLoading } = useUser();
+  const { user, isLoadingUser } = useUser();
 
-  const profileUser = props.user;
-
-  if (!profileUser) {
+  if (!props.profileUser) {
     return <NotFoundPage />;
   }
 
-  if (isLoading) {
-    return <MainLayout page={<div>Loading...</div>} />;
+  if (isLoadingUser) {
+    return <MainLayout />;
   }
 
   const title =
-    user?._id === profileUser._id
+    user?._id === props.profileUser._id
       ? "My Profile"
-      : (profileUser.displayName ?? profileUser.name)  + "'s Profile";
+      : (props.profileUser.displayName ?? props.profileUser.name) +
+        "'s Profile";
 
   return (
     <>
       <Head>
-        <title>{(profileUser.displayName ?? profileUser.name) + " - Dear Blueno"}</title>
+        <title>
+          {(props.profileUser.displayName ?? props.profileUser.name) +
+            " - Dear Blueno"}
+        </title>
       </Head>
       <MainLayout
         title={title}
-        page={<ProfilePageMain user={user} profileUser={profileUser} />}
+        page={<ProfilePageMain user={user} profileUser={props.profileUser} />}
         sidebar={<ProfileSidebar />}
       />
     </>
@@ -61,18 +63,18 @@ function ProfilePageMain(props: ProfilePageMainProps) {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const userID = context.params?.id as string;
-  const user = await getUser(userID);
-  if (user.success) {
+  const profileUser = await getUser(userID);
+  if (profileUser.success) {
     return {
       props: {
-        user: user.payload,
+        profileUser: profileUser.payload,
       },
       revalidate: 30,
     };
   }
   return {
     props: {
-      user: null,
+      profileUser: null,
     },
     revalidate: 30,
   };

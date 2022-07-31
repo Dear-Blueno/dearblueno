@@ -34,7 +34,7 @@
   }
 }
 
-.RightColumn {
+.CommentsContainer {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -44,6 +44,8 @@
     height: unset;
     min-height: unset;
     max-height: 20rem;
+    width: calc(100% + 0.8rem);
+    padding-right: 0.2rem;
   }
 }
 
@@ -81,6 +83,10 @@
   font-size: 1.2rem;
 }
 
+.ProfileCommentsEmpty {
+  width: 100%;
+}
+
 .Logout {
   display: flex;
   align-items: center;
@@ -102,21 +108,19 @@
   padding: 0;
 }
 
-.ScrollArea {
+.ProfileCommentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
   overflow-y: scroll;
   padding-right: 0.5rem;
-  @media screen and (max-width: 30rem) {
-    width: calc(100% + 0.8rem);
-    margin-left: 0.7rem;
-    padding-right: 0.2rem;
-  }
 }
 
-.ScrollArea::-webkit-scrollbar {
+.ProfileCommentsList::-webkit-scrollbar {
   width: 0.5rem;
 }
 
-.ScrollArea::-webkit-scrollbar-thumb {
+.ProfileCommentsList::-webkit-scrollbar-thumb {
   border-radius: 0.3rem;
   background-color: #cfd7e1;
 }

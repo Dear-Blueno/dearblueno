@@ -1,28 +1,30 @@
 import styles from "./SubmitBox.module.scss";
 import GoogleFormOption from "./GoogleFormOption";
 import LogoIcon from "../../images/logo128.png";
-import IUser from "../../types/IUser";
 import { createPost } from "../../gateways/PostGateway";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 interface SubmitBoxProps {
-  user: IUser | undefined;
   submitted: boolean;
   submittedSetter: (arg: boolean) => void;
 }
 
 function SubmitBox(props: SubmitBoxProps) {
-  const post = (text: string) => {
-    props.submittedSetter(true);
+  const submitPost = (text: string) => {
     createPost(text)
       .then((response) => {
         if (response.success) {
-          console.log(response.payload);
+          props.submittedSetter(true);
+        } else {
+          toast.error(
+            (response.message as unknown as { message: string }).message
+          );
         }
       })
-      .catch(() => {
-        console.log("post failed");
+      .catch((error) => {
+        console.error(error);
       });
   };
 
@@ -51,19 +53,20 @@ function SubmitBox(props: SubmitBoxProps) {
             {/* <h2 className={styles.SubmitBoxHeaderText}>post anonymously</h2> */}
             <textarea
               placeholder="What's on your mind?"
-              id={styles.TextBox}
+              id="TextBox"
+              className={styles.TextBox}
               name="TextBox"
               autoFocus={true}
             ></textarea>
             <div className={styles.SubmitBoxFooter}>
-              <GoogleFormOption user={props.user} />
+              <GoogleFormOption />
               <p
                 className={styles.Submit}
                 onClick={() => {
                   const element = document.getElementById(
                     "TextBox"
                   ) as HTMLTextAreaElement;
-                  post(element.value);
+                  submitPost(element.value);
                 }}
               >
                 submit
