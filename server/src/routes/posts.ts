@@ -379,11 +379,12 @@ postRouter.put(
     const user = req.user as IUser;
 
     const reactions = post.reactions[reaction - 1] || [];
-    if (state) {
-      !reactions.includes(user._id) && reactions.push(user._id);
-    } else {
-      reactions.includes(user._id) &&
-        reactions.splice(reactions.indexOf(user._id), 1);
+    if (state && !reactions.includes(user._id)) {
+      reactions.push(user._id);
+      post.score += 3;
+    } else if (!state && reactions.includes(user._id)) {
+      reactions.splice(reactions.indexOf(user._id), 1);
+      post.score -= 3;
     }
     post.reactions[reaction - 1] = reactions;
     await post.save();
@@ -430,6 +431,8 @@ postRouter.post(
     if (!req.body.anonymous) {
       user.xp += 2;
       await User.updateOne({ _id: user._id }, { xp: user.xp });
+
+      post.score += 3;
 
       // Send a notification to the post's subscribers (if not anonymous)
       const subscribers = post.subscribers.filter((subscriber) => {
@@ -506,8 +509,10 @@ postRouter.put(
 
     comment.approved = req.body.approved;
     comment.needsReview = false;
-    await comment.save();
+
     if (comment.approved && !comment.author) {
+      post.score += 2;
+
       // Send a notification to the post's subscribers
       const notification: INewCommentNotification = {
         timestamp: new Date(),
@@ -531,6 +536,8 @@ postRouter.put(
         }
       );
     }
+
+    await Promise.all([post.save(), comment.save()]);
 
     res.send(comment);
   }
@@ -575,6 +582,7 @@ postRouter.put(
         { $inc: { xp: state ? 1 : -1 } }
       );
     }
+    post.score += state ? 1 : -1;
 
     const reactions = comment.reactions[reaction - 1] || [];
     if (state && !reactions.includes(user._id)) {
@@ -583,7 +591,7 @@ postRouter.put(
       reactions.splice(reactions.indexOf(user._id), 1);
     }
     comment.reactions[reaction - 1] = reactions;
-    await comment.save();
+    await Promise.all([comment.save(), post.save()]);
 
     res.json({ reaction: req.body.state });
   }

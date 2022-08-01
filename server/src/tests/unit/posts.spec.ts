@@ -841,6 +841,7 @@ describe("Posts", () => {
       const post2 = await Post.findOne();
       expect(post2?.reactions[0]).toHaveLength(1);
       expect(post2?.reactions[0][0]).toStrictEqual(user._id);
+      expect(post2?.score).toBe(3);
     });
 
     it("should return 200 if logged in and the post exists and the unreaction is valid", async () => {
@@ -863,6 +864,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne();
       expect(post2?.reactions[0]).toHaveLength(0);
+      expect(post2?.score).toBe(0);
     });
   });
 
@@ -907,6 +909,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments).toHaveLength(1);
+      expect(post2?.score).toBe(3);
       const comment = post2?.comments[0];
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toStrictEqual(user._id);
@@ -1165,6 +1168,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne().populate("comments");
+      expect(post2?.score).toBe(0);
       expect(post2?.comments[0].approved).toBe(true);
       expect(post2?.comments[0].needsReview).toBe(false);
 
@@ -1176,6 +1180,39 @@ describe("Posts", () => {
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].approved).toBe(false);
       expect(post3?.comments[0].needsReview).toBe(false);
+    });
+
+    it("should approve anonymous comments and award points to post score", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a test comment",
+        commentNumber: 1,
+        post: post._id,
+        postNumber: 1,
+        parentCommentNumber: -1,
+        author: null,
+        approved: false,
+      });
+      await comment.save();
+
+      post.comments.push(comment);
+      await post.save();
+
+      await request(app)
+        .put(`/posts/1/comment/1/approve`)
+        .send({ user: modUser, approved: true })
+        .expect(200);
+
+      const post2 = await Post.findOne().populate("comments");
+      expect(post2?.score).toBe(2);
+      expect(post2?.comments[0].approved).toBe(true);
+      expect(post2?.comments[0].needsReview).toBe(false);
     });
 
     it("should send notifications to subscribers if comment is anonymous", async () => {
@@ -1352,6 +1389,7 @@ describe("Posts", () => {
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments[0].reactions[0]).toHaveLength(1);
       expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
+      expect(post2?.score).toBe(1);
 
       const commenter = await User.findById(user._id);
       expect(commenter?.xp).toBe(1);
@@ -1363,6 +1401,7 @@ describe("Posts", () => {
 
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].reactions[0]).toHaveLength(0);
+      expect(post3?.score).toBe(0);
 
       const commenter2 = await User.findById(user._id);
       expect(commenter2?.xp).toBe(0);
