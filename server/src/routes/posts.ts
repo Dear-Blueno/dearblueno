@@ -50,9 +50,9 @@ postRouter.get(
 
     const sortOptions = {
       new: { pinned: -1, postNumber: -1 },
-      topWeek: { pinned: -1, score: -1 },
-      topMonth: { pinned: -1, score: -1 },
-      topAllTime: { pinned: -1, score: -1 },
+      topWeek: { pinned: -1, score: -1, postNumber: -1 },
+      topMonth: { pinned: -1, score: -1, postNumber: -1 },
+      topAllTime: { pinned: -1, score: -1, postNumber: -1 },
     };
     const sortQuery = sortOptions[sort];
     const filterOptions = {
