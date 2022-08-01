@@ -49,8 +49,7 @@ authRouter.get(
 
 // Google OAuth2 callback
 authRouter.get("/google/callback", (req, res, next) => {
-  passport.authenticate("google", (err, user, info) => {
-    console.log(err, user, info);
+  passport.authenticate("google", (err, user) => {
     const url = process.env.CLIENT_URL ?? "http://localhost:3000";
     if (err) {
       return res.redirect(`${url}/login-error`);

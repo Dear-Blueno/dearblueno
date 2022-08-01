@@ -235,6 +235,100 @@ describe("Posts", () => {
       expect(res.body[1].postNumber).toBe(2);
       expect(res.body[1].pinned).toBeFalsy();
     });
+
+    it("should sort by top of all time", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedTime: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
+        score: 100,
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        approvedTime: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+        score: 50,
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        approvedTime: new Date(),
+        score: 75,
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts?sort=topAllTime").expect(200);
+      expect(res.body).toHaveLength(3);
+
+      expect(res.body[0].postNumber).toBe(1);
+      expect(res.body[1].postNumber).toBe(3);
+      expect(res.body[2].postNumber).toBe(2);
+    });
+
+    it("should sort by top of week", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedTime: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+        score: 100,
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        approvedTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+        score: 50,
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        approvedTime: new Date(),
+        score: 75,
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts?sort=topWeek").expect(200);
+      expect(res.body).toHaveLength(2);
+
+      expect(res.body[0].postNumber).toBe(3);
+      expect(res.body[1].postNumber).toBe(2);
+    });
+
+    it("should sort by top of month", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedTime: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
+        score: 100,
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        approvedTime: new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
+        score: 50,
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        approvedTime: new Date(),
+        score: 75,
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts?sort=topMonth").expect(200);
+      expect(res.body).toHaveLength(2);
+
+      expect(res.body[0].postNumber).toBe(3);
+      expect(res.body[1].postNumber).toBe(2);
+    });
   });
 
   describe("GET /posts/all", () => {

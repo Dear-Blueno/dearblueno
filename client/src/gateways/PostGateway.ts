@@ -9,19 +9,29 @@ import {
   successfulResponse,
 } from "./GatewayResponses";
 
-export async function getPosts(page: number): Promise<IResponse<IPost[]>> {
+export async function getPosts(
+  page?: number,
+  sort?: "new" | "topAllTime" | "topWeek" | "topMonth"
+): Promise<IResponse<IPost[]>> {
   try {
-    const response = await axios.get(`/posts?page=${page}`);
+    const response = await axios.get("/posts", {
+      params: {
+        page,
+        sort,
+      },
+    });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
   }
 }
 
-export async function getAllPosts(page: number): Promise<IResponse<IPost[]>> {
+export async function getAllPosts(page?: number): Promise<IResponse<IPost[]>> {
   // only for moderators! gets all posts, regardless of approval or review status
   try {
-    const response = await axios.get(`/posts/all?page=${page}`);
+    const response = await axios.get(`/posts/all`, {
+      params: { page },
+    });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
@@ -29,11 +39,13 @@ export async function getAllPosts(page: number): Promise<IResponse<IPost[]>> {
 }
 
 export async function getModFeedPosts(
-  page: number
+  page?: number
 ): Promise<IResponse<IPost[]>> {
   // only for moderators! gets posts that need moderation
   try {
-    const response = await axios.get(`/posts/mod-feed?page=${page}`);
+    const response = await axios.get(`/posts/mod-feed`, {
+      params: { page },
+    });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
@@ -41,11 +53,13 @@ export async function getModFeedPosts(
 }
 
 export async function getModFeedComments(
-  page: number
+  page?: number
 ): Promise<IResponse<IComment[]>> {
   // only for moderators! gets comments that need moderation
   try {
-    const response = await axios.get(`/posts/mod-feed/comments?page=${page}`);
+    const response = await axios.get(`/posts/mod-feed/comments`, {
+      params: { page },
+    });
     return successfulResponse(response.data as IComment[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
@@ -212,10 +226,12 @@ export async function subscribeToPost(
 }
 
 export async function getPostReactionsByPage(
-  page: number
+  page?: number
 ): Promise<IResponse<IPostReactions[]>> {
   try {
-    const response = await axios.get(`/posts/reactions?page=${page}`);
+    const response = await axios.get(`/posts/reactions`, {
+      params: { page },
+    });
     return successfulResponse(response.data as IPostReactions[]);
   } catch (error: unknown) {
     return failureResponse(error as string);
@@ -234,10 +250,12 @@ export async function getPostReactionsByPost(
 }
 
 export async function getModFeedReports(
-  page: number
+  page?: number
 ): Promise<IResponse<IReport[]>> {
   try {
-    const response = await axios.get(`/posts/mod-feed/reports?page=${page}`);
+    const response = await axios.get(`/posts/mod-feed/reports`, {
+      params: { page },
+    });
     return successfulResponse(response.data as IReport[]);
   } catch (error: unknown) {
     return failureResponse(error as string);

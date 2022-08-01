@@ -37,14 +37,40 @@ function cleanSensitivePost(post: IPost, user?: IUser): IPost {
 postRouter.get(
   "/",
   optionalAuth,
-  query("page").optional().isInt({ min: 1 }),
+  query("page").default(1).isInt({ min: 1 }),
+  query("sort")
+    .default("new")
+    .isIn(["new", "topWeek", "topMonth", "topAllTime"]),
   validate,
   async (req, res) => {
-    const page: number = Number(req.query.page) || 1;
-    const posts = await Post.find({
-      approved: true,
-    })
-      .sort({ pinned: -1, postNumber: -1 })
+    type Sort = "new" | "topWeek" | "topMonth" | "topAllTime";
+
+    const page = Number(req.query.page);
+    const sort = req.query.sort as Sort;
+
+    const sortOptions = {
+      new: { pinned: -1, postNumber: -1 },
+      topWeek: { pinned: -1, score: -1 },
+      topMonth: { pinned: -1, score: -1 },
+      topAllTime: { pinned: -1, score: -1 },
+    };
+    const sortQuery = sortOptions[sort];
+    const filterOptions = {
+      new: { approved: true },
+      topWeek: {
+        approved: true,
+        approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) },
+      },
+      topMonth: {
+        approved: true,
+        approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30) },
+      },
+      topAllTime: { approved: true },
+    };
+    const filterQuery = filterOptions[sort];
+
+    const posts = await Post.find(filterQuery)
+      .sort(sortQuery)
       .skip((page - 1) * 10)
       .limit(10)
       .select("-approvedBy -subscribers")
