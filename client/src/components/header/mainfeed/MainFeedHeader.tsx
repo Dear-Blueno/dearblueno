@@ -2,7 +2,28 @@ import styles from "./MainFeedHeader.module.scss";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
-type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAlltime";
+export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
+
+export const parseSortQueryParams = (
+  sort: string | string[] | undefined,
+  of: string | string[] | undefined
+): SortType => {
+  if (sort) {
+    const sortType = sort as string;
+    if (sortType === "top") {
+      if (of === "week") {
+        return "topWeek";
+      } else if (of === "month") {
+        return "topMonth";
+      } else if (of === "alltime") {
+        return "topAllTime";
+      }
+    } else if (sortType === "hot" || sortType === "new") {
+      return sortType;
+    }
+  }
+  return "hot";
+};
 
 export default function MainFeedHeader() {
   const hotRef = useRef<HTMLHeadingElement>(null);
@@ -12,29 +33,16 @@ export default function MainFeedHeader() {
   const router = useRouter();
   const [choosingTop, setChoosingTop] = useState<boolean>(false);
 
-  const parseSortQueryParams = useCallback((): SortType => {
-    if (router.query.sort) {
-      const sortType = router.query.sort as string;
-      if (sortType === "top") {
-        if (router.query.of === "week") {
-          return "topWeek";
-        } else if (router.query.of === "month") {
-          return "topMonth";
-        } else if (router.query.of === "alltime") {
-          return "topAlltime";
-        }
-      } else if (sortType === "hot" || sortType === "new") {
-        return sortType;
-      }
-    }
-    return "hot";
-  }, [router.query.sort, router.query.of]);
+  const parseSortQueryParamsCallback = useCallback(
+    (): SortType => parseSortQueryParams(router.query.sort, router.query.of),
+    [router.query.sort, router.query.of]
+  );
 
-  const [sort, setSort] = useState<SortType>(parseSortQueryParams());
+  const [sort, setSort] = useState<SortType>(parseSortQueryParamsCallback());
 
   useEffect(() => {
-    setSort(parseSortQueryParams());
-  }, [parseSortQueryParams]);
+    setSort(parseSortQueryParamsCallback());
+  }, [parseSortQueryParamsCallback]);
 
   const underlinedRef = useMemo(() => {
     if (sort === "hot") {
@@ -42,7 +50,7 @@ export default function MainFeedHeader() {
     } else if (
       sort === "topMonth" ||
       sort === "topWeek" ||
-      sort === "topAlltime"
+      sort === "topAllTime"
     ) {
       return topRef;
     } else {
@@ -74,7 +82,7 @@ export default function MainFeedHeader() {
         case "topMonth":
           leftAdjust = -2.5;
           break;
-        case "topAlltime":
+        case "topAllTime":
           leftAdjust = -2;
           break;
         case "new":
@@ -100,7 +108,7 @@ export default function MainFeedHeader() {
     };
   }, [moveUnderline]);
 
-  let topRefText;
+  let topRefText: string;
   if (choosingTop) {
     topRefText = "Month";
   } else {
@@ -108,7 +116,7 @@ export default function MainFeedHeader() {
       topRefText = "Week";
     } else if (sort === "topMonth") {
       topRefText = "Month";
-    } else if (sort === "topAlltime") {
+    } else if (sort === "topAllTime") {
       topRefText = "All time";
     } else {
       topRefText = "Top";
@@ -157,7 +165,7 @@ export default function MainFeedHeader() {
         className={styles.MainFeedHeaderOption}
         onClick={() => {
           if (choosingTop) {
-            setSort("topAlltime");
+            setSort("topAllTime");
             setChoosingTop(false);
             void router.push("/?sort=top&of=alltime");
           } else {
