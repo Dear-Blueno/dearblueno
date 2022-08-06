@@ -22,7 +22,7 @@ const addScores = async () => {
   console.time("fullTask");
 
   console.time("getPosts");
-  const posts = await Post.find({}).populate("comments");
+  const posts = await Post.find({ approved: true }).populate("comments");
   console.timeEnd("getPosts");
 
   const promises = [];
@@ -49,7 +49,11 @@ const addScores = async () => {
       0
     );
 
+    const hoursSinceApproved =
+      new Date().getTime() -
+      new Date(post.approvedTime).getTime() / 1000 / 60 / 60;
     post.score = score;
+    post.hotScore = score - 5 * hoursSinceApproved;
     promises.push(post.save());
   }
 
@@ -60,4 +64,5 @@ const addScores = async () => {
 
 addScores()
   .then(() => console.log("Success!"))
+  .then(() => process.exit(0))
   .catch((err) => console.error(err));

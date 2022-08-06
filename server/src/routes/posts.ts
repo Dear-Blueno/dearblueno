@@ -40,10 +40,10 @@ postRouter.get(
   query("page").default(1).isInt({ min: 1 }),
   query("sort")
     .default("new")
-    .isIn(["new", "topWeek", "topMonth", "topAllTime"]),
+    .isIn(["new", "topWeek", "topMonth", "topAllTime", "hot"]),
   validate,
   async (req, res) => {
-    type Sort = "new" | "topWeek" | "topMonth" | "topAllTime";
+    type Sort = "new" | "topWeek" | "topMonth" | "topAllTime" | "hot";
 
     const page = Number(req.query.page);
     const sort = req.query.sort as Sort;
@@ -53,6 +53,7 @@ postRouter.get(
       topWeek: { pinned: -1, score: -1, postNumber: -1 },
       topMonth: { pinned: -1, score: -1, postNumber: -1 },
       topAllTime: { pinned: -1, score: -1, postNumber: -1 },
+      hot: { pinned: -1, hotScore: -1, postNumber: -1 },
     };
     const sortQuery = sortOptions[sort];
     const filterOptions = {
@@ -66,6 +67,10 @@ postRouter.get(
         approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30) },
       },
       topAllTime: { approved: true },
+      hot: {
+        approved: true,
+        approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) },
+      },
     };
     const filterQuery = filterOptions[sort];
 

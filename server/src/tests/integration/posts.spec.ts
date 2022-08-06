@@ -329,6 +329,37 @@ describe("Posts", () => {
       expect(res.body[0].postNumber).toBe(3);
       expect(res.body[1].postNumber).toBe(2);
     });
+
+    it("should sort by hot", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        approvedTime: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+        hotScore: 100,
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        approvedTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+        hotScore: 50,
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        approvedTime: new Date(),
+        hotScore: 75,
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts?sort=hot").expect(200);
+      expect(res.body).toHaveLength(2);
+
+      expect(res.body[0].postNumber).toBe(3);
+      expect(res.body[1].postNumber).toBe(2);
+    });
   });
 
   describe("GET /posts/all", () => {
