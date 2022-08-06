@@ -24,7 +24,7 @@ userRouter.get(
     const posts = await Post.find({ _id: { $in: bookmarks }, approved: true })
       .skip((page - 1) * 10)
       .limit(10)
-      .select("-approvedBy -subscribers")
+      .select("-approvedBy -subscribers -score -hotScore")
       .populate("comments")
       .populate({
         path: "comments",

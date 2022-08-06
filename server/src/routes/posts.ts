@@ -73,7 +73,7 @@ postRouter.get(
       .sort(sortQuery)
       .skip((page - 1) * 10)
       .limit(10)
-      .select("-approvedBy -subscribers")
+      .select("-approvedBy -subscribers -score -hotScore")
       .populate("comments")
       .populate({
         path: "comments",
@@ -205,7 +205,7 @@ postRouter.get(
       $text: { $search: searchQuery, $language: "en", $caseSensitive: false },
     })
       .limit(10)
-      .select("-approvedBy -subscribers")
+      .select("-approvedBy -subscribers -score -hotScore")
       .populate("comments")
       .populate({
         path: "comments",
@@ -260,7 +260,7 @@ postRouter.get(
   validate,
   async (req, res) => {
     const post = await Post.findOne({ postNumber: req.params.id })
-      .select("-approvedBy -subscribers")
+      .select("-approvedBy -subscribers -score -hotScore")
       .populate("comments")
       .populate({
         path: "comments",
@@ -368,7 +368,7 @@ postRouter.put(
   async (req, res) => {
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
-    }).select("-approvedBy -subscribers");
+    });
     if (!post) {
       res.status(404).send("Post not found");
       return;
@@ -382,9 +382,11 @@ postRouter.put(
     if (state && !reactions.includes(user._id)) {
       reactions.push(user._id);
       post.score += 3;
+      post.hotScore += 3;
     } else if (!state && reactions.includes(user._id)) {
       reactions.splice(reactions.indexOf(user._id), 1);
       post.score -= 3;
+      post.hotScore -= 3;
     }
     post.reactions[reaction - 1] = reactions;
     await post.save();
@@ -433,6 +435,7 @@ postRouter.post(
       await User.updateOne({ _id: user._id }, { xp: user.xp });
 
       post.score += 1.5;
+      post.hotScore += 1.5;
 
       // Send a notification to the post's subscribers (if not anonymous)
       const subscribers = post.subscribers.filter((subscriber) => {
@@ -512,6 +515,7 @@ postRouter.put(
 
     if (comment.approved && !comment.author) {
       post.score += 0.75;
+      post.hotScore += 0.75;
 
       // Send a notification to the post's subscribers
       const notification: INewCommentNotification = {
@@ -583,6 +587,7 @@ postRouter.put(
       );
     }
     post.score += state ? 0.25 : -0.25;
+    post.hotScore += state ? 0.25 : -0.25;
 
     const reactions = comment.reactions[reaction - 1] || [];
     if (state && !reactions.includes(user._id)) {

@@ -842,6 +842,7 @@ describe("Posts", () => {
       expect(post2?.reactions[0]).toHaveLength(1);
       expect(post2?.reactions[0][0]).toStrictEqual(user._id);
       expect(post2?.score).toBe(3);
+      expect(post2?.hotScore).toBe(3);
     });
 
     it("should return 200 if logged in and the post exists and the unreaction is valid", async () => {
@@ -865,6 +866,7 @@ describe("Posts", () => {
       const post2 = await Post.findOne();
       expect(post2?.reactions[0]).toHaveLength(0);
       expect(post2?.score).toBe(0);
+      expect(post2?.hotScore).toBe(0);
     });
   });
 
@@ -910,6 +912,7 @@ describe("Posts", () => {
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments).toHaveLength(1);
       expect(post2?.score).toBe(1.5);
+      expect(post2?.hotScore).toBe(1.5);
       const comment = post2?.comments[0];
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toStrictEqual(user._id);
@@ -1169,6 +1172,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.score).toBe(0);
+      expect(post2?.hotScore).toBe(0);
       expect(post2?.comments[0].approved).toBe(true);
       expect(post2?.comments[0].needsReview).toBe(false);
 
@@ -1211,6 +1215,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.score).toBe(0.75);
+      expect(post2?.hotScore).toBe(0.75);
       expect(post2?.comments[0].approved).toBe(true);
       expect(post2?.comments[0].needsReview).toBe(false);
     });
@@ -1390,6 +1395,7 @@ describe("Posts", () => {
       expect(post2?.comments[0].reactions[0]).toHaveLength(1);
       expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
       expect(post2?.score).toBe(0.25);
+      expect(post2?.hotScore).toBe(0.25);
 
       const commenter = await User.findById(user._id);
       expect(commenter?.xp).toBe(1);
@@ -1402,6 +1408,7 @@ describe("Posts", () => {
       const post3 = await Post.findOne().populate("comments");
       expect(post3?.comments[0].reactions[0]).toHaveLength(0);
       expect(post3?.score).toBe(0);
+      expect(post3?.hotScore).toBe(0);
 
       const commenter2 = await User.findById(user._id);
       expect(commenter2?.xp).toBe(0);
