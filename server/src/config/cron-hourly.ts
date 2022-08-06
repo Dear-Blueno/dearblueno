@@ -11,7 +11,8 @@ export default function setupCron() {
     const startDate = new Date();
     logger.info("Running hourly cron job! 🚀");
 
-    await hourlyJob();
+    await hourlySheetsJob();
+    await hourlyHotScoreJob();
 
     const endDate = new Date();
     logger.info("Hourly cron job completed! 🎉");
@@ -20,7 +21,7 @@ export default function setupCron() {
   });
 }
 
-export async function hourlyJob() {
+export async function hourlySheetsJob() {
   try {
     // Setup connection to google spreadsheet
     const creds = {
@@ -107,6 +108,17 @@ export async function hourlyJob() {
     unverifiedSheet.getCellByA1("B1").value = "Post";
     await unverifiedSheet.saveUpdatedCells();
     logger.debug("Cleared unverified sheet");
+  } catch (err) {
+    logger.error(err);
+  }
+}
+
+export async function hourlyHotScoreJob() {
+  try {
+    await Post.updateMany(
+      { approvedTime: { $gt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
+      { $inc: { hotScore: -5 } }
+    );
   } catch (err) {
     logger.error(err);
   }

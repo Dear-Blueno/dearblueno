@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import setupForTests from "../testUtil";
 import Post from "../../models/Post";
-import { hourlyJob } from "../../config/cron-hourly";
+import { hourlySheetsJob } from "../../config/cron-hourly";
 import {
   GoogleSpreadsheet,
   GoogleSpreadsheetWorksheet,
@@ -22,7 +22,7 @@ describe("Hourly Cron (E2E)", () => {
     await mongoose.connection.dropDatabase();
   });
 
-  describe("Hourly Job", () => {
+  describe("Hourly Sheets Job", () => {
     let document: GoogleSpreadsheet;
     let sheet: GoogleSpreadsheetWorksheet;
 
@@ -50,7 +50,7 @@ describe("Hourly Cron (E2E)", () => {
     });
 
     it("should properly handle the spreadsheet being empty", async () => {
-      await hourlyJob();
+      await hourlySheetsJob();
 
       await sheet.loadCells("A1:B1");
       expect(sheet.getCellByA1("A1").value).toBe("Timestamp");
@@ -73,7 +73,7 @@ describe("Hourly Cron (E2E)", () => {
         Post: "Post 3",
       });
 
-      await hourlyJob();
+      await hourlySheetsJob();
 
       await sheet.loadCells("A1:B5");
       expect(sheet.getCellByA1("A1").value).toBe("Timestamp");
@@ -117,7 +117,7 @@ describe("Hourly Cron (E2E)", () => {
       await sheet.addRow({});
       await sheet.addRow({});
 
-      await hourlyJob();
+      await hourlySheetsJob();
 
       await sheet.loadCells("A1:B5");
       expect(sheet.getCellByA1("A1").value).toBe("Timestamp");

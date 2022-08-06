@@ -114,5 +114,7 @@ setupMinutelyCron();
 // Start Express server
 const port = process.env.PORT ?? 5000;
 app.listen(port, () => {
-  logger.info(`Server listening on port ${port}`);
+  logger.info(
+    `Server listening on port ${port}. Running in ${process.env.NODE_ENV} mode.`
+  );
 });
