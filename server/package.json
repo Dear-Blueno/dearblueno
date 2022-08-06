@@ -4,9 +4,10 @@
   "description": "Backend server for the Dear Blueno web app",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon --exec npx ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec npx ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --runInBand --testPathPattern=src/tests/unit",
+    "test": "jest --runInBand --testPathPattern=src/tests/integration",
     "test:e2e": "jest --runInBand",
     "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint . && prettier -c .",

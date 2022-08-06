@@ -4,11 +4,15 @@
 
 To develop locally, you can use the following environment variables (use a `.env` file to store them):
 
-```
-NEXT_PUBLIC_API_URL = http://localhost:5000
+```bash
+NEXT_PUBLIC_API_URL = "http://localhost:5000"
 ```
 
-## Available Scripts
+## Getting Started with Next.js
+
+The frontend portion of this project is powered by [Next.js](https://nextjs.org/).
+
+### Available Scripts
 
 In the project directory, you can run:
 
