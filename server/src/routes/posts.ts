@@ -5,7 +5,7 @@ import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Comment, { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
 import Report from "../models/Report";
-import { Document } from "mongoose";
+import { Document, SortOrder } from "mongoose";
 import { notBanned } from "../middleware/ban";
 import { validate } from "../middleware/validate";
 
@@ -48,7 +48,7 @@ postRouter.get(
     const page = Number(req.query.page);
     const sort = req.query.sort as Sort;
 
-    const sortOptions = {
+    const sortOptions: { [key in Sort]: Record<string, SortOrder> } = {
       new: { pinned: -1, postNumber: -1 },
       topWeek: { pinned: -1, score: -1, postNumber: -1 },
       topMonth: { pinned: -1, score: -1, postNumber: -1 },

@@ -51,21 +51,21 @@ describe("Hourly Cron (Integration)", () => {
       await Promise.all(
         Array(10)
           .fill(0)
-          .map(async (_, i) => {
-            await Post.create({
+          .map((_, i) =>
+            Post.create({
               content: "This is a post",
-              approvedTime: new Date(Date.now() - 999 * 60 * 60 * 24 * i),
+              approvedTime: new Date(Date.now() - 900 * 60 * 60 * 24 * i),
               approved: true,
-              postNumber: 1,
+              postNumber: i + 1,
               hotScore: 10,
-            });
-          })
+            })
+          )
       );
 
       await hourlyHotScoreJob();
 
-      const posts = await Post.find();
-      expect(posts.length).toBe(10);
+      const posts = await Post.find().sort({ postNumber: 1 });
+      expect(posts).toHaveLength(10);
       expect(posts[0].hotScore).toBe(5);
       expect(posts[7].hotScore).toBe(5);
       expect(posts[8].hotScore).toBe(10);

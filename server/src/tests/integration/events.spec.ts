@@ -238,8 +238,8 @@ describe("Events", () => {
           new Event({
             eventName: `Event ${i}`,
             eventDescription: `Event ${i} description`,
-            startDate: new Date(Date.now() + 1000 * 10),
-            endDate: new Date(Date.now() + 1000 * 20),
+            startDate: new Date(Date.now() + 1000 * 10 + i),
+            endDate: new Date(Date.now() + 1000 * 20 + i),
             location: `Event ${i} location`,
             approved: true,
           }).save()
