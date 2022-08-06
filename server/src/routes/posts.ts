@@ -432,7 +432,7 @@ postRouter.post(
       user.xp += 2;
       await User.updateOne({ _id: user._id }, { xp: user.xp });
 
-      post.score += 3;
+      post.score += 1.5;
 
       // Send a notification to the post's subscribers (if not anonymous)
       const subscribers = post.subscribers.filter((subscriber) => {
@@ -511,7 +511,7 @@ postRouter.put(
     comment.needsReview = false;
 
     if (comment.approved && !comment.author) {
-      post.score += 2;
+      post.score += 0.75;
 
       // Send a notification to the post's subscribers
       const notification: INewCommentNotification = {
@@ -582,7 +582,7 @@ postRouter.put(
         { $inc: { xp: state ? 1 : -1 } }
       );
     }
-    post.score += state ? 1 : -1;
+    post.score += state ? 0.25 : -0.25;
 
     const reactions = comment.reactions[reaction - 1] || [];
     if (state && !reactions.includes(user._id)) {

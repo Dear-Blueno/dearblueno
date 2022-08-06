@@ -909,7 +909,7 @@ describe("Posts", () => {
 
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments).toHaveLength(1);
-      expect(post2?.score).toBe(3);
+      expect(post2?.score).toBe(1.5);
       const comment = post2?.comments[0];
       expect(comment?.content).toBe("This is a test comment");
       expect(comment?.author).toStrictEqual(user._id);
@@ -1210,7 +1210,7 @@ describe("Posts", () => {
         .expect(200);
 
       const post2 = await Post.findOne().populate("comments");
-      expect(post2?.score).toBe(2);
+      expect(post2?.score).toBe(0.75);
       expect(post2?.comments[0].approved).toBe(true);
       expect(post2?.comments[0].needsReview).toBe(false);
     });
@@ -1389,7 +1389,7 @@ describe("Posts", () => {
       const post2 = await Post.findOne().populate("comments");
       expect(post2?.comments[0].reactions[0]).toHaveLength(1);
       expect(post2?.comments[0].reactions[0][0]).toStrictEqual(user._id);
-      expect(post2?.score).toBe(1);
+      expect(post2?.score).toBe(0.25);
 
       const commenter = await User.findById(user._id);
       expect(commenter?.xp).toBe(1);
