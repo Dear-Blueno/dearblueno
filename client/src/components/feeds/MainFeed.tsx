@@ -16,7 +16,10 @@ function MainFeed(props: MainFeedProps) {
     getPosts(pageParam, sort).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery(["posts" + sort], fetchPosts, {
-      initialData: { pages: [props.initialPosts], pageParams: [1] },
+      initialData:
+        sort === "hot"
+          ? { pages: [props.initialPosts], pageParams: [1] }
+          : undefined,
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length === 0) {
           return undefined;

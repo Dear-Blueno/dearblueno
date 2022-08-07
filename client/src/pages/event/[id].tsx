@@ -11,7 +11,7 @@ interface EventPageProps {
   event?: IEvent;
 }
 
-const EventPage: NextPage = ({ event }: EventPageProps) => {
+const EventPage: NextPage<EventPageProps> = ({ event }: EventPageProps) => {
   if (!event) {
     return <NotFoundPage />;
   }

@@ -68,14 +68,7 @@ function ModeratorFeed(props: ModeratorFeedProps) {
           toggle={() => setShowModeratorPosts((selection) => !selection)}
         />
         {showModeratorPosts
-          ? posts.map((post, index) => (
-              <Post
-                key={post._id}
-                post={post}
-                delay={`${index * 80}ms`}
-                setFeed={setPosts}
-              />
-            ))
+          ? posts.map((post) => <Post key={post._id} post={post} />)
           : comments.map((comment, index) => (
               <ContextThread
                 key={index}

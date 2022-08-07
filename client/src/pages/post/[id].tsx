@@ -10,7 +10,7 @@ interface PostPageProps {
   post?: IPost;
 }
 
-const PostPage: NextPage = ({ post }: PostPageProps) => {
+const PostPage: NextPage<PostPageProps> = ({ post }: PostPageProps) => {
   if (!post) {
     return <NotFoundPage />;
   }

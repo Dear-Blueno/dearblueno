@@ -112,9 +112,11 @@ function ReactionBar(props: ReactionBarProps) {
             );
           }
           if (props.type === "post") {
+            console.log(!includesUser);
             return reactToPost(props.postNumber, type + 1, !includesUser);
           } else {
             if (props.commentNumber) {
+              console.log(!includesUser);
               return reactToComment(
                 props.postNumber,
                 props.commentNumber,

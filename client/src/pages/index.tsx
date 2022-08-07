@@ -28,7 +28,7 @@ const HomePage: NextPage<HomePageProps> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await getPosts(1);
+  const posts = await getPosts(1, "hot");
   if (posts.success) {
     return {
       props: {
