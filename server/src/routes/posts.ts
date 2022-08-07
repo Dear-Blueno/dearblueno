@@ -392,6 +392,10 @@ postRouter.put(
       reactions.splice(reactions.indexOf(user._id), 1);
       post.score -= 3;
       post.hotScore -= 3;
+    } else {
+      // Reaction state did not change
+      res.json({ reaction: req.body.state });
+      return;
     }
     post.reactions[reaction - 1] = reactions;
     await post.save();
@@ -583,25 +587,32 @@ postRouter.put(
     const state = req.body.state;
     const user = req.user as IUser;
 
-    // If the commenter is not anonymous, award / take-away some XP from the commenter
-    const commenter = comment.author;
-    if (commenter && reaction <= 3) {
-      await User.updateOne(
-        { _id: commenter },
-        { $inc: { xp: state ? 1 : -1 } }
-      );
-    }
-    post.score += state ? 0.25 : -0.25;
-    post.hotScore += state ? 0.25 : -0.25;
-
     const reactions = comment.reactions[reaction - 1] || [];
     if (state && !reactions.includes(user._id)) {
       reactions.push(user._id);
-    } else if (reactions.includes(user._id)) {
+    } else if (!state && reactions.includes(user._id)) {
       reactions.splice(reactions.indexOf(user._id), 1);
+    } else {
+      // The user has already reacted to the comment with the same reaction
+      res.json({ reaction: req.body.state });
+      return;
     }
     comment.reactions[reaction - 1] = reactions;
-    await Promise.all([comment.save(), post.save()]);
+
+    const promises = [post.save(), comment.save()];
+
+    // If the commenter is not anonymous, award / take-away some XP from the commenter
+    const commenter = comment.author;
+    if (commenter && reaction <= 3) {
+      promises.push(
+        User.updateOne({ _id: commenter }, { $inc: { xp: state ? 1 : -1 } })
+      );
+    }
+    // Update the post score
+    post.score += state ? 0.25 : -0.25;
+    post.hotScore += state ? 0.25 : -0.25;
+
+    await Promise.all(promises);
 
     res.json({ reaction: req.body.state });
   }
