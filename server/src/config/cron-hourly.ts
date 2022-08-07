@@ -117,7 +117,7 @@ export async function hourlyHotScoreJob() {
   try {
     await Post.updateMany(
       { approvedTime: { $gt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
-      { $inc: { hotScore: -5 } }
+      { $inc: { hotScore: -2 } }
     );
   } catch (err) {
     logger.error(err);

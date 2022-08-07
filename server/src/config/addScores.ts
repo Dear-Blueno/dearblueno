@@ -53,7 +53,7 @@ const addScores = async () => {
       new Date().getTime() -
       new Date(post.approvedTime).getTime() / 1000 / 60 / 60;
     post.score = score;
-    post.hotScore = score - 5 * hoursSinceApproved;
+    post.hotScore = score - 2 * hoursSinceApproved;
     promises.push(post.save());
   }
 
