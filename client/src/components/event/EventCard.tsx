@@ -45,8 +45,8 @@ export default function EventCard(props: EventCardProps) {
     formatInTimeZone(
       new Date(props.event.startDate),
       "America/New_York",
-      "yyyy-MM-dd HH:mm:ssXXX"
-    ).split(" ")[0]
+      "yyyy-MM-dd"
+    )
   );
 
   useEffect(() => {
