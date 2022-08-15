@@ -23,7 +23,9 @@ export default function EventStageOne(props: EventStageOneProps) {
         </div>
       </label>
       <label className={styles.InputLabel}>
-        Event Name*
+        <div>
+          Event Name<span style={{ color: "darkRed" }}>*</span>
+        </div>
         <input
           type="text"
           placeholder="This will be displayed as the title of your event."

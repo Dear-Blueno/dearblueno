@@ -49,6 +49,7 @@ export default function EventStages() {
   };
 
   const emailChecker = (inputEmail: string) => {
+    if (inputEmail === "") return true;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail)) {
       return true;
     }
@@ -56,15 +57,21 @@ export default function EventStages() {
   };
 
   const submitTheEvent = () => {
-    void createEvent(
+    createEvent(
       stageOneName,
       stageTwoDescription,
       shiftToEST(new Date(`${stageTwoStartDate}T${stageTwoStartTime}`)),
       shiftToEST(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
       stageTwoLocation,
-      undefined,
-      stageOneEmail === "" ? undefined : stageOneEmail
-    );
+      stageOneEmail === "" ? undefined : stageOneEmail,
+      undefined
+    )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setStage(4);
   };
 
@@ -118,6 +125,7 @@ export default function EventStages() {
                 postTime: new Date().toUTCString(),
                 notificationSent: false,
               }}
+              disabled
             />
           </div>
         )}
@@ -131,8 +139,8 @@ export default function EventStages() {
               width: "100%",
             }}
           >
-            Your event has been submitted. It will be reviewed by moderators and
-            you will be notified on the decision if your provided an optional
+            Your event has been submitted. It will be reviewed by moderators,
+            and you will be notified on the decision if you provided an optional
             contact email.
           </div>
         )}
@@ -144,7 +152,21 @@ export default function EventStages() {
           </button>
         )}
         {stage < 3 && (
-          <button onClick={incrementStage} style={{ marginLeft: "auto" }}>
+          <button
+            onClick={incrementStage}
+            style={{ marginLeft: "auto" }}
+            disabled={
+              (stage === 1 && stageOneName === "") ||
+              !emailChecker(stageOneEmail) ||
+              (stage === 2 &&
+                (stageTwoLocation === "" ||
+                  stageTwoStartDate === "" ||
+                  stageTwoStartTime === "" ||
+                  stageTwoEndDate === "" ||
+                  stageTwoEndTime === "" ||
+                  stageTwoDescription === ""))
+            }
+          >
             Next
           </button>
         )}

@@ -6,6 +6,7 @@ interface EventCardButtonProps {
   text: string;
   onClick: () => void;
   style?: string;
+  disabled?: boolean;
 }
 
 export default function EventCardButton(props: EventCardButtonProps) {
@@ -13,6 +14,7 @@ export default function EventCardButton(props: EventCardButtonProps) {
     <button
       className={`${styles.EventCardButton} ${props.style ?? ""}`}
       onClick={props.onClick}
+      disabled={props.disabled ?? false}
     >
       <props.icon />
       <strong>{props.text}</strong>

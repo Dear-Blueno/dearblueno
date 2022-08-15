@@ -18,7 +18,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
   return (
     <div className={styles.Stage}>
       <label className={styles.InputLabel}>
-        Event Location*
+        <div>
+          Event Location<span className={styles.Red}>*</span>
+        </div>
         <input
           type="text"
           placeholder="This will be displayed as the location of your event."
@@ -29,7 +31,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </label>
       <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          Start Date*
+          <div>
+            Start Date<span className={styles.Red}>*</span>
+          </div>
           <input
             type="date"
             name="email"
@@ -43,7 +47,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          End Date*
+          <div>
+            End Date<span className={styles.Red}>*</span>
+          </div>
           <input
             type="date"
             name="email"
@@ -57,7 +63,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
       </div>
       <div className={styles.DateTimeContainer}>
         <label className={styles.InputLabel}>
-          Start Time (ET)*
+          <div>
+            Start Time (ET)<span className={styles.Red}>*</span>
+          </div>
           <input
             type="time"
             name="email"
@@ -69,7 +77,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
           />
         </label>
         <label className={styles.InputLabel}>
-          End Time (ET)*
+          <div>
+            End Time (ET)<span className={styles.Red}>*</span>
+          </div>
           <input
             type="time"
             name="email"
@@ -82,7 +92,9 @@ export default function EventStageTwo(props: EventStageTwoProps) {
         </label>
       </div>
       <label className={styles.InputLabel}>
-        Event Description*
+        <div>
+          Event Description<span className={styles.Red}>*</span>
+        </div>
         <textarea
           placeholder="Talk about what participants can expect at your event."
           rows={3}

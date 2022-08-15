@@ -17,6 +17,7 @@ import { makeDate } from "components/eventstages/RelativeDay";
 
 interface EventCardProps {
   event: IEvent;
+  disabled?: boolean;
 }
 
 export default function EventCard(props: EventCardProps) {
@@ -39,7 +40,14 @@ export default function EventCard(props: EventCardProps) {
     "America/New_York",
     "h:mma"
   );
-  const startDate = makeDate(props.event.startDate.split("T")[0]);
+
+  const startDate = makeDate(
+    formatInTimeZone(
+      new Date(props.event.startDate),
+      "America/New_York",
+      "yyyy-MM-dd HH:mm:ssXXX"
+    ).split(" ")[0]
+  );
 
   useEffect(() => {
     const newGoing = (user && props.event.going.includes(user._id)) ?? false;
@@ -97,6 +105,7 @@ export default function EventCard(props: EventCardProps) {
               }
             })}
             style={isGoing ? styles.EventCardButtonGoing : ""}
+            disabled={props.disabled ?? false}
           />
           <EventCardButton
             icon={isInterested ? BsCheckLg : HiLightningBolt}
@@ -113,6 +122,7 @@ export default function EventCard(props: EventCardProps) {
               }
             })}
             style={isInterested ? styles.EventCardButtonInterested : ""}
+            disabled={props.disabled ?? false}
           />
           <EventCardButton
             icon={IoShareOutline}
@@ -122,6 +132,7 @@ export default function EventCard(props: EventCardProps) {
                 `localhost:3000/event/${props.event._id}`
               );
             }}
+            disabled={props.disabled ?? false}
           />
         </div>
       </div>
