@@ -27,6 +27,8 @@ function ProfileBox(props: ProfileBoxProps) {
   const facebookInput = useRef<HTMLInputElement>(null);
   const linkedinInput = useRef<HTMLInputElement>(null);
   const bioTextArea = useRef<HTMLTextAreaElement>(null);
+  const displayNameInput = useRef<HTMLInputElement>(null);
+  const pronounsInput = useRef<HTMLInputElement>(null);
   const hometownInput = useRef<HTMLInputElement>(null);
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
@@ -141,7 +143,9 @@ function ProfileBox(props: ProfileBoxProps) {
       handleFacebook(facebookInput.current?.value),
       handleLinkedIn(linkedinInput.current?.value),
       concentrationInput.current?.value ?? undefined,
-      yearInput.current?.value ?? undefined
+      yearInput.current?.value ?? undefined,
+      displayNameInput.current?.value ?? undefined,
+      pronounsInput.current?.value ?? undefined
     )
       .then((response) => {
         if (response.success) {
@@ -191,11 +195,19 @@ function ProfileBox(props: ProfileBoxProps) {
         />
         <ProfilePersonalInfo
           contents={[
+            props.profileUser?.displayName,
+            props.profileUser?.pronouns,
             props.profileUser?.hometown,
             props.profileUser?.classYear,
             props.profileUser?.concentration,
           ]}
-          refs={[hometownInput, yearInput, concentrationInput]}
+          refs={[
+            displayNameInput,
+            pronounsInput,
+            hometownInput,
+            yearInput,
+            concentrationInput,
+          ]}
           editing={editing}
         />
         {editing && (

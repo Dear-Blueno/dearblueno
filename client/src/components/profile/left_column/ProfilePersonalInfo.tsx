@@ -1,6 +1,11 @@
 import styles from "./ProfilePersonalInfo.module.scss";
-import { MdOutlineSchool, MdOutlineLocationOn } from "react-icons/md";
+import {
+  MdOutlineSchool,
+  MdOutlineLocationOn,
+  MdTransgender,
+} from "react-icons/md";
 import { IoMdBook } from "react-icons/io";
+import { BiFace } from "react-icons/bi";
 import ProfilePersonalInfoEntry from "./ProfilePersonalInfoEntry";
 
 interface ProfilePersonalInfoProps {
@@ -10,8 +15,20 @@ interface ProfilePersonalInfoProps {
 }
 
 function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
-  const icons = [MdOutlineLocationOn, MdOutlineSchool, IoMdBook];
-  const placeholders = ["Hometown", "Graduation Year", "Concentration"];
+  const icons = [
+    BiFace,
+    MdTransgender,
+    MdOutlineLocationOn,
+    MdOutlineSchool,
+    IoMdBook,
+  ];
+  const placeholders = [
+    "Display Name",
+    "Pronouns",
+    "Hometown",
+    "Graduation Year",
+    "Concentration",
+  ];
 
   if (!props.editing && props.contents.every((content) => !content)) {
     return null;
