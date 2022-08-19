@@ -174,6 +174,7 @@ function ProfileBox(props: ProfileBoxProps) {
               ? props.profileUser.displayName ?? props.profileUser.name
               : ""
           }
+          pronouns={props.profileUser ? props.profileUser.pronouns : ""}
         />
         {ownProfile && !editing && (
           <GenericProfileButton click={() => setEditing(true)} text={"Edit"} />

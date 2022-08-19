@@ -54,3 +54,16 @@
   flex-direction: row;
   gap: 0.5rem;
 }
+
+.HoverCardNameText {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Pronouns {
+  font-size: small;
+  font-weight: 400;
+  color: #999;
+}

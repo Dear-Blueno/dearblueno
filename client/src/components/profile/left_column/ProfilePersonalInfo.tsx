@@ -66,11 +66,13 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
         <div className={styles.ProfilePersonalInfo}>
           {props.contents.map((content, index) => {
             return content ? (
-              <ProfilePersonalInfoEntry
-                key={index}
-                content={content}
-                icon={icons[index]}
-              />
+              index <= 1 ? null : (
+                <ProfilePersonalInfoEntry
+                  key={index}
+                  content={content}
+                  icon={icons[index]}
+                />
+              )
             ) : null;
           })}
         </div>

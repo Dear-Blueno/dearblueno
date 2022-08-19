@@ -44,7 +44,12 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
           href={`/profile/${props.hoverUser._id}`}
           className={styles.HoverCardName}
         >
-          <p>{props.hoverUser.displayName ?? props.hoverUser.name}</p>
+          <div className={styles.HoverCardNameText}>
+            <p>{props.hoverUser.displayName ?? props.hoverUser.name}</p>
+            {props.hoverUser.pronouns && (
+              <p className={styles.Pronouns}>({props.hoverUser.pronouns})</p>
+            )}
+          </div>
         </a>
         <div className={styles.SocialBar}>
           {props.hoverUser.instagram && (
