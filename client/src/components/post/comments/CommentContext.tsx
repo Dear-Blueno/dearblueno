@@ -36,10 +36,7 @@ export default function CommentContext(props: CommentContextProps) {
               : "Anonymous"}
           </div>
           <div className={styles.CommentContextReplyText}>
-            <UserContent>
-              {parentComment.content.substring(0, 10) +
-                (parentComment.content.length > 10 ? "…" : "")}
-            </UserContent>
+            <UserContent>{parentComment.content}</UserContent>
           </div>
         </>
       )}
@@ -47,8 +44,7 @@ export default function CommentContext(props: CommentContextProps) {
         <>
           <div>#{props.thread.postNumber}</div>
           <div className={styles.CommentContextPostContent}>
-            {props.thread.post.content.substring(0, 70)}
-            {props.thread.post.content.length > 70 ? "…" : ""}
+            <UserContent>{props.thread.post.content}</UserContent>
           </div>
         </>
       )}

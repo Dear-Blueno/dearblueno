@@ -32,6 +32,13 @@
 .CommentContextReplyText {
   font-size: 0.8rem;
   color: black;
+  flex: 1;
+  overflow: hidden;
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .CommentContextConnectorContainer {
