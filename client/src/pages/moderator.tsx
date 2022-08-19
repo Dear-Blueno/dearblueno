@@ -2,7 +2,7 @@ import styles from "styles/ModeratorPage.module.scss";
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import { NextPage } from "next";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import {
   getModFeedComments,
   getModFeedPosts,
@@ -16,6 +16,7 @@ import IComment from "types/IComment";
 import { IReport } from "types/IReport";
 import IEvent from "types/IEvent";
 import ModeratorPost from "components/post/ModeratorPost";
+import ContextThread from "components/post/comments/ContextThread";
 
 const ModeratorPage: NextPage = () => {
   return (
@@ -33,10 +34,12 @@ const ModeratorPage: NextPage = () => {
   );
 };
 
-type Sort = "Posts" | "Comments" | "Reports" | "Events";
+type Sort = "posts" | "comments" | "reports" | "events";
+type ModeratorData = IPost[] | IComment[] | IReport[] | IEvent[];
+
 const parseSortQueryParams = (sort: string | string[] | undefined): Sort => {
   if (!sort) {
-    return "Posts";
+    return "posts";
   }
   if (typeof sort === "string") {
     return sort as Sort;
@@ -47,18 +50,16 @@ const parseSortQueryParams = (sort: string | string[] | undefined): Sort => {
 const ModeratorPageMain = () => {
   const router = useRouter();
   const sort = parseSortQueryParams(router.query.sort);
-  let getter: (param: {
-    pageParam?: number;
-  }) => Promise<IPost[] | IComment[] | IReport[] | IEvent[]> = ({
+  let getter: (param: { pageParam?: number }) => Promise<ModeratorData> = ({
     pageParam = 1,
   }) => getModFeedPosts(pageParam).then((res) => res.payload ?? []);
-  if (sort === "Comments") {
+  if (sort === "comments") {
     getter = ({ pageParam = 1 }) =>
       getModFeedComments(pageParam).then((res) => res.payload ?? []);
-  } else if (sort === "Reports") {
+  } else if (sort === "reports") {
     getter = ({ pageParam = 1 }) =>
       getModFeedReports(pageParam).then((res) => res.payload ?? []);
-  } else if (sort === "Events") {
+  } else if (sort === "events") {
     getter = ({ pageParam = 1 }) =>
       getModFeedEvents(pageParam).then((res) => res.payload ?? []);
   }
@@ -73,15 +74,28 @@ const ModeratorPageMain = () => {
       },
     });
 
-  // need to add type predicate to handle different data types
+  function typeGuard<T extends ModeratorData>(
+    type: Sort
+  ): (postData: InfiniteData<ModeratorData>) => postData is InfiniteData<T> {
+    return (
+      postData: InfiniteData<ModeratorData>
+    ): postData is InfiniteData<T> => sort === type;
+  }
+
+  if (!data) return null;
 
   return (
     <div className={styles.List}>
-      {data?.pages.map((page) =>
-        page.map((post) => (
-          <ModeratorPost key={post._id} post={post as IPost} />
-        ))
-      )}
+      {typeGuard<IPost[]>("posts")(data) &&
+        data.pages.map((page) =>
+          page.map((post) => <ModeratorPost key={post._id} post={post} />)
+        )}
+      {typeGuard<IComment[]>("comments")(data) &&
+        data.pages.map((page) =>
+          page.map((comment) => (
+            <ContextThread key={comment._id} thread={comment} moderatorView />
+          ))
+        )}
     </div>
   );
 };

@@ -25,7 +25,7 @@ function ModeratorPost(props: ModeratorPostProps) {
     );
     if (response.success) {
       queryClient.setQueryData(
-        ["moderatorPosts"],
+        ["moderatorposts"],
         (data: InfiniteData<IPost[]> | undefined) => {
           const newData = data
             ? (JSON.parse(JSON.stringify(data)) as InfiniteData<IPost[]>)
