@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import EventsFeed from "components/feeds/EventsFeed";
 import NewEventButton from "components/event/NewEventButton";
 
-const Events: NextPage = () => {
+const EventsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -33,4 +33,4 @@ const Events: NextPage = () => {
   );
 };
 
-export default Events;
+export default EventsPage;

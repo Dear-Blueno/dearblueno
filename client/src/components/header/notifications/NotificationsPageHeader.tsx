@@ -7,6 +7,8 @@ enum NotificationsSort {
   All,
 }
 
+const options = ["Unread", "All"];
+
 export default function NotificationsPageHeader() {
   const unreadRef = useRef<HTMLHeadingElement>(null);
   const allRef = useRef<HTMLHeadingElement>(null);
@@ -29,6 +31,18 @@ export default function NotificationsPageHeader() {
       }px`;
     }
   }, [active]);
+
+  useEffect(() => {
+    const sort = router.query.sort as string;
+    if (!sort) {
+      setActive(NotificationsSort.Unread);
+    } else {
+      const index = options.map((option) => option.toLowerCase()).indexOf(sort);
+      if (index !== -1) {
+        setActive(index);
+      }
+    }
+  }, [router.query.sort]);
 
   useEffect(handleSwitch, [handleSwitch]);
 

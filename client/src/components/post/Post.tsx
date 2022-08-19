@@ -40,7 +40,9 @@ function Post(props: PostProps) {
   const { user, refetchUser } = useUser();
   const { userOnlyAction } = useLoginPopup();
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const [blurred, setBlurred] = useState(props.post.contentWarning.length > 0);
+  const [blurred, setBlurred] = useState(
+    props.post.contentWarning ? props.post.contentWarning.length > 0 : false
+  );
   const [isBookmarked, setIsBookmarked] = useState(props.bookmarked);
   const [isSubscribed, setIsSubscribed] = useState(props.subscribed);
 
