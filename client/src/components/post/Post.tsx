@@ -7,12 +7,7 @@ import DividerDot from "./content/DividerDot";
 import { FiShare } from "react-icons/fi";
 import CommentSection from "./comments/CommentSection";
 import { useEffect, useState } from "react";
-import ApproveOrDeny from "./moderator/ApproveOrDeny";
-import {
-  approvePost,
-  bookmarkPost,
-  subscribeToPost,
-} from "gateways/PostGateway";
+import { bookmarkPost, subscribeToPost } from "gateways/PostGateway";
 import IPost from "types/IPost";
 import { RiShieldCheckFill } from "react-icons/ri";
 import {
@@ -50,13 +45,6 @@ function Post(props: PostProps) {
     setIsBookmarked(user?.bookmarks.includes(props.post._id));
     setIsSubscribed(user?.subscriptions.includes(props.post._id));
   }, [user, props.post._id]);
-
-  const approveOrDeny = async (bool: boolean, contentWarningString: string) => {
-    await approvePost(props.post._id, bool, contentWarningString);
-    // if (response.success && props.setFeed) {
-    // props.setFeed((posts) => posts.filter((p) => p._id !== props.post._id));
-    // }
-  };
 
   const handleSubscribe = async () => {
     const initialIsSubscribed = isSubscribed;
@@ -99,11 +87,7 @@ function Post(props: PostProps) {
     <div className={styles.Post}>
       <div className={styles.PostHeader}>
         <div className={styles.NumberAndWarning}>
-          <PostNumber
-            number={props.post.postNumber}
-            _id={props.post.needsReview ? props.post._id : undefined}
-            post={props.post}
-          />
+          <PostNumber number={props.post.postNumber} post={props.post} />
           {props.post.verifiedBrown && (
             <RiShieldCheckFill
               className={styles.VerifiedBrown}
@@ -152,13 +136,7 @@ function Post(props: PostProps) {
               onClick={userOnlyAction(() => void handleBookmark())}
             />
           )}
-          <RelativeDate
-            date={
-              props.post.needsReview
-                ? props.post.postTime
-                : props.post.approvedTime
-            }
-          />
+          <RelativeDate date={props.post.approvedTime} />
         </div>
       </div>
       <div className={styles.PostBody}>
@@ -166,57 +144,44 @@ function Post(props: PostProps) {
           {props.post.content}
         </UserContent>
       </div>
-      {props.post.needsReview ? (
-        <ApproveOrDeny
-          type="post"
-          approve={(contentWarningString: string) =>
-            void approveOrDeny(true, contentWarningString)
-          }
-          deny={(contentWarningString: string) => {
-            void approveOrDeny(false, contentWarningString);
-          }}
-        />
-      ) : (
-        <div className={styles.PostFooter}>
-          <ReactionBar
-            postNumber={props.post.postNumber}
-            commentNumber={undefined}
-            type="post"
-            reactions={props.post.reactions}
-          />
-          <DividerDot />
-          <FaRegCommentAlt
-            className={styles.IconButton}
-            color="#789"
-            onClick={userOnlyAction(() => setShowCommentBox(true))}
-            style={{ transform: "translateY(0.05em)" }}
-            title="Add a comment"
-          />
-          <DividerDot />
-          <FiShare
-            className={styles.IconButton}
-            style={{ transform: "translateY(-0.05em)" }}
-            color="#789"
-            onClick={() => {
-              void navigator.clipboard.writeText(
-                `${window.location.origin}/post/${props.post.postNumber}`
-              );
-              toast("Link copied to clipboard!", { icon: "📋" });
-            }}
-            title="Share this post"
-          />
-        </div>
-      )}
-      {!props.post.needsReview && (
-        <CommentSection
-          comments={props.post.comments}
-          blurred={blurred}
-          setBlurred={setBlurred}
+
+      <div className={styles.PostFooter}>
+        <ReactionBar
           postNumber={props.post.postNumber}
-          showTopLevelCommentBox={showCommentBox}
-          setShowTopLevelCommentBox={setShowCommentBox}
+          commentNumber={undefined}
+          type="post"
+          reactions={props.post.reactions}
         />
-      )}
+        <DividerDot />
+        <FaRegCommentAlt
+          className={styles.IconButton}
+          color="#789"
+          onClick={userOnlyAction(() => setShowCommentBox(true))}
+          style={{ transform: "translateY(0.05em)" }}
+          title="Add a comment"
+        />
+        <DividerDot />
+        <FiShare
+          className={styles.IconButton}
+          style={{ transform: "translateY(-0.05em)" }}
+          color="#789"
+          onClick={() => {
+            void navigator.clipboard.writeText(
+              `${window.location.origin}/post/${props.post.postNumber}`
+            );
+            toast("Link copied to clipboard!", { icon: "📋" });
+          }}
+          title="Share this post"
+        />
+      </div>
+      <CommentSection
+        comments={props.post.comments}
+        blurred={blurred}
+        setBlurred={setBlurred}
+        postNumber={props.post.postNumber}
+        showTopLevelCommentBox={showCommentBox}
+        setShowTopLevelCommentBox={setShowCommentBox}
+      />
     </div>
   );
 }

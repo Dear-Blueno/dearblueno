@@ -8,7 +8,6 @@ import {
   getModFeedPosts,
   getModFeedReports,
 } from "gateways/PostGateway";
-import Post from "components/post/Post";
 import ModeratorPageHeader from "components/header/moderator/ModeratorPageHeader";
 import { useRouter } from "next/router";
 import { getModFeedEvents } from "gateways/EventGateway";
@@ -16,6 +15,7 @@ import IPost from "types/IPost";
 import IComment from "types/IComment";
 import { IReport } from "types/IReport";
 import IEvent from "types/IEvent";
+import ModeratorPost from "components/post/ModeratorPost";
 
 const ModeratorPage: NextPage = () => {
   return (
@@ -33,10 +33,10 @@ const ModeratorPage: NextPage = () => {
   );
 };
 
-type Sort = "posts" | "comments" | "reports" | "events";
+type Sort = "Posts" | "Comments" | "Reports" | "Events";
 const parseSortQueryParams = (sort: string | string[] | undefined): Sort => {
   if (!sort) {
-    return "posts";
+    return "Posts";
   }
   if (typeof sort === "string") {
     return sort as Sort;
@@ -52,13 +52,13 @@ const ModeratorPageMain = () => {
   }) => Promise<IPost[] | IComment[] | IReport[] | IEvent[]> = ({
     pageParam = 1,
   }) => getModFeedPosts(pageParam).then((res) => res.payload ?? []);
-  if (sort === "comments") {
+  if (sort === "Comments") {
     getter = ({ pageParam = 1 }) =>
       getModFeedComments(pageParam).then((res) => res.payload ?? []);
-  } else if (sort === "reports") {
+  } else if (sort === "Reports") {
     getter = ({ pageParam = 1 }) =>
       getModFeedReports(pageParam).then((res) => res.payload ?? []);
-  } else if (sort === "events") {
+  } else if (sort === "Events") {
     getter = ({ pageParam = 1 }) =>
       getModFeedEvents(pageParam).then((res) => res.payload ?? []);
   }
@@ -78,7 +78,9 @@ const ModeratorPageMain = () => {
   return (
     <div className={styles.List}>
       {data?.pages.map((page) =>
-        page.map((post) => <Post key={post._id} post={post as IPost} />)
+        page.map((post) => (
+          <ModeratorPost key={post._id} post={post as IPost} />
+        ))
       )}
     </div>
   );
