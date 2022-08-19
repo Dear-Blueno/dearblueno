@@ -18,6 +18,8 @@ export default function EventStages() {
   const [stageTwoEndTime, setStageTwoEndTime] = useState("");
   const [stageTwoDescription, setStageTwoDescription] = useState("");
 
+  const [selectedFile, setSelectedFile] = useState<File>();
+
   const incrementStage = () => {
     if (stage === 1 && stageOneName) {
       if (stageOneEmail) {
@@ -75,10 +77,48 @@ export default function EventStages() {
     setStage(4);
   };
 
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    }
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const uploadImage = async (file: File | undefined): Promise<string> => {
+    if (!file) {
+      return "";
+    }
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Client-ID 77020c61ebced72");
+
+    const formdata = new FormData();
+    formdata.append("image", file);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    } as RequestInit;
+
+    const res = await fetch("https://api.imgur.com/3/image", requestOptions);
+    const data = (await res.json()) as { data: { link: string } };
+    return data.data.link;
+  };
+
   return (
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
       <form>
+        <input type="file" name="file" id="file" onChange={changeHandler} />
+        <p
+          onClick={() =>
+            void uploadImage(selectedFile).then((link) => console.log(link))
+          }
+        >
+          Upload
+        </p>
+
         {stage === 1 && (
           <EventStageOne
             name={stageOneName}
