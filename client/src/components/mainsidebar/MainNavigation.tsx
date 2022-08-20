@@ -69,7 +69,7 @@ const MainSidebar = (props: {
               {sidebarItems.map(
                 (item) =>
                   (user || !item.requiresUser) && (
-                    <Link href={item.path} scroll={false}>
+                    <Link href={item.path} scroll={false} key={item.path}>
                       <a className={styles.SidebarListItemLink}>
                         <li
                           key={item.path}
@@ -136,7 +136,7 @@ const MainFooter = (props: {
           {footerItems.map(
             (item) =>
               (user || !item.requiresUser) && (
-                <Link href={item.path} scroll={false}>
+                <Link href={item.path} scroll={false} key={item.path}>
                   <a className={styles.SidebarListItemLink}>
                     <li
                       key={item.path}

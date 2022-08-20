@@ -33,9 +33,8 @@ function Feed(props: FeedProps) {
   const onScroll = useCallback(() => {
     if (
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
-      window.innerHeight + 500
+      window.innerHeight + 800
     ) {
-      window.removeEventListener("scroll", onScroll);
       getMore()
         .then((response) => {
           if (response.hasNextPage) {
@@ -48,16 +47,17 @@ function Feed(props: FeedProps) {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [onScroll]);
 
   const loadingDiv = useMemo(
     () => (
       <div
-        className={
-          reachedEnd
-            ? styles.FeedLoading + " " + styles.FeedFinished
-            : styles.FeedLoading
-        }
+        className={`${styles.FeedLoading} ${
+          reachedEnd ? styles.FeedFinished : ""
+        }`}
         ref={loadingRef}
         style={{
           opacity:
