@@ -8,8 +8,9 @@
   background-color: #d5ebff;
   min-height: 1.3rem;
   @media screen and (max-width: 30rem) {
-    position: sticky;
-    min-height: 1rem;
+    position: fixed;
+    width: 100%;
+    height: 4rem;
     z-index: 1;
     background: rgba(213, 235, 255, 0.7);
     backdrop-filter: saturate(180%) blur(20px);
