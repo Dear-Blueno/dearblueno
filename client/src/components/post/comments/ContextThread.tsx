@@ -1,6 +1,5 @@
 import styles from "./ContextThread.module.scss";
 import IComment from "types/IComment";
-import IUser from "types/IUser";
 import { IThread } from "./CommentSection";
 import Thread from "./Thread";
 import ApproveOrDeny from "../moderator/ApproveOrDeny";
@@ -8,7 +7,6 @@ import { approveComment } from "gateways/PostGateway";
 import CommentContext from "./CommentContext";
 
 export interface ContextThreadProps {
-  user?: IUser;
   thread: IComment;
   delay?: string;
   moderatorView?: boolean;

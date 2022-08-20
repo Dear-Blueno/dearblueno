@@ -4,6 +4,9 @@
   align-items: center;
   margin-bottom: 0.5rem;
   gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .CommentContextParentPicture {
@@ -24,12 +27,7 @@
   color: black;
 }
 
-.CommentContextPostContent {
-  font-size: 0.8rem;
-  color: black;
-}
-
-.CommentContextReplyText {
+.CommentContextContent {
   font-size: 0.8rem;
   color: black;
   flex: 1;

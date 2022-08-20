@@ -233,7 +233,7 @@ function ProfileBox(props: ProfileBoxProps) {
           </div>
         )}
       </div>
-      <div className={styles.ScrollArea}>
+      <div className={styles.RightColumn}>
         <div className={styles.CommentsContainer}>
           <h2>Comments</h2>
           <div className={styles.ProfileCommentsList}>
@@ -241,12 +241,7 @@ function ProfileBox(props: ProfileBoxProps) {
               <div>Loading...</div>
             ) : comments.length > 0 ? (
               comments.map((comment, index) => (
-                <ContextThread
-                  user={props.user}
-                  key={comment._id}
-                  thread={comment}
-                  delay={`${index * 80}ms`}
-                />
+                <ContextThread key={comment._id} thread={comment} />
               ))
             ) : (
               <p className={styles.ProfileCommentsEmpty}>No comments yet!</p>

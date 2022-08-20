@@ -35,7 +35,7 @@ export default function CommentContext(props: CommentContextProps) {
               ? parentComment.author.displayName ?? parentComment.author.name
               : "Anonymous"}
           </div>
-          <div className={styles.CommentContextReplyText}>
+          <div className={styles.CommentContextContent}>
             <UserContent>{parentComment.content}</UserContent>
           </div>
         </>
@@ -43,7 +43,7 @@ export default function CommentContext(props: CommentContextProps) {
       {!isReply && (
         <>
           <div>#{props.thread.postNumber}</div>
-          <div className={styles.CommentContextPostContent}>
+          <div className={styles.CommentContextContent}>
             <UserContent>{props.thread.post.content}</UserContent>
           </div>
         </>
