@@ -50,6 +50,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
                 {icons[index]({
                   className: "PersonalInfoIcon",
                   size: "1.2em",
+                  title: placeholders[index],
                 })}
                 <input
                   type={"text"}
