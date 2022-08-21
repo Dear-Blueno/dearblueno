@@ -240,7 +240,7 @@ function ProfileBox(props: ProfileBoxProps) {
             {comments === undefined ? (
               <div>Loading...</div>
             ) : comments.length > 0 ? (
-              comments.map((comment, index) => (
+              comments.map((comment) => (
                 <ContextThread key={comment._id} thread={comment} />
               ))
             ) : (

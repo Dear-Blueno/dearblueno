@@ -35,22 +35,28 @@ function Feed(props: FeedProps) {
       (loadingRef.current?.getBoundingClientRect().top ?? Infinity) <=
       window.innerHeight + 800
     ) {
+      window.removeEventListener("scroll", onScroll);
       getMore()
         .then((response) => {
           if (response.hasNextPage) {
             window.addEventListener("scroll", onScroll);
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          window.addEventListener("scroll", onScroll);
+        });
     }
   }, [getMore]);
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+    if (!reachedEnd) {
+      window.addEventListener("scroll", onScroll);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+      };
+    }
+  }, [onScroll, reachedEnd]);
 
   const loadingDiv = useMemo(
     () => (
