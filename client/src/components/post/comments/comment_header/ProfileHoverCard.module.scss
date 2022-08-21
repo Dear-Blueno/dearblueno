@@ -28,17 +28,15 @@
   cursor: pointer;
 }
 
-.HoverCardName:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.075rem;
-}
-
 .HoverCardImage {
   box-sizing: border-box;
   display: flex;
+  width: 75px;
+  height: 75px;
   border: 1px solid black;
   border-radius: 0.2rem;
   cursor: pointer;
+  align-self: center;
 }
 
 .SocialIcon {

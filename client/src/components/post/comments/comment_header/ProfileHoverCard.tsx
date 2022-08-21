@@ -34,8 +34,8 @@ function ProfileHoverCard(props: ProfileHoverCardProps) {
           <Image
             src={props.hoverUser.profilePicture}
             alt={props.hoverUser.displayName ?? props.hoverUser.name}
-            width={70}
-            height={70}
+            width={75}
+            height={75}
           />
         </div>
       </Link>
