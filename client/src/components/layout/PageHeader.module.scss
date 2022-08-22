@@ -9,12 +9,12 @@
   min-height: 1.3rem;
   @media screen and (max-width: 30rem) {
     position: fixed;
-    width: 100%;
+    width: calc(100vw - 2rem);
     height: 4rem;
     z-index: 1;
     background: rgba(213, 235, 255, 0.7);
     backdrop-filter: saturate(180%) blur(20px);
-    padding: 0 1rem;
+    margin: 0 1rem;
   }
 }
 
