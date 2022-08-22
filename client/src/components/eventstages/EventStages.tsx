@@ -5,7 +5,7 @@ import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
 import { estTheDate as shiftToEST } from "./RelativeDay";
-import { createEvent, approveEvent } from "gateways/EventGateway";
+import { createEvent } from "gateways/EventGateway";
 import toast from "react-hot-toast";
 
 export default function EventStages() {
