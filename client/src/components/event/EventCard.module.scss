@@ -16,6 +16,12 @@
   border-bottom: 1px solid black;
 }
 
+.EventCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .EventCardAttendees {
   display: flex;
   flex-direction: row;

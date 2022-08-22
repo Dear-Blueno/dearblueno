@@ -5,7 +5,8 @@ import EventStageOne from "./EventStageOne";
 import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
 import { estTheDate as shiftToEST } from "./RelativeDay";
-import { createEvent } from "gateways/EventGateway";
+import { createEvent, approveEvent } from "gateways/EventGateway";
+import toast from "react-hot-toast";
 
 export default function EventStages() {
   const [stage, setStage] = useState(1);
@@ -22,8 +23,16 @@ export default function EventStages() {
 
   const incrementStage = () => {
     if (stage === 1 && stageOneName) {
+      if (stageOneName.length > 65) {
+        toast.error(
+          `Event name is ${stageOneName.length - 65} characters too long`
+        );
+        return;
+      }
       if (stageOneEmail) {
-        emailChecker(stageOneEmail) && setStage(2);
+        emailChecker(stageOneEmail)
+          ? setStage(2)
+          : toast.error("Invalid email, please try again");
       } else {
         setStage(2);
       }
@@ -37,7 +46,27 @@ export default function EventStages() {
       stageTwoEndTime &&
       stageTwoDescription
     ) {
-      setStage(3);
+      const completeStartDate = new Date(
+        `${stageTwoStartDate} ${stageTwoStartTime}`
+      );
+      const completeEndDate = new Date(`${stageTwoEndDate} ${stageTwoEndTime}`);
+      if (stageTwoLocation.length > 65) {
+        toast.error(
+          `Event location is ${
+            stageTwoLocation.length - 65
+          } characters too long`
+        );
+      } else if (stageTwoDescription.length > 800) {
+        toast.error(
+          `Event description is ${
+            stageTwoDescription.length - 800
+          } characters too long`
+        );
+      } else if (completeStartDate > completeEndDate) {
+        toast.error("The end must be after the start");
+      } else {
+        setStage(3);
+      }
     }
   };
 
@@ -49,6 +78,10 @@ export default function EventStages() {
       window.location.href = "/events";
     }
   };
+
+  // const approve = () => {
+  //   void approveEvent("62dcf4bd3c4d7a16acf44267", true);
+  // };
 
   const emailChecker = (inputEmail: string) => {
     if (inputEmail === "") return true;
@@ -118,6 +151,7 @@ export default function EventStages() {
         >
           Upload
         </p>
+        {/* <button onClick={() => approve()}>Approve</button> */}
 
         {stage === 1 && (
           <EventStageOne
@@ -197,7 +231,6 @@ export default function EventStages() {
             style={{ marginLeft: "auto" }}
             disabled={
               (stage === 1 && stageOneName === "") ||
-              !emailChecker(stageOneEmail) ||
               (stage === 2 &&
                 (stageTwoLocation === "" ||
                   stageTwoStartDate === "" ||
