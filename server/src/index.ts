@@ -16,6 +16,7 @@ import setupHourlyCron from "./config/cron-hourly";
 import setupMinutelyCron from "./config/cron-minutely";
 
 import postsRouter from "./routes/posts";
+import commentsRouter from "./routes/comments";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 import eventsRouter from "./routes/events";
@@ -101,6 +102,7 @@ app.get("/", (_req, res) => {
 });
 
 // Setup API routes
+app.use("/posts", commentsRouter);
 app.use("/posts", postsRouter);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);

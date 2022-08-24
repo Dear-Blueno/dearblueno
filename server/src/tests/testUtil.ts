@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import express from "express";
 import postsRouter from "../routes/posts";
+import commentsRouter from "../routes/comments";
 import userRouter from "../routes/user";
 import authRouter from "../routes/auth";
 import eventsRouter from "../routes/events";
@@ -20,6 +21,7 @@ export default async function setupForTests() {
   const app = express();
   app.use(express.json());
 
+  app.use("/posts", commentsRouter);
   app.use("/posts", postsRouter);
   app.use("/user", userRouter);
   app.use("/auth", authRouter);
