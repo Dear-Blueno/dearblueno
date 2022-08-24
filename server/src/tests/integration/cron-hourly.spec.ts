@@ -27,7 +27,7 @@ describe("Hourly Cron (Integration)", () => {
       expect(post?.hotScore).toBe(0);
     });
 
-    it("should decrease hot score by 5 for each hour since the post was approved", async () => {
+    it("should decrease hot score by 2 for each hour since the post was approved", async () => {
       await Post.create({
         content: "This is a post",
         approvedTime: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6),
@@ -39,12 +39,12 @@ describe("Hourly Cron (Integration)", () => {
       await hourlyHotScoreJob();
 
       const post = await Post.findOne();
-      expect(post?.hotScore).toBe(5);
+      expect(post?.hotScore).toBe(8);
 
       await hourlyHotScoreJob();
 
       const post2 = await Post.findOne();
-      expect(post2?.hotScore).toBe(0);
+      expect(post2?.hotScore).toBe(6);
     });
 
     it("should update hot score for multiple posts", async () => {
@@ -66,8 +66,8 @@ describe("Hourly Cron (Integration)", () => {
 
       const posts = await Post.find().sort({ postNumber: 1 });
       expect(posts).toHaveLength(10);
-      expect(posts[0].hotScore).toBe(5);
-      expect(posts[7].hotScore).toBe(5);
+      expect(posts[0].hotScore).toBe(8);
+      expect(posts[7].hotScore).toBe(8);
       expect(posts[8].hotScore).toBe(10);
       expect(posts[9].hotScore).toBe(10);
     });
