@@ -363,6 +363,19 @@ describe("Posts", () => {
       expect(res.body[0].postNumber).toBe(3);
       expect(res.body[1].postNumber).toBe(2);
     });
+
+    it("should display image posts", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        imageUrl: "https://i.imgur.com/Ydhgl4K.jpg",
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts").expect(200);
+      expect(res.body[0].imageUrl).toBe("https://i.imgur.com/Ydhgl4K.jpg");
+    });
   });
 
   describe("GET /posts/all", () => {
@@ -682,6 +695,57 @@ describe("Posts", () => {
       expect(post?.needsReview).toBe(true);
       expect(post?.comments).toHaveLength(0);
       expect(post?.verifiedBrown).toBe(true);
+    });
+  });
+
+  describe("POST /posts/image", () => {
+    it("should return 400 if no image or no title is provided", async () => {
+      await request(app)
+        .post("/posts/image")
+        .send({ user, title: "Hello!" })
+        .expect(400);
+      await request(app)
+        .post("/posts/image")
+        .send({ user, imageUrl: "https://i.imgur.com/Ydhgl4K.jpg" })
+        .expect(400);
+      expect(await Post.count()).toBe(0);
+    });
+
+    it("should return 400 if imageUrl is not hosted on Imgur", async () => {
+      await request(app)
+        .post("/posts/image")
+        .send({
+          user,
+          imageUrl: "https://i.redd.it/r9wv3zfmylj91.jpg",
+          title: "Hello!",
+        })
+        .expect(400);
+    });
+
+    it("should return 401 if not logged in", async () => {
+      await request(app)
+        .post("/posts/image")
+        .send({ imageUrl: "https://i.imgur.com/Ydhgl4K.jpg", title: "Hello!" })
+        .expect(401);
+    });
+
+    it("should return 200 if logged in and image is valid", async () => {
+      await request(app)
+        .post("/posts/image")
+        .send({
+          user,
+          imageUrl: "https://i.imgur.com/Ydhgl4K.jpg",
+          title: "Hello!",
+        })
+        .expect(200);
+
+      const post = await Post.findOne();
+      expect(post).toBeDefined();
+      expect(post?.content).toBe("Hello!");
+      expect(post?.imageUrl).toBe("https://i.imgur.com/Ydhgl4K.jpg");
+      expect(post?.postNumber).toBeUndefined();
+      expect(post?.approved).toBe(false);
+      expect(post?.needsReview).toBe(true);
     });
   });
 
