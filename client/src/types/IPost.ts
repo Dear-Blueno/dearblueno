@@ -4,6 +4,7 @@ export default interface IPost {
   _id: string;
   postNumber: number;
   content: string;
+  imageUrl?: string;
   verifiedBrown: boolean;
   contentWarning: string;
   postTime: string; // ISO-8601-formatted date
