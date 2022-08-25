@@ -43,18 +43,3 @@ export const modCheck = (req: Request, res: Response, next: NextFunction) => {
   }
   next();
 };
-
-// check if user is a verified Brown University community member
-export const brownCheck = (req: Request, res: Response, next: NextFunction) => {
-  // If in testing mode, get user from req.body
-  if (process.env.NODE_ENV === "test") {
-    req.user = req.body.user;
-  }
-
-  const user = req.user as IUser | undefined;
-  if (!user || !user.verifiedBrown) {
-    res.status(401).send("You are not a verified Brown University member");
-    return;
-  }
-  next();
-};

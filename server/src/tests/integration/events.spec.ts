@@ -501,10 +501,8 @@ describe("Events", () => {
   });
 
   describe("POST /events", () => {
-    it("should return 401 if not logged in as a Brown member", async () => {
+    it("should return 401 if not logged in", async () => {
       await request(app).post("/events").expect(401);
-      await request(app).post("/events").send({ user }).expect(401);
-
       expect(await Event.count()).toBe(0);
     });
 
@@ -708,12 +706,8 @@ describe("Events", () => {
   });
 
   describe.each(["interested", "going"])("PUT /events/:id/%s", (rsvpMode) => {
-    it("should return 401 if not logged in as Brown member", async () => {
+    it("should return 401 if not logged in", async () => {
       await request(app).put(`/events/abc/${rsvpMode}`).expect(401);
-      await request(app)
-        .put(`/events/abc/${rsvpMode}`)
-        .send({ user })
-        .expect(401);
     });
 
     it("should return 400 if invalid event id", async () => {

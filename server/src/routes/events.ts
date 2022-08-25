@@ -1,12 +1,7 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 import { IUser } from "../models/User";
-import {
-  authCheck,
-  brownCheck,
-  modCheck,
-  optionalAuth,
-} from "../middleware/auth";
+import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
 import { Document } from "mongoose";
 import { validate } from "../middleware/validate";
@@ -162,10 +157,10 @@ eventRouter.get(
 );
 
 // POST request that creates a new event
-// (Must be authenticated as a Brown member)
+// (Must be authenticated)
 eventRouter.post(
   "/",
-  brownCheck,
+  authCheck,
   body("eventName").isString().trim().isLength({ min: 1, max: 65 }),
   body("eventDescription").isString().trim().isLength({ min: 1, max: 800 }),
   body("startDate").isISO8601().toDate().isAfter(new Date().toString()),
@@ -230,10 +225,10 @@ eventRouter.put(
 );
 
 // PUT request that marks an event as 'interested'
-// (Must be authenticated as a Brown member)
+// (Must be authenticated)
 eventRouter.put(
   "/:id/interested",
-  brownCheck,
+  authCheck,
   param("id").isMongoId(),
   body("interested").toBoolean(),
   validate,
@@ -259,10 +254,10 @@ eventRouter.put(
 );
 
 // PUT request that marks an event as 'going'
-// (Must be authenticated as a Brown member)
+// (Must be authenticated)
 eventRouter.put(
   "/:id/going",
-  brownCheck,
+  authCheck,
   param("id").isMongoId(),
   body("going").toBoolean(),
   validate,
