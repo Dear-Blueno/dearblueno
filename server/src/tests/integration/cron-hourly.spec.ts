@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import setupForTests from "../testUtil";
 import { hourlyHotScoreJob } from "../../config/cron-hourly";
 import Post from "../../models/Post";
 
 describe("Hourly Cron (Integration)", () => {
+  let mongo: MongoMemoryServer;
+
   beforeAll(async () => {
-    await setupForTests();
+    const { db } = await setupForTests();
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -75,5 +79,6 @@ describe("Hourly Cron (Integration)", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

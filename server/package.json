@@ -7,15 +7,19 @@
     "start": "node dist/index.js",
     "dev": "nodemon --exec npx ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --runInBand --testPathPattern=src/tests/integration",
-    "test:e2e": "jest --runInBand",
-    "test:coverage": "jest --coverage --runInBand",
+    "test": "jest --testPathPattern=src/tests/integration",
+    "test:seq": "jest --testPathPattern=src/tests/integration --runInBand",
+    "test:e2e": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint . && prettier -c .",
     "lint:fix": "eslint --fix . && prettier -w ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dylanhu7/dearblueno.git"
+  },
+  "jest": {
+    "preset": "ts-jest"
   },
   "keywords": [
     "blueno",
@@ -73,3 +77,4 @@
     "tslib": "^2.3.1"
   }
 }
+

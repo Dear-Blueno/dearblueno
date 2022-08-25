@@ -1,33 +1,18 @@
 import mongoose from "mongoose";
-import express from "express";
-import postsRouter from "../routes/posts";
-import commentsRouter from "../routes/comments";
-import userRouter from "../routes/user";
-import authRouter from "../routes/auth";
-import eventsRouter from "../routes/events";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import log4js from "log4js";
+import app from "../app";
 
 export default async function setupForTests() {
-  // Connect to MongoDB
-  await mongoose.connect(process.env.MONGO_URL ?? "");
+  // Create a MongoDB Memory Server
+  const db = await MongoMemoryServer.create();
+  process.env.MONGODB_URI = db.getUri();
 
-  // Init the mongoose models
-  require("../models/User");
-  require("../models/Post");
-  require("../models/Comment");
-  require("../models/Event");
-  require("../models/Report");
+  // Setup the app
+  const server = app();
+  log4js.shutdown();
 
-  // Setup Express server
-  const app = express();
-  app.use(express.json());
-
-  app.use("/posts", commentsRouter);
-  app.use("/posts", postsRouter);
-  app.use("/user", userRouter);
-  app.use("/auth", authRouter);
-  app.use("/events", eventsRouter);
-
-  return app;
+  return { server, db };
 }
 
 export async function resetCollections() {

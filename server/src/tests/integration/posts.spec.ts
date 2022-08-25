@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import Post from "../../models/Post";
 import Comment from "../../models/Comment";
@@ -7,12 +8,15 @@ import request from "supertest";
 import setupForTests, { resetCollections } from "../testUtil";
 
 describe("Posts", () => {
+  let mongo: MongoMemoryServer;
   let app: Express;
   let user: IUser;
   let modUser: IUser;
 
   beforeAll(async () => {
-    app = await setupForTests();
+    const { server, db } = await setupForTests();
+    app = server;
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -1287,5 +1291,6 @@ describe("Posts", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

@@ -8,9 +8,11 @@ export default function mongoConnection() {
   mongoose.connect(process.env.MONGODB_URI ?? "", () => {
     logger.info("Connected to MongoDB!");
   });
+
   // Init the mongoose models
   require("../models/User");
   require("../models/Post");
   require("../models/Comment");
   require("../models/Event");
+  require("../models/Report");
 }

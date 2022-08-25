@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import User, { IUser } from "../../models/User";
 import Event from "../../models/Event";
@@ -6,12 +7,15 @@ import request from "supertest";
 import setupForTests from "../testUtil";
 
 describe("Events", () => {
+  let mongo: MongoMemoryServer;
   let app: Express;
   let user: IUser;
   let modUser: IUser;
 
   beforeAll(async () => {
-    app = await setupForTests();
+    const { server, db } = await setupForTests();
+    app = server;
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -977,5 +981,6 @@ describe("Events", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

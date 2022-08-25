@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import User, { INewCommentNotification, IUser } from "../../models/User";
 import request from "supertest";
@@ -7,11 +8,14 @@ import Comment from "../../models/Comment";
 import Post from "../../models/Post";
 
 describe("User", () => {
+  let mongo: MongoMemoryServer;
   let app: Express;
   let user: IUser;
 
   beforeAll(async () => {
-    app = await setupForTests();
+    const { server, db } = await setupForTests();
+    app = server;
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -565,5 +569,6 @@ describe("User", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

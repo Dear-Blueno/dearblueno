@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import setupForTests from "../testUtil";
 import Post from "../../models/Post";
 import { hourlySheetsJob } from "../../config/cron-hourly";
@@ -9,9 +9,11 @@ import {
 } from "google-spreadsheet";
 
 describe("Hourly Cron (E2E)", () => {
+  let mongo: MongoMemoryServer;
+
   beforeAll(async () => {
-    await setupForTests();
-    dotenv.config();
+    const { db } = await setupForTests();
+    mongo = db;
 
     const id = process.env.TESTING_GOOGLE_SHEET_ID;
     process.env.VERIFIED_GOOGLE_SHEET_ID = id;
@@ -146,5 +148,6 @@ describe("Hourly Cron (E2E)", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

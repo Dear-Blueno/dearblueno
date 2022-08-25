@@ -1,14 +1,17 @@
 import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import setupForTests from "../testUtil";
 import User, { IUpcomingEventNotification, IUser } from "../../models/User";
 import { minutelyJob } from "../../config/cron-minutely";
 import Event from "../../models/Event";
 
 describe("Cron Minutely", () => {
+  let mongo: MongoMemoryServer;
   let user: IUser;
 
   beforeAll(async () => {
-    await setupForTests();
+    const { db } = await setupForTests();
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -224,5 +227,6 @@ describe("Cron Minutely", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongo.stop();
   });
 });

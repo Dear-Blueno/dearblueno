@@ -1,13 +1,17 @@
 import { Express } from "express";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import setupForTests from "../testUtil";
 
 describe("Auth", () => {
+  let mongo: MongoMemoryServer;
   let app: Express;
 
   beforeAll(async () => {
-    app = await setupForTests();
+    const { server, db } = await setupForTests();
+    app = server;
+    mongo = db;
   });
 
   beforeEach(async () => {
@@ -22,6 +26,7 @@ describe("Auth", () => {
   });
 
   afterAll(async () => {
-    await mongoose.connection.close();
+    await mongoose.disconnect();
+    await mongo.stop(true);
   });
 });
