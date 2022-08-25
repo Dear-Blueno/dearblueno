@@ -292,13 +292,47 @@ postRouter.post(
   validate,
   async (req, res) => {
     const content = req.body.content;
+
     const user = req.user as IUser | undefined;
     const verifiedBrown = user?.verifiedBrown ?? false;
+
     const post = new Post({
       content,
       verifiedBrown,
     });
     await post.save();
+
+    res.send(post);
+  }
+);
+
+// POST request that creates a new image post
+postRouter.post(
+  "/image",
+  authCheck,
+  body("title").isString().trim().isLength({ min: 1, max: 100 }),
+  body("imageUrl")
+    .isURL({
+      require_protocol: true,
+      protocols: ["https"],
+      host_whitelist: ["i.imgur.com"],
+    })
+    .isLength({ max: 200 }),
+  validate,
+  async (req, res) => {
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+
+    const user = req.user as IUser;
+    const verifiedBrown = user.verifiedBrown;
+
+    const post = new Post({
+      content: title,
+      imageUrl,
+      verifiedBrown,
+    });
+    await post.save();
+
     res.send(post);
   }
 );

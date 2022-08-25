@@ -9,6 +9,10 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+    type: String,
+    required: false,
+  },
   verifiedBrown: {
     type: Boolean,
     default: true,
@@ -91,6 +95,7 @@ export interface IPost {
   _id: string;
   postNumber: number;
   content: string;
+  imageUrl: string;
   verifiedBrown: boolean;
   contentWarning: string;
   postTime: Date;
