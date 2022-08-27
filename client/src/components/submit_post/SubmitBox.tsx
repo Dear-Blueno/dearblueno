@@ -17,6 +17,7 @@ function SubmitBox(props: SubmitBoxProps) {
       .then((response) => {
         if (response.success) {
           props.submittedSetter(true);
+          toast.success("Post submitted for approval!");
         } else {
           toast.error(
             (response.message as unknown as { message: string }).message
