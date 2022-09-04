@@ -1,4 +1,4 @@
-import styles from "./SubmitBox.module.scss";
+import styles from "./TextSubmit.module.scss";
 import GoogleFormOption from "./GoogleFormOption";
 import LogoIcon from "../../images/logo128.png";
 import { createPost } from "../../gateways/PostGateway";
@@ -6,12 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-interface SubmitBoxProps {
+interface TextSubmitProps {
   submitted: boolean;
   submittedSetter: (arg: boolean) => void;
 }
 
-function SubmitBox(props: SubmitBoxProps) {
+function TextSubmit(props: TextSubmitProps) {
   const submitPost = (text: string) => {
     createPost(text)
       .then((response) => {
@@ -80,4 +80,4 @@ function SubmitBox(props: SubmitBoxProps) {
   );
 }
 
-export default SubmitBox;
+export default TextSubmit;

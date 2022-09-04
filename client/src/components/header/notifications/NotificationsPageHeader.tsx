@@ -54,26 +54,26 @@ export default function NotificationsPageHeader() {
   }, [handleSwitch]);
 
   return (
-    <div className={styles.MainFeedHeader}>
+    <div className={styles.FeedHeader}>
       <div
-        className={styles.MainFeedHeaderOption}
+        className={styles.FeedHeaderOption}
         onClick={() => {
           setActive(NotificationsSort.Unread);
           void router.push("/notifications");
         }}
       >
-        <h3 className={styles.MainFeedHeaderOptionText} ref={unreadRef}>
+        <h3 className={styles.FeedHeaderOptionText} ref={unreadRef}>
           Unread
         </h3>
       </div>
       <div
-        className={styles.MainFeedHeaderOption}
+        className={styles.FeedHeaderOption}
         onClick={() => {
           setActive(NotificationsSort.All);
           void router.push("/notifications?sort=all");
         }}
       >
-        <h3 className={styles.MainFeedHeaderOptionText} ref={allRef}>
+        <h3 className={styles.FeedHeaderOptionText} ref={allRef}>
           All
         </h3>
       </div>

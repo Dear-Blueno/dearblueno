@@ -1,11 +1,18 @@
 import styles from "styles/SubmitPage.module.scss";
 import MainLayout from "components/layout/MainLayout";
 import { useState } from "react";
-import SubmitBox from "components/submit_post/SubmitBox";
+import TextSubmit from "components/submit/TextSubmit";
 import { NextPage } from "next";
+import SubmitPageHeader from "components/header/submit/SubmitPageHeader";
 
 const SubmitPage: NextPage = () => {
-  return <MainLayout title="Submit" page={<SubmitPageMain />} />;
+  return (
+    <MainLayout
+      title="Submit"
+      page={<SubmitPageMain />}
+      header={<SubmitPageHeader />}
+    />
+  );
 };
 
 function SubmitPageMain() {
@@ -13,7 +20,7 @@ function SubmitPageMain() {
 
   return (
     <div className={styles.SubmitPage}>
-      <SubmitBox submitted={submitted} submittedSetter={setSubmitted} />
+      <TextSubmit submitted={submitted} submittedSetter={setSubmitted} />
     </div>
   );
 }
