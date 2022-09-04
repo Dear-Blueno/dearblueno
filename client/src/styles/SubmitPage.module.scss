@@ -1,0 +1,32 @@
+@use "./styles/card.module.scss";
+
+.SubmitBox {
+  @extend .DearBluenoCard;
+}
+
+.PostSubmitContent {
+  margin-top: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ReturnText {
+  text-align: center;
+}
+
+.ReturnButton {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.ReturnButtonImage {
+  width: 10rem;
+  height: 10rem;
+}
