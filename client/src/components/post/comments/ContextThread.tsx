@@ -3,7 +3,6 @@ import IComment from "types/IComment";
 import { IThread } from "./CommentSection";
 import Thread from "./Thread";
 import ApproveOrDeny from "../moderator/ApproveOrDeny";
-import { approveComment } from "gateways/PostGateway";
 import CommentContext from "./CommentContext";
 
 export interface ContextThreadProps {
@@ -43,34 +42,8 @@ function ContextThread(props: ContextThreadProps) {
           <div className={styles.ApproveOrDenyContainer}>
             <ApproveOrDeny
               type="comment"
-              approve={() => {
-                (async () => {
-                  const response = await approveComment(
-                    props.thread.postNumber,
-                    props.thread.commentNumber,
-                    true
-                  );
-                  if (response.success && props.setFeed) {
-                    props.setFeed((comments) =>
-                      comments.filter((c) => c._id !== props.thread._id)
-                    );
-                  }
-                })().catch((e) => console.error(e));
-              }}
-              deny={() => {
-                (async () => {
-                  const response = await approveComment(
-                    props.thread.postNumber,
-                    props.thread.commentNumber,
-                    false
-                  );
-                  if (response.success && props.setFeed) {
-                    props.setFeed((comments) =>
-                      comments.filter((c) => c._id !== props.thread._id)
-                    );
-                  }
-                })().catch((e) => console.error(e));
-              }}
+              postNumber={props.thread.postNumber}
+              commentNumber={props.thread.commentNumber}
             />
           </div>
         )}
