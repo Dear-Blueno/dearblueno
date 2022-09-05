@@ -132,6 +132,12 @@ const UserSchema = new Schema({
       ref: "Post",
     },
   ],
+  settings: {
+    autoSubscribe: {
+      type: Boolean,
+      default: true,
+    },
+  },
 });
 
 // Non-sensitive user info that can be seen by everyone
@@ -168,6 +174,9 @@ export interface IUser extends IBasicUser {
   bookmarks: any[];
   notifications: INotification[];
   subscriptions: any[];
+  settings: {
+    autoSubscribe: boolean;
+  };
 }
 
 type INotification =

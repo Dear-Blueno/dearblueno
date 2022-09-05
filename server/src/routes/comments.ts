@@ -136,6 +136,14 @@ commentRouter.post(
           },
         }
       );
+
+      // If the user has autoSubscribe enabled (and they aren't already subscribed), subscribe them to the post
+      if (user.settings.autoSubscribe) {
+        await Post.updateOne(
+          { _id: post._id },
+          { $addToSet: { subscribers: user._id } }
+        );
+      }
     }
 
     const comment = new Comment({
