@@ -235,7 +235,7 @@ function ProfileBox(props: ProfileBoxProps) {
       </div>
       <div className={styles.RightColumn}>
         <div className={styles.CommentsContainer}>
-          <h2>Comments</h2>
+          {/* <h2>Comments</h2> */}
           <div className={styles.ProfileCommentsList}>
             {comments === undefined ? (
               <div>Loading...</div>

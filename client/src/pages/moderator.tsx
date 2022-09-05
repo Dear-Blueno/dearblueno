@@ -96,6 +96,19 @@ const ModeratorPageMain = () => {
             <ContextThread key={comment._id} thread={comment} moderatorView />
           ))
         )}
+      {/* {typeGuard<IReport[]>("reports")(data) &&
+        data.pages.map((page) => {
+          console.log(page);
+          page.map((report) => (
+            <ContextThread key={report.comment._id} thread={report.comment} />
+          ));
+        })} */}
+      {/* <button
+        onClick={() => console.log(ata))}
+      >
+        {" "}
+        LOL{" "}
+      </button> */}
     </div>
   );
 };

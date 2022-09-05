@@ -143,14 +143,14 @@ export default function EventStages() {
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
       <form>
-        <input type="file" name="file" id="file" onChange={changeHandler} />
+        {/* <input type="file" name="file" id="file" onChange={changeHandler} />
         <p
           onClick={() =>
             void uploadImage(selectedFile).then((link) => console.log(link))
           }
         >
           Upload
-        </p>
+        </p> */}
         {/* <button onClick={() => approve()}>Approve</button> */}
 
         {stage === 1 && (

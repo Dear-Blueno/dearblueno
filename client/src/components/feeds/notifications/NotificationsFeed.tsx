@@ -43,6 +43,8 @@ export default function NotificationsFeed() {
       ? partitionedNotifications.unread.concat(partitionedNotifications.read)
       : partitionedNotifications.unread;
 
+  notifications.reverse();
+
   return (
     <div className={styles.NotificationsFeed}>
       {notifications.length === 0 && (
