@@ -13,12 +13,6 @@ export default function ReportReview(props: ReportReviewProps) {
   const queryClient = useQueryClient();
 
   const reportAction = async (action: boolean) => {
-    if (!action) {
-      await deleteComment(
-        props.report.post.postNumber,
-        props.report.comment.commentNumber
-      );
-    }
     const response = await resolveReport(
       props.report.post.postNumber,
       props.report.comment.commentNumber
@@ -42,6 +36,13 @@ export default function ReportReview(props: ReportReviewProps) {
           return newData;
         }
       );
+      if (!action) {
+        // error
+        await deleteComment(
+          props.report.post.postNumber,
+          props.report.comment.commentNumber
+        );
+      }
     } else {
       toast.error((response.message as unknown as { message: string }).message);
     }
