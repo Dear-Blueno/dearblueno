@@ -567,6 +567,31 @@ describe("User", () => {
     });
   });
 
+  describe("PUT /user/settings", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).put("/user/settings").expect(401);
+    });
+
+    it("should return 400 if invalid settings are sent", async () => {
+      await request(app)
+        .put("/user/settings")
+        .send({ user, settings: { invalid: "settings" } })
+        .expect(400);
+    });
+
+    it("should update user settings", async () => {
+      expect(user.settings.autoSubscribe).toBe(true);
+
+      await request(app)
+        .put("/user/settings")
+        .send({ user, autoSubscribe: false })
+        .expect(200);
+
+      const newUser = await User.findById(user._id);
+      expect(newUser?.settings.autoSubscribe).toBe(false);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
     await mongo.stop();

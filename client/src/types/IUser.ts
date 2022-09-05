@@ -32,6 +32,9 @@ export default interface IUser extends IBasicUser {
   notifications: INotification[];
   bookmarks: string[];
   subscriptions: string[];
+  settings: {
+    autoSubscribe: boolean;
+  };
 }
 
 export type INotification =

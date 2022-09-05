@@ -341,6 +341,40 @@ describe("Comments", () => {
       const modUser1 = await User.findById(modUser._id);
       expect(modUser1?.notifications).toHaveLength(0);
     });
+
+    it("should auto subscribe to post if user has that option enabled", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({ user, content: "This is a test comment", parentId: -1 })
+        .expect(200);
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({ user, content: "This is another test comment!", parentId: -1 })
+        .expect(200);
+
+      const post1 = await Post.findById(post._id);
+      expect(post1?.subscribers).toHaveLength(1);
+      expect(post1?.subscribers[0]).toStrictEqual(user._id);
+
+      user.settings.autoSubscribe = false;
+      await Post.updateOne({ _id: post._id }, { subscribers: [] });
+
+      await request(app)
+        .post(`/posts/1/comment`)
+        .send({ user, content: "This is a third comment...", parentId: -1 })
+        .expect(200);
+
+      const post2 = await Post.findById(post._id);
+      expect(post2?.subscribers).toHaveLength(0);
+    });
   });
 
   describe("PUT /posts/:id/comment/:commentId/approve", () => {

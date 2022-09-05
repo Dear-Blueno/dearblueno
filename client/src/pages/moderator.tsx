@@ -17,6 +17,8 @@ import { IReport } from "types/IReport";
 import IEvent from "types/IEvent";
 import ModeratorPost from "components/post/ModeratorPost";
 import ContextThread from "components/post/comments/ContextThread";
+import EventCard from "components/event/EventCard";
+import ReportReview from "components/post/ReportReview";
 
 const ModeratorPage: NextPage = () => {
   return (
@@ -96,19 +98,18 @@ const ModeratorPageMain = () => {
             <ContextThread key={comment._id} thread={comment} moderatorView />
           ))
         )}
-      {/* {typeGuard<IReport[]>("reports")(data) &&
-        data.pages.map((page) => {
-          console.log(page);
+      {typeGuard<IReport[]>("reports")(data) &&
+        data.pages.map((page) =>
           page.map((report) => (
-            <ContextThread key={report.comment._id} thread={report.comment} />
-          ));
-        })} */}
-      {/* <button
-        onClick={() => console.log(ata))}
-      >
-        {" "}
-        LOL{" "}
-      </button> */}
+            <ReportReview key={report.comment._id} report={report} />
+          ))
+        )}
+      {typeGuard<IEvent[]>("events")(data) &&
+        data.pages.map((page) =>
+          page.map((event) => (
+            <EventCard key={event._id} event={event} disabled moderatorView />
+          ))
+        )}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
-import Report from "../models/Report";
 import { Document, SortOrder } from "mongoose";
 import { validate } from "../middleware/validate";
 
@@ -134,40 +133,6 @@ postRouter.get(
       .skip((page - 1) * 10)
       .limit(10);
     res.send(posts);
-  }
-);
-
-// GET request that gets 10 reports paginated in order of oldest (only unresolved reports)
-// (Must be authenticated as a moderator)
-postRouter.get(
-  "/mod-feed/reports",
-  modCheck,
-  query("page").optional().isInt({ min: 1 }),
-  validate,
-  async (req, res) => {
-    const page = Number(req.query.page) || 1;
-    const reports = await Report.find({ resolved: false })
-      .sort({ timeSubmitted: "ascending" })
-      .skip((page - 1) * 10)
-      .limit(10)
-      .populate("post")
-      .populate({
-        path: "comment",
-        populate: [
-          {
-            path: "author",
-            select: "name profilePicture badges displayName pronouns",
-          },
-          {
-            path: "parentComment",
-            populate: {
-              path: "author",
-              select: "name profilePicture badges displayName pronouns",
-            },
-          },
-        ],
-      });
-    res.send(reports);
   }
 );
 

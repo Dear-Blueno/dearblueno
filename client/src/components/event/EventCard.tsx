@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./EventCard.module.scss";
-import { BsFillPeopleFill, BsCheckLg } from "react-icons/bs";
+import { BsFillPeopleFill, BsCheckLg, BsXLg } from "react-icons/bs";
 import { HiLightningBolt } from "react-icons/hi";
 import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
@@ -14,10 +14,14 @@ import {
 import { useLoginPopup } from "hooks/login-popup";
 import { formatInTimeZone } from "date-fns-tz";
 import { makeDate } from "components/eventstages/RelativeDay";
+import { approveEvent } from "gateways/EventGateway";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface EventCardProps {
   event: IEvent;
   disabled?: boolean;
+  moderatorView?: boolean;
 }
 
 export default function EventCard(props: EventCardProps) {
@@ -56,6 +60,33 @@ export default function EventCard(props: EventCardProps) {
       (user && props.event.interested.includes(user._id)) ?? false;
     setIsInterested(newInterested);
   }, [user, props.event.going, props.event.interested]);
+
+  const queryClient = useQueryClient();
+
+  const handleAction = async (action: boolean) => {
+    const response = await approveEvent(props.event._id, action);
+    if (response.success) {
+      queryClient.setQueryData(
+        ["moderatorevents"],
+        (data: InfiniteData<IEvent[]> | undefined) => {
+          const newData = data
+            ? (JSON.parse(JSON.stringify(data)) as InfiniteData<IEvent[]>)
+            : undefined;
+          newData?.pages.forEach(
+            (_, index, array) =>
+              (array[index] = array[index].filter(
+                (event) =>
+                  event._id !== props.event._id &&
+                  event.startDate !== props.event.startDate
+              ))
+          );
+          return newData;
+        }
+      );
+    } else {
+      toast.error((response.message as unknown as { message: string }).message);
+    }
+  };
 
   return (
     <div className={styles.EventCard}>
@@ -135,6 +166,22 @@ export default function EventCard(props: EventCardProps) {
             disabled={props.disabled ?? false}
           />
         </div>
+        {props.moderatorView && (
+          <div className={styles.EventCardButtonContainer}>
+            <EventCardButton
+              icon={BsCheckLg}
+              text="Approve"
+              onClick={() => void handleAction(true)}
+              style={styles.EventCardButtonApprove}
+            />
+            <EventCardButton
+              icon={BsXLg}
+              text="Reject"
+              onClick={() => void handleAction(false)}
+              style={styles.EventCardButtonReject}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

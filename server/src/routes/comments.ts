@@ -35,6 +35,40 @@ commentRouter.get(
   }
 );
 
+// GET request that gets 10 reports paginated in order of oldest (only unresolved reports)
+// (Must be authenticated as a moderator)
+commentRouter.get(
+  "/mod-feed/reports",
+  modCheck,
+  query("page").optional().isInt({ min: 1 }),
+  validate,
+  async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const reports = await Report.find({ resolved: false })
+      .sort({ timeSubmitted: "ascending" })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .populate("post")
+      .populate({
+        path: "comment",
+        populate: [
+          {
+            path: "author",
+            select: "name profilePicture badges displayName pronouns",
+          },
+          {
+            path: "parentComment",
+            populate: {
+              path: "author",
+              select: "name profilePicture badges displayName pronouns",
+            },
+          },
+        ],
+      });
+    res.send(reports);
+  }
+);
+
 // POST request that creates a new comment
 // (Must be authenticated)
 commentRouter.post(
@@ -102,6 +136,14 @@ commentRouter.post(
           },
         }
       );
+
+      // If the user has autoSubscribe enabled (and they aren't already subscribed), subscribe them to the post
+      if (user.settings.autoSubscribe) {
+        await Post.updateOne(
+          { _id: post._id },
+          { $addToSet: { subscribers: user._id } }
+        );
+      }
     }
 
     const comment = new Comment({

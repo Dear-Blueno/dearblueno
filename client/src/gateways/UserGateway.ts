@@ -128,3 +128,16 @@ export async function markAllNotificationsAsRead(): Promise<
     return failureResponse(error as string);
   }
 }
+
+export async function updateSettings(
+  autoSubscribe: boolean
+): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.put(`/user/settings`, {
+      autoSubscribe,
+    });
+    return successfulResponse(response.data);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
