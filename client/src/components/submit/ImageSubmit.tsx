@@ -3,6 +3,7 @@ import GoogleFormOption from "./GoogleFormOption";
 import { createPost } from "../../gateways/PostGateway";
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction } from "react";
+import ImageUpload from "./ImageUpload";
 
 interface ImageSubmitProps {
   setSubmitted: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ function ImageSubmit(props: ImageSubmitProps) {
     createPost(text)
       .then((response) => {
         if (response.success) {
+          props.setSubmitted(true);
           toast.success("Post submitted for approval!");
         } else {
           toast.error(
@@ -26,34 +28,32 @@ function ImageSubmit(props: ImageSubmitProps) {
   };
 
   return (
-    <>
-      <div className={styles.SubmitBox}>
-        <div className={styles.PreSubmitContent}>
-          {/* <h2 className={styles.SubmitBoxHeaderText}>post anonymously</h2> */}
-          <textarea
-            placeholder="What's on your mind?"
-            id="TextBox"
-            className={styles.TextBox}
-            name="TextBox"
-            autoFocus={true}
-          ></textarea>
-          <div className={styles.SubmitBoxFooter}>
-            <GoogleFormOption />
-            <p
-              className={styles.Submit}
-              onClick={() => {
-                const element = document.getElementById(
-                  "TextBox"
-                ) as HTMLTextAreaElement;
-                submitPost(element.value);
-              }}
-            >
-              submit
-            </p>
-          </div>
+    <div className={styles.SubmitBox}>
+      <div className={styles.PreSubmitContent}>
+        <ImageUpload />
+        <textarea
+          placeholder="What's on your mind?"
+          id="TextBox"
+          className={styles.TextBox}
+          name="TextBox"
+          autoFocus={true}
+        ></textarea>
+        <div className={styles.SubmitBoxFooter}>
+          <GoogleFormOption />
+          <p
+            className={styles.Submit}
+            onClick={() => {
+              const element = document.getElementById(
+                "TextBox"
+              ) as HTMLTextAreaElement;
+              submitPost(element.value);
+            }}
+          >
+            submit
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
