@@ -3,3 +3,9 @@
 .SubmitBox {
   height: unset;
 }
+
+.ImageSubmitBoxFooter {
+  @extend .SubmitBoxFooter;
+  justify-content: flex-end;
+  margin: 0;
+}

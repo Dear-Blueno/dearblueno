@@ -29,17 +29,25 @@ function ImageSubmit(props: ImageSubmitProps) {
 
   return (
     <div className={styles.SubmitBox}>
-      <div className={styles.PreSubmitContent}>
-        <ImageUpload />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 1,
+          gap: "1rem",
+          width: "100%",
+          maxWidth: "100%",
+        }}
+      >
         <textarea
-          placeholder="What's on your mind?"
+          placeholder="Caption your image"
           id="TextBox"
           className={styles.TextBox}
           name="TextBox"
           autoFocus={true}
         ></textarea>
-        <div className={styles.SubmitBoxFooter}>
-          <GoogleFormOption />
+        <ImageUpload />
+        <div className={styles.ImageSubmitBoxFooter}>
           <p
             className={styles.Submit}
             onClick={() => {
