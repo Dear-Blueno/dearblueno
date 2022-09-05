@@ -58,4 +58,3 @@ function ImageSubmit(props: ImageSubmitProps) {
 }
 
 export default ImageSubmit;
-

@@ -84,7 +84,10 @@ export async function createPost(content: string): Promise<IResponse<IPost>> {
   }
 }
 
-export async function createImagePost(title:string, imageUrl: string): Promise<IResponse<IPost>> {
+export async function createImagePost(
+  title: string,
+  imageUrl: string
+): Promise<IResponse<IPost>> {
   // image url must be on i.imgur.com
   try {
     const response = await axios.post("/posts/image", { title, imageUrl });

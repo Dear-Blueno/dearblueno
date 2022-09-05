@@ -7,10 +7,11 @@
     "start": "node dist/index.js",
     "dev": "nodemon --exec npx ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --testPathPattern=src/tests/integration",
-    "test:seq": "jest --testPathPattern=src/tests/integration --runInBand",
-    "test:e2e": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "jest --testPathPattern=src/tests/integration --runInBand",
+    "test:parallel": "jest --testPathPattern=src/tests/integration",
+    "test:tsc": "tsc && jest --testPathPattern=dist/tests/integration",
+    "test:e2e": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint . && prettier -c .",
     "lint:fix": "eslint --fix . && prettier -w ."
   },
@@ -77,4 +78,3 @@
     "tslib": "^2.3.1"
   }
 }
-

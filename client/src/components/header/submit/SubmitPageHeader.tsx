@@ -98,4 +98,3 @@ export default function SubmitPageHeader() {
     </div>
   );
 }
-
