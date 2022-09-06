@@ -122,18 +122,15 @@ function Thread(props: ThreadProps) {
                       reactions={props.comment.reactions}
                     />
                     <DividerDot />
-                    <FaRegCommentAlt
-                      style={{
-                        cursor: "pointer",
-                        transform: "translateY(0.05em)",
-                      }}
-                      color="#789"
-                      size="0.8em"
+                    <button
+                      className={styles.FooterButton}
                       onClick={
                         user ? () => setShowReplyBox(true) : openLoginPopup
                       }
                       title="Add a reply"
-                    />
+                    >
+                      <FaRegCommentAlt color="#789" size="1em" />
+                    </button>
                   </div>
                 )}
               </div>

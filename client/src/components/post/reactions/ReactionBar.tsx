@@ -160,20 +160,21 @@ function ReactionBar(props: ReactionBarProps) {
         );
       }}
     >
-      <MdOutlineAddReaction
-        size={props.type === "post" ? "1.15em" : "1em"}
-        color="#789"
-        style={{
-          display: showReactText ? "initial" : "none",
-          transform: "translateY(0.05em)",
-        }}
-        className={styles.IconButton}
-        title="Add a reaction"
-        onClick={userOnlyAction(() => {
-          setShowReactText(false);
-          setShowZeroIcons(true);
-        })}
-      />
+      {showReactText && (
+        <button
+          className={styles.AddReactionFooterButton}
+          onClick={userOnlyAction(() => {
+            setShowReactText(false);
+            setShowZeroIcons(true);
+          })}
+          title="Add a reaction"
+        >
+          <MdOutlineAddReaction
+            size={props.type === "post" ? "1.6em" : "1.2em"}
+            color="#789"
+          />
+        </button>
+      )}
       {reactions.map(
         (reaction) =>
           (showZeroIcons || reaction.reactors.length > 0) && (

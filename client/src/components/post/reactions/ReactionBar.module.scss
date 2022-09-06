@@ -1,3 +1,5 @@
+@use "../Post.module.scss";
+
 .ReactionBar {
   display: flex;
   box-sizing: border-box;
@@ -13,6 +15,7 @@
   gap: 0.5rem;
 }
 
-.IconButton {
-  cursor: pointer;
+.AddReactionFooterButton {
+  @extend .FooterButton;
+  display: flex !important;
 }

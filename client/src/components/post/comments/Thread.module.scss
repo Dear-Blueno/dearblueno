@@ -1,3 +1,5 @@
+@use "../reactions/ReactionBar.module.scss";
+
 .ThreadGrid {
   display: grid;
   grid-template-columns: 1.5rem auto;

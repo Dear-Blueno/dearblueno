@@ -102,40 +102,30 @@ function Post(props: PostProps) {
           )}
         </div>
         <div className={styles.PostHeaderRight}>
-          {isSubscribed ? (
-            <MdNotificationsActive
-              size="1.2em"
-              fill="#1976d2"
-              className={styles.IconButton}
-              title="Click to unsubscribe"
-              onClick={userOnlyAction(() => void handleSubscribe())}
-            />
-          ) : (
-            <MdNotificationsNone
-              size="1.2em"
-              color="#789"
-              className={styles.IconButton}
-              title="Click to subscribe"
-              onClick={userOnlyAction(() => void handleSubscribe())}
-            />
-          )}
-          {isBookmarked ? (
-            <MdBookmark
-              size="1.2em"
-              fill="#4caf50"
-              className={styles.IconButton}
-              title="Click to remove bookmark"
-              onClick={userOnlyAction(() => void handleBookmark())}
-            />
-          ) : (
-            <MdBookmarkBorder
-              size="1.2em"
-              color="#789"
-              className={styles.IconButton}
-              title="Click to bookmark"
-              onClick={userOnlyAction(() => void handleBookmark())}
-            />
-          )}
+          <button
+            className={styles.FooterButton}
+            title={isSubscribed ? "Click to unsubscribe" : "Click to subscribe"}
+            onClick={userOnlyAction(() => void handleSubscribe())}
+          >
+            {isSubscribed ? (
+              <MdNotificationsActive size="1.6em" fill="#1976d2" />
+            ) : (
+              <MdNotificationsNone size="1.6em" color="#789" />
+            )}
+          </button>
+          <button
+            className={styles.FooterButton}
+            title={
+              isBookmarked ? "Click to remove bookmark" : "Click to bookmark"
+            }
+            onClick={userOnlyAction(() => void handleBookmark())}
+          >
+            {isBookmarked ? (
+              <MdBookmark size="1.6em" fill="#4caf50" />
+            ) : (
+              <MdBookmarkBorder size="1.6em" color="#789" />
+            )}
+          </button>
           <RelativeDate date={props.post.approvedTime} />
         </div>
       </div>
@@ -153,26 +143,30 @@ function Post(props: PostProps) {
           reactions={props.post.reactions}
         />
         <DividerDot />
-        <FaRegCommentAlt
-          className={styles.IconButton}
-          color="#789"
-          onClick={userOnlyAction(() => setShowCommentBox(true))}
-          style={{ transform: "translateY(0.05em)" }}
+        <button
+          className={styles.FooterButton}
           title="Add a comment"
-        />
+          onClick={userOnlyAction(() => setShowCommentBox(true))}
+        >
+          <FaRegCommentAlt
+            color="#789"
+            size="1.4em"
+            style={{ transform: "translateY(0.05rem)" }}
+          />
+        </button>
         <DividerDot />
-        <FiShare
-          className={styles.IconButton}
-          style={{ transform: "translateY(-0.05em)" }}
-          color="#789"
+        <button
+          className={styles.FooterButton}
+          title="Share this post"
           onClick={() => {
             void navigator.clipboard.writeText(
               `${window.location.origin}/post/${props.post.postNumber}`
             );
             toast("Link copied to clipboard!", { icon: "📋" });
           }}
-          title="Share this post"
-        />
+        >
+          <FiShare color="#789" size="1.4em" />
+        </button>
       </div>
       <CommentSection
         comments={props.post.comments}
