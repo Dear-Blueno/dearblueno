@@ -23,6 +23,7 @@ import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { FastAverageColor } from "fast-average-color";
 
 export interface PostProps {
   post: IPost;
@@ -40,11 +41,23 @@ function Post(props: PostProps) {
   );
   const [isBookmarked, setIsBookmarked] = useState(props.bookmarked);
   const [isSubscribed, setIsSubscribed] = useState(props.subscribed);
+  const [color, setColor] = useState<string | undefined>();
 
   useEffect(() => {
+    const fac = new FastAverageColor();
     setIsBookmarked(user?.bookmarks.includes(props.post._id));
     setIsSubscribed(user?.subscriptions.includes(props.post._id));
-  }, [user, props.post._id]);
+    if (props.post.contentWarning) {
+      fac
+        .getColorAsync(props.post.imageUrl ?? "")
+        .then((color) => {
+          setColor(color.hex);
+        })
+        .catch(() => {
+          setColor(undefined);
+        });
+    }
+  }, [user, props.post._id, props.post.imageUrl, props.post.contentWarning]);
 
   const handleSubscribe = async () => {
     const initialIsSubscribed = isSubscribed;
@@ -144,9 +157,17 @@ function Post(props: PostProps) {
               src={props.post.imageUrl}
               alt="Post Image"
             />
-            {blurred && <div className={styles.ImageCover} />}
             {blurred && (
-              <div className={styles.ClickToRevealContainer}>
+              <div
+                className={styles.ImageCover}
+                style={{ backgroundColor: color }}
+              />
+            )}
+            {blurred && (
+              <div
+                className={styles.ClickToRevealContainer}
+                style={{ color: color, filter: "invert(1)" }}
+              >
                 Click to reveal
               </div>
             )}
