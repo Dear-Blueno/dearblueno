@@ -8,7 +8,6 @@ interface ImageUploadProps {
 }
 
 export default function ImageUpload(props: ImageUploadProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,22 +64,18 @@ export default function ImageUpload(props: ImageUploadProps) {
 
   return (
     <div className={styles.ImageUpload}>
-      <input
-        className={styles.ImageInput}
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-        ref={inputRef}
-      />
-      {/* <button
-        className={styles.UploadButton}
-        onClick={() => inputRef.current?.click()}
-      > */}
-      <div className={styles.UploadButton}>
-        <IoImageOutline className={styles.UploadImageIcon} size="6em" />
-        <span className={styles.UploadButtonText}>Upload Image</span>
-      </div>
-      {/* </button> */}
+      <label className={styles.ImageUploadLabel}>
+        <input
+          className={styles.ImageInput}
+          type="file"
+          accept="image/*"
+          onChange={onFileChange}
+        />
+        <div className={styles.UploadButton}>
+          <IoImageOutline className={styles.UploadImageIcon} size="6em" />
+          <span className={styles.UploadButtonText}>Upload Image</span>
+        </div>
+      </label>
     </div>
   );
 }
