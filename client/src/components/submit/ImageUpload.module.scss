@@ -47,8 +47,9 @@
 
 .UploadedImage {
   max-height: 500px;
-  max-width: 100%;
   object-fit: contain;
+  border: 0.1rem solid #789;
+  border-radius: 0.2rem;
 }
 
 .ImageUploadBox {
