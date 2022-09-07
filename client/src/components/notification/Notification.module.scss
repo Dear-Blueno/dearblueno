@@ -8,6 +8,13 @@
   cursor: pointer;
 }
 
+// mobile view
+@media (max-width: 768px) {
+  .NotificationText {
+    padding: 0 1rem 0 0;
+  }
+}
+
 .NotificationHeader {
   display: flex;
   flex-direction: row;

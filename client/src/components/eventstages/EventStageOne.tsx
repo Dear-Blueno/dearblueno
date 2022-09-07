@@ -1,5 +1,7 @@
 import styles from "./EventStages.module.scss";
 import { GiPartyPopper } from "react-icons/gi";
+import ImageUpload from "components/submit/ImageUpload";
+
 interface EventStageOneProps {
   name: string;
   nameSetter: (name: string) => void;
@@ -19,7 +21,10 @@ export default function EventStageOne(props: EventStageOneProps) {
         width={400}
         height={200}
       /> */}
-          <GiPartyPopper size={100} />
+          {/* <GiPartyPopper size={100} /> */}
+          <div style={{ height: "6em" }}>
+            <ImageUpload />
+          </div>
         </div>
       </label>
       <label className={styles.InputLabel}>

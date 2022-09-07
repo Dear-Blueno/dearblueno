@@ -17,7 +17,7 @@ export default function Notification(props: NotificationProps) {
   const notifDate = new Date(props.notification.timestamp).toISOString();
   if (props.notification.type === "newComment") {
     notifText = (
-      <p>
+      <p className={styles.NotificationText}>
         <strong>{props.notification.content.userName}</strong>
         {" commented on "}
         <strong>{`Post #${props.notification.content.postNumber}`}</strong>
@@ -25,7 +25,7 @@ export default function Notification(props: NotificationProps) {
     );
   } else if (props.notification.type === "trendingPost") {
     notifText = (
-      <p>
+      <p className={styles.NotificationText}>
         {"Post #"}
         <strong>{props.notification.content.postNumber}</strong>
         {" is trending!"}
@@ -38,7 +38,7 @@ export default function Notification(props: NotificationProps) {
       "h:mma"
     );
     notifText = (
-      <p>
+      <p className={styles.NotificationText}>
         <strong>{props.notification.content.eventName}</strong>
         {" is coming up at "}
         <strong>{startTime}</strong>
