@@ -23,7 +23,7 @@ export default function EventStageTwo(props: EventStageTwoProps) {
         </div>
         <input
           type="text"
-          placeholder="This will be displayed as the location of your event."
+          placeholder="Location/link of your event."
           className={styles.EventStageInput}
           value={props.location}
           onChange={(e) => props.locationSetter(e.target.value)}

@@ -18,6 +18,7 @@ import { approveEvent } from "gateways/EventGateway";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { RiCalendarEventFill } from "react-icons/ri";
+import Linkify from "linkify-react";
 
 interface EventCardProps {
   event: IEvent;
@@ -108,10 +109,17 @@ export default function EventCard(props: EventCardProps) {
         <strong className={styles.EventCardTitle}>
           {props.event.eventName}
         </strong>
-        <p className={styles.EventCardDescription}>
-          {props.event.eventDescription}
-        </p>
-        <p>{props.event.location}</p>
+        <Linkify>
+          <p className={styles.EventCardDescription}>
+            {props.event.eventDescription}
+          </p>
+        </Linkify>
+        {props.event.contactEmail && (
+          <Linkify>
+            <p>{props.event.contactEmail}</p>
+          </Linkify>
+        )}
+        <Linkify>{props.event.location}</Linkify>
         <p>
           {startDate} • {startTime} - {endTime} ET
         </p>

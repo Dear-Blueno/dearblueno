@@ -127,7 +127,7 @@ const MainSidebar = (props: {
               <a className={styles.NewPostButtonLink}>
                 <button className={styles.NewPostButton}>
                   <IoAdd className={styles.NewPostButtonIcon} size="3em" />
-                  <span>New Post</span>
+                  <span>Submit</span>
                 </button>
               </a>
             </Link>
@@ -227,7 +227,7 @@ const sidebarItems: MainSidebarItem[] = [
   {
     path: "/events",
     label: "Events",
-    requiresUser: false,
+    requiresUser: true,
     outlineIcon: RiCalendarEventLine,
     filledIcon: RiCalendarEventFill,
   },

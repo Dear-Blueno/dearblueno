@@ -20,8 +20,6 @@ export default function EventStages() {
   const [stageTwoEndTime, setStageTwoEndTime] = useState("");
   const [stageTwoDescription, setStageTwoDescription] = useState("");
 
-  const [selectedFile, setSelectedFile] = useState<File>();
-
   const incrementStage = () => {
     if (stage === 1 && stageOneName) {
       if (stageOneName.length > 65) {
@@ -80,10 +78,6 @@ export default function EventStages() {
     }
   };
 
-  // const approve = () => {
-  //   void approveEvent("62dcf4bd3c4d7a16acf44267", true);
-  // };
-
   const emailChecker = (inputEmail: string) => {
     if (inputEmail === "") return true;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail)) {
@@ -109,35 +103,6 @@ export default function EventStages() {
         console.log(error);
       });
     setStage(4);
-  };
-
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) {
-      return;
-    }
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const uploadImage = async (file: File | undefined): Promise<string> => {
-    if (!file) {
-      return "";
-    }
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Client-ID 77020c61ebced72");
-
-    const formdata = new FormData();
-    formdata.append("image", file);
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    } as RequestInit;
-
-    const res = await fetch("https://api.imgur.com/3/image", requestOptions);
-    const data = (await res.json()) as { data: { link: string } };
-    return data.data.link;
   };
 
   return (

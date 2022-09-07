@@ -23,7 +23,7 @@ export default function EventStageOne(props: EventStageOneProps) {
         </div>
         <input
           type="text"
-          placeholder="This will be displayed as the title of your event."
+          placeholder="Title of your event."
           className={styles.EventStageInput}
           value={props.name}
           onChange={(e) => props.nameSetter(e.target.value)}
@@ -35,7 +35,7 @@ export default function EventStageOne(props: EventStageOneProps) {
           type="text"
           name="email"
           autoComplete="email"
-          placeholder="Users can contact you here with questions about your event."
+          placeholder="Optional: Where users contact you."
           className={styles.EventStageInput}
           value={props.email}
           onChange={(e) => props.emailSetter(e.target.value)}
