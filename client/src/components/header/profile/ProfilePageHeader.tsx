@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { HiShieldCheck } from "react-icons/hi";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import { MdBookmarkBorder } from "react-icons/md";
+import { RiShieldCheckLine } from "react-icons/ri";
 import useUser from "../../../hooks/useUser";
 import styles from "./ProfilePageHeader.module.scss";
 
@@ -11,9 +12,12 @@ export default function ProfilePageHeader() {
     <div className={styles.FeedHeader}>
       {user?.moderator ? (
         <Link href="/moderator">
-          <HiShieldCheck className={styles.ModIcon} />
+          <RiShieldCheckLine className={styles.ModIcon} />
         </Link>
       ) : null}
+      <Link href="/about">
+        <AiOutlineInfoCircle className={styles.InfoIcon} />
+      </Link>
       <Link href="/bookmarks">
         <MdBookmarkBorder className={styles.BookmarkIcon} />
       </Link>

@@ -9,8 +9,14 @@
   .BookmarkIcon {
     display: none;
   }
+  .InfoIcon {
+    display: none;
+  }
   @media screen and (max-width: 30rem) {
     .BookmarkIcon {
+      display: flex;
+    }
+    .InfoIcon {
       display: flex;
     }
     gap: 1.5rem;
