@@ -80,7 +80,7 @@ function Thread(props: ThreadProps) {
 
   return (
     <div className="Thread" key={props.comment.commentNumber}>
-      {isMobile && props.depth > 4 && props.comment.parentComment?.content && (
+      {isMobile && props.depth > 3 && props.comment.parentComment?.content && (
         <div className={styles.ThreadCommentContext}>
           <CommentContext thread={props.comment} />
         </div>
@@ -92,7 +92,7 @@ function Thread(props: ThreadProps) {
         {!collapsed && !props.inContext && (
           <ThreadCollapser
             collapse={() => setCollapsed((c) => !c)}
-            color={colors[props.depth <= 4 ? props.depth : 4]}
+            color={colors[props.depth <= 3 ? props.depth : 3]}
           />
         )}
         <CommentHeader
@@ -144,11 +144,11 @@ function Thread(props: ThreadProps) {
                 />
               )}
             </div>
-            {(!isMobile || props.depth < 4) && nestedComments}
+            {(!isMobile || props.depth < 3) && nestedComments}
           </div>
         )}
       </div>
-      {isMobile && props.depth >= 4 && nestedComments}
+      {isMobile && props.depth >= 3 && nestedComments}
     </div>
   );
 }
