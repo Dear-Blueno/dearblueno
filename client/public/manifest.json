@@ -34,6 +34,7 @@
       "description": "Search for posts"
     }
   ],
+  "related_applications": [],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#d5ebff",
