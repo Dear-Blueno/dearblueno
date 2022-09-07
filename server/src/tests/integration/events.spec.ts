@@ -27,7 +27,7 @@ describe("Events", () => {
       givenName: "Bob",
       email: "bob@dearblueno.net",
       profilePicture: "https://i.imgur.com/2j1RdhZ.png",
-      verifiedBrown: false,
+      verifiedBrown: true,
     });
     user = await userModel.save();
 
@@ -44,6 +44,10 @@ describe("Events", () => {
   });
 
   describe("GET /events", () => {
+    it("should return 401 if not authenticated", async () => {
+      await request(app).get("/events").expect(401);
+    });
+
     it("should return a list of events", async () => {
       await new Event({
         eventName: "Event 1",
@@ -62,7 +66,7 @@ describe("Events", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(2);
 
       const event1 = res.body[0];
@@ -136,7 +140,7 @@ describe("Events", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(6);
 
       const event0 = res.body[0];
@@ -179,7 +183,7 @@ describe("Events", () => {
         approved: false,
       }).save();
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
@@ -208,7 +212,7 @@ describe("Events", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
@@ -231,7 +235,7 @@ describe("Events", () => {
       }
       await Promise.all(promises);
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(10);
     });
 
@@ -251,7 +255,10 @@ describe("Events", () => {
       }
       await Promise.all(promises);
 
-      const res = await request(app).get("/events?page=2").expect(200);
+      const res = await request(app)
+        .get("/events?page=2")
+        .send({ user })
+        .expect(200);
       expect(res.body).toHaveLength(5);
 
       const event1 = res.body[0];
@@ -272,7 +279,7 @@ describe("Events", () => {
         approvedBy: modUser._id,
       }).save();
 
-      const res = await request(app).get("/events").expect(200);
+      const res = await request(app).get("/events").send({ user }).expect(200);
       expect(res.body).toHaveLength(1);
 
       const event1 = res.body[0];
@@ -408,11 +415,11 @@ describe("Events", () => {
 
   describe("GET /events/:id", () => {
     it("should return 400 if id provided is invalid", async () => {
-      await request(app).get("/events/invalid").expect(400);
+      await request(app).get("/events/invalid").send({ user }).expect(400);
     });
 
     it("should return 404 if event does not exist", async () => {
-      await request(app).get(`/events/${user._id}`).expect(404);
+      await request(app).get(`/events/${user._id}`).send({ user }).expect(404);
     });
 
     it("should return event if event exists and is approved", async () => {
@@ -425,7 +432,10 @@ describe("Events", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get(`/events/${event._id}`).expect(200);
+      const res = await request(app)
+        .get(`/events/${event._id}`)
+        .send({ user })
+        .expect(200);
       expect(res.body.eventName).toBe("Event 1");
       expect(res.body.eventDescription).toBe("Event 1 description");
     });
@@ -440,7 +450,7 @@ describe("Events", () => {
         approved: false,
       }).save();
 
-      await request(app).get(`/events/${event._id}`).expect(404);
+      await request(app).get(`/events/${event._id}`).send({ user }).expect(404);
     });
 
     it("should return event if event is past endDate", async () => {
@@ -453,7 +463,10 @@ describe("Events", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get(`/events/${event._id}`).expect(200);
+      const res = await request(app)
+        .get(`/events/${event._id}`)
+        .send({ user })
+        .expect(200);
       expect(res.body.eventName).toBe("Event 1");
       expect(res.body.eventDescription).toBe("Event 1 description");
     });
@@ -469,7 +482,10 @@ describe("Events", () => {
         approvedBy: modUser._id,
       }).save();
 
-      const res = await request(app).get(`/events/${event._id}`).expect(200);
+      const res = await request(app)
+        .get(`/events/${event._id}`)
+        .send({ user })
+        .expect(200);
       expect(res.body.approvedBy).toBeUndefined();
     });
 

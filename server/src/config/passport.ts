@@ -42,7 +42,8 @@ export default function passportConfig() {
         // Verify user if from brown.edu domain
         const verifiedBrown =
           profile._json.hd === "brown.edu" ||
-          profile._json.hd === "alumni.brown.edu";
+          profile._json.hd === "alumni.brown.edu" ||
+          profile._json.hd === "dearblueno.net";
 
         if (!verifiedBrown) {
           return done("Not a verified Brown user");

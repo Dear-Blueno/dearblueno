@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 import { IUser } from "../models/User";
-import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
+import { authCheck, modCheck } from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
 import { Document } from "mongoose";
 import { validate } from "../middleware/validate";
 
 const eventRouter = Router();
+eventRouter.use(authCheck); // Must be authenticated for all events routes
 
 // Cleans the sensitive data from the event object, replacing interested array with the number of interested
 function cleanSensitiveEvent(event: IEvent, user?: IUser): IEvent {
@@ -27,7 +28,6 @@ function cleanSensitiveEvent(event: IEvent, user?: IUser): IEvent {
 // GET request that gets 10 events paginated in order of closest startDate (only approved events)
 eventRouter.get(
   "/",
-  optionalAuth,
   query("page").optional().isInt({ min: 1 }),
   validate,
   async (req, res) => {
@@ -88,10 +88,8 @@ eventRouter.get(
 );
 
 // GET request that returns only the cleansed reactions of a page of events
-// (Must be authenticated)
 eventRouter.get(
   "/reactions",
-  authCheck,
   query("page").optional().isInt({ min: 1 }),
   validate,
   async (req, res) => {
@@ -114,31 +112,23 @@ eventRouter.get(
 );
 
 // GET request that gets a single event by id (only approved events)
-eventRouter.get(
-  "/:id",
-  optionalAuth,
-  param("id").isMongoId(),
-  validate,
-  async (req, res) => {
-    const event = await Event.findById(req.params.id).select(
-      "-approvedBy -notificationSent"
-    );
-    if (!event || !event.approved) {
-      res.status(404).send("Event not found");
-      return;
-    }
-
-    const cleanEvent = cleanSensitiveEvent(event.toObject(), req.user as IUser);
-
-    res.send(cleanEvent);
+eventRouter.get("/:id", param("id").isMongoId(), validate, async (req, res) => {
+  const event = await Event.findById(req.params.id).select(
+    "-approvedBy -notificationSent"
+  );
+  if (!event || !event.approved) {
+    res.status(404).send("Event not found");
+    return;
   }
-);
+
+  const cleanEvent = cleanSensitiveEvent(event.toObject(), req.user as IUser);
+
+  res.send(cleanEvent);
+});
 
 // GET request that returns only the cleansed reactions of a single event
-// (Must be authenticated)
 eventRouter.get(
   "/:id/reactions",
-  authCheck,
   param("id").isMongoId(),
   validate,
   async (req, res) => {
@@ -157,10 +147,8 @@ eventRouter.get(
 );
 
 // POST request that creates a new event
-// (Must be authenticated)
 eventRouter.post(
   "/",
-  authCheck,
   body("eventName").isString().trim().isLength({ min: 1, max: 65 }),
   body("eventDescription").isString().trim().isLength({ min: 1, max: 800 }),
   body("startDate").isISO8601().toDate().isAfter(new Date().toString()),
@@ -225,10 +213,8 @@ eventRouter.put(
 );
 
 // PUT request that marks an event as 'interested'
-// (Must be authenticated)
 eventRouter.put(
   "/:id/interested",
-  authCheck,
   param("id").isMongoId(),
   body("interested").toBoolean(),
   validate,
@@ -254,10 +240,8 @@ eventRouter.put(
 );
 
 // PUT request that marks an event as 'going'
-// (Must be authenticated)
 eventRouter.put(
   "/:id/going",
-  authCheck,
   param("id").isMongoId(),
   body("going").toBoolean(),
   validate,
