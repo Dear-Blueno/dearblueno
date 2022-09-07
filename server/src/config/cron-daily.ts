@@ -131,14 +131,14 @@ export async function dailyJob() {
     }
   );
 
-  // Award a "Top Fan" badge to users in the top 5% of xp
+  // Award a "Top Fan" badge to users in the top 1% of xp
   const count = await User.count();
-  // Find the xp of the user at the 5th percentile
-  const user5th = await User.findOne({}, { xp: 1, _id: 0 })
+  // Find the xp of the user at the 1st percentile
+  const user1st = await User.findOne({}, { xp: 1, _id: 0 })
     .sort({ xp: -1 })
-    .skip(Math.floor(count * 0.05));
-  const minXp = Math.max(user5th ? user5th.xp : 9, 9) + 1;
-  // Award the "Top Fan" badge to all users with xp >= the 5th percentile xp
+    .skip(Math.floor(count * 0.01));
+  const minXp = Math.max(user1st ? user1st.xp : 9, 9) + 1;
+  // Award the "Top Fan" badge to all users with xp >= the 1st percentile xp
   await User.updateMany(
     {
       xp: { $gte: minXp },
