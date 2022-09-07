@@ -23,6 +23,7 @@ import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 
 export interface PostProps {
   post: IPost;
@@ -133,6 +134,15 @@ function Post(props: PostProps) {
         <UserContent blurred={blurred} setBlurred={setBlurred}>
           {props.post.content}
         </UserContent>
+        {props.post.imageUrl && (
+          <div className={styles.PostImageContainer}>
+            <img
+              className={styles.PostImage}
+              src={props.post.imageUrl}
+              alt="Post Image"
+            />
+          </div>
+        )}
       </div>
 
       <div className={styles.PostFooter}>

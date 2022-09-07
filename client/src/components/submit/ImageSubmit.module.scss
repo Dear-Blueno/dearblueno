@@ -4,6 +4,19 @@
   height: unset;
 }
 
+.SubmitBoxContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.ImageUploadContainer {
+  min-height: 20rem;
+}
+
 .ImageSubmitBoxFooter {
   @extend .SubmitBoxFooter;
   justify-content: flex-end;

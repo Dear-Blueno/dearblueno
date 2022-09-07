@@ -364,8 +364,13 @@ describe("Comments", () => {
       expect(post1?.subscribers).toHaveLength(1);
       expect(post1?.subscribers[0]).toStrictEqual(user._id);
 
+      const user1 = await User.findById(user._id);
+      expect(user1?.subscriptions).toHaveLength(1);
+      expect(user1?.subscriptions[0]).toStrictEqual(post._id);
+
       user.settings.autoSubscribe = false;
       await Post.updateOne({ _id: post._id }, { subscribers: [] });
+      await User.updateOne({ _id: user._id }, { subscriptions: [] });
 
       await request(app)
         .post(`/posts/1/comment`)
@@ -374,6 +379,9 @@ describe("Comments", () => {
 
       const post2 = await Post.findById(post._id);
       expect(post2?.subscribers).toHaveLength(0);
+
+      const user2 = await User.findById(user._id);
+      expect(user2?.subscriptions).toHaveLength(0);
     });
   });
 

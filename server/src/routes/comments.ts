@@ -139,10 +139,16 @@ commentRouter.post(
 
       // If the user has autoSubscribe enabled (and they aren't already subscribed), subscribe them to the post
       if (user.settings.autoSubscribe) {
-        await Post.updateOne(
-          { _id: post._id },
-          { $addToSet: { subscribers: user._id } }
-        );
+        await Promise.all([
+          Post.updateOne(
+            { _id: post._id },
+            { $addToSet: { subscribers: user._id } }
+          ),
+          User.updateOne(
+            { _id: user._id },
+            { $addToSet: { subscriptions: post._id } }
+          ),
+        ]);
       }
     }
 

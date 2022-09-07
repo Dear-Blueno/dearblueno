@@ -1,6 +1,7 @@
 {
   "short_name": "Dear Blueno",
   "name": "Dear Blueno",
+  "description": "The unofficial anonymous post board for students and community members at Brown.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -37,5 +38,5 @@
   "display": "standalone",
   "theme_color": "#d5ebff",
   "background_color": "#d5ebff",
-  "orientation": "any"
+  "orientation": "portrait"
 }

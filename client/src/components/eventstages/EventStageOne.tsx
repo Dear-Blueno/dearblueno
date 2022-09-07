@@ -1,5 +1,4 @@
 import styles from "./EventStages.module.scss";
-// import { GiPartyPopper } from "react-icons/gi";
 import ImageUpload from "components/submit/ImageUpload";
 
 interface EventStageOneProps {
@@ -7,25 +6,16 @@ interface EventStageOneProps {
   nameSetter: (name: string) => void;
   email: string;
   emailSetter: (email: string) => void;
+  image: string;
+  imageSetter: (image: string) => void;
 }
 
 export default function EventStageOne(props: EventStageOneProps) {
   return (
     <div className={styles.Stage}>
-      <label className={styles.InputLabel}>
+      <label className={styles.InputLabel + " " + styles.ImageUploadContainer}>
         Cover Picture
-        <div className={styles.ImageContainer}>
-          {/* <Image
-        src="https://img.favpng.com/15/6/19/computer-icons-confetti-party-new-year-png-favpng-QZS6YRuMx3wwCCwETfQahNTYR.jpg"
-        alt="Event Picture"
-        width={400}
-        height={200}
-      /> */}
-          {/* <GiPartyPopper size={100} /> */}
-          <div style={{ height: "6em" }}>
-            <ImageUpload />
-          </div>
-        </div>
+        <ImageUpload imageURL={props.image} setImageURL={props.imageSetter} />
       </label>
       <label className={styles.InputLabel}>
         <div>

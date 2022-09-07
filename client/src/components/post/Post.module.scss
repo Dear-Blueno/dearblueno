@@ -63,3 +63,15 @@
   padding: 0.1rem;
   display: flex;
 }
+
+.PostImageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.PostImage {
+  max-height: 500px;
+  object-fit: contain;
+  border: 0.1rem solid #789;
+  border-radius: 0.2rem;
+}

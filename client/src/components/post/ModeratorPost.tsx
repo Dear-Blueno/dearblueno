@@ -47,6 +47,15 @@ function ModeratorPost(props: ModeratorPostProps) {
       </div>
       <div className={styles.PostBody}>
         <UserContent blurred={false}>{props.post.content}</UserContent>
+        {props.post.imageUrl && (
+          <div className={styles.PostImageContainer}>
+            <img
+              className={styles.PostImage}
+              src={props.post.imageUrl}
+              alt="Post Image"
+            />
+          </div>
+        )}
       </div>
       <ApproveOrDeny type="post" postId={props.post._id} />
     </div>
