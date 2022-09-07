@@ -56,6 +56,9 @@
   word-wrap: break-word;
   -ms-word-break: break-all;
   word-break: break-word;
+  a {
+    color: rgb(69, 103, 167) !important;
+  }
 }
 
 .EventCardButtonContainer {
@@ -86,4 +89,16 @@
 
 .EventCardButtonReject {
   background-color: red !important;
+}
+
+.ContactEmail {
+  a {
+    color: rgb(69, 103, 167) !important;
+  }
+}
+
+.EventLocation {
+  a {
+    color: rgb(69, 103, 167) !important;
+  }
 }

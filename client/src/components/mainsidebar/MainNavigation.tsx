@@ -276,7 +276,7 @@ const footerItems: MainSidebarItem[] = [
   {
     path: "/events",
     label: "Events",
-    requiresUser: false,
+    requiresUser: true,
     outlineIcon: RiCalendarEventLine,
     filledIcon: RiCalendarEventFill,
   },

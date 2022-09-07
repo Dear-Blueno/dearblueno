@@ -109,17 +109,17 @@ export default function EventCard(props: EventCardProps) {
         <strong className={styles.EventCardTitle}>
           {props.event.eventName}
         </strong>
-        <Linkify>
-          <p className={styles.EventCardDescription}>
-            {props.event.eventDescription}
-          </p>
+        <Linkify tagName="p" className={styles.EventCardDescription}>
+          {props.event.eventDescription}
         </Linkify>
         {props.event.contactEmail && (
-          <Linkify>
-            <p>{props.event.contactEmail}</p>
+          <Linkify tagName="p" className={styles.ContactEmail}>
+            {props.event.contactEmail}
           </Linkify>
         )}
-        <Linkify>{props.event.location}</Linkify>
+        <Linkify tagName="p" className={styles.EventLocation}>
+          {props.event.location}
+        </Linkify>
         <p>
           {startDate} • {startTime} - {endTime} ET
         </p>
