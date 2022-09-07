@@ -129,17 +129,27 @@ function Post(props: PostProps) {
           <RelativeDate date={props.post.approvedTime} />
         </div>
       </div>
-      <div className={styles.PostBody}>
-        <UserContent blurred={blurred} setBlurred={setBlurred}>
-          {props.post.content}
-        </UserContent>
+      <div
+        className={styles.PostBody}
+        title="Click to reveal"
+        onClick={() => setBlurred(false)}
+      >
+        <UserContent blurred={blurred}>{props.post.content}</UserContent>
         {props.post.imageUrl && (
           <div className={styles.PostImageContainer}>
             <img
-              className={styles.PostImage}
+              className={
+                styles.PostImage + " " + (blurred ? styles.PostImageHidden : "")
+              }
               src={props.post.imageUrl}
               alt="Post Image"
             />
+            {blurred && <div className={styles.ImageCover} />}
+            {blurred && (
+              <div className={styles.ClickToRevealContainer}>
+                Click to reveal
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -168,10 +178,26 @@ function Post(props: PostProps) {
           className={styles.FooterButton}
           title="Share this post"
           onClick={() => {
-            void navigator.clipboard.writeText(
-              `${window.location.origin}/post/${props.post.postNumber}`
-            );
-            toast("Link copied to clipboard!", { icon: "📋" });
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            if (navigator.share) {
+              navigator
+                .share({
+                  title: `Post #${props.post.postNumber}`,
+                  url: `https://dearblueno.net/post/${props.post.postNumber}`,
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            } else {
+              navigator.clipboard
+                .writeText(
+                  `https://dearblueno.net/post/${props.post.postNumber}`
+                )
+                .catch((err) => {
+                  console.error(err);
+                });
+              toast("Link copied to clipboard!", { icon: "📋" });
+            }
           }}
         >
           <FiShare color="#789" size="1.4em" />

@@ -70,6 +70,7 @@
 .PostImageContainer {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .PostImage {
@@ -78,4 +79,39 @@
   border: 0.1rem solid #789;
   border-radius: 0.2rem;
   max-width: 100%;
+}
+
+.PostImageHidden {
+  visibility: hidden;
+}
+
+.PostImageHidden a {
+  pointer-events: none;
+  color: inherit;
+}
+
+.ImageCover {
+  width: 100%;
+  height: 100%;
+  background-color: #def;
+  position: absolute;
+  filter: blur(5px);
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    filter: blur(3px);
+  }
+}
+
+.ClickToRevealContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: large;
+  color: #789;
 }
