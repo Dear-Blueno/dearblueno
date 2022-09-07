@@ -11,6 +11,10 @@ interface ImageSubmitProps {
 function ImageSubmit(props: ImageSubmitProps) {
   const [imageURL, setImageURL] = useState<string | undefined>();
   const submitPost = (text: string) => {
+    if (text.length > 100) {
+      toast.error(`Caption is ${text.length - 100} characters too long`);
+      return;
+    }
     if (!imageURL) {
       return;
     }

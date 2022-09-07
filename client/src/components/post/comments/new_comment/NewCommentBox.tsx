@@ -42,6 +42,10 @@ function NewCommentBox(props: NewCommentBoxProps) {
   const submit = async () => {
     if (user) {
       const textarea = textAreaRef.current;
+      if (textarea?.value && textarea?.value.length >= 2000) {
+        toast.error(`${textarea?.value.length - 2000} characters over limit`);
+        return;
+      }
       if (textarea?.value) {
         const response = await commentOnPost(
           props.postNumber,

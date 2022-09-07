@@ -10,6 +10,10 @@ interface TextSubmitProps {
 
 function TextSubmit(props: TextSubmitProps) {
   const submitPost = (text: string) => {
+    if (text.length > 5000) {
+      toast.error(`Post is ${text.length - 5000} characters too long`);
+      return;
+    }
     createPost(text)
       .then((response) => {
         if (response.success) {

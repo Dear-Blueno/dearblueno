@@ -96,7 +96,7 @@ export default function EventStages() {
       shiftToEST(new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)),
       stageTwoLocation,
       stageOneEmail === "" ? undefined : stageOneEmail,
-      undefined
+      stageOneEmail === "" ? undefined : stageOneImage
     )
       .then((response) => {
         console.log(response);
