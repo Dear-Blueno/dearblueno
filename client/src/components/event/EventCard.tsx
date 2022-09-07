@@ -17,6 +17,7 @@ import { makeDate } from "components/eventstages/RelativeDay";
 import { approveEvent } from "gateways/EventGateway";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { RiCalendarEventFill } from "react-icons/ri";
 
 interface EventCardProps {
   event: IEvent;
@@ -91,13 +92,17 @@ export default function EventCard(props: EventCardProps) {
   return (
     <div className={styles.EventCard}>
       <div className={styles.EventCardImageContainer}>
-        <Image
-          className={styles.EventCardImage}
-          src={props.event.coverPicture ?? "https://i.imgur.com/iLdCYyz.jpeg"}
-          width={1200}
-          height={600}
-          alt=""
-        />
+        {props.event.coverPicture ? (
+          <Image
+            className={styles.EventCardImage}
+            src={props.event.coverPicture}
+            width={1200}
+            height={600}
+            alt=""
+          />
+        ) : (
+          <RiCalendarEventFill className={styles.EventNoPicture} size="4rem" />
+        )}
       </div>
       <div className={styles.EventCardInfo}>
         <strong className={styles.EventCardTitle}>

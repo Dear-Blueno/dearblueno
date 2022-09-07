@@ -13,7 +13,15 @@
 .EventCardImageContainer {
   aspect-ratio: 2;
   overflow: hidden;
+  display: flex;
   border-bottom: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  background-color: #e8f4ff;
+}
+
+.EventNoPicture {
+  color: #c6dcf1;
 }
 
 .EventCardImage {

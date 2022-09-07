@@ -72,13 +72,15 @@ export default function ImageUpload(props: ImageUploadProps) {
         onChange={onFileChange}
         ref={inputRef}
       />
-      <button
+      {/* <button
         className={styles.UploadButton}
         onClick={() => inputRef.current?.click()}
-      >
+      > */}
+      <div className={styles.UploadButton}>
         <IoImageOutline className={styles.UploadImageIcon} size="6em" />
         <span className={styles.UploadButtonText}>Upload Image</span>
-      </button>
+      </div>
+      {/* </button> */}
     </div>
   );
 }
