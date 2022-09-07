@@ -62,7 +62,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dylanhu7/dearblueno.git"
+    "url": "git+https://github.com/Dear-Blueno/dearblueno.git"
   },
   "keywords": [
     "blueno",
@@ -72,7 +72,7 @@
   "author": "Dear Blueno Team",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/dylanhu7/dearblueno/issues"
+    "url": "https://github.com/Dear-Blueno/dearblueno/issues"
   },
   "homepage": "https://dearblueno.net/",
   "overrides": {
