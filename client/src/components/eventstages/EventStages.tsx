@@ -63,6 +63,8 @@ export default function EventStages() {
         );
       } else if (completeStartDate > completeEndDate) {
         toast.error("The end must be after the start");
+      } else if (completeStartDate < new Date()) {
+        toast.error("The start must be after the current time");
       } else {
         setStage(3);
       }
@@ -109,16 +111,6 @@ export default function EventStages() {
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>
       <EventStagesDisplay stage={stage} />
       <form>
-        {/* <input type="file" name="file" id="file" onChange={changeHandler} />
-        <p
-          onClick={() =>
-            void uploadImage(selectedFile).then((link) => console.log(link))
-          }
-        >
-          Upload
-        </p> */}
-        {/* <button onClick={() => approve()}>Approve</button> */}
-
         {stage === 1 && (
           <EventStageOne
             name={stageOneName}
@@ -179,11 +171,11 @@ export default function EventStages() {
               display: "flex",
               alignItems: "center",
               width: "100%",
+              fontWeight: "bold",
             }}
           >
-            Your event has been submitted. It will be reviewed by moderators,
-            and you will be notified on the decision if you provided an optional
-            contact email.
+            Your event has been submitted and will be reviewed by moderators
+            shortly. Thank you.
           </div>
         )}
       </form>
