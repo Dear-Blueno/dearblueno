@@ -66,15 +66,14 @@ const ModeratorPageMain = () => {
       getModFeedEvents(pageParam).then((res) => res.payload ?? []);
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery([`moderator${sort}`], getter, {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length === 0) {
-          return undefined;
-        }
-        return pages.length + 1;
-      },
-    });
+  const { data } = useInfiniteQuery([`moderator${sort}`], getter, {
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      return pages.length + 1;
+    },
+  });
 
   function typeGuard<T extends ModeratorData>(
     type: Sort

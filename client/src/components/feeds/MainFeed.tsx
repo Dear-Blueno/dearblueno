@@ -2,14 +2,10 @@ import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import IPost from "types/IPost";
 import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
 import { useRouter } from "next/router";
-interface MainFeedProps {
-  initialPosts: IPost[];
-}
 
-function MainFeed(props: MainFeedProps) {
+function MainFeed() {
   const router = useRouter();
   const sort = parseSortQueryParams(router.query.sort, router.query.of);
   const fetchPosts = ({ pageParam = 1 }) =>
