@@ -9,7 +9,7 @@
     "build": "tsc",
     "test": "jest --testPathPattern=src/tests/integration --runInBand",
     "test:parallel": "jest --testPathPattern=src/tests/integration",
-    "test:tsc": "tsc && jest --testPathPattern=dist/tests/integration",
+    "test:build": "npm run build && jest --testPathPattern=dist/tests/integration",
     "test:e2e": "jest --runInBand",
     "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint . && prettier -c .",

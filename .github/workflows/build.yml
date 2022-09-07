@@ -10,20 +10,19 @@ jobs:
 
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2
 
-      - name: 🔨 Set up Node 14.18.1
+      - name: 🔨 Set up Node 16.17.0
         uses: actions/setup-node@v2
         with:
-          node-version: 14.18.1
+          node-version: 16.17.0
 
       - name: 🛠 Compile and Test Backend
         run: |
           cd server
           npm ci
           npm run lint
-          npm run build
-          npm test
+          npm run test:build
           cd ..
 
       - name: ⛏ Build Frontend

@@ -13,30 +13,22 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      - name: 🔨 Set up Node 14.18.1
+      - name: 🔨 Set up Node 16.17.0
         uses: actions/setup-node@v2
         with:
-          node-version: 14.18.1
+          node-version: 16.17.0
 
       - name: 🛠 Compile Backend
         run: |
           cd server
           npm ci
           npm run lint
-          npm run build
-          npm test
+          npm run test:build
           cd ..
 
           mkdir -p deploy/server/dist
           cp -r server/dist deploy/server
           cp server/* deploy/server || :
-
-          mkdir deploy/server/tmp
-          touch deploy/server/tmp/restart.txt
-        env:
-          TESTING_GOOGLE_SHEET_ID: ${{ secrets.TESTING_GOOGLE_SHEET_ID }}
-          GOOGLE_SHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_SHEET_CLIENT_EMAIL }}
-          GOOGLE_SHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEET_PRIVATE_KEY }}
 
       - name: ☁ SFTP Deploy
         uses: easingthemes/ssh-deploy@v2
@@ -44,9 +36,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: 21098
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-          SOURCE: ${{ secrets.SOURCE_DIR }}
+          TARGET: "/home/${{ secrets.REMOTE_USER }}/DearBluenoProd/"
+          SOURCE: "deploy/server/"
 
   build-frontend:
     name: 🎉 Build Frontend
@@ -55,10 +46,10 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      - name: 🔨 Set up Node 14.18.1
+      - name: 🔨 Set up Node 16.17.0
         uses: actions/setup-node@v2
         with:
-          node-version: 14.18.1
+          node-version: 16.17.0
 
       - name: ⛏ Build Frontend
         run: |
@@ -67,8 +58,5 @@ jobs:
           npm run lint
           npm run build
           cd ..
-
-          mkdir -p deploy/public
-          cp -r client/build/* deploy/public
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.API_URL }}
+          NEXT_PUBLIC_API_URL: "https://api.dearblueno.net"
