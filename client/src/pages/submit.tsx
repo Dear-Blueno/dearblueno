@@ -9,6 +9,7 @@ import ImageSubmit from "components/submit/ImageSubmit";
 import Link from "next/link";
 import Image from "next/image";
 import LogoIcon from "images/logo128.png";
+import EventStages from "components/eventstages/EventStages";
 
 const SubmitPage: NextPage = () => {
   return (
@@ -56,6 +57,8 @@ function SubmitPageMain() {
       return <TextSubmit setSubmitted={setSubmitted} />;
     case "image":
       return <ImageSubmit setSubmitted={setSubmitted} />;
+    case "event":
+      return <EventStages />;
     default:
       return null;
   }

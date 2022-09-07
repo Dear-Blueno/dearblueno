@@ -2,15 +2,21 @@ import styles from "./ImageUpload.module.scss";
 import { useRef, useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
 
-export default function ImageUpload() {
+interface ImageUploadProps {
+  imageURL?: string;
+  setImageURL: (url: string) => void;
+}
+
+export default function ImageUpload(props: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [imageURL, setImageURL] = useState<string | undefined>(undefined);
+  const [uploading, setUploading] = useState(false);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const formData = new FormData();
     formData.append("image", file);
+    setUploading(true);
     fetch("https://api.imgur.com/3/image", {
       method: "POST",
       headers: {
@@ -24,7 +30,8 @@ export default function ImageUpload() {
         res
           .json()
           .then((data) => {
-            setImageURL((data as { data: { link: string } }).data.link);
+            props.setImageURL((data as { data: { link: string } }).data.link);
+            setUploading(false);
           })
           .catch((err) => {
             console.error(err);
@@ -33,12 +40,23 @@ export default function ImageUpload() {
       .catch((err) => console.log(err));
   };
 
-  if (imageURL) {
+  if (uploading) {
+    return (
+      <div className={styles.ImageUpload}>
+        <div className={styles.ImageUploadBox}>
+          <IoImageOutline size="4em" />
+          Uploading image...
+        </div>
+      </div>
+    );
+  }
+
+  if (props.imageURL) {
     return (
       <div className={styles.UploadedImageContainer}>
         <img
           className={styles.UploadedImage}
-          src={imageURL}
+          src={props.imageURL}
           alt="Upload preview"
         />
       </div>

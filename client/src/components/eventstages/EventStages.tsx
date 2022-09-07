@@ -12,6 +12,7 @@ export default function EventStages() {
   const [stage, setStage] = useState(1);
   const [stageOneName, setStageOneName] = useState("");
   const [stageOneEmail, setStageOneEmail] = useState("");
+  const [stageOneImage, setStageOneImage] = useState("");
   const [stageTwoLocation, setStageTwoLocation] = useState("");
   const [stageTwoStartDate, setStageTwoStartDate] = useState("");
   const [stageTwoStartTime, setStageTwoStartTime] = useState("");
@@ -159,6 +160,8 @@ export default function EventStages() {
             nameSetter={setStageOneName}
             email={stageOneEmail}
             emailSetter={setStageOneEmail}
+            image={stageOneImage}
+            imageSetter={setStageOneImage}
           />
         )}
         {stage === 2 && (

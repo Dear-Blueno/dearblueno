@@ -1,8 +1,7 @@
 import styles from "./ImageSubmit.module.scss";
-import GoogleFormOption from "./GoogleFormOption";
-import { createPost } from "../../gateways/PostGateway";
+import { createImagePost } from "../../gateways/PostGateway";
 import toast from "react-hot-toast";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import ImageUpload from "./ImageUpload";
 
 interface ImageSubmitProps {
@@ -10,8 +9,12 @@ interface ImageSubmitProps {
 }
 
 function ImageSubmit(props: ImageSubmitProps) {
+  const [imageURL, setImageURL] = useState<string | undefined>();
   const submitPost = (text: string) => {
-    createPost(text)
+    if (!imageURL) {
+      return;
+    }
+    createImagePost(text, imageURL)
       .then((response) => {
         if (response.success) {
           props.setSubmitted(true);
@@ -29,16 +32,7 @@ function ImageSubmit(props: ImageSubmitProps) {
 
   return (
     <div className={styles.SubmitBox}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flexGrow: 1,
-          gap: "1rem",
-          width: "100%",
-          maxWidth: "100%",
-        }}
-      >
+      <div className={styles.SubmitBoxContent}>
         <textarea
           placeholder="Caption your image"
           id="TextBox"
@@ -46,7 +40,9 @@ function ImageSubmit(props: ImageSubmitProps) {
           name="TextBox"
           autoFocus={true}
         ></textarea>
-        <ImageUpload />
+        <div className={styles.ImageUploadContainer}>
+          <ImageUpload imageURL={imageURL} setImageURL={setImageURL} />
+        </div>
         <div className={styles.ImageSubmitBoxFooter}>
           <p
             className={styles.Submit}

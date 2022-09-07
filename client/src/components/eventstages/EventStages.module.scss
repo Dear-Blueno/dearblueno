@@ -11,7 +11,7 @@
 }
 
 .EventStage1 {
-  height: 32rem;
+  height: 38rem;
 }
 
 .EventStage2 {
@@ -31,7 +31,7 @@
 .EventStageInput {
   height: 2.5rem;
   border: none;
-  background-color: rgb(230, 235, 240);
+  background-color: rgb(235, 241, 246);
   padding: 0 0.5rem;
   font-size: 1rem;
 }
@@ -62,9 +62,8 @@
   outline: none;
 }
 
-.ImageContainer {
-  border: 2px solid black;
-  width: fit-content;
+.ImageUploadContainer {
+  height: 14rem;
 }
 
 .InputLabel {
