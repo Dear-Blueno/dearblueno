@@ -182,14 +182,17 @@ export default function EventStages() {
       </form>
       <div className={styles.StageButtons}>
         {stage > 1 && (
-          <button onClick={decrementStage} style={{ marginRight: "auto" }}>
+          <button
+            onClick={decrementStage}
+            style={{ marginRight: "auto", color: "black" }}
+          >
             Back
           </button>
         )}
         {stage < 3 && (
           <button
             onClick={incrementStage}
-            style={{ marginLeft: "auto" }}
+            style={{ marginLeft: "auto", color: "black" }}
             disabled={
               (stage === 1 && stageOneName === "") ||
               (stage === 2 &&

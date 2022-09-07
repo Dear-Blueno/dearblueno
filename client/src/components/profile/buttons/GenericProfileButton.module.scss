@@ -12,8 +12,10 @@
   gap: 0.5rem;
   font-weight: 800;
   cursor: pointer;
+  color: black;
 
   &:active {
     background-color: #b3b9c0;
+    color: black;
   }
 }

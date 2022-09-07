@@ -177,6 +177,7 @@ export default function EventCard(props: EventCardProps) {
               );
             }}
             disabled={props.disabled ?? false}
+            style={styles.EventCardButtonShare}
           />
         </div>
         {props.moderatorView && (

@@ -70,10 +70,16 @@
 
 .EventCardButtonGoing {
   background-color: #c2f0bc !important;
+  color: black !important;
 }
 
 .EventCardButtonInterested {
   background-color: rgb(240, 223, 223) !important;
+  color: black !important;
+}
+
+.EventCardButtonShare {
+  color: black !important;
 }
 
 .AttendeeContainer {
@@ -85,10 +91,12 @@
 
 .EventCardButtonApprove {
   background-color: green !important;
+  color: black !important;
 }
 
 .EventCardButtonReject {
   background-color: red !important;
+  color: black !important;
 }
 
 .ContactEmail {
