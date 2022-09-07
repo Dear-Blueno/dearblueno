@@ -148,7 +148,9 @@ export default function EventCard(props: EventCardProps) {
                 setIsGoing(true);
               }
             })}
-            style={isGoing ? styles.EventCardButtonGoing : ""}
+            style={
+              isGoing ? styles.EventCardButtonGoing : styles.EventCardButton
+            }
             disabled={props.disabled ?? false}
           />
           <EventCardButton
@@ -165,7 +167,11 @@ export default function EventCard(props: EventCardProps) {
                 setIsInterested(true);
               }
             })}
-            style={isInterested ? styles.EventCardButtonInterested : ""}
+            style={
+              isInterested
+                ? styles.EventCardButtonInterested
+                : styles.EventCardButton
+            }
             disabled={props.disabled ?? false}
           />
           <EventCardButton
