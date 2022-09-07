@@ -1,12 +1,12 @@
-import styles from "./ProfileSidebar.module.scss";
-import Collapsible from "react-collapsible";
+// import styles from "./ProfileSidebar.module.scss";
+// import Collapsible from "react-collapsible";
 
-const settingTitles = ["Change Display Name", "Change Notification Settings"];
+// const settingTitles = ["Change Display Name", "Change Notification Settings"];
 
 export default function ProfileSidebar() {
   return (
     <div className="ProfileSidebar">
-      <Collapsible
+      {/* <Collapsible
         trigger="Settings"
         triggerTagName="h3"
         triggerClassName={styles.DropdownTitle}
@@ -21,7 +21,7 @@ export default function ProfileSidebar() {
             </div>
           ))}
         </div>
-      </Collapsible>
+      </Collapsible> */}
     </div>
   );
 }

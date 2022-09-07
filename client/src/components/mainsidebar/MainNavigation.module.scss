@@ -191,3 +191,19 @@
     stroke-width: 60;
   }
 }
+
+.NotificationsIconContainer {
+  .UnreadNotif {
+    position: absolute;
+    padding: 0rem 0.3rem;
+    bottom: 50%;
+    left: 50%;
+    background-color: rgb(15, 75, 149);
+    font-size: 0.65rem;
+    font-weight: bold;
+    border-radius: 999px;
+    color: rgb(255, 255, 255);
+  }
+  position: relative;
+  display: flex;
+}

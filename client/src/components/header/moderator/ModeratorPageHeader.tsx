@@ -34,7 +34,7 @@ export default function ModeratorPageHeader() {
         selectedRef.current.offsetLeft + leftAdjust
       }px`;
       underlineRef.current.style.width = `${
-        selectedRef.current.offsetWidth + 4
+        selectedRef.current.offsetWidth + 0
       }px`;
     }
   }, [active, refs]);

@@ -2,7 +2,7 @@ import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import { NextPage } from "next";
 import EventsFeed from "components/feeds/EventsFeed";
-import NewEventButton from "components/event/NewEventButton";
+// import NewEventButton from "components/event/NewEventButton";
 
 const EventsPage: NextPage = () => {
   return (
@@ -24,7 +24,7 @@ const EventsPage: NextPage = () => {
               justifyContent: "flex-end",
             }}
           >
-            <NewEventButton />
+            {/* <NewEventButton /> */}
           </div>
         }
         page={<EventsFeed />}

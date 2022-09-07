@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { IoOptionsOutline } from "react-icons/io5";
-import { usePopper } from "react-popper";
+// import { IoOptionsOutline } from "react-icons/io5";
+// import { usePopper } from "react-popper";
 import styles from "./PageHeader.module.scss";
 
 interface PageHeaderProps {
@@ -14,23 +14,23 @@ export default function PageHeader(props: PageHeaderProps) {
   const [collapseSidebar, setCollapseSidebar] = useState<boolean | undefined>(
     undefined
   );
-  const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>();
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const { styles: popperStyles, attributes } = usePopper(
-    referenceElement,
-    popperElement,
-    {
-      placement: "bottom-end",
-      modifiers: [
-        {
-          name: "offset",
-          options: { offset: [2, 8] },
-        },
-      ],
-    }
-  );
+  // const [showOptions, setShowOptions] = useState<boolean>(false);
+  // const [referenceElement, setReferenceElement] =
+  //   useState<HTMLButtonElement | null>();
+  // const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  // const { styles: popperStyles, attributes } = usePopper(
+  //   referenceElement,
+  //   popperElement,
+  //   {
+  //     placement: "bottom-end",
+  //     modifiers: [
+  //       {
+  //         name: "offset",
+  //         options: { offset: [2, 8] },
+  //       },
+  //     ],
+  //   }
+  // );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -52,7 +52,7 @@ export default function PageHeader(props: PageHeaderProps) {
         (collapseSidebar ? (
           <div className={styles.HeaderAndOptionsButton}>
             {!props.collapseHeader && props.children}
-            {(props.sidebar || props.collapseHeader) && (
+            {/* {(props.sidebar || props.collapseHeader) && (
               <button
                 className={styles.OptionsButton}
                 ref={setReferenceElement}
@@ -60,12 +60,12 @@ export default function PageHeader(props: PageHeaderProps) {
               >
                 <IoOptionsOutline size="2.4em" />
               </button>
-            )}
+            )} */}
           </div>
         ) : (
           props.children
         ))}
-      {collapseSidebar !== undefined && collapseSidebar && (
+      {/* {collapseSidebar !== undefined && collapseSidebar && (
         <div
           className={styles.Options}
           style={{
@@ -77,7 +77,7 @@ export default function PageHeader(props: PageHeaderProps) {
         >
           {props.sidebar}
         </div>
-      )}
+      )} */}
     </header>
   );
 }

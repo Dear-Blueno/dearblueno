@@ -1,0 +1,24 @@
+.FeedHeader {
+  width: 100%;
+  flex-direction: row;
+  gap: 1.5rem;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  user-select: none;
+  .BookmarkIcon {
+    display: none;
+  }
+  @media screen and (max-width: 30rem) {
+    .BookmarkIcon {
+      display: flex;
+    }
+    gap: 1.5rem;
+    display: flex;
+  }
+  @media screen and (min-width: 30rem) {
+    .ModIcon {
+      padding: 1.7rem 0 0 2rem;
+    }
+  }
+}

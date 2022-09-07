@@ -1,5 +1,5 @@
 import styles from "./EventStages.module.scss";
-import { GiPartyPopper } from "react-icons/gi";
+// import { GiPartyPopper } from "react-icons/gi";
 import ImageUpload from "components/submit/ImageUpload";
 
 interface EventStageOneProps {

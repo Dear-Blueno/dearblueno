@@ -3,7 +3,11 @@ import IUser, { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
 import ProfileBio from "./left_column/ProfileBio";
-import { getUserComments, updateUserProfile } from "../../gateways/UserGateway";
+import {
+  getUserComments,
+  updateUserProfile,
+  updateSettings,
+} from "../../gateways/UserGateway";
 import ProfileSocials from "./left_column/ProfileSocials";
 import ProfilePersonalInfo from "./left_column/ProfilePersonalInfo";
 import { useState, useRef, useEffect } from "react";
@@ -32,7 +36,9 @@ function ProfileBox(props: ProfileBoxProps) {
   const hometownInput = useRef<HTMLInputElement>(null);
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
-
+  const [autoSubInput, setAutoSubInput] = useState(
+    props.user?.settings.autoSubscribe ? true : false
+  );
   const [comments, setComments] = useState<IComment[] | undefined>(undefined);
 
   useEffect(() => {
@@ -160,6 +166,19 @@ function ProfileBox(props: ProfileBoxProps) {
       .catch((error) => {
         console.error(error);
       });
+    updateSettings(autoSubInput)
+      .then((response) => {
+        if (response.success) {
+          toast.success("Settings updated successfully!");
+        } else {
+          toast.error(
+            (response.message as unknown as { message: string }).message
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -211,6 +230,24 @@ function ProfileBox(props: ProfileBoxProps) {
           ]}
           editing={editing}
         />
+        {editing && (
+          <>
+            <p className={styles.SettingsHeader}>Settings</p>
+            <div
+              className={styles.AutoSubBox}
+              onClick={() => setAutoSubInput(!autoSubInput)}
+            >
+              <input
+                type="checkbox"
+                checked={autoSubInput}
+                onChange={() => setAutoSubInput(!autoSubInput)}
+                className={styles.AutoSubInput}
+              />
+              <p>Auto-Sub On Public Comment</p>
+            </div>
+          </>
+        )}
+
         {editing && (
           <div className={styles.SaveAndCancelButtons}>
             <div className={styles.ContainerOne}>

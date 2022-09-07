@@ -9,6 +9,7 @@ import { GetStaticProps, NextPage } from "next";
 
 import ProfileSidebar from "../../components/profile/ProfileSidebar";
 import useUser from "hooks/useUser";
+import ProfilePageHeader from "components/header/profile/ProfilePageHeader";
 
 interface ProfilePageProps {
   profileUser?: IUser;
@@ -43,6 +44,9 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
         title={title}
         page={<ProfilePageMain user={user} profileUser={props.profileUser} />}
         sidebar={<ProfileSidebar />}
+        header={
+          user?._id === props.profileUser._id ? <ProfilePageHeader /> : <></>
+        }
       />
     </>
   );

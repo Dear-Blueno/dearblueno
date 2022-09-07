@@ -131,3 +131,27 @@
   border-radius: 0.3rem;
   background-color: #cfd7e1;
 }
+
+.AutoSubInput {
+  align-self: flex-start;
+  padding: none;
+  margin-top: 0.25rem;
+  accent-color: #cfd7e1;
+}
+
+.AutoSubBox {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: -1rem;
+  margin-top: -0.5rem;
+}
+
+.SettingsHeader {
+  font-size: 0.8rem;
+  font-weight: 600;
+  user-select: none;
+  cursor: default;
+}

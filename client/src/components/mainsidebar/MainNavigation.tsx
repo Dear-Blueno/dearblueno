@@ -55,6 +55,11 @@ const MainSidebar = (props: {
   router: NextRouter;
 }) => {
   const { user, isLoading, router } = props;
+  const unreadNotificationCount = user?.notifications.filter(
+    (notification) => !notification.read
+  ).length;
+  const NotifBool = unreadNotificationCount && unreadNotificationCount > 0;
+
   return (
     <nav className={styles.Sidebar}>
       <div className={styles.SidebarTop}>
@@ -90,13 +95,24 @@ const MainSidebar = (props: {
                               title={item.label}
                             />
                           ) : (
-                            <item.outlineIcon
-                              className={
-                                item.outlineClassName &&
-                                styles[item.outlineClassName]
-                              }
-                              title={item.label}
-                            />
+                            <div className={styles.NotificationsIconContainer}>
+                              <item.outlineIcon
+                                className={
+                                  item.outlineClassName &&
+                                  styles[item.outlineClassName]
+                                }
+                                title={item.label}
+                              />
+                              {item.outlineIcon === MdNotificationsNone &&
+                              NotifBool ? (
+                                <div
+                                  className={styles.UnreadNotif}
+                                  // the count of unread notifs that is stored in the user object
+                                >
+                                  {unreadNotificationCount}
+                                </div>
+                              ) : null}
+                            </div>
                           )}
                           <span className={styles.SidebarListItemLabel}>
                             {item.label}
@@ -129,6 +145,11 @@ const MainFooter = (props: {
   router: NextRouter;
 }) => {
   const { user, isLoading, router } = props;
+  const unreadNotificationCount = user?.notifications.filter(
+    (notification) => !notification.read
+  ).length;
+  const NotifBool = unreadNotificationCount && unreadNotificationCount > 0;
+
   return (
     <nav className={styles.Footer}>
       {!isLoading && (
@@ -157,14 +178,25 @@ const MainFooter = (props: {
                           size="0.8em"
                         />
                       ) : (
-                        <item.outlineIcon
-                          className={
-                            item.outlineClassName &&
-                            styles[item.outlineClassName]
-                          }
-                          title={item.label}
-                          size="0.8em"
-                        />
+                        <div className={styles.NotificationsIconContainer}>
+                          <item.outlineIcon
+                            className={
+                              item.outlineClassName &&
+                              styles[item.outlineClassName]
+                            }
+                            title={item.label}
+                            size="0.8em"
+                          />
+                          {item.outlineIcon === MdNotificationsNone &&
+                          NotifBool ? (
+                            <div
+                              className={styles.UnreadNotif}
+                              // the count of unread notifs that is stored in the user object
+                            >
+                              {unreadNotificationCount}
+                            </div>
+                          ) : null}
+                        </div>
                       )}
                     </li>
                   </a>

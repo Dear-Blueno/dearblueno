@@ -1,42 +1,42 @@
-import styles from "./MainFeedSidebar.module.scss";
-import Collapsible from "react-collapsible";
-import CheckboxListItem from "components/sidebar/CheckboxListItem";
-import { useCallback, useState } from "react";
+// import styles from "./MainFeedSidebar.module.scss";
+// import Collapsible from "react-collapsible";
+// import CheckboxListItem from "components/sidebar/CheckboxListItem";
+// import { useCallback, useState } from "react";
 
-const tagNames = [
-  "Academics",
-  "Extracurriculars",
-  "Funny",
-  "Rant",
-  "Self-promo",
-  "Social",
-  "Politics",
-  "Random",
-];
+// const tagNames = [
+//   "Academics",
+//   "Extracurriculars",
+//   "Funny",
+//   "Rant",
+//   "Self-promo",
+//   "Social",
+//   "Politics",
+//   "Random",
+// ];
 
 export default function MainFeedSidebar() {
-  const [tags, setTags] = useState<boolean[]>(
-    new Array(tagNames.length).fill(true)
-  );
+  // const [tags, setTags] = useState<boolean[]>(
+  //   new Array(tagNames.length).fill(true)
+  // );
 
-  const tagChange = useCallback(
-    (index: number) => {
-      return (checked: boolean) => {
-        // POST request to server
-        // updateTags(index, checked);
-        setTags((prev) => {
-          const newTags = [...prev];
-          newTags[index] = checked;
-          return newTags;
-        });
-      };
-    },
-    [setTags]
-  );
+  // const tagChange = useCallback(
+  //   (index: number) => {
+  //     return (checked: boolean) => {
+  //       // POST request to server
+  //       // updateTags(index, checked);
+  //       setTags((prev) => {
+  //         const newTags = [...prev];
+  //         newTags[index] = checked;
+  //         return newTags;
+  //       });
+  //     };
+  //   },
+  //   [setTags]
+  // );
 
   return (
     <div className="MainFeedSidebar">
-      <Collapsible
+      {/* <Collapsible
         trigger="Tags"
         triggerTagName="h3"
         triggerClassName={styles.DropdownTitle}
@@ -54,7 +54,7 @@ export default function MainFeedSidebar() {
             />
           ))}
         </div>
-      </Collapsible>
+      </Collapsible> */}
     </div>
   );
 }
