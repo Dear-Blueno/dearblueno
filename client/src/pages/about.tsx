@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import MainLayout from "components/layout/MainLayout";
 import { NextPage } from "next";
 import Head from "next/head";
+import PrivacyPolicy from "components/privacypolicy/PrivacyPolicy";
 
 const AboutPage: NextPage = () => {
   return (
@@ -151,67 +152,7 @@ function AboutPageMain() {
       <div className={styles.AboutPageSection}>
         <h3 className="SectionHeader">PRIVACY POLICY</h3>
         <div className={styles.PrivPolicy}>
-          <p className="PrivSection">
-            {`The developers of dearblueno.net ("we", "us", "our") are committed
-              to privacy. On posts and anonymous comments, no information
-              whatsoever is linked to an individual's identity. It is impossible
-              for anyone, even the developers of dearblueno.net, to know who the
-              original poster is.`}
-          </p>
-          <p className="PrivSection">
-            For user account registration and authentication, we make use of
-            Google OAuth2. When you choose to login to an account, we store a
-            cookie with a user session id that allows us to keep you signed-in
-            to your account across multiple visits in the same browser. For
-            users that choose to login with Google, we receive some basic Google
-            account details, including your email address, profile picture, and
-            name. We cannot modify these Google account details, nor do we
-            receive any sensitive information from Google, such as passwords.
-            For more information regarding how Google handles your information,
-            please visit{" "}
-            <a
-              href="https://policies.google.com/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {"Google's Privacy Policy."}
-            </a>
-          </p>
-          <p className="PrivSection">
-            {`For content optimization, we make use of the Cloudflare content
-              delivery network and ImgBB image embeds. For web and mobile
-              analytics, we make use of Cloudflare Web Analytics. Cloudflare Web
-              Analytics is a privacy-friendly analytics platform that tracks
-              general device information such as your operating system and
-              browser type, but does not use a "tracking beacon" or any cookies.
-              Thus, this analytic information is not linked to your account or
-              identity. For more information regarding how Cloudflare handles
-              your information, please visit `}
-            <a
-              href="https://www.cloudflare.com/privacy/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {"Cloudflare's Privacy Policy."}
-            </a>
-          </p>
-          <p className="PrivSection">
-            All data needed to operate dearblueno.net, as described above, is
-            stored in a database on our servers. We do not and will not sell or
-            share your data with third parties.
-          </p>
-          <p className="PrivSection">
-            As part of our commitment to transparency, the entirety of our code
-            is open source. It can be found at this{" "}
-            <a
-              href="https://github.com/Dear-Blueno"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub repository
-            </a>{" "}
-            and is licensed under the AGPLv3 license.
-          </p>
+          <PrivacyPolicy />
         </div>
       </div>
       <div className={styles.AboutPageSection}>
