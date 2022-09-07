@@ -23,7 +23,6 @@ import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 
 export interface PostProps {
   post: IPost;

@@ -5,13 +5,8 @@ import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/mainfeed/MainFeedHeader";
 import { GetStaticProps, NextPage } from "next";
 import { getPosts } from "gateways/PostGateway";
-import IPost from "types/IPost";
 
-interface HomePageProps {
-  initialPosts: IPost[];
-}
-
-const HomePage: NextPage<HomePageProps> = (props) => {
+const HomePage: NextPage = () => {
   return (
     <>
       <Head>
@@ -20,7 +15,7 @@ const HomePage: NextPage<HomePageProps> = (props) => {
       <MainLayout
         title="Home"
         header={<MainFeedHeader />}
-        page={<MainFeed initialPosts={props.initialPosts} />}
+        page={<MainFeed />}
         sidebar={<MainFeedSidebar />}
       ></MainLayout>
     </>

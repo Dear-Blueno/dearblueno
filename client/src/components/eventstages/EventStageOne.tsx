@@ -15,7 +15,11 @@ export default function EventStageOne(props: EventStageOneProps) {
     <div className={styles.Stage}>
       <label className={styles.InputLabel + " " + styles.ImageUploadContainer}>
         Cover Picture
-        <ImageUpload imageURL={props.image} setImageURL={props.imageSetter} />
+        <ImageUpload
+          type="event"
+          imageURL={props.image}
+          setImageURL={props.imageSetter}
+        />
       </label>
       <label className={styles.InputLabel}>
         <div>

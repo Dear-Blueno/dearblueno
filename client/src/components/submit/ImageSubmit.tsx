@@ -45,7 +45,11 @@ function ImageSubmit(props: ImageSubmitProps) {
           autoFocus={true}
         ></textarea>
         <div className={styles.ImageUploadContainer}>
-          <ImageUpload imageURL={imageURL} setImageURL={setImageURL} />
+          <ImageUpload
+            type="post"
+            imageURL={imageURL}
+            setImageURL={setImageURL}
+          />
         </div>
         <div className={styles.ImageSubmitBoxFooter}>
           <p
