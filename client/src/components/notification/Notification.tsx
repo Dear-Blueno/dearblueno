@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { INotification } from "types/IUser";
 import RelativeDate from "components/post/RelativeDate";
-import { markNotificationAsRead } from "gateways/UserGateway";
 import { IoPersonOutline } from "react-icons/io5";
 import { AiOutlineFire } from "react-icons/ai";
 import { RiCalendarEventLine } from "react-icons/ri";
@@ -53,9 +52,6 @@ export default function Notification(props: NotificationProps) {
           className={`${styles.Notification} ${
             !props.notification.read ? styles.UnreadNotification : ""
           }`}
-          onClick={() => {
-            void markNotificationAsRead(props.notification._id);
-          }}
         >
           <div className={styles.NotificationHeader}>
             <div className={styles.NotificationHeaderLeft}>
@@ -94,9 +90,6 @@ export default function Notification(props: NotificationProps) {
           className={`${styles.Notification} ${
             !props.notification.read ? styles.UnreadNotification : ""
           }`}
-          onClick={() => {
-            void markNotificationAsRead(props.notification._id);
-          }}
         >
           <div className={styles.NotificationHeader}>
             <div className={styles.NotificationHeaderLeft}>
@@ -128,9 +121,6 @@ export default function Notification(props: NotificationProps) {
           className={`${styles.Notification} ${
             !props.notification.read ? styles.UnreadNotification : ""
           }`}
-          onClick={() => {
-            void markNotificationAsRead(props.notification._id);
-          }}
         >
           <div className={styles.NotificationHeader}>
             <div className={styles.NotificationHeaderLeft}>

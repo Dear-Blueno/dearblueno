@@ -41,9 +41,16 @@
   color: inherit;
 }
 
-.UploadedImageContainer {
+.PostImageContainer {
   display: flex;
   justify-content: center;
+}
+
+.EventImageContainer {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  aspect-ratio: 2;
 }
 
 .UploadedImage {

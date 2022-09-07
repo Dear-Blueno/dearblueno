@@ -4,9 +4,19 @@ import useUser from "hooks/useUser";
 import { loginBrown } from "gateways/AuthGateway";
 import { useRouter } from "next/router";
 import { INotification } from "types/IUser";
+import { markAllNotificationsAsRead } from "gateways/UserGateway";
+import { useEffect } from "react";
 
 export default function NotificationsFeed() {
-  const { user, isLoadingUser } = useUser();
+  const { user, refetchUser, isLoadingUser } = useUser();
+  // refetch user on unmount
+  useEffect(() => {
+    return () => {
+      refetchUser().catch((err) => {
+        console.error(err);
+      });
+    };
+  }, [refetchUser]);
   const router = useRouter();
 
   if (!isLoadingUser && !user) {
@@ -37,6 +47,12 @@ export default function NotificationsFeed() {
     },
     initialAcc
   );
+
+  if (partitionedNotifications.unread.length > 0) {
+    markAllNotificationsAsRead().catch((err) => {
+      console.error(err);
+    });
+  }
 
   const notifications =
     router.query.sort === "all"

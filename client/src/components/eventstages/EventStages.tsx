@@ -152,6 +152,7 @@ export default function EventStages() {
                   new Date(`${stageTwoEndDate}T${stageTwoEndTime}`)
                 ).toISOString(),
                 location: stageTwoLocation,
+                coverPicture: stageOneImage,
                 approved: true,
                 needsReview: false,
                 interested: [],

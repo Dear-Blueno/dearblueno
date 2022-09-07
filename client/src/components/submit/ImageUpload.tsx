@@ -1,10 +1,11 @@
 import styles from "./ImageUpload.module.scss";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
 
 interface ImageUploadProps {
   imageURL?: string;
   setImageURL: (url: string) => void;
+  type: "post" | "event";
 }
 
 export default function ImageUpload(props: ImageUploadProps) {
@@ -52,7 +53,13 @@ export default function ImageUpload(props: ImageUploadProps) {
 
   if (props.imageURL) {
     return (
-      <div className={styles.UploadedImageContainer}>
+      <div
+        className={
+          props.type === "post"
+            ? styles.PostImageContainer
+            : styles.EventImageContainer
+        }
+      >
         <img
           className={styles.UploadedImage}
           src={props.imageURL}
