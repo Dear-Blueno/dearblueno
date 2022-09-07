@@ -6,6 +6,7 @@ To develop locally, you can use the following environment variables (use a `.env
 
 ```bash
 NEXT_PUBLIC_API_URL = "http://localhost:5000"
+NEXT_PUBLIC_IMGUR_CLIENT_ID = "YOUR_IMGUR_CLIENT_ID"
 ```
 
 ## Getting Started with Next.js
