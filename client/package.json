@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . && prettier -c .",
+    "lint": "eslint . --max-warnings=0 && prettier -c .",
     "lint:fix": "eslint --fix . && prettier -w .",
     "export": "next export"
   },

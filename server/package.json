@@ -12,7 +12,7 @@
     "test:build": "jest --testPathPattern=dist/tests/integration",
     "test:e2e": "jest --runInBand",
     "test:coverage": "jest --coverage --runInBand",
-    "lint": "eslint . && prettier -c .",
+    "lint": "eslint . --max-warnings=0 && prettier -c .",
     "lint:fix": "eslint --fix . && prettier -w ."
   },
   "repository": {
