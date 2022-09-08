@@ -1,0 +1,23 @@
+.FeedHeader {
+  width: 100%;
+  flex-direction: row;
+  gap: 1.5rem;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  user-select: none;
+  @media screen and (min-width: 30rem) {
+    gap: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    .AddIcon {
+      align-self: center;
+      cursor: pointer;
+    }
+  }
+  @media screen and (max-width: 30rem) {
+    gap: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
