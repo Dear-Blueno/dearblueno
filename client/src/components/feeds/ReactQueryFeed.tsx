@@ -15,6 +15,7 @@ interface FeedProps {
   status: "idle" | "loading" | "error" | "success";
   hasNextPage: boolean | undefined;
   isFetchingNextPage: boolean | undefined;
+  endText?: string;
 }
 
 function Feed(props: FeedProps) {
@@ -71,7 +72,7 @@ function Feed(props: FeedProps) {
         }}
       >
         {reachedEnd ? (
-          "You’ve reached the end! Here be dragons."
+          props.endText ?? "You have reached the end of the feed."
         ) : (
           <>
             Loading more posts
@@ -82,7 +83,7 @@ function Feed(props: FeedProps) {
         )}
       </div>
     ),
-    [status, isFetchingNextPage, reachedEnd]
+    [status, isFetchingNextPage, reachedEnd, props.endText]
   );
 
   return (

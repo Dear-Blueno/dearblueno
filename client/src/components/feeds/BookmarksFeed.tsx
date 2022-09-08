@@ -24,6 +24,7 @@ export default function BookmarksFeed() {
       status={status}
       isFetchingNextPage={isFetching}
       hasNextPage={hasNextPage}
+      endText="You have reached the end of your bookmarks."
       animated
     >
       {bookmarkedPosts.map((post) => (
