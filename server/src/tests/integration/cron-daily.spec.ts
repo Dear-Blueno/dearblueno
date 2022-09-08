@@ -117,9 +117,9 @@ describe("Cron Daily", () => {
     });
 
     it("should properly award Top Fan badges to most active users", async () => {
-      // Create 19 dummy users with 11 xp each
+      // Create 100 dummy users with 11 xp each
       const promises = [];
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= 100; i++) {
         promises.push(
           new User({
             googleId: `${i}`,
