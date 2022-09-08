@@ -3,7 +3,11 @@ import IUser, { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
 import ProfileBio from "./left_column/ProfileBio";
-import { getUserComments, updateUserProfile } from "../../gateways/UserGateway";
+import {
+  getUserComments,
+  updateSettings,
+  updateUserProfile,
+} from "../../gateways/UserGateway";
 import ProfileSocials from "./left_column/ProfileSocials";
 import ProfilePersonalInfo from "./left_column/ProfilePersonalInfo";
 import { useState, useRef, useEffect } from "react";
@@ -13,14 +17,15 @@ import { logout } from "gateways/AuthGateway";
 import { MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
 import toast from "react-hot-toast";
+import useUser from "hooks/useUser";
 
 interface ProfileBoxProps {
-  user?: IUser;
   profileUser?: IBasicUser;
 }
 
 function ProfileBox(props: ProfileBoxProps) {
-  const ownProfile = props.user && props.user._id === props.profileUser?._id;
+  const { user } = useUser();
+  const ownProfile = user && user._id === props.profileUser?._id;
   const [editing, setEditing] = useState(false);
   const instagramInput = useRef<HTMLInputElement>(null);
   const twitterInput = useRef<HTMLInputElement>(null);
@@ -32,6 +37,9 @@ function ProfileBox(props: ProfileBoxProps) {
   const hometownInput = useRef<HTMLInputElement>(null);
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
+  const [autoSubInput, setAutoSubInput] = useState(
+    user?.settings.autoSubscribe ? true : false
+  );
   const [comments, setComments] = useState<IComment[] | undefined>(undefined);
 
   useEffect(() => {
@@ -159,6 +167,21 @@ function ProfileBox(props: ProfileBoxProps) {
       .catch((error) => {
         console.error(error);
       });
+    if (autoSubInput !== user?.settings.autoSubscribe) {
+      updateSettings(autoSubInput)
+        .then((response) => {
+          if (response.success) {
+            toast.success("Settings updated successfully!");
+          } else {
+            toast.error(
+              (response.message as unknown as { message: string }).message
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (
