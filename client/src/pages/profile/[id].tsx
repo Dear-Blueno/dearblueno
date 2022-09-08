@@ -1,4 +1,3 @@
-import styles from "styles/ProfilePage.module.scss";
 import IUser, { IBasicUser } from "../../types/IUser";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { getUser } from "../../gateways/UserGateway";
@@ -16,15 +15,16 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
-  const { user, isLoadingUser } = useUser();
+  const { user } = useUser();
+  console.log("user", user);
 
   if (!props.profileUser) {
     return <NotFoundPage />;
   }
 
-  if (isLoadingUser) {
-    return <MainLayout />;
-  }
+  // if (isLoadingUser) {
+  //   return <MainLayout />;
+  // }
 
   const title =
     user?._id === props.profileUser._id
@@ -42,10 +42,10 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
       </Head>
       <MainLayout
         title={title}
-        page={<ProfilePageMain user={user} profileUser={props.profileUser} />}
+        page={<ProfilePageMain profileUser={props.profileUser} />}
         sidebar={<ProfileSidebar />}
         header={
-          user?._id === props.profileUser._id ? <ProfilePageHeader /> : <></>
+          user?._id === props.profileUser._id ? <ProfilePageHeader /> : null
         }
       />
     </>
@@ -53,16 +53,11 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
 };
 
 interface ProfilePageMainProps {
-  user?: IUser;
   profileUser: IBasicUser;
 }
 
 function ProfilePageMain(props: ProfilePageMainProps) {
-  return (
-    <div className={styles.ProfilePage}>
-      <ProfileBox user={props.user} profileUser={props.profileUser} />
-    </div>
-  );
+  return <ProfileBox profileUser={props.profileUser} />;
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
