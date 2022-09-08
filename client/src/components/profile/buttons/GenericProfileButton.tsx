@@ -1,7 +1,7 @@
 import styles from "./GenericProfileButton.module.scss";
 
 interface GenericProfileButtonProps {
-  click: () => void;
+  click?: () => void;
   text: string;
 }
 

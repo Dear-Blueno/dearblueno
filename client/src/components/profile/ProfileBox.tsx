@@ -36,9 +36,6 @@ function ProfileBox(props: ProfileBoxProps) {
   const hometownInput = useRef<HTMLInputElement>(null);
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
-  const [autoSubInput, setAutoSubInput] = useState(
-    props.user?.settings.autoSubscribe ? true : false
-  );
   const [comments, setComments] = useState<IComment[] | undefined>(undefined);
 
   useEffect(() => {
@@ -166,21 +163,6 @@ function ProfileBox(props: ProfileBoxProps) {
       .catch((error) => {
         console.error(error);
       });
-    if (autoSubInput !== props.user?.settings.autoSubscribe) {
-      updateSettings(autoSubInput)
-        .then((response) => {
-          if (response.success) {
-            toast.success("Settings updated successfully!");
-          } else {
-            toast.error(
-              (response.message as unknown as { message: string }).message
-            );
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
   };
 
   return (
@@ -232,23 +214,6 @@ function ProfileBox(props: ProfileBoxProps) {
           ]}
           editing={editing}
         />
-        {editing && (
-          <>
-            <p className={styles.SettingsHeader}>Settings</p>
-            <div
-              className={styles.AutoSubBox}
-              onClick={() => setAutoSubInput(!autoSubInput)}
-            >
-              <input
-                type="checkbox"
-                checked={autoSubInput}
-                onChange={() => setAutoSubInput(!autoSubInput)}
-                className={styles.AutoSubInput}
-              />
-              <p>Auto-Sub On Public Comment</p>
-            </div>
-          </>
-        )}
 
         {editing && (
           <div className={styles.SaveAndCancelButtons}>
