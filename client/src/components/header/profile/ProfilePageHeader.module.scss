@@ -15,9 +15,11 @@
   @media screen and (max-width: 30rem) {
     .BookmarkIcon {
       display: flex;
+      cursor: pointer;
     }
     .InfoIcon {
       display: flex;
+      cursor: pointer;
     }
     gap: 1.5rem;
     display: flex;
@@ -28,9 +30,11 @@
     justify-content: flex-end;
     .ModIcon {
       align-self: center;
+      cursor: pointer;
     }
     .SettingsIcon {
       align-self: center;
+      cursor: pointer;
     }
   }
 }

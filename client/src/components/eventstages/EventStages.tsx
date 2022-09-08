@@ -99,12 +99,16 @@ export default function EventStages() {
       stageOneImage === "" ? undefined : stageOneImage
     )
       .then((response) => {
-        console.log(response);
+        if (response.success) {
+          toast.success("Event created successfully");
+          setStage(4);
+        } else {
+          toast.error("Error creating event");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-    setStage(4);
   };
 
   return (
