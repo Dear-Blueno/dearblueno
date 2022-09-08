@@ -179,7 +179,7 @@ export default function EventCard(props: EventCardProps) {
             text="Share"
             onClick={() => {
               void navigator.clipboard.writeText(
-                `localhost:3000/event/${props.event._id}`
+                `https://dearblueno.net/event/${props.event._id}`
               );
             }}
             disabled={props.disabled ?? false}
