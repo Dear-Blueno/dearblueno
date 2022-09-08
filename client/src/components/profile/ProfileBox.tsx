@@ -3,11 +3,7 @@ import IUser, { IBasicUser } from "../../types/IUser";
 import ProfilePicture from "./left_column/ProfilePicture";
 import ProfileName from "./left_column/ProfileName";
 import ProfileBio from "./left_column/ProfileBio";
-import {
-  getUserComments,
-  updateUserProfile,
-  updateSettings,
-} from "../../gateways/UserGateway";
+import { getUserComments, updateUserProfile } from "../../gateways/UserGateway";
 import ProfileSocials from "./left_column/ProfileSocials";
 import ProfilePersonalInfo from "./left_column/ProfilePersonalInfo";
 import { useState, useRef, useEffect } from "react";

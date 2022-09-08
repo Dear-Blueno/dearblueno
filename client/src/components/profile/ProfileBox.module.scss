@@ -44,7 +44,7 @@
     height: unset;
     min-height: unset;
     max-height: 20rem;
-    // width: calc(100% + 0.8rem);
+    width: calc(100% + 0.4rem);
     padding-right: 0.2rem;
   }
 }
@@ -123,11 +123,15 @@
   padding-bottom: 0.1rem;
 }
 
-.ProfileCommentsList::-webkit-scrollbar {
-  width: 0.5rem;
+@media screen and (min-width: 30rem) {
+  .ProfileCommentsList::-webkit-scrollbar {
+    width: 0.5rem;
+  }
 }
 
-.ProfileCommentsList::-webkit-scrollbar-thumb {
-  border-radius: 0.3rem;
-  background-color: #cfd7e1;
+@media screen and (min-width: 30rem) {
+  .ProfileCommentsList::-webkit-scrollbar-thumb {
+    border-radius: 0.3rem;
+    background-color: #cfd7e1;
+  }
 }

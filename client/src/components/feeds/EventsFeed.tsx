@@ -56,7 +56,7 @@ export default function EventsFeed() {
         }}
       >
         {reachedEnd ? (
-          "You’ve reached the end! Here be dragons."
+          "No more events just yet!"
         ) : (
           <>
             Loading more posts
@@ -77,16 +77,22 @@ export default function EventsFeed() {
 
   return (
     <>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className={styles.myMasonryGrid}
-        columnClassName={styles.myMasonryGridColumn}
-      >
-        {data?.pages.map((page) =>
-          page.map((event) => <EventCard key={event._id} event={event} />)
-        )}
-      </Masonry>
-      {loadingDiv}
+      {data && data.pages[0].length > 0 ? (
+        <>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className={styles.myMasonryGrid}
+            columnClassName={styles.myMasonryGridColumn}
+          >
+            {data.pages.map((page) =>
+              page.map((event) => <EventCard key={event._id} event={event} />)
+            )}
+          </Masonry>
+          {loadingDiv}
+        </>
+      ) : (
+        <div className={styles.NoEvents}>No events have been posted yet!</div>
+      )}
     </>
   );
 }

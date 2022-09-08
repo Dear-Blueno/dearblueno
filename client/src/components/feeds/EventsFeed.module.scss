@@ -19,6 +19,13 @@
 }
 
 .FeedFinished {
-  padding-top: 1rem;
-  align-self: center;
+  // padding-top: 1rem;
+  // align-self: center;
+  display: none;
+}
+
+.NoEvents {
+  text-align: center;
+  font-size: large;
+  margin-top: 2rem;
 }

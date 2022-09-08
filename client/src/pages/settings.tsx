@@ -45,7 +45,7 @@ function SettingsPageMain() {
     <div className={styles.SettingsPage}>
       {user ? (
         <>
-          <p className={styles.SettingsHeader}>Settings</p>
+          <h3 className={styles.SettingsHeader}>Notifications</h3>
           <div
             className={styles.AutoSubBox}
             onClick={() => setAutoSubInput(!autoSubInput)}
