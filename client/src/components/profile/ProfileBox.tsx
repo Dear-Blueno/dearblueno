@@ -166,19 +166,21 @@ function ProfileBox(props: ProfileBoxProps) {
       .catch((error) => {
         console.error(error);
       });
-    updateSettings(autoSubInput)
-      .then((response) => {
-        if (response.success) {
-          toast.success("Settings updated successfully!");
-        } else {
-          toast.error(
-            (response.message as unknown as { message: string }).message
-          );
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (autoSubInput !== props.user?.settings.autoSubscribe) {
+      updateSettings(autoSubInput)
+        .then((response) => {
+          if (response.success) {
+            toast.success("Settings updated successfully!");
+          } else {
+            toast.error(
+              (response.message as unknown as { message: string }).message
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (

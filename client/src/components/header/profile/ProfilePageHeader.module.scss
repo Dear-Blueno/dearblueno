@@ -23,8 +23,14 @@
     display: flex;
   }
   @media screen and (min-width: 30rem) {
+    gap: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
     .ModIcon {
-      padding: 1.7rem 0 0 2rem;
+      align-self: center;
+    }
+    .SettingsIcon {
+      align-self: center;
     }
   }
 }
