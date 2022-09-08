@@ -142,14 +142,15 @@ function Post(props: PostProps) {
           <RelativeDate date={props.post.approvedTime} />
         </div>
       </div>
-      <div
-        className={styles.PostBody}
-        title="Click to reveal"
-        onClick={() => setBlurred(false)}
-      >
-        <UserContent blurred={blurred}>{props.post.content}</UserContent>
+      <div className={styles.PostBody} title="Click to reveal">
+        <UserContent blurred={blurred} setBlurred={setBlurred}>
+          {props.post.content}
+        </UserContent>
         {props.post.imageUrl && (
-          <div className={styles.PostImageContainer}>
+          <div
+            className={styles.PostImageContainer}
+            onClick={() => setBlurred(false)}
+          >
             <img
               className={
                 styles.PostImage + " " + (blurred ? styles.PostImageHidden : "")

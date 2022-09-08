@@ -8,6 +8,7 @@ const emojiRegex = makeEmojiRegex();
 interface UserContentProps {
   children: string;
   blurred?: boolean;
+  setBlurred?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function replaceEmoji(text: string) {
@@ -48,6 +49,11 @@ function UserContent(props: UserContentProps) {
           " " +
           (props.blurred ? styles.UserContentHidden : "")
         }
+        onClick={() => {
+          if (props.setBlurred) {
+            props.setBlurred(false);
+          }
+        }}
       >
         {replaceEmoji(props.children)}
       </p>
