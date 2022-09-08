@@ -40,8 +40,8 @@ jobs:
           TARGET: "/home/${{ secrets.REMOTE_USER }}/DearBluenoProd/"
           SOURCE: "deploy/server/"
 
-  build-frontend:
-    name: 🎉 Build Frontend
+  build-deploy-frontend:
+    name: 🎉 Build and Deploy Frontend
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
@@ -61,3 +61,11 @@ jobs:
           cd ..
         env:
           NEXT_PUBLIC_API_URL: "https://api.dearblueno.net"
+
+      - name: ☁ Deploy to Vercel Git Repo
+        uses: wei/git-sync@v3
+        with:
+          source_repo: "https://github.com/Dear-Blueno/dearblueno.git"
+          source_branch: "main"
+          destination_repo: "https://DearBlueno:${{ secrets.PAT }}@github.com/DearBlueno/deploy.git"
+          destination_branch: "deploy"
