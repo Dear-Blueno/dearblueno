@@ -7,6 +7,7 @@ import EventCard from "components/event/EventCard";
 import { estTheDate as shiftToEST } from "./RelativeDay";
 import { createEvent } from "gateways/EventGateway";
 import toast from "react-hot-toast";
+import useUser from "hooks/useUser";
 
 export default function EventStages() {
   const [stage, setStage] = useState(1);
@@ -19,8 +20,12 @@ export default function EventStages() {
   const [stageTwoEndDate, setStageTwoEndDate] = useState("");
   const [stageTwoEndTime, setStageTwoEndTime] = useState("");
   const [stageTwoDescription, setStageTwoDescription] = useState("");
+  const { user } = useUser();
 
   const incrementStage = () => {
+    if (!user) {
+      toast.error("Please log in to create an event");
+    }
     if (stage === 1 && stageOneName) {
       if (stageOneName.length > 65) {
         toast.error(
@@ -212,7 +217,10 @@ export default function EventStages() {
           </button>
         )}
         {stage == 3 && (
-          <button onClick={submitTheEvent} style={{ marginLeft: "auto" }}>
+          <button
+            onClick={submitTheEvent}
+            style={{ marginLeft: "auto", color: "black" }}
+          >
             Submit
           </button>
         )}
