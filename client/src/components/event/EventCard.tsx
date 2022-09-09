@@ -182,7 +182,7 @@ export default function EventCard(props: EventCardProps) {
               if (navigator.share) {
                 navigator
                   .share({
-                    title: `Post #${props.event.eventName}`,
+                    title: props.event.eventName,
                     url: `https://dearblueno.net/event/${props.event._id}`,
                   })
                   .catch((err) => {
