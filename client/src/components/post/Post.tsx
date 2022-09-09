@@ -184,7 +184,7 @@ function Post(props: PostProps) {
               navigator
                 .share({
                   title: `Post #${props.post.postNumber}`,
-                  text: `https://dearblueno.net/post/${props.post.postNumber}`,
+                  url: `https://dearblueno.net/post/${props.post.postNumber}`,
                 })
                 .catch((err) => {
                   console.error(err);
