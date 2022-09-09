@@ -178,9 +178,24 @@ export default function EventCard(props: EventCardProps) {
             icon={IoShareOutline}
             text="Share"
             onClick={() => {
-              void navigator.clipboard.writeText(
-                `https://dearblueno.net/event/${props.event._id}`
-              );
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+              if (navigator.share) {
+                navigator
+                  .share({
+                    title: `Post #${props.event.eventName}`,
+                    url: `https://dearblueno.net/event/${props.event._id}`,
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+              } else {
+                navigator.clipboard
+                  .writeText(`https://dearblueno.net/event/${props.event._id}`)
+                  .catch((err) => {
+                    console.error(err);
+                  });
+                toast("Link copied to clipboard!", { icon: "📋" });
+              }
             }}
             disabled={props.disabled ?? false}
             style={styles.EventCardButtonShare}
