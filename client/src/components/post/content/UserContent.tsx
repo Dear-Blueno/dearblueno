@@ -54,6 +54,7 @@ function UserContent(props: UserContentProps) {
             props.setBlurred(false);
           }
         }}
+        title={props.blurred ? "Click to reveal" : undefined}
       >
         {replaceEmoji(props.children)}
       </p>

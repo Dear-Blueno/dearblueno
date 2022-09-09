@@ -129,7 +129,7 @@ function Post(props: PostProps) {
           <RelativeDate date={props.post.approvedTime} />
         </div>
       </div>
-      <div className={styles.PostBody} title="Click to reveal">
+      <div className={styles.PostBody} title={blurred ? "Click to reveal" : ""}>
         <UserContent blurred={blurred} setBlurred={setBlurred}>
           {props.post.content}
         </UserContent>
