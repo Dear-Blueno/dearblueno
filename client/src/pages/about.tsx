@@ -37,6 +37,11 @@ function AboutPageMain() {
           6. Posts that contain irrelevant, low-effort content, such as single
           words, may be denied.
           <br />
+          7. Image posts that contain nudity in non-art contexts, self-injury,
+          graphic violence, or other potentially disturbing content may be
+          denied. Image posts that contain intellectual property violations may
+          be denied.
+          <br />
         </p>
       </div>
 
@@ -132,19 +137,9 @@ function AboutPageMain() {
               students following the deletion of the DB Facebook Group. While we
               did reach out to the original DB and BBA mods, we unfortunately
               did not receive a response. dearblueno.net is a community-based
-              project, and we hope to have the opportunity to work with the DB
-              and BBA mods in the future.
+              project, and we are open to working with anyone that is interested
+              in helping us maintain the site.
             </p>
-          </Collapsible>
-          <Collapsible
-            trigger="Who runs Dear Blueno?"
-            triggerClassName={styles.FAQQuestion}
-            triggerOpenedClassName={
-              styles.FAQQuestion + " " + styles["is-open"]
-            }
-            transitionTime={100}
-          >
-            <p className={styles.FAQAnswer}>¯\_(ツ)_/¯</p>
           </Collapsible>
         </div>
       </div>
