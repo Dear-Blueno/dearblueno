@@ -4,7 +4,6 @@ import { BsFillPeopleFill, BsCheckLg, BsXLg } from "react-icons/bs";
 import { HiLightningBolt } from "react-icons/hi";
 import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
-import { useEffect, useState } from "react";
 import IEvent from "types/IEvent";
 import useUser from "hooks/useUser";
 import {
@@ -15,7 +14,11 @@ import { useLoginPopup } from "hooks/login-popup";
 import { formatInTimeZone } from "date-fns-tz";
 import { makeDate } from "components/eventstages/RelativeDay";
 import { approveEvent } from "gateways/EventGateway";
-import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { RiCalendarEventFill } from "react-icons/ri";
 import Linkify from "linkify-react";
@@ -26,27 +29,17 @@ interface EventCardProps {
   moderatorView?: boolean;
 }
 
+const formatTime = (dateString: string) =>
+  formatInTimeZone(new Date(dateString), "America/New_York", "h:mma");
+
 export default function EventCard(props: EventCardProps) {
   const { user } = useUser();
-  const [goingNumber, setGoingNumber] = useState(props.event.going.length);
-  const [interestedNumber, setInterestedNumber] = useState(
-    props.event.interested.length
-  );
+  const isGoing = user && props.event.going.includes(user._id);
+  const isInterested = user && props.event.interested.includes(user._id);
   const { userOnlyAction } = useLoginPopup();
-  const [isGoing, setIsGoing] = useState(false);
-  const [isInterested, setIsInterested] = useState(false);
 
-  const startTime = formatInTimeZone(
-    new Date(props.event.startDate),
-    "America/New_York",
-    "h:mma"
-  );
-  const endTime = formatInTimeZone(
-    new Date(props.event.endDate),
-    "America/New_York",
-    "h:mma"
-  );
-
+  const startTime = formatTime(props.event.startDate);
+  const endTime = formatTime(props.event.endDate);
   const startDate = makeDate(
     formatInTimeZone(
       new Date(props.event.startDate),
@@ -55,15 +48,65 @@ export default function EventCard(props: EventCardProps) {
     )
   );
 
-  useEffect(() => {
-    const newGoing = (user && props.event.going.includes(user._id)) ?? false;
-    setIsGoing(newGoing);
-    const newInterested =
-      (user && props.event.interested.includes(user._id)) ?? false;
-    setIsInterested(newInterested);
-  }, [user, props.event.going, props.event.interested]);
-
   const queryClient = useQueryClient();
+
+  const eventMutation = ({
+    type,
+    id,
+    newValue,
+  }: {
+    type: "interested" | "going";
+    id: string;
+    newValue: boolean;
+  }) => {
+    const func =
+      type === "interested" ? reactInterestedToEvent : reactGoingToEvent;
+    return func(id, newValue);
+  };
+  const { mutate: mutateEvent } = useMutation(eventMutation, {
+    // When mutate is called:
+    onMutate: async (data) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(["events"]);
+
+      // Snapshot the previous value
+      const previousTodos = queryClient.getQueryData(["events"]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        ["events"],
+        (old: InfiniteData<IEvent[]> | undefined) => {
+          old?.pages.forEach((page) => {
+            page.forEach((event) => {
+              if (event._id === data.id) {
+                if (data.newValue && user) {
+                  (data.type === "interested"
+                    ? event.interested
+                    : event.going
+                  ).push(user._id);
+                } else {
+                  if (data.type === "interested") {
+                    event.interested = event.interested.filter(
+                      (id) => id !== user?._id
+                    );
+                  } else {
+                    event.going = event.going.filter((id) => id !== user?._id);
+                  }
+                }
+              }
+            });
+          });
+          return old;
+        }
+      );
+      // Return a context object with the snapshotted value
+      return { previousTodos };
+    },
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(["events"], context?.previousTodos);
+    },
+  });
 
   const handleAction = async (action: boolean) => {
     const response = await approveEvent(props.event._id, action);
@@ -125,11 +168,11 @@ export default function EventCard(props: EventCardProps) {
         </p>
         <div className={styles.AttendeeContainer}>
           <div className={styles.EventCardAttendees}>
-            <p>{goingNumber}</p>
+            <p>{props.event.going.length}</p>
             <BsFillPeopleFill className={styles.EventCardAttendeesIcon} />
           </div>
           <div className={styles.EventCardAttendees}>
-            <p>{interestedNumber}</p>
+            <p>{props.event.interested.length}</p>
             <HiLightningBolt className={styles.EventCardAttendeesIcon} />
           </div>
         </div>
@@ -138,15 +181,11 @@ export default function EventCard(props: EventCardProps) {
             icon={isGoing ? BsCheckLg : BsFillPeopleFill}
             text="Going"
             onClick={userOnlyAction(() => {
-              if (isGoing) {
-                setGoingNumber(goingNumber - 1);
-                void reactGoingToEvent(props.event._id, false);
-                setIsGoing(false);
-              } else {
-                setGoingNumber(goingNumber + 1);
-                void reactGoingToEvent(props.event._id, true);
-                setIsGoing(true);
-              }
+              mutateEvent({
+                type: "going",
+                id: props.event._id,
+                newValue: !isGoing,
+              });
             })}
             style={
               isGoing ? styles.EventCardButtonGoing : styles.EventCardButton
@@ -157,15 +196,11 @@ export default function EventCard(props: EventCardProps) {
             icon={isInterested ? BsCheckLg : HiLightningBolt}
             text="Interested"
             onClick={userOnlyAction(() => {
-              if (isInterested) {
-                setInterestedNumber(interestedNumber - 1);
-                void reactInterestedToEvent(props.event._id, false);
-                setIsInterested(false);
-              } else {
-                setInterestedNumber(interestedNumber + 1);
-                void reactInterestedToEvent(props.event._id, true);
-                setIsInterested(true);
-              }
+              mutateEvent({
+                type: "interested",
+                id: props.event._id,
+                newValue: !isInterested,
+              });
             })}
             style={
               isInterested
