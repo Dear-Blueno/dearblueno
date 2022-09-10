@@ -16,7 +16,6 @@ interface ProfilePageProps {
 
 const ProfilePage: NextPage<ProfilePageProps> = (props) => {
   const { user } = useUser();
-  console.log("user", user);
 
   if (!props.profileUser) {
     return <NotFoundPage />;

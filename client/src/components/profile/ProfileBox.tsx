@@ -20,7 +20,7 @@ interface ProfileBoxProps {
 }
 
 function ProfileBox(props: ProfileBoxProps) {
-  const { user } = useUser();
+  const { user, refetchUser } = useUser();
   const ownProfile = user && user._id === props.profileUser?._id;
   const [editing, setEditing] = useState(false);
   const instagramInput = useRef<HTMLInputElement>(null);
@@ -149,8 +149,14 @@ function ProfileBox(props: ProfileBoxProps) {
     )
       .then((response) => {
         if (response.success) {
-          setEditing(false);
           toast.success("Profile updated successfully!");
+          refetchUser()
+            .then(() => {
+              setEditing(false);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         } else {
           toast.error(
             (response.message as unknown as { message: string }).message
