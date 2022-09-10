@@ -43,7 +43,7 @@ export default function passportConfig() {
         const verifiedBrown =
           profile._json.hd === "brown.edu" ||
           profile._json.hd === "alumni.brown.edu" ||
-          profile._json.hd === "dearblueno.net";
+          email?.endsWith("@dearblueno.net");
 
         if (!verifiedBrown) {
           return done("Not a verified Brown user");
