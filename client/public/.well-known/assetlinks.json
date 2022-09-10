@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "net.dearblueno.android.twa",
       "sha256_cert_fingerprints": [
-        "60:30:50:37:C4:D7:41:49:99:E8:C5:A2:C5:56:8E:55:14:F6:E2:C2:B8:EF:F9:8C:E4:AC:C3:CB:2C:F6:58:69"
+        "60:30:50:37:C4:D7:41:49:99:E8:C5:A2:C5:56:8E:55:14:F6:E2:C2:B8:EF:F9:8C:E4:AC:C3:CB:2C:F6:58:69",
+        "F9:18:A2:68:AF:CB:32:6D:5F:8C:B4:42:05:F3:85:F3:21:AF:02:8D:C1:CB:F7:68:6B:8F:AC:E1:72:B6:A2:E4"
       ]
     }
   }
