@@ -168,6 +168,18 @@ function ProfileBox(props: ProfileBoxProps) {
       });
   };
 
+  const logoutButton = (mobile: boolean) =>
+    ownProfile && (
+      <div
+        className={styles.Logout + " " + (mobile ? styles.LogoutMobile : "")}
+      >
+        <MdLogout color="red"></MdLogout>
+        <button className={styles.LogoutButton} onClick={logout}>
+          Log out
+        </button>
+      </div>
+    );
+
   return (
     <div className={styles.ProfileBox}>
       <div className={styles.LeftColumn}>
@@ -231,18 +243,11 @@ function ProfileBox(props: ProfileBoxProps) {
             </div>
           </div>
         )}
-        {ownProfile && (
-          <div className={styles.Logout}>
-            <MdLogout color="red"></MdLogout>
-            <button className={styles.LogoutButton} onClick={logout}>
-              Log out
-            </button>
-          </div>
-        )}
+        {logoutButton(false)}
       </div>
       <div className={styles.RightColumn}>
         <div className={styles.CommentsContainer}>
-          {/* <h2>Comments</h2> */}
+          <h2 className={styles.CommentsHeader}>Comments</h2>
           <div className={styles.ProfileCommentsList}>
             {comments === undefined ? (
               <div>Loading...</div>
@@ -255,6 +260,7 @@ function ProfileBox(props: ProfileBoxProps) {
             )}
           </div>
         </div>
+        {logoutButton(true)}
       </div>
     </div>
   );

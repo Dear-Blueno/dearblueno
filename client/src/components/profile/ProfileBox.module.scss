@@ -11,8 +11,6 @@
     align-items: center;
     justify-content: center;
     padding: 1.25rem;
-    gap: 2rem;
-    // overflow-x: visible;
   }
 }
 
@@ -98,6 +96,16 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
+  @media screen and (max-width: 30rem) {
+    display: none;
+  }
+}
+
+.LogoutMobile {
+  display: none;
+  @media screen and (max-width: 30rem) {
+    display: flex;
+  }
 }
 
 .LogoutButton {
@@ -133,5 +141,12 @@
   .ProfileCommentsList::-webkit-scrollbar-thumb {
     border-radius: 0.3rem;
     background-color: #cfd7e1;
+  }
+}
+
+.CommentsHeader {
+  display: none;
+  @media screen and (max-width: 30rem) {
+    display: unset;
   }
 }
