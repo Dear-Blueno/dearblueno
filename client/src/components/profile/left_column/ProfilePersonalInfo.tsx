@@ -43,7 +43,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
       <DialogOverlay
         style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
         isOpen={isOpen}
-        onDismiss={close}
+        onDismiss={() => setIsOpen(false)}
       >
         <DialogContent
           aria-label="Preferred Name Popup"
