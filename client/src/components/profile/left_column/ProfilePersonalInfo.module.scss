@@ -40,3 +40,37 @@
   user-select: none;
   cursor: default;
 }
+
+.PopupContent {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.PopupButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.PopupAction {
+  margin-top: 1rem;
+  color: rgb(50, 60, 70);
+  width: 5rem;
+  height: 2rem;
+  border: none;
+  background-color: rgb(230, 235, 240);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(220, 225, 230);
+  }
+}
+
+.Popup[data-reach-dialog-content] {
+  width: 40% !important;
+  @media (max-width: 30rem) {
+    width: 80% !important;
+  }
+}
