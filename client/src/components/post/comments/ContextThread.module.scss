@@ -68,6 +68,9 @@
 
 .ApproveOrDenyContainer {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .ContextThreadLink {
@@ -86,4 +89,30 @@
 .ContextThreadReplyText {
   font-size: 0.8rem;
   color: black;
+}
+
+.ApproveButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 45%;
+}
+
+.DenyButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 45%;
 }
