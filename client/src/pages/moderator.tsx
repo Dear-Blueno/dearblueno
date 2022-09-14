@@ -16,9 +16,9 @@ import IComment from "types/IComment";
 import { IReport } from "types/IReport";
 import IEvent from "types/IEvent";
 import ModeratorPost from "components/post/ModeratorPost";
-import ContextThread from "components/post/comments/ContextThread";
 import EventCard from "components/event/EventCard";
 import ReportReview from "components/post/ReportReview";
+import CommentReview from "components/post/moderator/CommentReview";
 
 const ModeratorPage: NextPage = () => {
   return (
@@ -94,7 +94,7 @@ const ModeratorPageMain = () => {
       {typeGuard<IComment[]>("comments")(data) &&
         data.pages.map((page) =>
           page.map((comment) => (
-            <ContextThread key={comment._id} thread={comment} moderatorView />
+            <CommentReview key={comment._id} comment={comment} />
           ))
         )}
       {typeGuard<IReport[]>("reports")(data) &&

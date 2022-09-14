@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import styles from "./EventCardButton.module.scss";
 
 interface EventCardButtonProps {
-  icon: IconType;
+  icon?: IconType;
   text: string;
   onClick: () => void;
   style?: string;
@@ -16,7 +16,7 @@ export default function EventCardButton(props: EventCardButtonProps) {
       onClick={props.onClick}
       disabled={props.disabled ?? false}
     >
-      <props.icon />
+      {props.icon && <props.icon />}
       <strong>{props.text}</strong>
     </button>
   );

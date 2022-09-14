@@ -56,21 +56,23 @@ export default function ReportReview(props: ReportReviewProps) {
         </strong>
       </Link>
       <p>{props.report.comment.content}</p>
-      <strong style={{ color: "red" }}>Reason: {props.report.reason}</strong>
+      <strong style={{ color: "#f44336" }}>
+        Reason: {props.report.reason}
+      </strong>
       <div className={styles.ButtonContainer}>
         <div
           className={styles.Button}
-          style={{ backgroundColor: "red" }}
-          onClick={() => void reportAction(false)}
-        >
-          Delete Comment
-        </div>
-        <div
-          className={styles.Button}
-          style={{ backgroundColor: "green" }}
+          style={{ backgroundColor: "#4caf50" }}
           onClick={() => void reportAction(true)}
         >
           Clear Report
+        </div>
+        <div
+          className={styles.Button}
+          style={{ backgroundColor: "#f44336" }}
+          onClick={() => void reportAction(false)}
+        >
+          Delete Comment
         </div>
       </div>
     </div>

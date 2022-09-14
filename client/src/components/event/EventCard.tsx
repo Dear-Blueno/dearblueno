@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./EventCard.module.scss";
-import { BsFillPeopleFill, BsCheckLg, BsXLg } from "react-icons/bs";
+import { BsFillPeopleFill, BsCheckLg } from "react-icons/bs";
 import { HiLightningBolt } from "react-icons/hi";
 import { IoShareOutline } from "react-icons/io5";
 import EventCardButton from "./EventCardButton";
@@ -239,14 +239,12 @@ export default function EventCard(props: EventCardProps) {
         {props.moderatorView && (
           <div className={styles.EventCardButtonContainer}>
             <EventCardButton
-              icon={BsCheckLg}
               text="Approve"
               onClick={() => void handleAction(true)}
               style={styles.EventCardButtonApprove}
             />
             <EventCardButton
-              icon={BsXLg}
-              text="Reject"
+              text="Deny"
               onClick={() => void handleAction(false)}
               style={styles.EventCardButtonReject}
             />

@@ -1,6 +1,5 @@
 import styles from "./ApproveOrDeny.module.scss";
 import { useRef } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
 import { approveComment, approvePost } from "gateways/PostGateway";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import IPost from "types/IPost";
@@ -119,13 +118,13 @@ function ApproveOrDeny(props: ApproveOrDenyProps) {
             void approve();
           }}
         >
-          <FaCheck />
+          Approve
         </button>
         <button
           className={styles.ApproveOrDenyButton + " " + styles.DenyButton}
           onClick={() => void deny()}
         >
-          <FaTimes />
+          Deny
         </button>
       </div>
     </div>

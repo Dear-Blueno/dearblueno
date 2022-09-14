@@ -1,0 +1,57 @@
+@use "../../../styles/card.module.scss";
+
+.CommentReview {
+  @extend .DearBluenoCard;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AuthorTitle {
+  color: black !important;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.AuthorCommentContent {
+  color: grey;
+}
+
+.ApproveOrDenyContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ApproveButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.DenyButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+}

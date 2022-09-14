@@ -72,7 +72,12 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
     };
   });
 
-  const reportReasons = ["spam", "inappropriate", "other"];
+  const reportReasons = [
+    "it's spam",
+    "it's inappropriate",
+    "it's against guidelines",
+    "other",
+  ];
 
   const popUp = (
     <div className="Popup">
