@@ -1,4 +1,48 @@
 {
+  "screenshots": [
+    {
+      "src": "screenshots/mobile/homefeed.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "Home Feed"
+    },
+    {
+      "src": "screenshots/mobile/profile.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "User Profile"
+    },
+    {
+      "src": "screenshots/mobile/notifications.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "Notifications"
+    },
+    {
+      "src": "screenshots/mobile/submittext.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "Submit Text"
+    },
+    {
+      "src": "screenshots/mobile/submitimage.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "Submit Image"
+    },
+    {
+      "src": "screenshots/mobile/submitevents.png",
+      "sizes": "630x1365",
+      "platform": "narrow",
+      "type": "image/png",
+      "description": "Submit Events"
+    }
+  ],
   "short_name": "Dear Blueno",
   "name": "Dear Blueno",
   "description": "The unofficial anonymous post board for students and community members at Brown.",
