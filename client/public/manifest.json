@@ -80,8 +80,7 @@
       "icons": [
         {
           "src": "icons/post.svg",
-          "sizes": "96x96",
-          "type": "image/svg"
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -92,8 +91,7 @@
       "icons": [
         {
           "src": "icons/search.svg",
-          "sizes": "96x96",
-          "type": "image/svg"
+          "type": "image/svg+xml"
         }
       ]
     }
