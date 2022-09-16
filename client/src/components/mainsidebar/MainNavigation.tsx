@@ -31,7 +31,6 @@ import {
   IoAdd,
 } from "react-icons/io5";
 import IUser from "types/IUser";
-import { FiLogIn } from "react-icons/fi";
 
 interface MainSidebarItem {
   path: string;
