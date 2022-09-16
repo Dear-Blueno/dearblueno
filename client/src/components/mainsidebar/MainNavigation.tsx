@@ -6,7 +6,12 @@ import Link from "next/link";
 import MainSidebarProfile from "./MainSidebarProfile";
 import useUser from "hooks/useUser";
 import { IconType } from "react-icons";
-import { AiFillHome, AiOutlineHome } from "react-icons/ai";
+import {
+  AiFillHome,
+  AiFillInfoCircle,
+  AiOutlineHome,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
 import {
   RiSearch2Line,
   RiCalendarEventLine,
@@ -26,6 +31,7 @@ import {
   IoAdd,
 } from "react-icons/io5";
 import IUser from "types/IUser";
+import { FiLogIn } from "react-icons/fi";
 
 interface MainSidebarItem {
   path: string;
@@ -202,6 +208,36 @@ const MainFooter = (props: {
                   </a>
                 </Link>
               )
+          )}
+          {!user && (
+            <Link href="/about">
+              <a className={styles.SidebarListItemLink}>
+                <li
+                  key="about"
+                  className={
+                    router.pathname === "/about"
+                      ? styles.SidebarListItem +
+                        " " +
+                        styles.SidebarListItemActive
+                      : styles.SidebarListItem
+                  }
+                >
+                  {router.pathname === "/about" ? (
+                    <AiFillInfoCircle
+                      className={styles.SidebarListItemIcon}
+                      title="Login"
+                      size="0.8em"
+                    />
+                  ) : (
+                    <AiOutlineInfoCircle
+                      className={styles.SidebarListItemIcon}
+                      title="Login"
+                      size="0.8em"
+                    />
+                  )}
+                </li>
+              </a>
+            </Link>
           )}
         </ul>
       )}
