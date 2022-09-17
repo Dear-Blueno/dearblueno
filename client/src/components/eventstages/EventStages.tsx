@@ -6,6 +6,7 @@ import EventStageTwo from "./EventStageTwo";
 import EventCard from "components/event/EventCard";
 import { estTheDate as shiftToEST } from "./RelativeDay";
 import { createEvent } from "gateways/EventGateway";
+import { loginBrown } from "gateways/AuthGateway";
 import toast from "react-hot-toast";
 import useUser from "hooks/useUser";
 
@@ -115,6 +116,27 @@ export default function EventStages() {
         console.log(error);
       });
   };
+
+  if (!user) {
+    return (
+      <div className={styles.NotLoggedIn}>
+        <strong>You are not logged in</strong>
+        <p>
+          To prevent the publication of false or inaccurate events, we require
+          that users log in to create events.
+        </p>
+        <p>
+          Dear Blueno does not store any personal information about the creators
+          of events unless an optional contact email is provided. Logging in is
+          only required so that we can verify that you are a Brown student or
+          community member.
+        </p>
+        <button onClick={loginBrown} className={styles.LoginButton}>
+          Log in here
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.EventStagesBox + " " + styles[`EventStage${stage}`]}>

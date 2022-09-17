@@ -1,5 +1,32 @@
 @use "../../styles/card.module.scss";
 
+.NotLoggedIn {
+  @extend .DearBluenoCard;
+  padding: 2rem 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  transition: height 0.3s ease-out;
+  overflow: hidden;
+  text-align: center;
+  transform: translate(0, 0);
+}
+
+.LoginButton {
+  width: 8rem;
+  height: 2rem;
+  border: none;
+  background-color: rgb(230, 235, 240);
+  border-radius: 0.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(220, 225, 230);
+  }
+}
+
 .EventStagesBox {
   @extend .DearBluenoCard;
   display: flex;
