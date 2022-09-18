@@ -2,42 +2,42 @@
   "screenshots": [
     {
       "src": "screenshots/mobile/homefeed.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "Home Feed"
     },
     {
       "src": "screenshots/mobile/profile.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "User Profile"
     },
     {
       "src": "screenshots/mobile/notifications.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "Notifications"
     },
     {
       "src": "screenshots/mobile/submittext.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "Submit Text"
     },
     {
       "src": "screenshots/mobile/submitimage.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "Submit Image"
     },
     {
       "src": "screenshots/mobile/submitevents.png",
-      "sizes": "630x1365",
+      "sizes": "630x1363",
       "platform": "narrow",
       "type": "image/png",
       "description": "Submit Events"
@@ -49,7 +49,7 @@
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "32x32",
       "type": "image/x-icon",
       "purpose": "any"
     },
@@ -79,8 +79,9 @@
       "description": "Submit a new post",
       "icons": [
         {
-          "src": "icons/post.svg",
-          "type": "image/svg+xml"
+          "src": "icons/post.png",
+          "type": "image/png",
+          "sizes": "100x100"
         }
       ]
     },
@@ -90,8 +91,9 @@
       "description": "Search for posts",
       "icons": [
         {
-          "src": "icons/search.svg",
-          "type": "image/svg+xml"
+          "src": "icons/search.png",
+          "type": "image/png",
+          "sizes": "100x100"
         }
       ]
     }
