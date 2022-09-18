@@ -11,7 +11,7 @@ function MainFeed() {
   const fetchPosts = ({ pageParam = 1 }) =>
     getPosts(pageParam, sort).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(["posts" + sort], fetchPosts, {
+    useInfiniteQuery(["posts", sort], fetchPosts, {
       // initialData:
       //   sort === "hot"
       //     ? { pages: [props.initialPosts], pageParams: [1] }

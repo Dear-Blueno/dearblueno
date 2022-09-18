@@ -12,11 +12,19 @@ import LikeIcon from "images/like.svg";
 import LikeBWIcon from "images/likeBW.svg";
 import SurpriseIcon from "images/surprise.svg";
 import SurpriseBWIcon from "images/surpriseBW.svg";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { MdOutlineAddReaction } from "react-icons/md";
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
+import IPost from "types/IPost";
 
 interface ReactionBarProps {
   type: "comment" | "post";
@@ -38,6 +46,12 @@ interface Reaction {
   type: ReactionType;
   reactors: string[];
 }
+interface ReactionRequest {
+  postNumber: number;
+  commentNumber?: number;
+  reaction: ReactionType;
+  newValue: boolean;
+}
 
 const reactionCompare = (a: Reaction, b: Reaction) => {
   if (a.reactors.length === 0 || b.reactors.length === 0) {
@@ -49,15 +63,30 @@ const reactionCompare = (a: Reaction, b: Reaction) => {
 function ReactionBar(props: ReactionBarProps) {
   const { user } = useUser();
   const { userOnlyAction } = useLoginPopup();
+  const [order, setOrder] = useState<number[]>();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const sort = parseSortQueryParams(router.query.sort, router.query.of);
 
-  const [reactions, setReactions] = useState<Reaction[]>(
-    props.reactions
-      .map((list, index) => ({
-        type: index,
-        reactors: list,
-      }))
-      .sort(reactionCompare)
-  );
+  const unsortedReactions = props.reactions.map((list, index) => ({
+    type: index,
+    reactors: list,
+  }));
+  const sortedReactions = [...unsortedReactions].sort(reactionCompare);
+
+  const updateOrder = () =>
+    setOrder(sortedReactions.map((reaction) => reaction.type));
+
+  if (!order) {
+    updateOrder();
+  }
+
+  const reactions = unsortedReactions.sort((a, b) => {
+    if (order) {
+      return order.indexOf(a.type) - order.indexOf(b.type);
+    }
+    return 0;
+  });
 
   const icons = useMemo(
     () => [
@@ -78,63 +107,79 @@ function ReactionBar(props: ReactionBarProps) {
   const [hideButtonsTimeout, setHideButtonsTimeout] =
     useState<NodeJS.Timeout>();
 
-  const buttonClick = useCallback(
-    (type: ReactionType) => {
-      return () => {
-        if (user) {
-          const index = reactions.findIndex(
-            (reaction) => reaction.type === type
-          );
-          const includesUser = reactions[index].reactors.includes(user._id);
-          if (includesUser) {
-            setReactions((prev) =>
-              prev.map((reaction) =>
-                reaction.type === type
-                  ? {
-                      ...reaction,
-                      reactors: reaction.reactors.filter(
-                        (id) => id !== user._id
-                      ),
+  const reactionMutation = (requestData: ReactionRequest) => {
+    if (props.type === "post") {
+      return reactToPost(
+        requestData.postNumber,
+        requestData.reaction + 1,
+        requestData.newValue
+      );
+    }
+    const commentRequestData = requestData;
+    return reactToComment(
+      commentRequestData.postNumber,
+      commentRequestData.commentNumber ?? -1,
+      commentRequestData.reaction + 1,
+      commentRequestData.newValue
+    );
+  };
+  const { mutate: mutateReaction } = useMutation(reactionMutation, {
+    // When mutate is called:
+    onMutate: async (data) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(["posts", sort]);
+
+      // Snapshot the previous value
+      const previousPosts = queryClient.getQueryData(["posts", sort]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        ["posts", sort],
+        (old: InfiniteData<IPost[]> | undefined) => {
+          if (!user) return old;
+          old?.pages.forEach((page) => {
+            page.forEach((post) => {
+              if (post.postNumber === data.postNumber) {
+                if (props.type === "post") {
+                  if (data.newValue) {
+                    post.reactions[data.reaction].push(user._id);
+                  } else {
+                    post.reactions[data.reaction] = post.reactions[
+                      data.reaction
+                    ].filter((username) => username !== user._id);
+                  }
+                } else {
+                  post.comments.forEach((comment) => {
+                    if (comment.commentNumber === data.commentNumber) {
+                      if (data.newValue) {
+                        comment.reactions[data.reaction].push(user._id);
+                      } else {
+                        comment.reactions[data.reaction] = comment.reactions[
+                          data.reaction
+                        ].filter((username) => username !== user._id);
+                      }
                     }
-                  : reaction
-              )
-            );
-          } else {
-            setReactions((prev) =>
-              prev.map((reaction) =>
-                reaction.type === type
-                  ? {
-                      ...reaction,
-                      reactors: [...reaction.reactors, user._id],
-                    }
-                  : reaction
-              )
-            );
-          }
-          if (props.type === "post") {
-            console.log(!includesUser);
-            return reactToPost(props.postNumber, type + 1, !includesUser);
-          } else {
-            if (props.commentNumber) {
-              console.log(!includesUser);
-              return reactToComment(
-                props.postNumber,
-                props.commentNumber,
-                type + 1,
-                !includesUser
-              );
-            } else {
-              throw new Error("commentNumber is required");
-            }
-          }
-        } else {
-          // should not happen
-          throw new Error("User not logged in");
+                  });
+                }
+              }
+            });
+          });
+          return old;
         }
-      };
+      );
+      // Return a context object with the snapshotted value
+      return { previousPosts };
     },
-    [reactions, user, props.postNumber, props.commentNumber, props.type]
-  );
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(["posts", sort], context?.previousPosts);
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries(["posts"]).catch((err) => {
+        console.error(err);
+      });
+    },
+  });
 
   const className =
     props.type === "comment" ? "CommentReactionBar" : "PostReactionBar";
@@ -152,10 +197,10 @@ function ReactionBar(props: ReactionBarProps) {
         setHideButtonsTimeout(
           setTimeout(() => {
             setShowZeroIcons(false);
-            setReactions((prev) => prev.sort(reactionCompare));
             if (reactions.every((reaction) => reaction.reactors.length === 0)) {
               setShowReactText(true);
             }
+            updateOrder();
           }, 250)
         );
       }}
@@ -188,7 +233,16 @@ function ReactionBar(props: ReactionBarProps) {
                 ] as string
               }
               count={reaction.reactors.length}
-              handleClick={userOnlyAction(buttonClick(reaction.type))}
+              handleClick={userOnlyAction(
+                () =>
+                  user &&
+                  mutateReaction({
+                    postNumber: props.postNumber,
+                    commentNumber: props.commentNumber,
+                    reaction: reaction.type,
+                    newValue: !reaction.reactors.includes(user._id),
+                  })
+              )}
               reacted={(user && reaction.reactors.includes(user._id)) ?? false}
             ></ReactionButton>
           )
