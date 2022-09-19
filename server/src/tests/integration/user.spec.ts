@@ -433,6 +433,37 @@ describe("User", () => {
 
       expect(response.body).toHaveLength(0);
     });
+
+    it.only("should only return approved comments on posts", async () => {
+      const post = new Post({
+        content: "This is a post",
+        approved: true,
+        postNumber: 1,
+      });
+      await post.save();
+
+      const comment = new Comment({
+        content: "This is a comment",
+        approved: false,
+        post: post._id,
+        postNumber: 1,
+        commentNumber: 1,
+        parentCommentNumber: -1,
+      });
+      await comment.save();
+
+      post.comments.push(comment._id);
+      await post.save();
+
+      user.bookmarks.push(post._id);
+      await User.findByIdAndUpdate(user._id, user);
+
+      const response = await request(app)
+        .get("/user/bookmarks?page=1")
+        .send({ user });
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0].comments).toHaveLength(0);
+    });
   });
 
   describe("DELETE /user/notifications", () => {

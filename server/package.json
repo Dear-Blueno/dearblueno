@@ -10,6 +10,7 @@
     "test": "jest --testPathPattern=src/tests/integration --runInBand",
     "test:parallel": "jest --testPathPattern=src/tests/integration",
     "test:build": "jest --testPathPattern=dist/tests/integration",
+    "build:test": "npm run build && npm run test:build",
     "test:e2e": "jest --runInBand",
     "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint . --max-warnings=0 && prettier -c .",

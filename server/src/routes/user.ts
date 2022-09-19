@@ -5,6 +5,7 @@ import { authCheck, modCheck } from "../middleware/auth";
 import User, { IUser } from "../models/User";
 import Post from "../models/Post";
 import { validate } from "../middleware/validate";
+import cleanSensitivePost from "../config/cleanSensitivePost";
 
 const userRouter = Router();
 
@@ -34,7 +35,11 @@ userRouter.get(
         },
       });
 
-    res.send(posts);
+    const cleanPosts = posts.map((post) =>
+      cleanSensitivePost(post.toObject(), user)
+    );
+
+    res.send(cleanPosts);
   }
 );
 

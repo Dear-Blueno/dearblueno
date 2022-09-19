@@ -2,34 +2,12 @@ import { Router } from "express";
 import { body, param, query } from "express-validator";
 import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
-import { IComment } from "../models/Comment";
 import Post, { IPost } from "../models/Post";
 import { Document, SortOrder } from "mongoose";
 import { validate } from "../middleware/validate";
+import cleanSensitivePost from "../config/cleanSensitivePost";
 
 const postRouter = Router();
-
-// Cleans the sensitive data from the post object, including reactions and unapproved comments
-function cleanSensitivePost(post: IPost, user?: IUser): IPost {
-  const anonymizeReactionList = (reactionList: string[]) =>
-    reactionList.map((reaction) =>
-      String(reaction) == String(user?._id) ? reaction : "anon"
-    );
-
-  // anonymize reaction on post (replace reactor with "anon")
-  const reactions = post.reactions.map(anonymizeReactionList);
-
-  const comments = post.comments
-    // don't include comments if they are not approved
-    .filter((comment) => comment.approved)
-    // anonymize reaction on comments (replace reactor with "anon")
-    .map((comment: IComment) => {
-      comment.reactions = comment.reactions.map(anonymizeReactionList);
-      return comment;
-    });
-
-  return { ...post, reactions, comments };
-}
 
 // GET request that gets 10 posts paginated in order of most recent (only approved posts)
 postRouter.get(
@@ -86,8 +64,8 @@ postRouter.get(
         },
       });
 
-    const cleanPosts = posts.map((post: IPost & Document) =>
-      cleanSensitivePost(post.toObject(), req.user as IUser)
+    const cleanPosts = posts.map((post) =>
+      cleanSensitivePost(post.toObject(), req.user as IUser | undefined)
     );
 
     res.send(cleanPosts);
