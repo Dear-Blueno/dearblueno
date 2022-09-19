@@ -12,7 +12,7 @@ import LikeIcon from "images/like.svg";
 import LikeBWIcon from "images/likeBW.svg";
 import SurpriseIcon from "images/surprise.svg";
 import SurpriseBWIcon from "images/surpriseBW.svg";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
