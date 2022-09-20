@@ -434,7 +434,7 @@ describe("User", () => {
       expect(response.body).toHaveLength(0);
     });
 
-    it.only("should only return approved comments on posts", async () => {
+    it("should only return approved comments on posts", async () => {
       const post = new Post({
         content: "This is a post",
         approved: true,
