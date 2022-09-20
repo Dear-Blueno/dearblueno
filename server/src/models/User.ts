@@ -141,7 +141,7 @@ const UserSchema = new Schema({
       type: String,
       default: "hot",
       enum: ["hot", "new", "topMonth", "topWeek", "topAllTime"],
-    }
+    },
   },
 });
 
@@ -185,7 +185,13 @@ export interface IUser extends IBasicUser {
   };
 }
 
-export const homeFeedSorts = ["hot", "new", "topMonth", "topWeek", "topAllTime"] as const;
+export const homeFeedSorts = [
+  "hot",
+  "new",
+  "topMonth",
+  "topWeek",
+  "topAllTime",
+] as const;
 
 type INotification =
   | INewCommentNotification

@@ -315,7 +315,7 @@ userRouter.put(
   "/settings",
   authCheck,
   body("autoSubscribe").isBoolean(),
-  body('homeFeedSort').custom(value => homeFeedSorts.includes(value)),
+  body("homeFeedSort").custom((value) => homeFeedSorts.includes(value)),
   validate,
   async (req, res) => {
     const user = req.user as IUser;
