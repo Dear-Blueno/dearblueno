@@ -174,11 +174,14 @@ function ReactionBar(props: ReactionBarProps) {
     onError: (err, variables, context) => {
       queryClient.setQueryData(["posts", sort], context?.previousPosts);
     },
-    onSuccess: () => {
-      queryClient.refetchQueries(["posts"]).catch((err) => {
-        console.error(err);
-      });
-    },
+    onSuccess: () =>
+      ["hot", "new", "topWeek", "topMonth", "topAllTime"].forEach(
+        (option) =>
+          sort !== option &&
+          void queryClient
+            .refetchQueries(["posts", option])
+            .catch((err) => console.error(err))
+      ),
   });
 
   const className =
