@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
         <title>Dear Blueno</title>
       </Head>
       <MainLayout
-        title="Home"
+        title="Dear Blueno"
         header={<MainFeedHeader />}
         page={<MainFeed />}
         sidebar={<MainFeedSidebar />}
