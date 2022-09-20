@@ -610,16 +610,28 @@ describe("User", () => {
         .expect(400);
     });
 
+    it("should return 400 if invalid home feed sort is sent", async () => {
+      await request(app)
+        .put("/user/settings")
+        .send({
+          user,
+          settings: { autoSubscribe: false, homeFeedSort: "worst" },
+        })
+        .expect(400);
+    });
+
     it("should update user settings", async () => {
       expect(user.settings.autoSubscribe).toBe(true);
+      expect(user.settings.homeFeedSort).toBe("hot");
 
       await request(app)
         .put("/user/settings")
-        .send({ user, autoSubscribe: false })
+        .send({ user, autoSubscribe: false, homeFeedSort: "new" })
         .expect(200);
 
       const newUser = await User.findById(user._id);
       expect(newUser?.settings.autoSubscribe).toBe(false);
+      expect(newUser?.settings.homeFeedSort).toBe("new");
     });
   });
 
