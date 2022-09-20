@@ -66,7 +66,7 @@ function ReactionBar(props: ReactionBarProps) {
   const [order, setOrder] = useState<number[]>();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const sort = parseSortQueryParams(router.query.sort, router.query.of);
+  const sort = parseSortQueryParams(router.query.sort, router.query.of, user);
 
   const unsortedReactions = props.reactions.map((list, index) => ({
     type: index,

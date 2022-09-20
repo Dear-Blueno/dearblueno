@@ -7,6 +7,7 @@ import { useState } from "react";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
 import { updateSettings } from "gateways/UserGateway";
 import toast from "react-hot-toast";
+import { FeedPicker } from "components/header/mainfeed/MainFeedHeader";
 
 const SettingsPage: NextPage = () => {
   return (
@@ -24,10 +25,16 @@ function SettingsPageMain() {
   const [autoSubInput, setAutoSubInput] = useState(
     user?.settings.autoSubscribe ?? false
   );
+  const [homeFeedSortInput, setHomeFeedSortInput] = useState(
+    user?.settings.homeFeedSort ?? "hot"
+  );
 
   const handleSettingsEdit = () => {
-    if (user && autoSubInput !== user.settings.autoSubscribe) {
-      updateSettings(autoSubInput)
+    if (user) {
+      updateSettings({
+        autoSubscribe: autoSubInput,
+        homeFeedSort: homeFeedSortInput,
+      })
         .then((response) => {
           if (response.success) {
             toast.success("Settings updated successfully!");
@@ -45,18 +52,32 @@ function SettingsPageMain() {
     <div className={styles.SettingsPage}>
       {user ? (
         <>
-          <h3 className={styles.SettingsHeader}>Notifications</h3>
+          <div className={styles.SettingsContainer}>
+            <h3 className={styles.SettingsHeader}>Notifications</h3>
+            <label className={styles.AutoSubBox}>
+              <input
+                type="checkbox"
+                checked={autoSubInput}
+                onChange={() => setAutoSubInput(!autoSubInput)}
+                className={styles.AutoSubInput}
+              />
+              <p>Auto-Sub On Public Comment</p>
+            </label>
+          </div>
           <div
-            className={styles.AutoSubBox}
-            onClick={() => setAutoSubInput(!autoSubInput)}
+            className={styles.SettingsContainer}
+            style={{ flexDirection: "row" }}
           >
-            <input
-              type="checkbox"
-              checked={autoSubInput}
-              onChange={() => setAutoSubInput(!autoSubInput)}
-              className={styles.AutoSubInput}
+            <h3
+              className={styles.SettingsHeader}
+              style={{ flexShrink: 0, alignSelf: "center" }}
+            >
+              Default Home Feed
+            </h3>
+            <FeedPicker
+              sort={homeFeedSortInput}
+              setSort={setHomeFeedSortInput}
             />
-            <p>Auto-Sub On Public Comment</p>
           </div>
           <div className={styles.SaveAndCancelButtons}>
             <div className={styles.ContainerOne}>

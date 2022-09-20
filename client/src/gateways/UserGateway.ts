@@ -130,12 +130,10 @@ export async function markAllNotificationsAsRead(): Promise<
 }
 
 export async function updateSettings(
-  autoSubscribe: boolean
+  newSettings: IUser["settings"]
 ): Promise<IResponse<IUser>> {
   try {
-    const response = await axios.put(`/user/settings`, {
-      autoSubscribe,
-    });
+    const response = await axios.put(`/user/settings`, newSettings);
     return successfulResponse(response.data);
   } catch (error: unknown) {
     return failureResponse(error as string);

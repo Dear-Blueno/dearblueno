@@ -4,10 +4,12 @@ import Post from "components/post/Post";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
 import { useRouter } from "next/router";
+import useUser from "hooks/useUser";
 
 function MainFeed() {
+  const { user } = useUser();
   const router = useRouter();
-  const sort = parseSortQueryParams(router.query.sort, router.query.of);
+  const sort = parseSortQueryParams(router.query.sort, router.query.of, user);
   const fetchPosts = ({ pageParam = 1 }) =>
     getPosts(pageParam, sort).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
