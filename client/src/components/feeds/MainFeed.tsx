@@ -5,9 +5,27 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
 import { useRouter } from "next/router";
 import useUser from "hooks/useUser";
+import IUser from "types/IUser";
 
-function MainFeed() {
-  const { user } = useUser();
+function MainFeedWrapper() {
+  const { user, isLoadingUser } = useUser();
+  if (isLoadingUser) {
+    return (
+      <Feed
+        getMore={() => Promise.reject("not a real feed")}
+        status="loading"
+        isFetchingNextPage
+        hasNextPage={undefined}
+        animated
+      >
+        {[]}
+      </Feed>
+    );
+  }
+  return <MainFeed user={user} />;
+}
+
+function MainFeed({ user }: { user: IUser | undefined }) {
   const router = useRouter();
   const sort = parseSortQueryParams(router.query.sort, router.query.of, user);
   const fetchPosts = ({ pageParam = 1 }) =>
@@ -41,4 +59,4 @@ function MainFeed() {
   );
 }
 
-export default MainFeed;
+export default MainFeedWrapper;
