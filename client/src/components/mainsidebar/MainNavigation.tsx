@@ -1,7 +1,5 @@
 import styles from "./MainNavigation.module.scss";
-import LogoIcon from "images/logo512.png";
 import { NextRouter, useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import MainSidebarProfile from "./MainSidebarProfile";
 import useUser from "hooks/useUser";
@@ -29,8 +27,11 @@ import {
   IoInformationCircleOutline,
   IoInformationCircle,
   IoAdd,
+  IoPaperPlaneOutline,
+  IoPaperPlane,
 } from "react-icons/io5";
 import IUser from "types/IUser";
+import Logo from "components/layout/Logo";
 
 interface MainSidebarItem {
   path: string;
@@ -68,75 +69,63 @@ const MainSidebar = (props: {
   return (
     <nav className={styles.Sidebar}>
       <div className={styles.SidebarTop}>
-        <Link href="/">
-          <a className={styles.SidebarLogo}>
-            <Image src={LogoIcon} alt="Blueno" priority />
-          </a>
-        </Link>
+        {/* <Link href="/">
+          <Logo />
+        </Link> */}
         {!isLoading && (
-          <>
-            <ul className={styles.SidebarList}>
-              {sidebarItems.map(
-                (item) =>
-                  (user || !item.requiresUser) && (
-                    <Link href={item.path} scroll={false} key={item.path}>
-                      <a className={styles.SidebarListItemLink}>
-                        <li
-                          key={item.path}
-                          className={
-                            router.pathname === item.path
-                              ? styles.SidebarListItem +
-                                " " +
-                                styles.SidebarListItemActive
-                              : styles.SidebarListItem
-                          }
-                        >
-                          {router.pathname === item.path ? (
-                            <item.filledIcon
+          <ul className={styles.SidebarList}>
+            {sidebarItems.map(
+              (item) =>
+                (user || !item.requiresUser) && (
+                  <Link href={item.path} scroll={false} key={item.path}>
+                    <a className={styles.SidebarListItemLink}>
+                      <li
+                        key={item.path}
+                        className={
+                          router.pathname === item.path
+                            ? styles.SidebarListItem +
+                              " " +
+                              styles.SidebarListItemActive
+                            : styles.SidebarListItem
+                        }
+                      >
+                        {router.pathname === item.path ? (
+                          <item.filledIcon
+                            className={
+                              item.filledClassName &&
+                              styles[item.filledClassName]
+                            }
+                            title={item.label}
+                          />
+                        ) : (
+                          <div className={styles.NotificationsIconContainer}>
+                            <item.outlineIcon
                               className={
-                                item.filledClassName &&
-                                styles[item.filledClassName]
+                                item.outlineClassName &&
+                                styles[item.outlineClassName]
                               }
                               title={item.label}
                             />
-                          ) : (
-                            <div className={styles.NotificationsIconContainer}>
-                              <item.outlineIcon
-                                className={
-                                  item.outlineClassName &&
-                                  styles[item.outlineClassName]
-                                }
-                                title={item.label}
-                              />
-                              {item.outlineIcon === MdNotificationsNone &&
-                              NotifBool ? (
-                                <div
-                                  className={styles.UnreadNotif}
-                                  // the count of unread notifs that is stored in the user object
-                                >
-                                  {unreadNotificationCount}
-                                </div>
-                              ) : null}
-                            </div>
-                          )}
-                          <span className={styles.SidebarListItemLabel}>
-                            {item.label}
-                          </span>
-                        </li>
-                      </a>
-                    </Link>
-                  )
-              )}
-            </ul>
-            <Link href="/submit">
-              <a className={styles.NewPostButtonLink}>
-                <button className={styles.NewPostButton}>
-                  <IoAdd className={styles.NewPostButtonIcon} size="3em" />
-                  <span>Submit</span>
-                </button>
-              </a>
-            </Link>
-          </>
+                            {item.outlineIcon === MdNotificationsNone &&
+                            NotifBool ? (
+                              <div
+                                className={styles.UnreadNotif}
+                                // the count of unread notifs that is stored in the user object
+                              >
+                                {unreadNotificationCount}
+                              </div>
+                            ) : null}
+                          </div>
+                        )}
+                        <span className={styles.SidebarListItemLabel}>
+                          {item.label}
+                        </span>
+                      </li>
+                    </a>
+                  </Link>
+                )
+            )}
+          </ul>
         )}
       </div>
       <MainSidebarProfile />
@@ -296,6 +285,13 @@ const sidebarItems: MainSidebarItem[] = [
     outlineIcon: IoInformationCircleOutline,
     filledIcon: IoInformationCircle,
     outlineClassName: "AboutIconOutline",
+  },
+  {
+    path: "/submit",
+    label: "Submit",
+    requiresUser: false,
+    outlineIcon: IoPaperPlaneOutline,
+    filledIcon: IoPaperPlane,
   },
 ];
 

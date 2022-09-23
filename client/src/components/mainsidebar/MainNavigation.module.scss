@@ -43,22 +43,11 @@
   }
 }
 
-.SidebarLogo {
-  width: 5rem;
-  @media screen and (max-width: 87rem) {
-    width: 3rem;
-    margin-left: 0;
-  }
-  margin-left: -0.1rem;
-  user-select: none;
-}
-
 .SidebarList {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: -0.5rem;
   padding: 0;
   @media screen and (max-width: 30rem) {
     flex-direction: row;

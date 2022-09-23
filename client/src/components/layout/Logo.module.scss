@@ -1,0 +1,11 @@
+.Logo {
+  display: inline-block;
+  line-height: 0;
+  width: 5rem;
+  @media screen and (max-width: 87rem) {
+    width: 3rem;
+    margin-left: 0;
+  }
+  margin-left: -0.1rem;
+  user-select: none;
+}

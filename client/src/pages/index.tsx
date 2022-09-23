@@ -5,15 +5,18 @@ import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/mainfeed/MainFeedHeader";
 import { GetStaticProps, NextPage } from "next";
 import { getPosts } from "gateways/PostGateway";
+import { useIsMobile } from "hooks/is-mobile";
+import Logo from "components/layout/Logo";
 
 const HomePage: NextPage = () => {
+  const isMobile = useIsMobile();
   return (
     <>
       <Head>
         <title>Dear Blueno</title>
       </Head>
       <MainLayout
-        title="Dear Blueno"
+        title={"Home"}
         header={<MainFeedHeader />}
         page={<MainFeed />}
         sidebar={<MainFeedSidebar />}

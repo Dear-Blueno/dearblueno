@@ -8,7 +8,8 @@
   background-color: #d5ebff;
   min-height: 1.3rem;
   @media screen and (max-width: 30rem) {
-    position: fixed;
+    position: sticky;
+    top: 0;
     width: calc(100vw - 2rem);
     height: 4rem;
     z-index: 1;

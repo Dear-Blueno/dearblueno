@@ -1,16 +1,20 @@
+import { useIsMobile } from "hooks/is-mobile";
 import { useEffect, useState } from "react";
+import Logo from "./Logo";
 // import { IoOptionsOutline } from "react-icons/io5";
 // import { usePopper } from "react-popper";
 import styles from "./PageHeader.module.scss";
 
 interface PageHeaderProps {
-  title?: string;
+  title?: React.ReactNode;
   children?: React.ReactNode;
   sidebar?: React.ReactNode;
   collapseHeader?: boolean;
+  forceTitle?: boolean;
 }
 
 export default function PageHeader(props: PageHeaderProps) {
+  const isMobile = useIsMobile();
   const [collapseSidebar, setCollapseSidebar] = useState<boolean | undefined>(
     undefined
   );
@@ -47,7 +51,20 @@ export default function PageHeader(props: PageHeaderProps) {
 
   return (
     <header className={styles.pageheader}>
-      {props.title && <h1 className={styles.title}>{props.title}</h1>}
+      {(!isMobile || props.title) && (
+        <h1 className={styles.title}>
+          {isMobile || props.forceTitle ? (
+            props.title
+          ) : (
+            <span
+              style={{ display: "flex", alignItems: "center", gap: "0.25em" }}
+            >
+              <Logo />
+              Dear Blueno
+            </span>
+          )}
+        </h1>
+      )}
       {collapseSidebar !== undefined &&
         (collapseSidebar ? (
           <div className={styles.HeaderAndOptionsButton}>

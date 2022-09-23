@@ -24,6 +24,7 @@ const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
   return (
     <MainLayout
       title="Search:"
+      forceTitle
       header={<SearchPageHeader setSearchQuery={setSearchQuery} />}
       page={<SearchPageMain user={props.user} searchQuery={router.query} />}
     />
