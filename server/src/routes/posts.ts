@@ -16,13 +16,20 @@ postRouter.get(
   query("page").default(1).isInt({ min: 1 }),
   query("sort")
     .default("new")
-    .isIn(["new", "topWeek", "topMonth", "topAllTime", "hot"]),
+    .isIn(["new", "topWeek", "topMonth", "topAllTime", "hot", "default"]),
   validate,
   async (req, res) => {
     type Sort = "new" | "topWeek" | "topMonth" | "topAllTime" | "hot";
 
+    const user = req.user as IUser | undefined;
     const page = Number(req.query.page);
-    const sort = req.query.sort as Sort;
+    const sort = (
+      req.query.sort !== "default"
+        ? req.query.sort
+        : user
+        ? user.settings.homeFeedSort
+        : "hot"
+    ) as Sort;
 
     const sortOptions: { [key in Sort]: Record<string, SortOrder> } = {
       new: { pinned: -1, postNumber: -1 },
@@ -65,7 +72,7 @@ postRouter.get(
       });
 
     const cleanPosts = posts.map((post) =>
-      cleanSensitivePost(post.toObject(), req.user as IUser | undefined)
+      cleanSensitivePost(post.toObject(), user)
     );
 
     res.send(cleanPosts);

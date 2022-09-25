@@ -2,7 +2,7 @@ import { getPosts } from "gateways/PostGateway";
 import Feed from "components/feeds/ReactQueryFeed";
 import Post from "components/post/Post";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
+import { parseSortQueryParamsOnly } from "components/header/mainfeed/MainFeedHeader";
 import { useRouter } from "next/router";
 import useUser from "hooks/useUser";
 import IUser from "types/IUser";
@@ -27,22 +27,25 @@ function MainFeedWrapper() {
 
 function MainFeed({ user }: { user: IUser | undefined }) {
   const router = useRouter();
-  const sort = parseSortQueryParams(router.query.sort, router.query.of, user);
+  const sort = parseSortQueryParamsOnly(router.query.sort, router.query.of);
   const fetchPosts = ({ pageParam = 1 }) =>
     getPosts(pageParam, sort).then((res) => res.payload ?? []);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(["posts", sort], fetchPosts, {
-      // initialData:
-      //   sort === "hot"
-      //     ? { pages: [props.initialPosts], pageParams: [1] }
-      //     : undefined,
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length === 0) {
-          return undefined;
-        }
-        return pages.length + 1;
-      },
-    });
+    useInfiniteQuery(
+      [
+        "posts",
+        sort === (user?.settings.homeFeedSort ?? "hot") ? "default" : sort,
+      ],
+      fetchPosts,
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length === 0) {
+            return undefined;
+          }
+          return pages.length + 1;
+        },
+      }
+    );
 
   return (
     <Feed

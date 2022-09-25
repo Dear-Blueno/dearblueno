@@ -6,11 +6,10 @@ import IUser from "types/IUser";
 
 export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
 
-export const parseSortQueryParams = (
+export const parseSortQueryParamsOnly = (
   sort: string | string[] | undefined,
-  of: string | string[] | undefined,
-  user: IUser | undefined
-): SortType => {
+  of: string | string[] | undefined
+): SortType | "default" => {
   if (sort) {
     const sortType = sort as string;
     if (sortType === "top") {
@@ -25,7 +24,15 @@ export const parseSortQueryParams = (
       return sortType;
     }
   }
-  return user?.settings.homeFeedSort ?? "hot";
+  return "default";
+};
+export const parseSortQueryParams = (
+  sort: string | string[] | undefined,
+  of: string | string[] | undefined,
+  user: IUser | undefined
+): SortType => {
+  const type = parseSortQueryParamsOnly(sort, of);
+  return type === "default" ? user?.settings.homeFeedSort ?? "hot" : type;
 };
 
 export default function MainFeedHeader() {
@@ -48,7 +55,7 @@ export default function MainFeedHeader() {
     if (sort === oldSort) return;
     setOldSort(sort);
 
-    if (sort === (user?.settings.homeFeedSort ?? "hot")) {
+    if (sort === "default") {
       void router.push("/");
       return;
     }
