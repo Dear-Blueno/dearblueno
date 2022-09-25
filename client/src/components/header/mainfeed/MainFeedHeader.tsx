@@ -55,7 +55,7 @@ export default function MainFeedHeader() {
     if (sort === oldSort) return;
     setOldSort(sort);
 
-    if (sort === "default") {
+    if (sort === (user?.settings.homeFeedSort ?? "hot")) {
       void router.push("/");
       return;
     }
