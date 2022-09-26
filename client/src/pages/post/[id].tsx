@@ -16,7 +16,7 @@ const PostPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const postNumber = id ? Number(id) : undefined;
-  const { data } = useQuery(["event", postNumber], () =>
+  const { data } = useQuery(["post", postNumber], () =>
     postNumber ? getPost(postNumber) : undefined
   );
 
