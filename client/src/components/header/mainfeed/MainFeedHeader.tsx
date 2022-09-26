@@ -1,6 +1,8 @@
 import styles from "./MainFeedHeader.module.scss";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { RiSearch2Line } from "react-icons/ri";
+import Link from "next/link";
 
 export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
 
@@ -179,6 +181,9 @@ export default function MainFeedHeader() {
         </h3>
       </div>
       <span className={styles.FeedSelectionUnderline} ref={underlineRef} />
+      <Link href="/search">
+        <RiSearch2Line className={styles.MobileSearchIcon} />
+      </Link>
     </div>
   );
 }
