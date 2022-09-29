@@ -15,7 +15,7 @@ postRouter.get(
   optionalAuth,
   query("page").default(1).isInt({ min: 1 }),
   query("sort")
-    .default("new")
+    .default("default")
     .isIn(["new", "topWeek", "topMonth", "topAllTime", "hot", "default"]),
   validate,
   async (req, res) => {
