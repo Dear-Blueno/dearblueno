@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import useUser from "hooks/useUser";
 import IUser from "types/IUser";
+import { RiSearch2Line } from "react-icons/ri";
+import Link from "next/link";
 
 export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
 
@@ -226,6 +228,9 @@ export function FeedPicker({
         </h3>
       </div>
       <span className={styles.FeedSelectionUnderline} ref={underlineRef} />
+      <Link href="/search">
+        <RiSearch2Line className={styles.MobileSearchIcon} />
+      </Link>
     </div>
   );
 }

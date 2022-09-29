@@ -25,6 +25,7 @@ import {
 import { useRouter } from "next/router";
 import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
 import IPost from "types/IPost";
+import { IResponse } from "gateways/GatewayResponses";
 
 interface ReactionBarProps {
   type: "comment" | "post";
@@ -167,6 +168,35 @@ function ReactionBar(props: ReactionBarProps) {
           return old;
         }
       );
+      queryClient.setQueryData(
+        ["post", props.postNumber],
+        (old: IResponse<IPost> | undefined) => {
+          if (!user || !old || !old.payload) return old;
+          if (props.type === "post") {
+            console.log("old", old);
+            if (data.newValue) {
+              old.payload.reactions[data.reaction].push(user._id);
+            } else {
+              old.payload.reactions[data.reaction] = old.payload.reactions[
+                data.reaction
+              ].filter((username) => username !== user._id);
+            }
+          } else {
+            old.payload.comments.forEach((comment) => {
+              if (comment.commentNumber === data.commentNumber) {
+                if (data.newValue) {
+                  comment.reactions[data.reaction].push(user._id);
+                } else {
+                  comment.reactions[data.reaction] = comment.reactions[
+                    data.reaction
+                  ].filter((username) => username !== user._id);
+                }
+              }
+            });
+            return old;
+          }
+        }
+      );
       // Return a context object with the snapshotted value
       return { previousPosts };
     },
@@ -174,11 +204,14 @@ function ReactionBar(props: ReactionBarProps) {
     onError: (err, variables, context) => {
       queryClient.setQueryData(["posts", sort], context?.previousPosts);
     },
-    onSuccess: () => {
-      queryClient.refetchQueries(["posts"]).catch((err) => {
-        console.error(err);
-      });
-    },
+    onSuccess: () =>
+      ["hot", "new", "topWeek", "topMonth", "topAllTime"].forEach(
+        (option) =>
+          sort !== option &&
+          void queryClient
+            .refetchQueries(["posts", option])
+            .catch((err) => console.error(err))
+      ),
   });
 
   const className =
