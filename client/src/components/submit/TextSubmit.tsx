@@ -39,7 +39,6 @@ function TextSubmit(props: TextSubmitProps) {
             id="TextBox"
             className={styles.TextBox}
             name="TextBox"
-            autoFocus={true}
           ></textarea>
           <div className={styles.SubmitBoxFooter}>
             <GoogleFormOption />

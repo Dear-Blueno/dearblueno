@@ -68,7 +68,6 @@ function ImageSubmit(props: ImageSubmitProps) {
           id="TextBox"
           className={styles.TextBox}
           name="TextBox"
-          autoFocus={true}
         ></textarea>
         <div className={styles.ImageUploadContainer}>
           <ImageUpload
