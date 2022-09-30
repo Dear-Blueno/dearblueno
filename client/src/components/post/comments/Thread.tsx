@@ -129,7 +129,7 @@ function Thread(props: ThreadProps) {
                       }
                       title="Add a reply"
                     >
-                      <FaRegCommentAlt color="#789" size="1em" />
+                      <FaRegCommentAlt color="rgb(168, 194, 219)" size="1em" />
                     </button>
                   </div>
                 )}

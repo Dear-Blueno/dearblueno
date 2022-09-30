@@ -34,13 +34,13 @@
   font-size: 1rem;
   color: #123;
   &::placeholder {
-    color: #789;
+    color: rgb(168, 194, 219);
   }
 }
 
 .TextBox:focus {
   outline: none;
-  border: 0.1rem solid #789;
+  border: 0.1rem solid rgb(168, 194, 219);
 }
 
 .SubmitBoxHeaderText {

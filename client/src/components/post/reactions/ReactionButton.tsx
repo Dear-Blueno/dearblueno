@@ -15,15 +15,18 @@ interface ReactionButtonProps {
 function ReactionButton(props: ReactionButtonProps) {
   const className =
     props.type === "comment" ? "CommentReactionButton" : "PostReactionButton";
-  const reactedClassName = props.reacted ? "Reacted" : "";
+  const reactedClassName = props.reacted ? "Reacted" : "Unreacted";
   const size = props.type === "comment" ? 14 : 18;
 
   return (
     <div
       className={styles.ReactionButton + " " + styles[className]}
-      style={{ display: props.hidden ? "none" : "flex" }}
+      style={{
+        display: props.hidden ? "none" : "flex",
+      }}
     >
       <Image
+        className={styles.ReactionButtonImage + " " + styles[reactedClassName]}
         src={props.image}
         priority
         onClick={() => {
@@ -44,7 +47,9 @@ function ReactionButton(props: ReactionButtonProps) {
         draggable={false}
         width={size}
         height={size}
-        style={{ cursor: "pointer" }}
+        style={{
+          cursor: "pointer",
+        }}
       />
       <p
         className={styles[className + "Count"] + " " + styles[reactedClassName]}

@@ -23,7 +23,7 @@
   position: fixed;
   flex-direction: row;
   bottom: 0;
-  background-color: #d5ebff;
+  background-color: #47515a;
   height: 3rem;
   width: 100vw;
   justify-content: center;
@@ -94,7 +94,7 @@
 }
 
 .SidebarListItemLink {
-  color: black;
+  color: white;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -141,7 +141,7 @@
   justify-content: center;
   align-items: center;
   flex: 1;
-  border: 0.1rem solid black;
+  border: 0.1rem solid white;
   border-radius: 0.3rem;
   cursor: pointer;
   width: 100%;
@@ -176,7 +176,7 @@
 
 .SubmitIconOutline {
   box-sizing: border-box;
-  border: 0.15rem solid black;
+  border: 0.15rem solid white;
   border-radius: 0.3rem;
   path {
     stroke-width: 50;
@@ -185,7 +185,7 @@
 
 .SubmitIconFilled {
   box-sizing: border-box;
-  border: 0.2rem solid black;
+  border: 0.2rem solid white;
   border-radius: 0.3rem;
   path {
     stroke-width: 60;

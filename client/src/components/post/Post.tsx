@@ -108,9 +108,9 @@ function Post(props: PostProps) {
             onClick={userOnlyAction(() => void handleSubscribe())}
           >
             {isSubscribed ? (
-              <MdNotificationsActive size="1.6em" fill="#1976d2" />
+              <MdNotificationsActive size="1.6em" fill="#49a6f2" />
             ) : (
-              <MdNotificationsNone size="1.6em" color="#789" />
+              <MdNotificationsNone size="1.6em" color="rgb(168, 194, 219)" />
             )}
           </button>
           <button
@@ -123,7 +123,7 @@ function Post(props: PostProps) {
             {isBookmarked ? (
               <MdBookmark size="1.6em" fill="#4caf50" />
             ) : (
-              <MdBookmarkBorder size="1.6em" color="#789" />
+              <MdBookmarkBorder size="1.6em" color="rgb(168, 194, 219)" />
             )}
           </button>
           <RelativeDate date={props.post.approvedTime} />
@@ -169,7 +169,7 @@ function Post(props: PostProps) {
           onClick={userOnlyAction(() => setShowCommentBox(true))}
         >
           <FaRegCommentAlt
-            color="#789"
+            color="rgb(168, 194, 219)"
             size="1.4em"
             style={{ transform: "translateY(0.05rem)" }}
           />
@@ -201,7 +201,7 @@ function Post(props: PostProps) {
             }
           }}
         >
-          <FiShare color="#789" size="1.4em" />
+          <FiShare color="rgb(168, 194, 219)" size="1.4em" />
         </button>
       </div>
       <CommentSection

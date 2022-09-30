@@ -249,7 +249,7 @@ function ReactionBar(props: ReactionBarProps) {
         >
           <MdOutlineAddReaction
             size={props.type === "post" ? "1.6em" : "1.2em"}
-            color="#789"
+            color="rgb(168, 194, 219)"
           />
         </button>
       )}

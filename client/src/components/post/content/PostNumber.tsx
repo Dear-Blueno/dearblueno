@@ -15,7 +15,7 @@ function PostNumber(props: PostNumberProps) {
           <a
             // state={{ post: props.post }}
             href={`/post/${props.number}`}
-            style={{ color: "black", textDecoration: "none" }}
+            style={{ color: "white", textDecoration: "none" }}
           >
             #{props.number}
           </a>

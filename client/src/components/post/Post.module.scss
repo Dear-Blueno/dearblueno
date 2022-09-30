@@ -6,12 +6,12 @@
 
 .VerifiedBrown {
   margin-left: 0.5rem;
-  color: #97592c;
+  color: #dfa880;
 }
 
 .Pinned {
   margin-left: 0.5rem;
-  color: #d34b33;
+  color: #db8e81;
 }
 
 .PostHeader {
@@ -76,7 +76,7 @@
 .PostImage {
   max-height: 500px;
   object-fit: contain;
-  border: 0.1rem solid #789;
+  border: 0.1rem solid rgb(168, 194, 219);
   border-radius: 0.2rem;
   max-width: 100%;
 }
@@ -113,6 +113,6 @@
   justify-content: center;
   height: 100%;
   font-size: large;
-  color: #789;
+  color: rgb(168, 194, 219);
   pointer-events: none;
 }
