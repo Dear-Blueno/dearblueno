@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ImageUpload from "./ImageUpload";
 import useUser from "hooks/useUser";
 import { loginBrown } from "gateways/AuthGateway";
+import { useIsMobile } from "hooks/is-mobile";
 
 interface ImageSubmitProps {
   setSubmitted: Dispatch<SetStateAction<boolean>>;
@@ -12,6 +13,7 @@ interface ImageSubmitProps {
 
 function ImageSubmit(props: ImageSubmitProps) {
   const [imageURL, setImageURL] = useState<string | undefined>();
+  const isMobile = useIsMobile();
   const { user } = useUser();
   const submitPost = (text: string) => {
     if (text.length > 100) {
@@ -68,6 +70,7 @@ function ImageSubmit(props: ImageSubmitProps) {
           id="TextBox"
           className={styles.TextBox}
           name="TextBox"
+          autoFocus={isMobile ? false : true}
         ></textarea>
         <div className={styles.ImageUploadContainer}>
           <ImageUpload

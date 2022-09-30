@@ -3,12 +3,14 @@ import GoogleFormOption from "./GoogleFormOption";
 import { createPost } from "../../gateways/PostGateway";
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction } from "react";
+import { useIsMobile } from "hooks/is-mobile";
 
 interface TextSubmitProps {
   setSubmitted: Dispatch<SetStateAction<boolean>>;
 }
 
 function TextSubmit(props: TextSubmitProps) {
+  const isMobile = useIsMobile();
   const submitPost = (text: string) => {
     if (text.length > 5000) {
       toast.error(`Post is ${text.length - 5000} characters too long`);
@@ -39,6 +41,7 @@ function TextSubmit(props: TextSubmitProps) {
             id="TextBox"
             className={styles.TextBox}
             name="TextBox"
+            autoFocus={isMobile ? false : true}
           ></textarea>
           <div className={styles.SubmitBoxFooter}>
             <GoogleFormOption />
