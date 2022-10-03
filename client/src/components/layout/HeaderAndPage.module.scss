@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 0 1 45rem;
-  // overflow-x: auto;
+  overflow-x: auto;
   @media screen and (max-width: 30rem) {
     flex: 0 0 100%;
     max-width: 100%;

@@ -1,8 +1,15 @@
 import styles from "./MainFeedHeader.module.scss";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
-import { RiSearch2Line } from "react-icons/ri";
+import { RiSearch2Line, RiSortDesc } from "react-icons/ri";
 import Link from "next/link";
+import { useIsMobile } from "hooks/is-mobile";
 
 export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
 
@@ -27,7 +34,37 @@ export const parseSortQueryParams = (
   return "hot";
 };
 
-export default function MainFeedHeader() {
+interface Props {
+  showingPicker: boolean;
+  setShowingPicker: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function MainFeedHeader(props: Props) {
+  const isMobile = useIsMobile();
+  if (isMobile && !props.showingPicker) {
+    return (
+      <div className={styles.MainFeedHeader}>
+        <button
+          className={`${styles.MobileSearchIcon}, ${styles.MainFeedSortButton}`}
+          onClick={() => props.setShowingPicker(true)}
+        >
+          <RiSortDesc />
+        </button>
+        <Link href="/search">
+          <RiSearch2Line className={styles.MobileSearchIcon} />
+        </Link>
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles.MainFeedHeader}>
+        <FeedPicker onSelect={() => props.setShowingPicker(false)} />
+      </div>
+    );
+  }
+}
+
+function FeedPicker({ onSelect }: { onSelect: () => void }) {
   const hotRef = useRef<HTMLHeadingElement>(null);
   const topRef = useRef<HTMLHeadingElement>(null);
   const newRef = useRef<HTMLHeadingElement>(null);
@@ -128,7 +165,12 @@ export default function MainFeedHeader() {
   return (
     <div
       className={styles.MainFeedHeader}
-      onMouseLeave={() => !sort.startsWith("top") && setChoosingTop(false)}
+      onMouseLeave={() => {
+        if (!sort.startsWith("top")) {
+          setChoosingTop(false);
+        }
+        onSelect();
+      }}
     >
       <div
         className={styles.MainFeedHeaderOption}
@@ -141,6 +183,7 @@ export default function MainFeedHeader() {
             setSort("hot");
             void router.push("/");
           }
+          onSelect();
         }}
       >
         <h3 className={styles.MainFeedHeaderOptionText} ref={hotRef}>
@@ -156,6 +199,7 @@ export default function MainFeedHeader() {
             setSort("topMonth");
             setChoosingTop(false);
             void router.push("/?sort=top&of=month");
+            onSelect();
           }
         }}
       >
@@ -174,6 +218,7 @@ export default function MainFeedHeader() {
             setSort("new");
             void router.push("/?sort=new");
           }
+          onSelect();
         }}
       >
         <h3 className={styles.MainFeedHeaderOptionText} ref={newRef}>
@@ -181,9 +226,6 @@ export default function MainFeedHeader() {
         </h3>
       </div>
       <span className={styles.FeedSelectionUnderline} ref={underlineRef} />
-      <Link href="/search">
-        <RiSearch2Line className={styles.MobileSearchIcon} />
-      </Link>
     </div>
   );
 }
