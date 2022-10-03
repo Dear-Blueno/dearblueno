@@ -317,7 +317,7 @@ postRouter.put(
 postRouter.put(
   "/:id/react",
   authCheck,
-  body("reaction").isInt({ min: 1, max: 6 }),
+  body("reaction").isInt({ min: 1, max: 7 }),
   body("state").toBoolean(),
   param("id").isInt({ min: 1 }),
   validate,
