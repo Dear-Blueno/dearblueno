@@ -9,6 +9,7 @@ import SearchPageHeader from "components/header/search/SearchPageHeader";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import Head from "next/head";
 
 interface SearchPageProps {
   user?: IUser;
@@ -22,12 +23,16 @@ const SearchPage: NextPage<SearchPageProps> = (props: SearchPageProps) => {
   };
 
   return (
-    <MainLayout
-      title="Search:"
-      forceTitle
-      header={<SearchPageHeader setSearchQuery={setSearchQuery} />}
-      page={<SearchPageMain user={props.user} searchQuery={router.query} />}
-    />
+    <>
+      <Head>
+        <title>Search - Dear Blueno</title>
+      </Head>
+      <MainLayout
+        title="Search:"
+        header={<SearchPageHeader setSearchQuery={setSearchQuery} />}
+        page={<SearchPageMain user={props.user} searchQuery={router.query} />}
+      />
+    </>
   );
 };
 

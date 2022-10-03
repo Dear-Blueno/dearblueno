@@ -40,3 +40,13 @@
     margin-top: 1.3rem;
   }
 }
+
+.MobileSearchIcon {
+  display: none;
+  @media screen and (max-width: 30rem) {
+    display: unset;
+    margin: -0.1rem 0 0 0.5rem;
+    transform: scaleX(-1);
+    font-size: 1.5rem;
+  }
+}

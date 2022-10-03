@@ -20,4 +20,7 @@
   margin-top: 1rem;
   outline: none;
   padding: 0;
+  @media screen and (max-width: 30rem) {
+    font-size: 1.6rem;
+  }
 }
