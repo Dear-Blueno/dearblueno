@@ -606,7 +606,7 @@ describe("User", () => {
     it("should return 400 if invalid settings are sent", async () => {
       await request(app)
         .put("/user/settings")
-        .send({ user, settings: { invalid: "settings" } })
+        .send({ user, invalid: "settings" })
         .expect(400);
     });
 
@@ -615,7 +615,8 @@ describe("User", () => {
         .put("/user/settings")
         .send({
           user,
-          settings: { autoSubscribe: false, homeFeedSort: "worst" },
+          autoSubscribe: false,
+          homeFeedSort: "worst",
         })
         .expect(400);
     });
