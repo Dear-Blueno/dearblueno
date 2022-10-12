@@ -122,7 +122,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
                       e.target.value &&
                       e.target.value !== content
                     ) {
-                      setNameToRevertTo(content);
+                      setNameToRevertTo(content ?? "");
                     }
                   }}
                 ></input>
