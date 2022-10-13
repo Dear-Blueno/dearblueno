@@ -32,7 +32,8 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
     "Concentration",
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  // null if not showing the dialog
+  const [nameToRevertTo, setNameToRevertTo] = useState<string | null>(null);
 
   if (!props.editing && props.contents.every((content) => !content)) {
     return null;
@@ -42,8 +43,8 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
     <div>
       <DialogOverlay
         style={{ background: "hsla(0, 0%, 0%, 0.2)" }}
-        isOpen={isOpen}
-        onDismiss={() => setIsOpen(false)}
+        isOpen={nameToRevertTo !== null}
+        onDismiss={() => setNameToRevertTo(null)}
       >
         <DialogContent
           aria-label="Preferred Name Popup"
@@ -71,10 +72,10 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
               <button
                 className={styles.PopupAction}
                 onClick={() => {
-                  setIsOpen(false);
-                  if (props.refs[0].current) {
-                    props.refs[0].current.value = "";
+                  if (props.refs[0].current && nameToRevertTo) {
+                    props.refs[0].current.value = nameToRevertTo;
                   }
+                  setNameToRevertTo(null);
                 }}
                 tabIndex={-1}
               >
@@ -83,7 +84,7 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
               <button
                 className={styles.PopupAction}
                 onClick={() => {
-                  setIsOpen(false);
+                  setNameToRevertTo(null);
                 }}
                 tabIndex={-1}
               >
@@ -115,12 +116,13 @@ function ProfilePersonalInfo(props: ProfilePersonalInfoProps) {
                   className={styles.PersonalInfoInput}
                   defaultValue={content}
                   placeholder={placeholders[index]}
-                  onBlur={() => {
-                    const bool = props.refs[index].current
-                      ? props.refs[index].current?.value
-                      : "";
-                    if (placeholders[index] === "Preferred Name" && bool) {
-                      setIsOpen(true);
+                  onBlur={(e) => {
+                    if (
+                      placeholders[index] === "Preferred Name" &&
+                      e.target.value &&
+                      e.target.value !== content
+                    ) {
+                      setNameToRevertTo(content ?? "");
                     }
                   }}
                 ></input>

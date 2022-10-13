@@ -19,6 +19,10 @@ html {
   scrollbar-width: none;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
