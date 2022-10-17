@@ -1,7 +1,5 @@
 import styles from "./MainNavigation.module.scss";
-import LogoIcon from "images/logo512.png";
 import { NextRouter, useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import MainSidebarProfile from "./MainSidebarProfile";
 import useUser from "hooks/useUser";
