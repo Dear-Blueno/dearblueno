@@ -184,16 +184,19 @@ function ProfileBox(props: ProfileBoxProps) {
     <div className={styles.ProfileBox}>
       <div className={styles.LeftColumn}>
         <ProfilePicture
+          hidden={editing}
           link={props.profileUser ? props.profileUser.profilePicture : ""}
         ></ProfilePicture>
-        <ProfileName
-          name={
-            props.profileUser
-              ? props.profileUser.displayName ?? props.profileUser.name
-              : ""
-          }
-          pronouns={props.profileUser ? props.profileUser.pronouns : ""}
-        />
+        {!editing && (
+          <ProfileName
+            name={
+              props.profileUser
+                ? props.profileUser.displayName ?? props.profileUser.name
+                : ""
+            }
+            pronouns={props.profileUser ? props.profileUser.pronouns : ""}
+          />
+        )}
         {ownProfile && !editing && (
           <GenericProfileButton click={() => setEditing(true)} text={"Edit"} />
         )}
