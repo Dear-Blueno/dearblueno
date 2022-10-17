@@ -4,7 +4,7 @@ import HeaderAndPage from "./HeaderAndPage";
 import Page from "./Page";
 
 interface MainLayoutProps {
-  title?: string;
+  title?: React.ReactNode;
   header?: React.ReactNode;
   page?: React.ReactNode;
   sidebar?: React.ReactNode;

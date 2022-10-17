@@ -5,16 +5,37 @@ import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/mainfeed/MainFeedHeader";
 import { GetStaticProps, NextPage } from "next";
 import { getPosts } from "gateways/PostGateway";
+import { useIsMobile } from "hooks/is-mobile";
+import Logo from "components/layout/Logo";
+import { useState } from "react";
 
 const HomePage: NextPage = () => {
+  const isMobile = useIsMobile();
+  const [showingPicker, setShowingPicker] = useState(false);
   return (
     <>
       <Head>
         <title>Dear Blueno</title>
       </Head>
       <MainLayout
-        title="Home"
-        header={<MainFeedHeader />}
+        title={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: isMobile ? "-0.2rem" : 0,
+            }}
+          >
+            {isMobile && <Logo />}
+            {(!showingPicker || !isMobile) && "Dear Blueno"}
+          </span>
+        }
+        header={
+          <MainFeedHeader
+            showingPicker={showingPicker}
+            setShowingPicker={setShowingPicker}
+          />
+        }
         page={<MainFeed />}
         sidebar={<MainFeedSidebar />}
       ></MainLayout>

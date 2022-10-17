@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./PageHeader.module.scss";
 
 interface PageHeaderProps {
-  title?: string;
+  title?: React.ReactNode;
   children?: React.ReactNode;
   sidebar?: React.ReactNode;
   collapseHeader?: boolean;
