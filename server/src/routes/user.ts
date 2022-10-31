@@ -2,7 +2,7 @@ import { Router } from "express";
 import { body, param, query } from "express-validator";
 import Comment from "../models/Comment";
 import { authCheck, modCheck } from "../middleware/auth";
-import User, { IUser } from "../models/User";
+import User, { homeFeedSorts, IUser } from "../models/User";
 import Post from "../models/Post";
 import { validate } from "../middleware/validate";
 import cleanSensitivePost from "../config/cleanSensitivePost";
@@ -315,14 +315,15 @@ userRouter.put(
   "/settings",
   authCheck,
   body("autoSubscribe").isBoolean(),
+  body("homeFeedSort").isIn(homeFeedSorts),
   validate,
   async (req, res) => {
     const user = req.user as IUser;
-    const { autoSubscribe } = req.body;
+    const { autoSubscribe, homeFeedSort } = req.body;
 
     const newUser = await User.findByIdAndUpdate(
       user._id,
-      { settings: { autoSubscribe } },
+      { settings: { autoSubscribe, homeFeedSort } },
       { new: true }
     );
 

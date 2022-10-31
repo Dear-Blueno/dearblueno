@@ -1,15 +1,17 @@
 import styles from "./MainFeedHeader.module.scss";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import useUser from "hooks/useUser";
+import IUser from "types/IUser";
 import { RiSearch2Line } from "react-icons/ri";
 import Link from "next/link";
 
 export type SortType = "hot" | "topWeek" | "topMonth" | "new" | "topAllTime";
 
-export const parseSortQueryParams = (
+export const parseSortQueryParamsOnly = (
   sort: string | string[] | undefined,
   of: string | string[] | undefined
-): SortType => {
+): SortType | "default" => {
   if (sort) {
     const sortType = sort as string;
     if (sortType === "top") {
@@ -24,27 +26,77 @@ export const parseSortQueryParams = (
       return sortType;
     }
   }
-  return "hot";
+  return "default";
+};
+export const parseSortQueryParams = (
+  sort: string | string[] | undefined,
+  of: string | string[] | undefined,
+  user: IUser | undefined
+): SortType => {
+  const type = parseSortQueryParamsOnly(sort, of);
+  return type === "default" ? user?.settings.homeFeedSort ?? "hot" : type;
 };
 
 export default function MainFeedHeader() {
-  const hotRef = useRef<HTMLHeadingElement>(null);
-  const topRef = useRef<HTMLHeadingElement>(null);
-  const newRef = useRef<HTMLHeadingElement>(null);
-  const underlineRef = useRef<HTMLSpanElement>(null);
+  const { user } = useUser();
   const router = useRouter();
-  const [choosingTop, setChoosingTop] = useState<boolean>(false);
-
   const parseSortQueryParamsCallback = useCallback(
-    (): SortType => parseSortQueryParams(router.query.sort, router.query.of),
-    [router.query.sort, router.query.of]
+    (): SortType =>
+      parseSortQueryParams(router.query.sort, router.query.of, user),
+    [router.query.sort, router.query.of, user]
   );
-
-  const [sort, setSort] = useState<SortType>(parseSortQueryParamsCallback());
 
   useEffect(() => {
     setSort(parseSortQueryParamsCallback());
   }, [parseSortQueryParamsCallback]);
+
+  const [sort, setSort] = useState<SortType>(parseSortQueryParamsCallback());
+
+  const [oldSort, setOldSort] = useState<SortType>(sort);
+  useEffect(() => {
+    if (sort === oldSort) return;
+    setOldSort(sort);
+
+    if (sort === (user?.settings.homeFeedSort ?? "hot")) {
+      void router.push("/");
+      return;
+    }
+
+    switch (sort) {
+      case "hot":
+        void router.push("/?sort=hot");
+        break;
+      case "new":
+        void router.push("/?sort=new");
+        break;
+
+      case "topWeek":
+        void router.push("/?sort=top&of=week");
+        break;
+      case "topMonth":
+        void router.push("/?sort=top&of=month");
+        break;
+      case "topAllTime":
+        void router.push("/?sort=top&of=alltime");
+        break;
+    }
+  }, [sort, oldSort, router, user?.settings.homeFeedSort]);
+
+  return <FeedPicker sort={sort} setSort={setSort} />;
+}
+
+export function FeedPicker({
+  sort,
+  setSort,
+}: {
+  sort: SortType;
+  setSort: React.Dispatch<React.SetStateAction<SortType>>;
+}) {
+  const hotRef = useRef<HTMLHeadingElement>(null);
+  const topRef = useRef<HTMLHeadingElement>(null);
+  const newRef = useRef<HTMLHeadingElement>(null);
+  const underlineRef = useRef<HTMLSpanElement>(null);
+  const [choosingTop, setChoosingTop] = useState<boolean>(false);
 
   const underlinedRef = useMemo(() => {
     if (sort === "hot") {
@@ -136,10 +188,8 @@ export default function MainFeedHeader() {
           if (choosingTop) {
             setSort("topWeek");
             setChoosingTop(false);
-            void router.push("/?sort=top&of=week");
           } else {
             setSort("hot");
-            void router.push("/");
           }
         }}
       >
@@ -155,7 +205,6 @@ export default function MainFeedHeader() {
           } else {
             setSort("topMonth");
             setChoosingTop(false);
-            void router.push("/?sort=top&of=month");
           }
         }}
       >
@@ -169,10 +218,8 @@ export default function MainFeedHeader() {
           if (choosingTop) {
             setSort("topAllTime");
             setChoosingTop(false);
-            void router.push("/?sort=top&of=alltime");
           } else {
             setSort("new");
-            void router.push("/?sort=new");
           }
         }}
       >

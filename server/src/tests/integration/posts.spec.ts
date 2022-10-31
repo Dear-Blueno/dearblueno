@@ -29,6 +29,7 @@ describe("Posts", () => {
       email: "bob@dearblueno.net",
       profilePicture: "https://i.imgur.com/2j1RdhZ.png",
       verifiedBrown: false,
+      settings: { homeFeedSort: "topAllTime" },
     });
     user = await userModel.save();
 
@@ -40,6 +41,7 @@ describe("Posts", () => {
       profilePicture: "https://i.imgur.com/2j1RdhZ.png",
       moderator: true,
       verifiedBrown: true,
+      settings: { homeFeedSort: "new" },
     });
     modUser = await modUserModel.save();
   });
@@ -57,7 +59,7 @@ describe("Posts", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body).toHaveLength(2);
 
       expect(res.body[1].content).toBe("This is a test post");
@@ -79,13 +81,13 @@ describe("Posts", () => {
         approved: true,
       }).save();
 
-      const res = await request(app).get("/posts?page=1").expect(200);
+      const res = await request(app).get("/posts?page=1&sort=new").expect(200);
       expect(res.body).toHaveLength(1);
 
       expect(res.body[0].content).toBe("This is a test post");
       expect(res.body[0].postNumber).toBe(1);
 
-      const res2 = await request(app).get("/posts?page=2").expect(200);
+      const res2 = await request(app).get("/posts?page=2&sort=new").expect(200);
       expect(res2.body).toHaveLength(0);
     });
 
@@ -94,7 +96,7 @@ describe("Posts", () => {
         content: "This is a test post",
       }).save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body).toHaveLength(0);
     });
 
@@ -111,7 +113,7 @@ describe("Posts", () => {
       }
       await Promise.all(promises);
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body).toHaveLength(10);
     });
 
@@ -146,7 +148,7 @@ describe("Posts", () => {
       post.comments.push(comment2._id);
       await post.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body[0].comments).toHaveLength(1);
       expect(res.body[0].comments[0].content).toBe("This is a test comment");
       expect(res.body[0].comments[0].commentNumber).toBe(1);
@@ -162,12 +164,15 @@ describe("Posts", () => {
       });
       await post.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body[0].reactions[0]).toHaveLength(1);
       expect(res.body[0].reactions[0][0].name).toBeUndefined();
       expect(res.body[0].reactions[0][0]).toBe("anon");
 
-      const res2 = await request(app).get("/posts").send({ user }).expect(200);
+      const res2 = await request(app)
+        .get("/posts?sort=new")
+        .send({ user })
+        .expect(200);
       expect(res2.body[0].reactions[0]).toHaveLength(1);
       expect(res2.body[0].reactions[0][0]).toBe(String(user._id));
     });
@@ -193,7 +198,7 @@ describe("Posts", () => {
       post.comments.push(comment._id);
       await post.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body[0].comments[0].author.moderator).toBeUndefined();
       expect(res.body[0].comments[0].author.lastLoggedIn).toBeUndefined();
       expect(res.body[0].comments[0].author.email).toBeUndefined();
@@ -208,7 +213,7 @@ describe("Posts", () => {
       });
       await post.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body[0].approvedBy).toBeUndefined();
     });
 
@@ -228,7 +233,7 @@ describe("Posts", () => {
       });
       await post2.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
 
       expect(res.body[0].content).toBe("This is a test post");
       expect(res.body[0].postNumber).toBe(1);
@@ -364,6 +369,37 @@ describe("Posts", () => {
       expect(res.body[1].postNumber).toBe(2);
     });
 
+    it("should sort by new", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        hotScore: 100,
+        approved: true,
+        approvedTime: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        hotScore: 50,
+        approved: true,
+        approvedTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        hotScore: 75,
+        approved: true,
+        approvedTime: new Date(),
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts?sort=new").expect(200);
+      expect(res.body).toHaveLength(3);
+
+      expect(res.body[0].postNumber).toBe(3);
+      expect(res.body[1].postNumber).toBe(2);
+    });
+
     it("should display image posts", async () => {
       const post = new Post({
         content: "This is a test post",
@@ -373,8 +409,83 @@ describe("Posts", () => {
       });
       await post.save();
 
-      const res = await request(app).get("/posts").expect(200);
+      const res = await request(app).get("/posts?sort=new").expect(200);
       expect(res.body[0].imageUrl).toBe("https://i.imgur.com/Ydhgl4K.jpg");
+    });
+
+    it("should default to sort by hot if not signed in", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        hotScore: 100,
+        approvedTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        hotScore: 50,
+        approvedTime: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        hotScore: 75,
+        approvedTime: new Date(),
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app).get("/posts").expect(200);
+      expect(res.body).toHaveLength(3);
+
+      expect(res.body[0].postNumber).toBe(1);
+      expect(res.body[1].postNumber).toBe(3);
+      expect(res.body[2].postNumber).toBe(2);
+    });
+
+    it("should default to sort by user preference if signed in", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+        hotScore: 100,
+        score: 25,
+      });
+      const post2 = new Post({
+        content: "This is another test post",
+        postNumber: 2,
+        approved: true,
+        hotScore: 50,
+        score: 100,
+        approvedTime: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+      });
+      const post3 = new Post({
+        content: "This is a third test post",
+        postNumber: 3,
+        approved: true,
+        hotScore: 75,
+        score: 75,
+      });
+      await Promise.all([post.save(), post2.save(), post3.save()]);
+
+      const res = await request(app)
+        .get("/posts")
+        .send({ user: modUser })
+        .expect(200);
+      expect(res.body).toHaveLength(3);
+
+      expect(res.body[0].postNumber).toBe(3);
+      expect(res.body[1].postNumber).toBe(2);
+      expect(res.body[2].postNumber).toBe(1);
+
+      const res2 = await request(app).get("/posts").send({ user }).expect(200);
+      expect(res2.body).toHaveLength(3);
+
+      expect(res2.body[0].postNumber).toBe(2);
+      expect(res2.body[1].postNumber).toBe(3);
+      expect(res2.body[2].postNumber).toBe(1);
     });
   });
 

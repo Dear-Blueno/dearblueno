@@ -11,7 +11,7 @@ import {
 
 export async function getPosts(
   page?: number,
-  sort?: "hot" | "new" | "topAllTime" | "topWeek" | "topMonth"
+  sort?: "hot" | "new" | "topAllTime" | "topWeek" | "topMonth" | "default"
 ): Promise<IResponse<IPost[]>> {
   try {
     const response = await axios.get("/posts", {
