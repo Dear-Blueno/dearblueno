@@ -60,24 +60,22 @@ function SettingsPageMain() {
                 checked={autoSubInput}
                 onChange={() => setAutoSubInput(!autoSubInput)}
                 className={styles.AutoSubInput}
+                style={{ marginLeft: "0.6rem" }}
               />
               <p>Auto-Sub On Public Comment</p>
             </label>
           </div>
           <div
             className={styles.SettingsContainer}
-            style={{ flexDirection: "row" }}
+            style={{ flexDirection: "column" }}
           >
-            <h3
-              className={styles.SettingsHeader}
-              style={{ flexShrink: 0, alignSelf: "center" }}
-            >
-              Default Home Feed
-            </h3>
-            <FeedPicker
-              sort={homeFeedSortInput}
-              setSort={setHomeFeedSortInput}
-            />
+            <h3 className={styles.SettingsHeader}>Default Home Feed</h3>
+            <div style={{ maxWidth: "fit-content" }}>
+              <FeedPicker
+                sort={homeFeedSortInput}
+                setSort={setHomeFeedSortInput}
+              />
+            </div>
           </div>
           <div className={styles.SaveAndCancelButtons}>
             <div className={styles.ContainerOne}>
