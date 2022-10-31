@@ -82,15 +82,17 @@ export default function MainFeedHeader() {
     }
   }, [sort, oldSort, router, user?.settings.homeFeedSort]);
 
-  return <FeedPicker sort={sort} setSort={setSort} />;
+  return <FeedPicker sort={sort} setSort={setSort} includeSearch />;
 }
 
 export function FeedPicker({
   sort,
   setSort,
+  includeSearch,
 }: {
   sort: SortType;
   setSort: React.Dispatch<React.SetStateAction<SortType>>;
+  includeSearch?: boolean;
 }) {
   const hotRef = useRef<HTMLHeadingElement>(null);
   const topRef = useRef<HTMLHeadingElement>(null);
@@ -228,9 +230,11 @@ export function FeedPicker({
         </h3>
       </div>
       <span className={styles.FeedSelectionUnderline} ref={underlineRef} />
-      <Link href="/search">
-        <RiSearch2Line className={styles.MobileSearchIcon} />
-      </Link>
+      {includeSearch && (
+        <Link href="/search">
+          <RiSearch2Line className={styles.MobileSearchIcon} />
+        </Link>
+      )}
     </div>
   );
 }
