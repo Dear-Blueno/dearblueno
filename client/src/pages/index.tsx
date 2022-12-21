@@ -3,8 +3,7 @@ import MainFeedSidebar from "components/sidebar/mainfeed/MainFeedSidebar";
 import Head from "next/head";
 import MainLayout from "components/layout/MainLayout";
 import MainFeedHeader from "components/header/mainfeed/MainFeedHeader";
-import { GetStaticProps, NextPage } from "next";
-import { getPosts } from "gateways/PostGateway";
+import { NextPage } from "next";
 
 const HomePage: NextPage = () => {
   return (
