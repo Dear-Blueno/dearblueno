@@ -22,25 +22,25 @@ const HomePage: NextPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = await getPosts(1, "hot");
-  if (posts.success) {
-    return {
-      props: {
-        initialPosts: posts.payload,
-      },
-      // Next.js will attempt to re-generate the page:
-      // - When a request comes in
-      // - At most every 30 seconds
-      revalidate: 30,
-    };
-  }
-  return {
-    props: {
-      initialPosts: [],
-    },
-    revalidate: 5,
-  };
-};
+// export const getStaticProps: GetStaticProps = async () => {
+//   const posts = await getPosts(1, "hot");
+//   if (posts.success) {
+//     return {
+//       props: {
+//         initialPosts: posts.payload,
+//       },
+//       // Next.js will attempt to re-generate the page:
+//       // - When a request comes in
+//       // - At most every 30 seconds
+//       revalidate: 30,
+//     };
+//   }
+//   return {
+//     props: {
+//       initialPosts: [],
+//     },
+//     revalidate: 5,
+//   };
+// };
 
 export default HomePage;

@@ -23,7 +23,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { parseSortQueryParams } from "components/header/mainfeed/MainFeedHeader";
+import { parseSortQueryParamsOnly } from "components/header/mainfeed/MainFeedHeader";
 import IPost from "types/IPost";
 import { IResponse } from "gateways/GatewayResponses";
 
@@ -67,7 +67,7 @@ function ReactionBar(props: ReactionBarProps) {
   const [order, setOrder] = useState<number[]>();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const sort = parseSortQueryParams(router.query.sort, router.query.of, user);
+  const sort = parseSortQueryParamsOnly(router.query.sort, router.query.of);
 
   const unsortedReactions = props.reactions.map((list, index) => ({
     type: index,
