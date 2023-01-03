@@ -35,7 +35,7 @@
   },
   "homepage": "https://dearblueno.net",
   "devDependencies": {
-    "@shelf/jest-mongodb": "^2.1.1",
+    "@shelf/jest-mongodb": "^4.1.4",
     "@types/cookie-parser": "^1.4.2",
     "@types/cookie-session": "^2.0.43",
     "@types/cors": "^2.8.12",
