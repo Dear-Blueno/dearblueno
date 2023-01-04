@@ -21,7 +21,7 @@ function LoginPopup(props: LoginPopupProps) {
           <div className={styles.LoginPopupContent}>
             <strong>
               {
-                "You'll only be able to submit posts on Dear Blueno until you log in."
+                "You'll only be able to submit posts on Dear Blueno once you log in."
               }
             </strong>
             <br />
