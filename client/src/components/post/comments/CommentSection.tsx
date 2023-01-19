@@ -2,7 +2,7 @@ import styles from "./CommentSection.module.scss";
 import Thread from "./Thread";
 import IComment from "types/IComment";
 import NewCommentBox from "./new_comment/NewCommentBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ViewMoreButton from "./ViewMoreButton";
 
 export interface CommentSectionProps {
@@ -95,10 +95,13 @@ const sortComments = (commentList: IThread[]) => {
 };
 
 function CommentSection(props: CommentSectionProps) {
-  const threads = nestComments(convertToThreads(props.comments));
-  calculateScores(threads);
-  sortComments(threads);
-  const [comments, setComments] = useState<IThread[]>(threads);
+  const [comments, setComments] = useState<IThread[]>([]);
+  useEffect(() => {
+    const threads = nestComments(convertToThreads(props.comments));
+    calculateScores(threads);
+    sortComments(threads);
+    setComments(threads);
+  }, [props.comments]);
   const firstThree = comments.slice(0, 3);
   const rest = comments.slice(3);
   const [showingAll, setShowingAll] = useState(false);
