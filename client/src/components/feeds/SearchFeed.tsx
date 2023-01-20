@@ -29,8 +29,8 @@ function SearchFeed(props: SearchFeedProps) {
     <>
       {props.results.length > 0 && (
         <Feed user={props.user} getMore={getMore} animated={false}>
-          {props.results.slice(0, pageNumber * 10).map((post, index) => (
-            <Post key={index} post={post} />
+          {props.results.slice(0, pageNumber * 10).map((post) => (
+            <Post key={post._id} post={post} />
           ))}
         </Feed>
       )}
