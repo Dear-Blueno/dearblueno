@@ -503,6 +503,7 @@ describe("Posts", () => {
         content: "This is a test post",
         postNumber: 1,
         approved: false,
+        postTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
       });
       await post.save();
 
@@ -510,6 +511,7 @@ describe("Posts", () => {
         content: "This is another test post",
         postNumber: 2,
         approved: true,
+        postTime: new Date(),
       });
       await post2.save();
 
@@ -519,13 +521,13 @@ describe("Posts", () => {
         .expect(200);
       expect(res.body).toHaveLength(2);
 
-      expect(res.body[1].content).toBe("This is a test post");
-      expect(res.body[1].postNumber).toBe(1);
-      expect(res.body[1].approved).toBe(false);
-
       expect(res.body[0].content).toBe("This is another test post");
       expect(res.body[0].postNumber).toBe(2);
       expect(res.body[0].approved).toBe(true);
+
+      expect(res.body[1].content).toBe("This is a test post");
+      expect(res.body[1].postNumber).toBe(1);
+      expect(res.body[1].approved).toBe(false);
     });
 
     it("should include both approved and unapproved comments", async () => {
