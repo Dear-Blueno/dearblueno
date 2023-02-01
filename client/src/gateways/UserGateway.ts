@@ -139,3 +139,21 @@ export async function updateSettings(
     return failureResponse(error as string);
   }
 }
+
+export async function blockUser(_id: string): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.post(`/user/block`, { id: _id });
+    return successfulResponse(response.data);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
+export async function unblockUser(_id: string): Promise<IResponse<IUser>> {
+  try {
+    const response = await axios.put(`/user/block`, { id: _id });
+    return successfulResponse(response.data);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}

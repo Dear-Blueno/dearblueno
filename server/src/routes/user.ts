@@ -102,7 +102,7 @@ userRouter.get(
     })
       .limit(5)
       .select(
-        "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -settings"
+        "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings"
       );
 
     if (users.length === 0) {
@@ -119,7 +119,7 @@ userRouter.get(
 userRouter.get("/:id", param("id").isMongoId(), validate, async (req, res) => {
   // Get user by id, remove sensitive information from the response
   const user = await User.findById(req.params.id).select(
-    "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -settings"
+    "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings"
   );
   if (!user) {
     res.status(404).send("User not found");
@@ -324,6 +324,66 @@ userRouter.put(
     const newUser = await User.findByIdAndUpdate(
       user._id,
       { settings: { autoSubscribe, homeFeedSort } },
+      { new: true }
+    );
+
+    res.send(newUser);
+  }
+);
+
+// POST request that blocks a user
+// (Auth required)
+userRouter.post(
+  "/block",
+  authCheck,
+  body("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const user = req.user as IUser;
+    const { id } = req.body;
+
+    if (user.blockedUsers.includes(id)) {
+      res.status(400).send("User already blocked");
+      return;
+    }
+
+    const targetUser = await User.findById(id);
+    if (!targetUser) {
+      res.status(404).send("User not found");
+      return;
+    }
+
+    user.blockedUsers.push(id);
+    const newUser = await User.findByIdAndUpdate(
+      user._id,
+      { blockedUsers: user.blockedUsers },
+      { new: true }
+    );
+
+    res.send(newUser);
+  }
+);
+
+// PUT request that unblocks a user
+// (Auth required)
+userRouter.put(
+  "/unblock",
+  authCheck,
+  body("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const user = req.user as IUser;
+    const { id } = req.body;
+
+    if (!user.blockedUsers.includes(id)) {
+      res.status(400).send("User not blocked");
+      return;
+    }
+
+    user.blockedUsers = user.blockedUsers.filter((userId) => userId !== id);
+    const newUser = await User.findByIdAndUpdate(
+      user._id,
+      { blockedUsers: user.blockedUsers },
       { new: true }
     );
 
