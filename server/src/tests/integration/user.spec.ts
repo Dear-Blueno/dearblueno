@@ -636,6 +636,37 @@ describe("User", () => {
     });
   });
 
+  describe("POST /user/block", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).post("/user/block").expect(401);
+    });
+
+    it("should return 404 if non-existent user is blocked", async () => {
+      await request(app)
+        .post("/user/block")
+        .send({ user, id: "5bb9e9f84186b222c8901149" })
+        .expect(404);
+    });
+
+    it("should block user", async () => {
+      await request(app)
+        .post("/user/block")
+        .send({ user, id: user._id })
+        .expect(200);
+
+      const user2 = await User.findById(user._id);
+      expect(user2?.blockedUsers).toContainEqual(user._id);
+
+      await request(app)
+        .post("/user/block")
+        .send({ user, id: user._id })
+        .expect(200);
+
+      const user3 = await User.findById(user._id);
+      expect(user3?.blockedUsers).toContainEqual(user._id);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
     await mongo.stop();

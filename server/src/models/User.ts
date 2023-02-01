@@ -132,6 +132,12 @@ const UserSchema = new Schema({
       ref: "Post",
     },
   ],
+  blockedUsers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   settings: {
     autoSubscribe: {
       type: Boolean,
@@ -179,6 +185,7 @@ export interface IUser extends IBasicUser {
   bookmarks: any[];
   notifications: INotification[];
   subscriptions: any[];
+  blockedUsers: any[];
   settings: {
     autoSubscribe: boolean;
     homeFeedSort: "hot" | "new" | "topMonth" | "topWeek" | "topAllTime";
