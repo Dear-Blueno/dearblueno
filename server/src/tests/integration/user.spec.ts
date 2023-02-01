@@ -48,6 +48,12 @@ describe("User", () => {
       expect(response.body).not.toHaveProperty("user.email");
       expect(response.body).not.toHaveProperty("user.lastLoggedIn");
       expect(response.body).not.toHaveProperty("user.moderator");
+      expect(response.body).not.toHaveProperty("user.bannedUntil");
+      expect(response.body).not.toHaveProperty("user.bookmarks");
+      expect(response.body).not.toHaveProperty("user.notifications");
+      expect(response.body).not.toHaveProperty("user.subscriptions");
+      expect(response.body).not.toHaveProperty("user.blockedUsers");
+      expect(response.body).not.toHaveProperty("user.settings");
     });
   });
 
@@ -81,6 +87,12 @@ describe("User", () => {
       expect(searchedUser).not.toHaveProperty("email");
       expect(searchedUser).not.toHaveProperty("lastLoggedIn");
       expect(searchedUser).not.toHaveProperty("moderator");
+      expect(searchedUser).not.toHaveProperty("bannedUntil");
+      expect(searchedUser).not.toHaveProperty("bookmarks");
+      expect(searchedUser).not.toHaveProperty("notifications");
+      expect(searchedUser).not.toHaveProperty("subscriptions");
+      expect(searchedUser).not.toHaveProperty("blockedUsers");
+      expect(searchedUser).not.toHaveProperty("settings");
     });
   });
 
