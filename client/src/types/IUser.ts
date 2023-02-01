@@ -32,6 +32,7 @@ export default interface IUser extends IBasicUser {
   notifications: INotification[];
   bookmarks: string[];
   subscriptions: string[];
+  blockedUsers: string[];
   settings: {
     autoSubscribe: boolean;
     homeFeedSort: "hot" | "new" | "topMonth" | "topWeek" | "topAllTime";
