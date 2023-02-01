@@ -364,4 +364,31 @@ userRouter.post(
   }
 );
 
+// PUT request that unblocks a user
+// (Auth required)
+userRouter.put(
+  "/unblock",
+  authCheck,
+  body("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const user = req.user as IUser;
+    const { id } = req.body;
+
+    if (!user.blockedUsers.includes(id)) {
+      res.status(400).send("User not blocked");
+      return;
+    }
+
+    user.blockedUsers = user.blockedUsers.filter((userId) => userId !== id);
+    const newUser = await User.findByIdAndUpdate(
+      user._id,
+      { blockedUsers: user.blockedUsers },
+      { new: true }
+    );
+
+    res.send(newUser);
+  }
+);
+
 export default userRouter;

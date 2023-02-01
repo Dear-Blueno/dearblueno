@@ -667,6 +667,35 @@ describe("User", () => {
     });
   });
 
+  describe("PUT /user/unblock", () => {
+    it("should return 401 if user is not logged in", async () => {
+      await request(app).put("/user/unblock").expect(401);
+    });
+
+    it("should return 400 if non-blocked user is unblocked", async () => {
+      await request(app)
+        .put("/user/unblock")
+        .send({ user, id: user._id })
+        .expect(400);
+    });
+
+    it("should unblock user", async () => {
+      await User.updateOne(
+        { _id: user._id },
+        { $push: { blockedUsers: user._id } }
+      );
+      user.blockedUsers.push(user._id);
+
+      await request(app)
+        .put("/user/unblock")
+        .send({ user, id: user._id })
+        .expect(200);
+
+      const user2 = await User.findById(user._id);
+      expect(user2?.blockedUsers).not.toContainEqual(user._id);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
     await mongo.stop();
