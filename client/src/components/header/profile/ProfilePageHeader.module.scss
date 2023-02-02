@@ -6,6 +6,10 @@
   align-items: center;
   justify-content: flex-end;
   user-select: none;
+  .BlockIcon {
+    display: flex;
+    cursor: pointer;
+  }
   .BookmarkIcon {
     display: none;
   }
@@ -21,6 +25,7 @@
       display: flex;
       cursor: pointer;
     }
+
     gap: 1.5rem;
     display: flex;
   }

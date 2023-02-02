@@ -44,7 +44,10 @@ const ProfilePage: NextPage<ProfilePageProps> = (props) => {
         page={<ProfilePageMain profileUser={props.profileUser} />}
         sidebar={<ProfileSidebar />}
         header={
-          user?._id === props.profileUser._id ? <ProfilePageHeader /> : null
+          <ProfilePageHeader
+            self={user?._id === props.profileUser._id}
+            targetUser={props.profileUser}
+          />
         }
       />
     </>
