@@ -192,7 +192,7 @@ function ProfileBox(props: ProfileBoxProps) {
         {profileUserIsBlocked && (
           <div className={styles.Blocked}>
             <MdBlock color="red"></MdBlock>
-            <p>You have blocked this user.</p>
+            <p>You have blocked this user</p>
           </div>
         )}
         {!editing && (
