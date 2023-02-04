@@ -150,3 +150,14 @@
     display: unset;
   }
 }
+
+.Blocked {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: red;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}

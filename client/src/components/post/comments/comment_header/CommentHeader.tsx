@@ -9,6 +9,7 @@ import { usePopper } from "react-popper";
 import { getUser } from "gateways/UserGateway";
 import ProfileHoverCard from "./ProfileHoverCard";
 import RelativeDate from "../../RelativeDate";
+import useUser from "hooks/useUser";
 
 interface CommentHeaderProps {
   comment: IThread;
@@ -23,6 +24,7 @@ function CommentHeader(props: CommentHeaderProps) {
   const [referenceElement, setReferenceElement] =
     useState<HTMLParagraphElement | null>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  const { user } = useUser();
   const { styles: popperStyles, attributes } = usePopper(
     referenceElement,
     popperElement,
@@ -84,7 +86,13 @@ function CommentHeader(props: CommentHeaderProps) {
               }, 200);
             }}
           >
-            {props.comment.author.displayName ?? props.comment.author.name}
+            {user?.blockedUsers.includes(props.comment.author._id) ? (
+              <span className={styles.BlockedUser}>[blocked user]</span>
+            ) : (
+              <>
+                {props.comment.author.displayName ?? props.comment.author.name}
+              </>
+            )}
           </p>
         </a>
       ) : (

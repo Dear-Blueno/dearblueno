@@ -2,6 +2,7 @@ import styles from "./CommentContext.module.scss";
 import UserContent from "components/post/content/UserContent";
 import CommentProfilePicture from "components/user/CommentProfilePicture";
 import IComment from "types/IComment";
+import useUser from "hooks/useUser";
 
 interface CommentContextProps {
   thread: IComment;
@@ -11,6 +12,10 @@ interface CommentContextProps {
 export default function CommentContext(props: CommentContextProps) {
   const parentComment = props.thread.parentComment;
   const isReply = parentComment !== undefined;
+  const { user } = useUser();
+  const blocked =
+    parentComment?.author &&
+    user?.blockedUsers.includes(parentComment.author._id);
 
   return (
     <div className={styles.CommentContext}>
@@ -23,20 +28,22 @@ export default function CommentContext(props: CommentContextProps) {
             <div className={styles.CommentContextParentPicture}>
               <CommentProfilePicture
                 link={
-                  parentComment.author
-                    ? parentComment.author.profilePicture
-                    : undefined
+                  blocked ? "blocked" : parentComment.author?.profilePicture
                 }
               />
             </div>
           )}
           <div className={styles.CommentContextReplyAuthor}>
-            {parentComment.author
-              ? parentComment.author.displayName ?? parentComment.author.name
-              : "Anonymous"}
+            {blocked
+              ? "[blocked user]"
+              : parentComment.author?.displayName ??
+                parentComment.author?.name ??
+                "Anonymous"}
           </div>
           <div className={styles.CommentContextContent}>
-            <UserContent>{parentComment.content}</UserContent>
+            <UserContent>
+              {blocked ? "[blocked user content]" : parentComment.content}
+            </UserContent>
           </div>
         </>
       )}

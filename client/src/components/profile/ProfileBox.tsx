@@ -10,7 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import IComment from "types/IComment";
 import ContextThread from "components/post/comments/ContextThread";
 import { logout } from "gateways/AuthGateway";
-import { MdLogout } from "react-icons/md";
+import { MdBlock, MdLogout } from "react-icons/md";
 import GenericProfileButton from "components/profile/buttons/GenericProfileButton";
 import toast from "react-hot-toast";
 import useUser from "hooks/useUser";
@@ -34,6 +34,8 @@ function ProfileBox(props: ProfileBoxProps) {
   const yearInput = useRef<HTMLInputElement>(null);
   const concentrationInput = useRef<HTMLInputElement>(null);
   const [comments, setComments] = useState<IComment[] | undefined>(undefined);
+  const profileUserIsBlocked =
+    props.profileUser && user?.blockedUsers.includes(props.profileUser._id);
 
   useEffect(() => {
     if (props.profileUser) {
@@ -187,6 +189,12 @@ function ProfileBox(props: ProfileBoxProps) {
           hidden={editing}
           link={props.profileUser ? props.profileUser.profilePicture : ""}
         ></ProfilePicture>
+        {profileUserIsBlocked && (
+          <div className={styles.Blocked}>
+            <MdBlock color="red"></MdBlock>
+            <p>You have blocked this user.</p>
+          </div>
+        )}
         {!editing && (
           <ProfileName
             name={

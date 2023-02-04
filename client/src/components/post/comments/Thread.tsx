@@ -37,6 +37,9 @@ function Thread(props: ThreadProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const isMobile = useIsMobile();
+  const blocked =
+    props.comment.author &&
+    user?.blockedUsers.includes(props.comment.author._id);
 
   const displayed = !props.inContext
     ? props.comment.children.slice(0, displayedChildren)
@@ -87,7 +90,7 @@ function Thread(props: ThreadProps) {
       )}
       <div className={styles.ThreadGrid}>
         <CommentProfilePicture
-          link={props.comment.author?.profilePicture ?? ""}
+          link={blocked ? "blocked" : props.comment.author?.profilePicture}
         />
         {!collapsed && !props.inContext && (
           <ThreadCollapser
@@ -111,7 +114,10 @@ function Thread(props: ThreadProps) {
                   blurred={props.blurred}
                   setBlurred={props.setBlurred}
                 >
-                  {props.comment.content}
+                  {props.comment.author &&
+                  user?.blockedUsers.includes(props.comment.author._id)
+                    ? "[blocked user content]"
+                    : props.comment.content}
                 </UserContent>
                 {!props.inContext && (
                   <div className={styles.CommentFooter}>
