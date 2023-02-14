@@ -316,14 +316,15 @@ userRouter.put(
   authCheck,
   body("autoSubscribe").isBoolean(),
   body("homeFeedSort").isIn(homeFeedSorts),
+  body("eulaAccepted").isBoolean(),
   validate,
   async (req, res) => {
     const user = req.user as IUser;
-    const { autoSubscribe, homeFeedSort } = req.body;
+    const { autoSubscribe, homeFeedSort, eulaAccepted } = req.body;
 
     const newUser = await User.findByIdAndUpdate(
       user._id,
-      { settings: { autoSubscribe, homeFeedSort } },
+      { settings: { autoSubscribe, homeFeedSort, eulaAccepted } },
       { new: true }
     );
 

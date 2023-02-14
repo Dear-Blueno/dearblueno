@@ -36,6 +36,7 @@ export default interface IUser extends IBasicUser {
   settings: {
     autoSubscribe: boolean;
     homeFeedSort: "hot" | "new" | "topMonth" | "topWeek" | "topAllTime";
+    eulaAccepted: boolean;
   };
 }
 

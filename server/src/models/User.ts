@@ -148,6 +148,10 @@ const UserSchema = new Schema({
       default: "hot",
       enum: ["hot", "new", "topMonth", "topWeek", "topAllTime"],
     },
+    eulaAccepted: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 
@@ -189,6 +193,7 @@ export interface IUser extends IBasicUser {
   settings: {
     autoSubscribe: boolean;
     homeFeedSort: "hot" | "new" | "topMonth" | "topWeek" | "topAllTime";
+    eulaAccepted: boolean;
   };
 }
 
