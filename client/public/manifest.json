@@ -101,7 +101,7 @@
   "related_applications": [],
   "start_url": "https://www.dearblueno.net",
   "display": "standalone",
-  "theme_color": "#d5ebff",
-  "background_color": "#d5ebff",
+  "theme_color": "#F5E3E3",
+  "background_color": "#F5E3E3",
   "orientation": "portrait"
 }

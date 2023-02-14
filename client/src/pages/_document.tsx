@@ -37,9 +37,9 @@ function Document() {
           content="Dear Blueno is the unofficial anonymous post board for students and community members at Brown University in Providence."
         />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#d5ebff" />
+        <meta name="msapplication-TileColor" content="#F5E3E3" />
 
-        <meta name="theme-color" content="#d5ebff" />
+        <meta name="theme-color" content="#F5E3E3" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
 
