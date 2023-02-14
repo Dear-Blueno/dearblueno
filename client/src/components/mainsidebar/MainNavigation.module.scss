@@ -23,7 +23,7 @@
   position: fixed;
   flex-direction: row;
   bottom: 0;
-  background-color: #d5ebff;
+  background-color: #f5e3e3;
   height: 3rem;
   width: 100vw;
   justify-content: center;
@@ -103,7 +103,7 @@
   border-radius: 0.3rem;
   @media screen and (min-width: 30rem) {
     &:hover {
-      background-color: #bcd;
+      background-color: #ecc4c4;
     }
   }
   @media screen and (max-width: 30rem) {
