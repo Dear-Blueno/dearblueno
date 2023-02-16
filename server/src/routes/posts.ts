@@ -72,20 +72,22 @@ postRouter.get(
       });
 
     // If reached the end of the hot feed, switch to the new feed
-    if (sort === "hot" && posts.length === 0) {
-      posts = await Post.find(filterOptions.new)
-        .sort(sortOptions.new)
-        .skip((page - 1) * 10)
-        .limit(10)
-        .select("-approvedBy -subscribers -score -hotScore")
-        .populate("comments")
-        .populate({
-          path: "comments",
-          populate: {
-            path: "author",
-            select: "name profilePicture badges displayName pronouns",
-          },
-        });
+    if (sort === "hot" && posts.length !== 10) {
+      posts = posts.concat(
+        await Post.find(filterOptions.new)
+          .sort(sortOptions.new)
+          .skip((page - 1) * 10 + posts.length)
+          .limit(10 - posts.length)
+          .select("-approvedBy -subscribers -score -hotScore")
+          .populate("comments")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "author",
+              select: "name profilePicture badges displayName pronouns",
+            },
+          })
+      );
     }
 
     const cleanPosts = posts.map((post) =>
