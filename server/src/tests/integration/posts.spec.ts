@@ -363,10 +363,11 @@ describe("Posts", () => {
       await Promise.all([post.save(), post2.save(), post3.save()]);
 
       const res = await request(app).get("/posts?sort=hot").expect(200);
-      expect(res.body).toHaveLength(2);
+      expect(res.body).toHaveLength(3);
 
       expect(res.body[0].postNumber).toBe(3);
       expect(res.body[1].postNumber).toBe(2);
+      expect(res.body[2].postNumber).toBe(1);
     });
 
     it("should sort by new", async () => {

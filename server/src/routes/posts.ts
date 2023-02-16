@@ -57,7 +57,7 @@ postRouter.get(
     };
     const filterQuery = filterOptions[sort];
 
-    const posts = await Post.find(filterQuery)
+    let posts = await Post.find(filterQuery)
       .sort(sortQuery)
       .skip((page - 1) * 10)
       .limit(10)
@@ -70,6 +70,25 @@ postRouter.get(
           select: "name profilePicture badges displayName pronouns",
         },
       });
+
+    // If reached the end of the hot feed, switch to the new feed
+    if (sort === "hot" && posts.length !== 10) {
+      posts = posts.concat(
+        await Post.find(filterOptions.new)
+          .sort(sortOptions.new)
+          .skip((page - 1) * 10 + posts.length)
+          .limit(10 - posts.length)
+          .select("-approvedBy -subscribers -score -hotScore")
+          .populate("comments")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "author",
+              select: "name profilePicture badges displayName pronouns",
+            },
+          })
+      );
+    }
 
     const cleanPosts = posts.map((post) =>
       cleanSensitivePost(post.toObject(), user)

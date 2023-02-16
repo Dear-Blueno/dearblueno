@@ -58,7 +58,7 @@ authRouter.get("/google/callback", (req, res, next) => {
       if (loginErr) {
         return next(loginErr);
       }
-      res.redirect(url);
+      return res.redirect(url);
     });
   })(req, res, next);
 });
