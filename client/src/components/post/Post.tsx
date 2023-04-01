@@ -96,7 +96,7 @@ function Post(props: PostProps) {
           )}
           {props.post.postNumber >= 6305 && (
             <AiFillRobot
-              color="slate"
+              color="gray"
               className={styles.Bot}
               title="Made by BluenoGPT"
             />
