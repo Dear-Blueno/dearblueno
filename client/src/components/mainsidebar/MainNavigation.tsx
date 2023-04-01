@@ -128,14 +128,14 @@ const MainSidebar = (props: {
                   )
               )}
             </ul>
-            <Link href="/submit">
+            {/* <Link href="/submit">
               <a className={styles.NewPostButtonLink}>
                 <button className={styles.NewPostButton}>
                   <IoAdd className={styles.NewPostButtonIcon} size="3em" />
                   <span>Submit</span>
                 </button>
               </a>
-            </Link>
+            </Link> */}
           </>
         )}
       </div>
