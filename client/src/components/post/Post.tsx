@@ -17,7 +17,7 @@ import {
   MdNotificationsActive,
 } from "react-icons/md";
 import UserContent from "./content/UserContent";
-import { AiFillPushpin } from "react-icons/ai";
+import { AiFillPushpin, AiFillRobot } from "react-icons/ai";
 import useUser from "hooks/useUser";
 import { useLoginPopup } from "hooks/login-popup";
 import { FaRegCommentAlt } from "react-icons/fa";
@@ -86,12 +86,19 @@ function Post(props: PostProps) {
   return (
     <div className={styles.Post}>
       <div className={styles.PostHeader}>
-        <div className={styles.NumberAndWarning}>
+        <div className={styles.PostHeaderLeft}>
           <PostNumber number={props.post.postNumber} post={props.post} />
           {props.post.verifiedBrown && (
             <RiShieldCheckFill
               className={styles.VerifiedBrown}
               title="Verified Brown"
+            />
+          )}
+          {props.post.postNumber >= 6305 && (
+            <AiFillRobot
+              color="slate"
+              className={styles.Bot}
+              title="Made by BluenoGPT"
             />
           )}
           {props.post.contentWarning && (
