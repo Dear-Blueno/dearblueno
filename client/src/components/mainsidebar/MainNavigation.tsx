@@ -28,7 +28,7 @@ import {
   IoPerson,
   IoInformationCircleOutline,
   IoInformationCircle,
-  // IoAdd,
+  IoAdd,
 } from "react-icons/io5";
 import IUser from "types/IUser";
 
@@ -128,14 +128,14 @@ const MainSidebar = (props: {
                   )
               )}
             </ul>
-            {/* <Link href="/submit">
+            <Link href="/submit">
               <a className={styles.NewPostButtonLink}>
                 <button className={styles.NewPostButton}>
                   <IoAdd className={styles.NewPostButtonIcon} size="3em" />
                   <span>Submit</span>
                 </button>
               </a>
-            </Link> */}
+            </Link>
           </>
         )}
       </div>
@@ -315,15 +315,15 @@ const footerItems: MainSidebarItem[] = [
     outlineIcon: RiCalendarEventLine,
     filledIcon: RiCalendarEventFill,
   },
-  // {
-  //   path: "/submit",
-  //   label: "Submit",
-  //   requiresUser: false,
-  //   outlineIcon: IoAdd,
-  //   filledIcon: IoAdd,
-  //   outlineClassName: "SubmitIconOutline",
-  //   filledClassName: "SubmitIconFilled",
-  // },
+  {
+    path: "/submit",
+    label: "Submit",
+    requiresUser: false,
+    outlineIcon: IoAdd,
+    filledIcon: IoAdd,
+    outlineClassName: "SubmitIconOutline",
+    filledClassName: "SubmitIconFilled",
+  },
   {
     path: "/notifications",
     label: "Notifications",

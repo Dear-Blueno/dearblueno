@@ -94,7 +94,7 @@ function Post(props: PostProps) {
               title="Verified Brown"
             />
           )}
-          {props.post.postNumber >= 6305 && (
+          {props.post.postNumber >= 6305 && props.post.postNumber <= 6310 && (
             <AiFillRobot
               color="gray"
               className={styles.Bot}
