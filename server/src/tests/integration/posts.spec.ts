@@ -488,6 +488,19 @@ describe("Posts", () => {
       expect(res2.body[1].postNumber).toBe(3);
       expect(res2.body[2].postNumber).toBe(1);
     });
+
+    it("should not return posts with null postNumber", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        approved: true,
+        hotScore: 100,
+        approvedTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+      });
+      await post.save();
+
+      const res = await request(app).get("/posts").expect(200);
+      expect(res.body).toHaveLength(0);
+    });
   });
 
   describe("GET /posts/all", () => {
