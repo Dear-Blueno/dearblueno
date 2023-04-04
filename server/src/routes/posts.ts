@@ -40,18 +40,21 @@ postRouter.get(
     };
     const sortQuery = sortOptions[sort];
     const filterOptions = {
-      new: { approved: true },
+      new: { approved: true, postNumber: { $ne: null } },
       topWeek: {
         approved: true,
+        postNumber: { $ne: null },
         approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) },
       },
       topMonth: {
         approved: true,
+        postNumber: { $ne: null },
         approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30) },
       },
-      topAllTime: { approved: true },
+      topAllTime: { approved: true, postNumber: { $ne: null } },
       hot: {
         approved: true,
+        postNumber: { $ne: null },
         approvedTime: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) },
       },
     };
