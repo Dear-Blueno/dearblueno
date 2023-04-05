@@ -87,7 +87,11 @@ function Post(props: PostProps) {
     <div className={styles.Post}>
       <div className={styles.PostHeader}>
         <div className={styles.PostHeaderLeft}>
-          <PostNumber number={props.post.postNumber} post={props.post} />
+          <PostNumber
+            number={props.post.postNumber}
+            post={props.post}
+            _id={props.post._id}
+          />
           {props.post.verifiedBrown && (
             <RiShieldCheckFill
               className={styles.VerifiedBrown}
