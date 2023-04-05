@@ -1,5 +1,5 @@
 import IPost from "../../types/IPost";
-import { getPost } from "../../gateways/PostGateway";
+import { getPost, getPostById } from "../../gateways/PostGateway";
 import Post from "components/post/Post";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
@@ -15,23 +15,23 @@ interface PostPageProps {
 
 const PostPage: NextPage<PostPageProps> = ({ staticPost }) => {
   const router = useRouter();
-  const { id } = router.query;
-  const postNumber = id ? Number(id) : undefined;
-  const { data } = useQuery(
-    ["post", postNumber],
-    () => (postNumber ? getPost(postNumber) : undefined),
+  const id = String(router.query.id).trim();
+  const postNumber = !isNaN(Number(id)) ? Number(id) : undefined;
+  console.log(`postNumber: "${postNumber ?? "undefined"}"`);
+  console.log(`id: "${id}"`);
+
+  const { data, isLoading } = useQuery(
+    ["post", id],
+    () => (postNumber ? getPost(postNumber) : getPostById(id)),
     { initialData: staticPost, initialDataUpdatedAt: Date.now() - 60000 }
   );
-
-  if (!postNumber) {
-    return <MainLayout />;
-  }
-  if (isNaN(postNumber)) {
-    return <NotFoundPage />;
-  }
   const post = data?.success ? data.payload : undefined;
-  if (!post) {
+
+  if (isLoading) {
     return <MainLayout />;
+  }
+  if (!post) {
+    return <NotFoundPage />;
   }
 
   const numReactions = post.reactions.reduce(
@@ -43,14 +43,16 @@ const PostPage: NextPage<PostPageProps> = ({ staticPost }) => {
   return (
     <>
       <Head>
-        <title>Post {post.postNumber} - Dear Blueno</title>
-        <meta name="post_number" content={post.postNumber.toString()} />
+        <title>Post {post.postNumber || post._id} - Dear Blueno</title>
+        {post.postNumber && (
+          <meta name="post_number" content={post.postNumber.toString()} />
+        )}
         <meta name="date" content={post.approvedTime} />
         <meta name="reactions_count" content={numReactions.toString()} />
         <meta name="comments_count" content={numComments.toString()} />
       </Head>
       <MainLayout
-        title={`Post #${post.postNumber}`}
+        title={`Post ${post.postNumber ? `#${post.postNumber}` : post._id}`}
         page={<PostPageMain post={post} />}
       />
     </>
