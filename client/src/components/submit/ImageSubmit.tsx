@@ -29,9 +29,7 @@ function ImageSubmit(props: ImageSubmitProps) {
           props.setSubmitted(true);
           toast.success("Post submitted for approval!");
         } else {
-          toast.error(
-            (response.message as unknown as { message: string }).message
-          );
+          toast.error(response.message);
         }
       })
       .catch((error) => {

@@ -32,9 +32,7 @@ function ReactionButton(props: ReactionButtonProps) {
             result
               .then((response) => {
                 if (!response.success) {
-                  toast.error(
-                    (response.message as unknown as { message: string }).message
-                  );
+                  toast.error(response.message);
                 }
               })
               .catch(() => toast.error("Uh oh, something went wrong"));

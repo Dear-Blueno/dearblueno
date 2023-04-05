@@ -34,7 +34,7 @@ function CommentReview(props: CommentReviewProps) {
         }
       );
     } else {
-      toast.error((response.message as unknown as { message: string }).message);
+      toast.error(response.message);
     }
   };
 

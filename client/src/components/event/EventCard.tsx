@@ -129,7 +129,7 @@ export default function EventCard(props: EventCardProps) {
         }
       );
     } else {
-      toast.error((response.message as unknown as { message: string }).message);
+      toast.error(response.message);
     }
   };
 
