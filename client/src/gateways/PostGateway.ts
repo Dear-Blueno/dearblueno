@@ -305,3 +305,14 @@ export async function resolveReport(
     return failureResponseFromError(error);
   }
 }
+
+export async function getAllPostNumbers(): Promise<
+  IResponse<(number | string)[]>
+> {
+  try {
+    const response = await axios.get(`/posts/numbers`);
+    return successfulResponse(response.data as (number | string)[]);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
