@@ -75,6 +75,15 @@ export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   }
 }
 
+export async function getPostById(postId: string): Promise<IResponse<IPost>> {
+  try {
+    const response = await axios.get(`/posts/id/${postId}`);
+    return successfulResponse(response.data as IPost);
+  } catch (error: unknown) {
+    return failureResponseFromError(error);
+  }
+}
+
 export async function createPost(content: string): Promise<IResponse<IPost>> {
   try {
     const response = await axios.post("/posts", { content });
@@ -301,6 +310,17 @@ export async function resolveReport(
       `/posts/${postNumber}/comment/${commentNumber}/resolve`
     );
     return successfulResponse(response.data as IReport);
+  } catch (error: unknown) {
+    return failureResponseFromError(error);
+  }
+}
+
+export async function getAllPostNumbers(): Promise<
+  IResponse<(number | string)[]>
+> {
+  try {
+    const response = await axios.get(`/posts/numbers`);
+    return successfulResponse(response.data as (number | string)[]);
   } catch (error: unknown) {
     return failureResponseFromError(error);
   }

@@ -203,14 +203,55 @@ postRouter.get(
   }
 );
 
-// GET request that gets a single post by id (only approved posts)
+// GET request that returns a list of all post numbers
+postRouter.get("/numbers", async (_req, res) => {
+  const postNumbers = Post.find(
+    { approved: true, postNumber: { $ne: null } },
+    { postNumber: 1, _id: 0 }
+  );
+  const postIds = Post.find({ approved: true, postNumber: null }, { _id: 1 });
+  const posts = (await Promise.all([postNumbers, postIds])).flatMap((postArr) =>
+    postArr.map((post) => post.postNumber || post._id)
+  );
+  res.send(posts);
+});
+
+// GET request that gets a single post by post number (only approved posts)
 postRouter.get(
-  "/:id",
+  "/:num",
   optionalAuth,
-  param("id").isInt({ min: 1 }),
+  param("num").isInt({ min: 1 }),
   validate,
   async (req, res) => {
-    const post = await Post.findOne({ postNumber: req.params.id })
+    const post = await Post.findOne({ postNumber: req.params.num })
+      .select("-approvedBy -subscribers -score -hotScore")
+      .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "name profilePicture badges displayName pronouns",
+        },
+      });
+    if (!post || !post.approved) {
+      res.status(404).send("Post not found");
+      return;
+    }
+
+    const cleanPost = cleanSensitivePost(post.toObject(), req.user as IUser);
+
+    res.send(cleanPost);
+  }
+);
+
+// GET request that gets a single post by post id (only approved posts)
+postRouter.get(
+  "/id/:id",
+  optionalAuth,
+  param("id").isMongoId(),
+  validate,
+  async (req, res) => {
+    const post = await Post.findById(req.params.id)
       .select("-approvedBy -subscribers -score -hotScore")
       .populate("comments")
       .populate({
@@ -234,12 +275,12 @@ postRouter.get(
 // GET request that gets only the cleansed reactions of a single post
 // (Must be authenticated)
 postRouter.get(
-  "/:id/reactions",
+  "/:num/reactions",
   authCheck,
-  param("id").isInt({ min: 1 }),
+  param("num").isInt({ min: 1 }),
   validate,
   async (req, res) => {
-    const post = await Post.findOne({ postNumber: req.params.id })
+    const post = await Post.findOne({ postNumber: req.params.num })
       .select("reactions comments approved")
       .populate({
         path: "comments",
@@ -344,15 +385,15 @@ postRouter.put(
 // PUT request that reacts to a post
 // (Must be authenticated)
 postRouter.put(
-  "/:id/react",
+  "/:num/react",
   authCheck,
   body("reaction").isInt({ min: 1, max: 6 }),
   body("state").toBoolean(),
-  param("id").isInt({ min: 1 }),
+  param("num").isInt({ min: 1 }),
   validate,
   async (req, res) => {
     const post = await Post.findOne({
-      postNumber: Number(req.params.id),
+      postNumber: Number(req.params.num),
     });
     if (!post) {
       res.status(404).send("Post not found");
@@ -387,14 +428,14 @@ postRouter.put(
 // POST request that bookmarks a post
 // (Must be authenticated)
 postRouter.post(
-  "/:id/bookmark",
+  "/:num/bookmark",
   authCheck,
-  param("id").isInt({ min: 1 }),
+  param("num").isInt({ min: 1 }),
   body("bookmark").toBoolean(),
   validate,
   async (req, res) => {
     const post = await Post.findOne({
-      postNumber: Number(req.params.id),
+      postNumber: Number(req.params.num),
     });
     if (!post) {
       res.status(404).send("Post not found");
@@ -424,14 +465,14 @@ postRouter.post(
 // POST request that subscribes to a post (adds the post to a user's watchlist)
 // (Must be authenticated)
 postRouter.post(
-  "/:id/subscribe",
+  "/:num/subscribe",
   authCheck,
-  param("id").isInt({ min: 1 }),
+  param("num").isInt({ min: 1 }),
   body("subscribe").toBoolean(),
   validate,
   async (req, res) => {
     const post = await Post.findOne({
-      postNumber: Number(req.params.id),
+      postNumber: Number(req.params.num),
     });
     if (!post) {
       res.status(404).send("Post not found");

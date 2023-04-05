@@ -1,5 +1,5 @@
 import IPost from "../../types/IPost";
-import { getPost } from "../../gateways/PostGateway";
+import { getPost, getPostById } from "../../gateways/PostGateway";
 import Post from "components/post/Post";
 import NotFoundPage from "pages/404";
 import MainLayout from "components/layout/MainLayout";
@@ -14,30 +14,40 @@ import { useQuery } from "@tanstack/react-query";
 
 const PostPage: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const postNumber = id ? Number(id) : undefined;
-  const { data } = useQuery(["post", postNumber], () =>
-    postNumber ? getPost(postNumber) : undefined
-  );
+  const id = String(router.query.id).trim();
+  const postNumber = !isNaN(Number(id)) ? Number(id) : undefined;
 
-  if (!postNumber) {
+  const { data, isLoading } = useQuery(["post", id], () =>
+    postNumber ? getPost(postNumber) : getPostById(id)
+  );
+  const post = data?.success ? data.payload : undefined;
+
+  if (isLoading) {
     return <MainLayout />;
   }
-  if (isNaN(postNumber)) {
+  if (!post) {
     return <NotFoundPage />;
   }
-  const post = data?.success ? data.payload : undefined;
-  if (!post) {
-    return <MainLayout />;
-  }
+
+  const numReactions = post.reactions.reduce(
+    (acc, reaction) => acc + reaction.length,
+    0
+  );
+  const numComments = post.comments.length;
 
   return (
     <>
       <Head>
-        <title>Post {post.postNumber} - Dear Blueno</title>
+        <title>Post {post.postNumber || post._id} - Dear Blueno</title>
+        {post.postNumber && (
+          <meta name="post_number" content={post.postNumber.toString()} />
+        )}
+        <meta name="date" content={post.approvedTime} />
+        <meta name="reactions_count" content={numReactions.toString()} />
+        <meta name="comments_count" content={numComments.toString()} />
       </Head>
       <MainLayout
-        title={`Post #${post.postNumber}`}
+        title={`Post ${post.postNumber ? `#${post.postNumber}` : post._id}`}
         page={<PostPageMain post={post} />}
       />
     </>
