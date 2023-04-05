@@ -653,6 +653,19 @@ describe("Posts", () => {
       expect(res.body.postNumber).toBe(1);
     });
 
+    it("should return a post by mongo id if it exists", async () => {
+      const post = new Post({
+        content: "This is a test post",
+        postNumber: 1,
+        approved: true,
+      });
+      await post.save();
+
+      const res = await request(app).get(`/posts/id/${post._id}`).expect(200);
+      expect(res.body.content).toBe("This is a test post");
+      expect(res.body.postNumber).toBe(1);
+    });
+
     it("should return a 404 if the post does not exist", async () => {
       await request(app).get("/posts/123").expect(404);
     });
@@ -1477,6 +1490,49 @@ describe("Posts", () => {
 
       await request(app).get("/posts/1/reactions").send({ user }).expect(404);
       await request(app).get("/posts/2/reactions").send({ user }).expect(404);
+    });
+  });
+
+  describe("POST /posts/numbers", () => {
+    it("should return empty array if no posts exist", async () => {
+      const res = await request(app).get("/posts/numbers").expect(200);
+
+      expect(res.body).toHaveLength(0);
+    });
+
+    it("should return an array of post numbers and ids", async () => {
+      await Promise.all(
+        Array(10)
+          .fill(0)
+          .map((_, i) => {
+            return Post.create({
+              content: "This is a test post",
+              approved: true,
+              postNumber: i + 1,
+            });
+          })
+      );
+
+      const postWithId = await Post.create({
+        content: "This is a test post",
+        approved: true,
+      });
+
+      const postUnapproved = await Post.create({
+        content: "This is a test post",
+        approved: false,
+        postNumber: 15,
+      });
+
+      const res = await request(app).get("/posts/numbers").expect(200);
+
+      expect(res.body).toHaveLength(11);
+      expect(res.body).toContain(1);
+      expect(res.body).toContain(10);
+      expect(res.body).toContain(postWithId._id.toString());
+      expect(res.body).not.toContain(11);
+      expect(res.body).not.toContain(postUnapproved._id.toString());
+      expect(res.body).not.toContain(15);
     });
   });
 
