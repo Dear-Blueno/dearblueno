@@ -16,8 +16,6 @@ const PostPage: NextPage = () => {
   const router = useRouter();
   const id = String(router.query.id).trim();
   const postNumber = !isNaN(Number(id)) ? Number(id) : undefined;
-  console.log(`postNumber: "${postNumber ?? "undefined"}"`);
-  console.log(`id: "${id}"`);
 
   const { data, isLoading } = useQuery(["post", id], () =>
     postNumber ? getPost(postNumber) : getPostById(id)
