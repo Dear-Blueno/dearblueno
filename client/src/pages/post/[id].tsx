@@ -31,10 +31,20 @@ const PostPage: NextPage = () => {
     return <MainLayout />;
   }
 
+  const numReactions = post.reactions.reduce(
+    (acc, reaction) => acc + reaction.length,
+    0
+  );
+  const numComments = post.comments.length;
+
   return (
     <>
       <Head>
         <title>Post {post.postNumber} - Dear Blueno</title>
+        <meta name="post_number" content={post.postNumber.toString()} />
+        <meta name="date" content={post.approvedTime} />
+        <meta name="reactions_count" content={numReactions.toString()} />
+        <meta name="comments_count" content={numComments.toString()} />
       </Head>
       <MainLayout
         title={`Post #${post.postNumber}`}
