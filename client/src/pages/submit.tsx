@@ -10,14 +10,20 @@ import Link from "next/link";
 import Image from "next/image";
 import LogoIcon from "images/logo128.png";
 import EventStages from "components/eventstages/EventStages";
+import Head from "next/head";
 
 const SubmitPage: NextPage = () => {
   return (
-    <MainLayout
-      title="Submit"
-      page={<SubmitPageMain />}
-      header={<SubmitPageHeader />}
-    />
+    <>
+      <Head>
+        <title>Submit - Dear Blueno</title>
+      </Head>
+      <MainLayout
+        title="Submit"
+        page={<SubmitPageMain />}
+        header={<SubmitPageHeader />}
+      />
+    </>
   );
 };
 
