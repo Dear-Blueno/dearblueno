@@ -44,7 +44,7 @@ export default function ReportReview(props: ReportReviewProps) {
         );
       }
     } else {
-      toast.error((response.message as unknown as { message: string }).message);
+      toast.error(response.message);
     }
   };
 

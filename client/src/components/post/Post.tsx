@@ -60,7 +60,7 @@ function Post(props: PostProps) {
       toast.success(`${action} #${props.post.postNumber}`);
       await refetchUser();
     } else {
-      toast.error((response.message as unknown as { message: string }).message);
+      toast.error(response.message);
       setIsSubscribed(!isSubscribed);
     }
   };
@@ -78,7 +78,7 @@ function Post(props: PostProps) {
       void queryClient.refetchQueries(["bookmarks"]);
       await refetchUser();
     } else {
-      toast.error((response.message as unknown as { message: string }).message);
+      toast.error(response.message);
       setIsBookmarked(initialIsBookmarked);
     }
   };

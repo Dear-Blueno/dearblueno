@@ -158,9 +158,7 @@ function ProfileBox(props: ProfileBoxProps) {
               console.error(error);
             });
         } else {
-          toast.error(
-            (response.message as unknown as { message: string }).message
-          );
+          toast.error(response.message);
         }
       })
       .catch((error) => {
