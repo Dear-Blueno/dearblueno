@@ -203,6 +203,19 @@ postRouter.get(
   }
 );
 
+// GET request that returns a list of all post numbers
+postRouter.get("/numbers", async (_req, res) => {
+  const postNumbers = Post.find(
+    { approved: true, postNumber: { $ne: null } },
+    { postNumber: 1, _id: 0 }
+  );
+  const postIds = Post.find({ approved: true, postNumber: null }, { _id: 1 });
+  const posts = (await Promise.all([postNumbers, postIds])).flatMap((postArr) =>
+    postArr.map((post) => post.postNumber || post._id)
+  );
+  res.send(posts);
+});
+
 // GET request that gets a single post by id (only approved posts)
 postRouter.get(
   "/:id",
