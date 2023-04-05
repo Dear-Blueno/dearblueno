@@ -36,7 +36,7 @@ export function failureResponseFromError(error: unknown): IFailureResponse {
   }
   const axiosError = error as AxiosError;
   let message = axiosError.message;
-  if (axiosError.response) {
+  if (axiosError.response?.statusText) {
     message += ` (${axiosError.response.statusText})`;
   }
   return failureResponse(message);
