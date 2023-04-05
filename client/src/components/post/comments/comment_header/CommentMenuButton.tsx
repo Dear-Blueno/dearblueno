@@ -116,10 +116,7 @@ function CommentMenuButton(props: CommentMenuButtonProps) {
                     if (response.success) {
                       toast.success("Comment reported");
                     } else {
-                      toast.error(
-                        (response.message as unknown as { message: string })
-                          .message
-                      );
+                      toast.error(response.message);
                       console.log(response);
                     }
                     closePopup();

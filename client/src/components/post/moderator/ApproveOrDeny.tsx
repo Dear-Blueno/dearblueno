@@ -53,9 +53,7 @@ function ApproveOrDeny(props: ApproveOrDenyProps) {
               }
             );
           } else {
-            toast.error(
-              (response.message as unknown as { message: string }).message
-            );
+            toast.error(response.message);
           }
         };
       case "comment":
@@ -86,9 +84,7 @@ function ApproveOrDeny(props: ApproveOrDenyProps) {
               }
             );
           } else {
-            toast.error(
-              (response.message as unknown as { message: string }).message
-            );
+            toast.error(response.message);
           }
         };
     }
