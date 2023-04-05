@@ -75,6 +75,15 @@ export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
   }
 }
 
+export async function getPostById(postId: string): Promise<IResponse<IPost>> {
+  try {
+    const response = await axios.get(`/posts/id/${postId}`);
+    return successfulResponse(response.data as IPost);
+  } catch (error: unknown) {
+    return failureResponse(error as string);
+  }
+}
+
 export async function createPost(content: string): Promise<IResponse<IPost>> {
   try {
     const response = await axios.post("/posts", { content });
