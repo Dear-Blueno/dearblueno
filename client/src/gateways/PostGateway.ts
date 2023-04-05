@@ -4,7 +4,7 @@ import IUser from "../types/IUser";
 import IComment from "../types/IComment";
 import IPost, { IPostReactions } from "../types/IPost";
 import {
-  failureResponse,
+  failureResponseFromError,
   IResponse,
   successfulResponse,
 } from "./GatewayResponses";
@@ -22,7 +22,7 @@ export async function getPosts(
     });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -34,7 +34,7 @@ export async function getAllPosts(page?: number): Promise<IResponse<IPost[]>> {
     });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -48,7 +48,7 @@ export async function getModFeedPosts(
     });
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -62,7 +62,7 @@ export async function getModFeedComments(
     });
     return successfulResponse(response.data as IComment[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -71,7 +71,7 @@ export async function getPost(postNumber: number): Promise<IResponse<IPost>> {
     const response = await axios.get(`/posts/${postNumber}`);
     return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -80,7 +80,7 @@ export async function createPost(content: string): Promise<IResponse<IPost>> {
     const response = await axios.post("/posts", { content });
     return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -93,7 +93,7 @@ export async function createImagePost(
     const response = await axios.post("/posts/image", { title, imageUrl });
     return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -110,7 +110,7 @@ export async function reactToPost(
     const data = response.data as { reaction: boolean };
     return successfulResponse(data.reaction);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -128,7 +128,7 @@ export async function commentOnPost(
     });
     return successfulResponse(response.data as IComment);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -149,7 +149,7 @@ export async function reactToComment(
     const data = response.data as { reaction: boolean };
     return successfulResponse(data.reaction);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -165,7 +165,7 @@ export async function approvePost(
     });
     return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -181,7 +181,7 @@ export async function approveComment(
     );
     return successfulResponse(response.data as IPost);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -190,7 +190,7 @@ export async function searchPosts(query: string): Promise<IResponse<IPost[]>> {
     const response = await axios.get(`/posts/search?query=${query}`);
     return successfulResponse(response.data as IPost[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -205,7 +205,7 @@ export async function deleteComment(
     const data = response.data as { success: boolean };
     return successfulResponse(data.success);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -219,7 +219,7 @@ export async function bookmarkPost(
     });
     return successfulResponse(response.data as IUser);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -234,7 +234,7 @@ export async function subscribeToPost(
     const data = response.data as { subscribed: boolean };
     return successfulResponse(data.subscribed);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -247,7 +247,7 @@ export async function getPostReactionsByPage(
     });
     return successfulResponse(response.data as IPostReactions[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -258,7 +258,7 @@ export async function getPostReactionsByPost(
     const response = await axios.get(`/posts/${postNumber}/reactions`);
     return successfulResponse(response.data as IPostReactions);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -271,7 +271,7 @@ export async function getModFeedReports(
     });
     return successfulResponse(response.data as IReport[]);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -288,7 +288,7 @@ export async function flagComment(
     const data = response.data as { success: boolean };
     return successfulResponse(data.success);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -302,6 +302,6 @@ export async function resolveReport(
     );
     return successfulResponse(response.data as IReport);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }

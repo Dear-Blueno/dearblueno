@@ -2,6 +2,7 @@ import axios from "axios";
 import IUser from "../types/IUser";
 import {
   failureResponse,
+  failureResponseFromError,
   IResponse,
   successfulResponse,
 } from "./GatewayResponses";
@@ -17,7 +18,7 @@ export async function loadAuth(): Promise<IResponse<IUser>> {
       return failureResponse("Not logged in");
     }
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 

@@ -3,7 +3,7 @@ import IComment from "types/IComment";
 import IPost from "types/IPost";
 import IUser, { IBasicUser } from "../types/IUser";
 import {
-  failureResponse,
+  failureResponseFromError,
   IResponse,
   successfulResponse,
 } from "./GatewayResponses";
@@ -13,7 +13,7 @@ export async function getUser(_id: string): Promise<IResponse<IBasicUser>> {
     const response = await axios.get(`/user/${_id}`);
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -24,7 +24,7 @@ export async function searchUsers(
     const response = await axios.get(`/user/search/${query}`);
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -55,7 +55,7 @@ export async function updateUserProfile(
     });
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -68,7 +68,7 @@ export async function updateProfilePicture(
     });
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -83,7 +83,7 @@ export async function banUser(
     });
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -94,7 +94,7 @@ export async function getUserComments(
     const response = await axios.get(`/user/${_id}/comments`);
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -103,7 +103,7 @@ export async function getBookmarks(page: number): Promise<IResponse<IPost[]>> {
     const response = await axios.get(`/user/bookmarks?page=${page}`);
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -114,7 +114,7 @@ export async function markNotificationAsRead(
     await axios.delete(`/user/notifications/${notificationId}`);
     return successfulResponse(true);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -125,7 +125,7 @@ export async function markAllNotificationsAsRead(): Promise<
     await axios.delete(`/user/notifications`);
     return successfulResponse(true);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -136,7 +136,7 @@ export async function updateSettings(
     const response = await axios.put(`/user/settings`, newSettings);
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -145,7 +145,7 @@ export async function blockUser(_id: string): Promise<IResponse<IUser>> {
     const response = await axios.post(`/user/block`, { id: _id });
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
 
@@ -154,6 +154,6 @@ export async function unblockUser(_id: string): Promise<IResponse<IUser>> {
     const response = await axios.put(`/user/block`, { id: _id });
     return successfulResponse(response.data);
   } catch (error: unknown) {
-    return failureResponse(error as string);
+    return failureResponseFromError(error);
   }
 }
