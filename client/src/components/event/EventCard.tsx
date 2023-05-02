@@ -47,6 +47,14 @@ export default function EventCard(props: EventCardProps) {
       "yyyy-MM-dd"
     )
   );
+  const endDate = makeDate(
+    formatInTimeZone(
+      new Date(props.event.endDate),
+      "America/New_York",
+      "yyyy-MM-dd"
+    )
+  );
+  const multiDay = startDate !== endDate;
 
   const queryClient = useQueryClient();
 
@@ -163,9 +171,15 @@ export default function EventCard(props: EventCardProps) {
         <Linkify tagName="p" className={styles.EventLocation}>
           {props.event.location}
         </Linkify>
-        <p>
-          {startDate} • {startTime} - {endTime} ET
-        </p>
+        {!multiDay ? (
+          <p>
+            {startDate} • {startTime} - {endTime} ET
+          </p>
+        ) : (
+          <p>
+            {startDate} • {startTime} - {endDate} • {endTime} ET
+          </p>
+        )}
         <div className={styles.AttendeeContainer}>
           <div className={styles.EventCardAttendees}>
             <p>{props.event.going.length}</p>
