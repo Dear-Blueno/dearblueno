@@ -71,7 +71,7 @@
     "express-validator": "^6.13.0",
     "google-spreadsheet": "^3.2.0",
     "log4js": "^6.4.1",
-    "mongoose": "^6.0.13",
+    "mongoose": "^6.11.3",
     "node-cron": "^3.0.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
