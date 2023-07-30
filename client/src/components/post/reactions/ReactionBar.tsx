@@ -12,6 +12,8 @@ import LikeIcon from "images/like.svg";
 import LikeBWIcon from "images/likeBW.svg";
 import SurpriseIcon from "images/surprise.svg";
 import SurpriseBWIcon from "images/surpriseBW.svg";
+import DislikeIcon from "images/dislike.svg";
+import DislikeBWIcon from "images/dislikeBW.svg";
 import { useState, useMemo } from "react";
 import { reactToComment, reactToPost } from "gateways/PostGateway";
 import useUser from "hooks/useUser";
@@ -41,6 +43,7 @@ enum ReactionType {
   CRY,
   ANGRY,
   SURPRISE,
+  DISLIKE,
 }
 
 interface Reaction {
@@ -54,11 +57,24 @@ interface ReactionRequest {
   newValue: boolean;
 }
 
+const baseReactionOrder: ReactionType[] = [
+  ReactionType.LIKE,
+  ReactionType.DISLIKE,
+  ReactionType.HEART,
+  ReactionType.LAUGH,
+  ReactionType.CRY,
+  ReactionType.ANGRY,
+  ReactionType.SURPRISE,
+];
+
 const reactionCompare = (a: Reaction, b: Reaction) => {
-  if (a.reactors.length === 0 || b.reactors.length === 0) {
-    return b.reactors.length - a.reactors.length || a.type - b.type;
+  if (
+    (a.reactors.length === 0 || b.reactors.length === 0) &&
+    a.type === b.type
+  ) {
+    return b.reactors.length - a.reactors.length;
   }
-  return a.type - b.type;
+  return baseReactionOrder.indexOf(a.type) - baseReactionOrder.indexOf(b.type);
 };
 
 function ReactionBar(props: ReactionBarProps) {
@@ -97,6 +113,7 @@ function ReactionBar(props: ReactionBarProps) {
       [CryIcon, CryBWIcon],
       [AngryIcon, AngryBWIcon],
       [SurpriseIcon, SurpriseBWIcon],
+      [DislikeIcon, DislikeBWIcon],
     ],
     []
   );
