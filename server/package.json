@@ -35,7 +35,7 @@
   },
   "homepage": "https://dearblueno.net",
   "devDependencies": {
-    "@shelf/jest-mongodb": "^4.1.4",
+    "@shelf/jest-mongodb": "^4.1.7",
     "@types/cookie-parser": "^1.4.2",
     "@types/cookie-session": "^2.0.43",
     "@types/cors": "^2.8.12",
@@ -71,7 +71,7 @@
     "express-validator": "^6.13.0",
     "google-spreadsheet": "^3.2.0",
     "log4js": "^6.4.1",
-    "mongoose": "^6.0.13",
+    "mongoose": "^6.12.0",
     "node-cron": "^3.0.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
