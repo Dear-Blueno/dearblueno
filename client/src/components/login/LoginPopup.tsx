@@ -1,5 +1,5 @@
 import styles from "./LoginPopup.module.scss";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
+import { DialogOverlay, DialogContent } from "components/dialog/Dialog";
 import { loginBrown } from "gateways/AuthGateway";
 import { useLoginPopup } from "hooks/login-popup";
 

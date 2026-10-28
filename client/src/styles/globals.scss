@@ -102,7 +102,7 @@ button {
   }
 }
 
-[data-reach-dialog-content] {
+[data-dialog-content] {
   @extend .DearBluenoCard;
   position: absolute;
   top: 40%;
@@ -111,4 +111,20 @@ button {
   width: 18rem !important;
   border: 1px solid black;
   // box-shadow: -0.2rem 0.2rem black;
+}
+
+[data-dialog-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+[data-dialog-content] {
+  z-index: 1001;
+  padding: 2rem;
+  outline: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
 }

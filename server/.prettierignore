@@ -3,3 +3,5 @@ logs/
 build/
 dist/
 globalConfig.json
+
+.vercel/

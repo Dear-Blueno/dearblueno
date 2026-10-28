@@ -33,6 +33,8 @@ You will also see any lint errors in the console.
 
 Builds the app for production to the `.next` folder.\
 This optimizes the build for the best performance, so it can be run on a Node.js server with `npm start`.\
-To export the app to static HTML (and lose some of the dynamic Next.js features), use `npm run export`.
+The Pages Router retains server-rendered sitemap generation and profile ISR. The service worker caches public static assets and the offline fallback only.
 
 See the section about [deployment](https://nextjs.org/docs/deployment) for more information on how to deploy your app.
+
+Use Node.js 24. Deployment and environment configuration are described in [the migration runbook](../docs/MIGRATION.md).

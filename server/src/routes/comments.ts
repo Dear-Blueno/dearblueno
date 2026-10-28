@@ -97,7 +97,7 @@ commentRouter.post(
         commentNumber: req.body.parentId,
         post: post._id,
       });
-      if (!parentComment || !parentComment.approved) {
+      if (!parentComment?.approved) {
         res.status(404).send("Parent comment not found");
         return;
       }
@@ -362,7 +362,7 @@ commentRouter.post(
     const post = await Post.findOne({
       postNumber: Number(req.params.id),
     }).populate("comments");
-    if (!post || !post.approved) {
+    if (!post?.approved) {
       res.status(404).send("Post not found");
       return;
     }
@@ -370,7 +370,7 @@ commentRouter.post(
     const comment = post.comments.find(
       (c: IComment) => c.commentNumber === Number(req.params.commentId)
     );
-    if (!comment || !comment.approved) {
+    if (!comment?.approved) {
       res.status(404).send("Comment not found");
       return;
     }
@@ -404,7 +404,7 @@ commentRouter.put(
     const post = await Post.findOne({
       postNumber: req.params.id,
     }).populate("comments");
-    if (!post || !post.approved) {
+    if (!post?.approved) {
       res.status(404).send("Post not found");
       return;
     }
@@ -412,7 +412,7 @@ commentRouter.put(
     const comment = post.comments.find(
       (c: IComment) => c.commentNumber === Number(req.params.commentId)
     );
-    if (!comment || !comment.approved) {
+    if (!comment?.approved) {
       res.status(404).send("Comment not found");
       return;
     }

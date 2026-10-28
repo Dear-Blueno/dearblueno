@@ -519,7 +519,7 @@ describe("Events", () => {
   describe("POST /events", () => {
     it("should return 401 if not logged in", async () => {
       await request(app).post("/events").expect(401);
-      expect(await Event.count()).toBe(0);
+      expect(await Event.countDocuments()).toBe(0);
     });
 
     it("should return 400 if any required fields are missing", async () => {
@@ -552,7 +552,7 @@ describe("Events", () => {
         })
         .expect(400);
 
-      expect(await Event.count()).toBe(0);
+      expect(await Event.countDocuments()).toBe(0);
     });
 
     it("should return 400 if startDate is after endDate", async () => {
@@ -568,7 +568,7 @@ describe("Events", () => {
         })
         .expect(400);
 
-      expect(await Event.count()).toBe(0);
+      expect(await Event.countDocuments()).toBe(0);
     });
 
     it("should return 400 if startDate is in the past", async () => {
@@ -584,7 +584,7 @@ describe("Events", () => {
         })
         .expect(400);
 
-      expect(await Event.count()).toBe(0);
+      expect(await Event.countDocuments()).toBe(0);
     });
 
     it("should return 400 if any fields are invalid", async () => {
@@ -626,7 +626,7 @@ describe("Events", () => {
         })
         .expect(400);
 
-      expect(await Event.count()).toBe(0);
+      expect(await Event.countDocuments()).toBe(0);
     });
 
     it("should return 200 and create a new unapproved event", async () => {
@@ -647,7 +647,7 @@ describe("Events", () => {
         })
         .expect(200);
 
-      expect(await Event.count()).toBe(1);
+      expect(await Event.countDocuments()).toBe(1);
 
       const event = await Event.findById(res.body._id);
       expect(event).toBeDefined();

@@ -1,84 +1,46 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import setupForTests from "../testUtil";
-import { hourlyHotScoreJob } from "../../config/cron-hourly";
+import { updateHotScores } from "../../jobs/maintenance";
 import Post from "../../models/Post";
 
-describe("Hourly Cron (Integration)", () => {
+describe("Daily hot scores", () => {
   let mongo: MongoMemoryServer;
-
   beforeAll(async () => {
-    const { db } = await setupForTests();
-    mongo = db;
+    mongo = (await setupForTests()).db;
   });
-
   beforeEach(async () => {
     await mongoose.connection.dropDatabase();
   });
-
-  describe("Hourly Hot Score Job", () => {
-    it("should not affect posts published over a week ago", async () => {
-      await Post.create({
-        content: "This is a post",
-        approvedTime: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8),
-        approved: true,
-        postNumber: 1,
-      });
-
-      await hourlyHotScoreJob();
-
-      const post = await Post.findOne();
-      expect(post?.hotScore).toBe(0);
-    });
-
-    it("should decrease hot score by 2 for each hour since the post was approved", async () => {
-      await Post.create({
-        content: "This is a post",
-        approvedTime: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6),
-        approved: true,
-        postNumber: 1,
-        hotScore: 10,
-      });
-
-      await hourlyHotScoreJob();
-
-      const post = await Post.findOne();
-      expect(post?.hotScore).toBe(8);
-
-      await hourlyHotScoreJob();
-
-      const post2 = await Post.findOne();
-      expect(post2?.hotScore).toBe(6);
-    });
-
-    it("should update hot score for multiple posts", async () => {
-      await Promise.all(
-        Array(10)
-          .fill(0)
-          .map((_, i) =>
-            Post.create({
-              content: "This is a post",
-              approvedTime: new Date(Date.now() - 900 * 60 * 60 * 24 * i),
-              approved: true,
-              postNumber: i + 1,
-              hotScore: 10,
-            })
-          )
-      );
-
-      await hourlyHotScoreJob();
-
-      const posts = await Post.find().sort({ postNumber: 1 });
-      expect(posts).toHaveLength(10);
-      expect(posts[0].hotScore).toBe(8);
-      expect(posts[7].hotScore).toBe(8);
-      expect(posts[8].hotScore).toBe(10);
-      expect(posts[9].hotScore).toBe(10);
-    });
-  });
-
   afterAll(async () => {
-    await mongoose.connection.close();
+    await mongoose.disconnect();
     await mongo.stop();
+  });
+  it("recomputes age decay idempotently, including old posts", async () => {
+    const now = new Date("2026-10-28T09:00:00Z");
+    const post = await Post.create({
+      content: "post",
+      approved: true,
+      score: 50,
+      approvedTime: new Date(now.getTime() - 8 * 24 * 3600000),
+    });
+    await updateHotScores(now);
+    await updateHotScores(now);
+    expect((await Post.findById(post._id))?.hotScore).toBe(50 - 2 * 8 * 24);
+  });
+  it("leaves unapproved posts unchanged and incorporates new scores", async () => {
+    const now = new Date();
+    const post = await Post.create({
+      content: "post",
+      approved: true,
+      score: 3,
+      approvedTime: now,
+    });
+    await Post.create({ content: "unapproved", hotScore: 7 });
+    await updateHotScores(now);
+    await Post.updateOne({ _id: post._id }, { $inc: { score: 3 } });
+    await updateHotScores(now);
+    expect((await Post.findById(post._id))?.hotScore).toBe(6);
+    expect((await Post.findOne({ approved: false }))?.hotScore).toBe(7);
   });
 });

@@ -1,71 +1,30 @@
-name: 🚀 Deploy Production
-
+name: Deploy Vercel
 on:
-  workflow_dispatch:
   push:
-    branches: [main]
-
+    branches: [main, staging]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vercel-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  build-deploy-backend:
-    name: 🎉 Build, Test, and Deploy Backend
+  validate:
+    uses: ./.github/workflows/build.yml
+  deploy:
+    needs: validate
+    if: vars.VERCEL_DEPLOYMENTS_ENABLED == 'true' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging')
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🔨 Set up Node 16.17.0
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.17.0
-
-      - name: 🛠 Compile Backend
-        run: |
-          cd server
-          npm ci
-          npm run lint
-          npm run build
-          npm run test:build
-          cd ..
-
-          mkdir -p deploy/server/dist
-          cp -r server/dist deploy/server
-          cp server/* deploy/server || :
-
-      - name: ☁ SFTP Deploy
-        uses: easingthemes/ssh-deploy@v2
+          node-version: 24
+      - run: npm install --global vercel@65.5.0
+      - run: bash scripts/deploy.sh
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/home/${{ secrets.REMOTE_USER }}/DearBluenoProd/"
-          SOURCE: "deploy/server/"
-
-  build-deploy-frontend:
-    name: 🎉 Build and Deploy Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🔨 Set up Node 16.17.0
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.17.0
-
-      - name: ⛏ Build Frontend
-        run: |
-          cd client
-          npm ci
-          npm run lint
-          npm run build
-          cd ..
-        env:
-          NEXT_PUBLIC_API_URL: "https://api.dearblueno.net"
-
-      - name: ☁ Deploy to Vercel Git Repo
-        uses: wei/git-sync@v3
-        with:
-          source_repo: "https://github.com/Dear-Blueno/dearblueno.git"
-          source_branch: "main"
-          destination_repo: "https://DearBlueno:${{ secrets.PAT }}@github.com/DearBlueno/deploy.git"
-          destination_branch: "deploy"
+          DEPLOY_TARGET: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_API_PROJECT_ID }}
+          VERCEL_CLIENT_PROJECT_ID: ${{ secrets.VERCEL_CLIENT_PROJECT_ID }}

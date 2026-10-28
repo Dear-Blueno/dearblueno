@@ -4,7 +4,6 @@ module.exports = {
     browser: true,
   },
   extends: [
-    "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict",
@@ -16,11 +15,10 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {
-    "@next/next/no-img-element": "off",
-  },
-  plugins: ["@typescript-eslint"],
+  rules: {},
+  plugins: ["@typescript-eslint", "react-hooks"],
   ignorePatterns: [
+    ".vercel/*",
     ".next/*",
     "build/*",
     ".eslintrc.js",

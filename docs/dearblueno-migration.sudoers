@@ -1,0 +1,8 @@
+# Temporary migration permissions; remove after the cutover/rollback window.
+# Run commands explicitly as nodejs. No root shell or nginx write access.
+Cmnd_Alias DEARBLUENO_PM2 = /home/nodejs/.nvm/versions/node/v16.18.0/bin/node /home/nodejs/.nvm/versions/node/v16.18.0/lib/node_modules/pm2/bin/pm2 stop dearbluenoapi-production, \
+    /home/nodejs/.nvm/versions/node/v16.18.0/bin/node /home/nodejs/.nvm/versions/node/v16.18.0/lib/node_modules/pm2/bin/pm2 restart dearbluenoapi-production, \
+    /home/nodejs/.nvm/versions/node/v16.18.0/bin/node /home/nodejs/.nvm/versions/node/v16.18.0/lib/node_modules/pm2/bin/pm2 stop dearbluenoapi-staging, \
+    /home/nodejs/.nvm/versions/node/v16.18.0/bin/node /home/nodejs/.nvm/versions/node/v16.18.0/lib/node_modules/pm2/bin/pm2 restart dearbluenoapi-staging, \
+    /home/nodejs/.nvm/versions/node/v16.18.0/bin/node /home/nodejs/.nvm/versions/node/v16.18.0/lib/node_modules/pm2/bin/pm2 save
+nick ALL=(nodejs) NOPASSWD: DEARBLUENO_PM2

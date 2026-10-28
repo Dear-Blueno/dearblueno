@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "express",
+  "regions": ["iad1"],
+  "functions": {
+    "src/index.ts": {
+      "maxDuration": 300
+    }
+  },
+  "crons": [
+    {
+      "path": "/internal/jobs/daily",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}

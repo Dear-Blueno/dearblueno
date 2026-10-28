@@ -1,0 +1,20 @@
+name: Daily job watchdog
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    if: vars.VERCEL_JOBS_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/check-jobs.mjs
+        env:
+          API_URL: https://api.dearblueno.net
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}

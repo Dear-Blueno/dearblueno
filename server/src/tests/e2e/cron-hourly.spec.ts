@@ -1,3 +1,10 @@
+// Jest 29's VM cannot use the runtime adapter's native import. Use the same real
+// library through Jest's existing ESM syntax transformer for this opt-in test.
+jest.mock(
+  "../../jobs/loadSheets.cjs",
+  () => () => Promise.resolve(jest.requireActual("google-spreadsheet"))
+);
+import { JWT } from "google-auth-library";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import setupForTests from "../testUtil";
@@ -16,6 +23,17 @@ describe("Hourly Cron (E2E)", () => {
     mongo = db;
 
     const id = process.env.TESTING_GOOGLE_SHEET_ID;
+    if (
+      !id ||
+      [
+        process.env.VERIFIED_GOOGLE_SHEET_ID,
+        process.env.UNVERIFIED_GOOGLE_SHEET_ID,
+      ].includes(id)
+    ) {
+      throw new Error(
+        "A dedicated test Sheet, distinct from production Sheets, is required"
+      );
+    }
     process.env.VERIFIED_GOOGLE_SHEET_ID = id;
     process.env.UNVERIFIED_GOOGLE_SHEET_ID = id;
   });
@@ -28,15 +46,17 @@ describe("Hourly Cron (E2E)", () => {
     let document: GoogleSpreadsheet;
     let sheet: GoogleSpreadsheetWorksheet;
 
-    beforeAll(async () => {
+    beforeAll(() => {
       // Setup connection to google spreadsheet
-      const creds = {
-        client_email: process.env.GOOGLE_SHEET_CLIENT_EMAIL ?? "",
-        private_key: process.env.GOOGLE_SHEET_PRIVATE_KEY ?? "",
-      };
-
-      document = new GoogleSpreadsheet(process.env.VERIFIED_GOOGLE_SHEET_ID);
-      await document.useServiceAccountAuth(creds);
+      const auth = new JWT({
+        email: process.env.GOOGLE_SHEET_CLIENT_EMAIL ?? "",
+        key: process.env.GOOGLE_SHEET_PRIVATE_KEY?.replace(/\\n/g, "\n") ?? "",
+        scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+      });
+      document = new GoogleSpreadsheet(
+        process.env.VERIFIED_GOOGLE_SHEET_ID ?? "",
+        auth
+      );
     });
 
     beforeEach(async () => {
@@ -77,17 +97,12 @@ describe("Hourly Cron (E2E)", () => {
 
       await hourlySheetsJob();
 
-      await sheet.loadCells("A1:B5");
-      expect(sheet.getCellByA1("A1").value).toBe("Timestamp");
-      expect(sheet.getCellByA1("B1").value).toBe("Post");
-      expect(sheet.getCellByA1("A2").value).toBe(null);
-      expect(sheet.getCellByA1("B2").value).toBe(null);
-      expect(sheet.getCellByA1("A3").value).toBe(null);
-      expect(sheet.getCellByA1("B3").value).toBe(null);
-      expect(sheet.getCellByA1("A4").value).toBe(null);
-      expect(sheet.getCellByA1("B4").value).toBe(null);
-      expect(sheet.getCellByA1("A5").value).toBe(null);
-      expect(sheet.getCellByA1("B5").value).toBe(null);
+      const rows = await sheet.getRows();
+      const imported = rows.filter((row) => row.get("Post"));
+      expect(imported).toHaveLength(3);
+      expect(
+        imported.every((row) => row.get("ImportId") && row.get("ImportedAt"))
+      ).toBe(true);
 
       const posts = await Post.find();
       expect(posts.length).toBe(3);
@@ -121,17 +136,12 @@ describe("Hourly Cron (E2E)", () => {
 
       await hourlySheetsJob();
 
-      await sheet.loadCells("A1:B5");
-      expect(sheet.getCellByA1("A1").value).toBe("Timestamp");
-      expect(sheet.getCellByA1("B1").value).toBe("Post");
-      expect(sheet.getCellByA1("A2").value).toBe(null);
-      expect(sheet.getCellByA1("B2").value).toBe(null);
-      expect(sheet.getCellByA1("A3").value).toBe(null);
-      expect(sheet.getCellByA1("B3").value).toBe(null);
-      expect(sheet.getCellByA1("A4").value).toBe(null);
-      expect(sheet.getCellByA1("B4").value).toBe(null);
-      expect(sheet.getCellByA1("A5").value).toBe(null);
-      expect(sheet.getCellByA1("B5").value).toBe(null);
+      const rows = await sheet.getRows();
+      const imported = rows.filter((row) => row.get("Post"));
+      expect(imported).toHaveLength(3);
+      expect(
+        imported.every((row) => row.get("ImportId") && row.get("ImportedAt"))
+      ).toBe(true);
 
       const posts = await Post.find();
       expect(posts.length).toBe(3);

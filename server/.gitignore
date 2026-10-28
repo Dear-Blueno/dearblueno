@@ -25,3 +25,7 @@ globalConfig.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.vercel
+.env*
+
+!.env.example

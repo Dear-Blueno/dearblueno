@@ -1,3 +1,4 @@
+import { easternDay } from "../jobs/calendar";
 import { Router } from "express";
 import passport from "passport";
 import User, { IUser } from "../models/User";
@@ -7,14 +8,14 @@ const authRouter = Router();
 // Return user info
 authRouter.get("/", async (req, res) => {
   if (req.user) {
-    res.status(200).json({
-      loggedIn: true,
-      user: req.user,
-    });
     await User.updateOne(
       { _id: (req.user as IUser)._id },
-      { lastLoggedIn: Date.now() }
+      {
+        lastLoggedIn: Date.now(),
+        $addToSet: { loginDays: easternDay(new Date()) },
+      }
     );
+    res.status(200).json({ loggedIn: true, user: req.user });
   } else {
     // The user is not logged in
     res.status(204).send();
@@ -49,7 +50,7 @@ authRouter.get(
 
 // Google OAuth2 callback
 authRouter.get("/google/callback", (req, res, next) => {
-  passport.authenticate("google", (err, user) => {
+  passport.authenticate("google", (err: unknown, user: Express.User) => {
     const url = process.env.CLIENT_URL ?? "http://localhost:3000";
     if (err) {
       return res.redirect(`${url}/login-error`);

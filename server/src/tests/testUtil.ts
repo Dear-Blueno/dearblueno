@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import log4js from "log4js";
-import app from "../app";
+import app from "../createApp";
+import mongoConnection from "../config/mongo";
 
 export default async function setupForTests() {
   // Create a MongoDB Memory Server
@@ -9,6 +10,7 @@ export default async function setupForTests() {
   process.env.MONGODB_URI = db.getUri();
 
   // Setup the app
+  await mongoConnection();
   const server = app();
   log4js.shutdown();
 

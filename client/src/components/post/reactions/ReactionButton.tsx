@@ -1,5 +1,5 @@
 import styles from "./ReactionButton.module.scss";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import toast from "react-hot-toast";
 import { IResponse } from "gateways/GatewayResponses";
 

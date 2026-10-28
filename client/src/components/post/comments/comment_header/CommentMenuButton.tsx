@@ -1,8 +1,7 @@
 import styles from "./CommentMenuButton.module.scss";
 import { useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
-import "@reach/dialog/styles.css";
+import { DialogOverlay, DialogContent } from "components/dialog/Dialog";
 import { IBasicUser } from "types/IUser";
 import { IThread } from "../CommentSection";
 import { deleteComment, flagComment } from "gateways/PostGateway";

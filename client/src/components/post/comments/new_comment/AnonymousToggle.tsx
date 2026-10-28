@@ -1,7 +1,7 @@
 import styles from "./AnonymousToggle.module.scss";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
+import { DialogOverlay, DialogContent } from "components/dialog/Dialog";
 import useUser from "hooks/useUser";
 
 interface AnonymousToggleProps {

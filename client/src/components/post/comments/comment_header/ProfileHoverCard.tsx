@@ -6,7 +6,7 @@ import {
   RiInstagramLine,
   RiLinkedinBoxLine,
 } from "react-icons/ri";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 
 interface ProfileHoverCardProps {

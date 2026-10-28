@@ -32,5 +32,5 @@ module.exports = {
     },
   ],
   plugins: ["@typescript-eslint"],
-  ignorePatterns: ["dist/*", "coverage/*"],
+  ignorePatterns: ["dist/*", "coverage/*", ".vercel/*"],
 };

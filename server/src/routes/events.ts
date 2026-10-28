@@ -3,7 +3,6 @@ import { body, param, query } from "express-validator";
 import { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Event, { IEvent } from "../models/Event";
-import { Document } from "mongoose";
 import { validate } from "../middleware/validate";
 
 const eventRouter = Router();
@@ -41,7 +40,7 @@ eventRouter.get(
       .limit(10)
       .select("-approvedBy -notificationSent");
 
-    const cleanEvents = events.map((event: IEvent & Document) =>
+    const cleanEvents = events.map((event) =>
       cleanSensitiveEvent(event.toObject(), req.user as IUser)
     );
 
@@ -104,7 +103,7 @@ eventRouter.get(
       .limit(10)
       .select("going interested");
 
-    const cleanEvents = events.map((event: IEvent & Document) =>
+    const cleanEvents = events.map((event) =>
       cleanSensitiveEvent(event.toObject(), req.user as IUser)
     );
 
@@ -122,7 +121,7 @@ eventRouter.get(
     const event = await Event.findById(req.params.id).select(
       "-approvedBy -notificationSent"
     );
-    if (!event || !event.approved) {
+    if (!event?.approved) {
       res.status(404).send("Event not found");
       return;
     }
@@ -143,7 +142,7 @@ eventRouter.get(
     const event = await Event.findById(req.params.id).select(
       "approved going interested"
     );
-    if (!event || !event.approved) {
+    if (!event?.approved) {
       res.status(404).send("Event not found");
       return;
     }
@@ -230,7 +229,7 @@ eventRouter.put(
   validate,
   async (req, res) => {
     const event = await Event.findById(req.params.id);
-    if (!event || !event.approved) {
+    if (!event?.approved) {
       res.status(404).send("Event not found");
       return;
     }
@@ -258,7 +257,7 @@ eventRouter.put(
   validate,
   async (req, res) => {
     const event = await Event.findById(req.params.id);
-    if (!event || !event.approved) {
+    if (!event?.approved) {
       res.status(404).send("Event not found");
       return;
     }
