@@ -33,6 +33,6 @@
 - Final cutover requires stopping the source writers, a fresh encrypted backup and final restore, verification, deployed application smoke checks, and the documented performance/job-duration gates. Rehearsal data is not a final production migration.
 - Cloudflare API and staging API records are currently proxied A records pointing to DigitalOcean. Original records are saved privately for rollback; no DNS switch has occurred.
 
-## Droplet constraint
+## Droplet retirement
 
-**Do not delete the DigitalOcean droplet.** It also runs `predictionsapi-prod` and `brownclimbingapi-prod`. Retire only `dearbluenoapi-production` and `dearbluenoapi-staging`; leave the other applications and shared nginx/MongoDB services intact.
+The owner confirmed that `predictionsapi-prod` (Predictions Contest) and `brownclimbingapi-prod` (Brown Climbing) are discontinued and need no ongoing hosting. Full DigitalOcean droplet decommissioning is authorized after Dear Blueno's successful cutover, seven healthy observation days, and a verified final encrypted backup stored outside the droplet. Keep the droplet available for Atlas-backed application rollback until those gates pass. Retire obsolete deployment credentials and inspect droplet-associated billable resources before closing out the migration; remove only resources verified to belong exclusively to this droplet.
