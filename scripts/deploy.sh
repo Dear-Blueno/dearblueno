@@ -14,6 +14,7 @@ elif [[ "${CI:-}" == true ]]; then echo 'VERCEL_TOKEN is required in CI' >&2; ex
 production_args=()
 if [[ "$DEPLOY_TARGET" == production ]]; then production_args=(--prod); fi
 urls=()
+deployment_ids=()
 for component in server client; do
   if [[ "$component" == server ]]; then export VERCEL_PROJECT_ID="$VERCEL_API_PROJECT_ID";
   else export VERCEL_PROJECT_ID="$VERCEL_CLIENT_PROJECT_ID"; fi
@@ -23,6 +24,7 @@ for component in server client; do
   deployment_json="$(vercel deploy --prebuilt "${production_args[@]}" --skip-domain --json "${credentials[@]}")"
   deployment_url="$(node -e 'let data="";process.stdin.on("data",chunk=>data+=chunk).on("end",()=>{const result=JSON.parse(data);if(result.status!=="ok"||result.deployment?.readyState!=="READY")process.exit(1);console.log(result.deployment.url)})' <<< "$deployment_json")"
   urls+=("$deployment_url")
+  deployment_ids+=("$(node -e 'let data="";process.stdin.on("data",chunk=>data+=chunk).on("end",()=>console.log(JSON.parse(data).deployment.id))' <<< "$deployment_json")")
 done
 # Both builds and uploads must succeed before changing production aliases.
 if [[ "$DEPLOY_TARGET" == production ]]; then
@@ -34,9 +36,11 @@ if [[ "$DEPLOY_TARGET" == production ]]; then
 else
   export VERCEL_PROJECT_ID="$VERCEL_API_PROJECT_ID"
   cd "$repo_dir/server"
-  vercel alias set "${urls[0]}" "${STAGING_API_DOMAIN:-stagingapi.dearblueno.net}" "${credentials[@]}"
+  # Project subdomains can be verified even when the root domain belongs to
+  # another Vercel account. The alias API supports this configuration.
+  vercel api "/v2/deployments/${deployment_ids[0]}/aliases?teamId=$VERCEL_ORG_ID" -X POST -f "alias=${STAGING_API_DOMAIN:-stagingapi.dearblueno.net}" "${credentials[@]}"
   export VERCEL_PROJECT_ID="$VERCEL_CLIENT_PROJECT_ID"
   cd "$repo_dir/client"
-  vercel alias set "${urls[1]}" "${STAGING_CLIENT_DOMAIN:-staging.dearblueno.net}" "${credentials[@]}"
+  vercel api "/v2/deployments/${deployment_ids[1]}/aliases?teamId=$VERCEL_ORG_ID" -X POST -f "alias=${STAGING_CLIENT_DOMAIN:-staging.dearblueno.net}" "${credentials[@]}"
   printf '%s\n' "${urls[@]}"
 fi

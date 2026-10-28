@@ -11,6 +11,7 @@
 - Production and preview variables are isolated. Existing OAuth callbacks, client origins and session secrets are preserved. Preview uses the old dedicated staging Sheets, which are distinct from production. Jobs remain disabled.
 - The frontend's old mirror-repository integration was disconnected. New CLI deployments upload component folders directly; project root directories are empty. The old production frontend deployment continues serving its custom domains until promotion.
 - The backend's feeds/search, unauthenticated auth response, event access restriction, and read-only Google Sheets readiness check pass in Vercel. A native dynamic-import adapter fixes a CommonJS/ESM incompatibility that appears under Vercel's runtime loader.
+- API and staging API domains are registered on the backend project. TLS certificates were issued using Cloudflare DNS TXT challenges, without changing traffic records. The staging API alias points to the verified development-database preview; direct-origin TLS verification passes. Deployment automation uses Vercel's alias API because the alias CLI rejects the existing root-domain ownership arrangement.
 
 ## Performance and validation
 
