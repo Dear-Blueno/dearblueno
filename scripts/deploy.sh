@@ -32,5 +32,11 @@ if [[ "$DEPLOY_TARGET" == production ]]; then
     vercel promote "${urls[$index]}" --yes "${credentials[@]}"
   done
 else
+  export VERCEL_PROJECT_ID="$VERCEL_API_PROJECT_ID"
+  cd "$repo_dir/server"
+  vercel alias set "${urls[0]}" "${STAGING_API_DOMAIN:-stagingapi.dearblueno.net}" "${credentials[@]}"
+  export VERCEL_PROJECT_ID="$VERCEL_CLIENT_PROJECT_ID"
+  cd "$repo_dir/client"
+  vercel alias set "${urls[1]}" "${STAGING_CLIENT_DOMAIN:-staging.dearblueno.net}" "${credentials[@]}"
   printf '%s\n' "${urls[@]}"
 fi

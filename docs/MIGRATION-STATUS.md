@@ -17,6 +17,12 @@
 - All four public-read performance gates passed against the production candidate. Warm p95: root 159 ms vs 154 ms baseline; new feed 120 ms vs 120 ms; hot feed 179 ms vs 122 ms; search 182 ms vs 139 ms. First-request measurements were below two seconds (these are a proxy, not proof of a forced cold start).
 - The expanded regression suite passes 252 tests, including blank Sheet headers and legacy checkpoint initialization. Actual `mongorestore` optional-argument handling was corrected and the cryptographic/verification tests were rerun against the real CLI behavior.
 
+## Daily batch rehearsal
+
+- A temporary protected deployment ran the complete daily batch against the staging clone in **9.56 seconds**. A repeat call returned `already-completed` in 0.17 seconds, and the status endpoint was healthy.
+- All 910 staging users retained their seeded legacy checkpoint. No submission posts were imported because the staging Sheets were empty; blank headers were safely initialized. The temporary jobs-enabled deployment was removed afterward; normal preview/production jobs remain disabled.
+- Draft PR #76 is open and both GitHub CI jobs pass.
+
 ## Pending cutover requirements
 
 - The user must install the exact rules in `dearblueno-migration.sudoers` with `visudo`. Only stop/restart of the two named Dear Blueno PM2 processes and `pm2 save` as the `nodejs` account are allowed; no root shell or nginx modification is requested. Use `sudo -n` exclusively.
