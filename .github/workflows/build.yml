@@ -5,6 +5,17 @@ on:
 permissions:
   contents: read
 jobs:
+  required-check:
+    # Preserve the status name required by the existing main branch policy.
+    name: Build and Test
+    needs: [backend, frontend]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: test "$BACKEND_RESULT" = success && test "$FRONTEND_RESULT" = success
+        env:
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          FRONTEND_RESULT: ${{ needs.frontend.result }}
   backend:
     runs-on: ubuntu-latest
     defaults:
