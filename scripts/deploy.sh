@@ -21,7 +21,12 @@ for component in server client; do
   cd "$repo_dir/$component"
   vercel pull --yes --environment="$DEPLOY_TARGET" "${credentials[@]}"
   vercel build "${production_args[@]}" "${credentials[@]}"
-  deployment_json="$(vercel deploy --prebuilt "${production_args[@]}" --skip-domain --json "${credentials[@]}")"
+  # Vercel permits --skip-domain only on production deployments.
+  if [[ "$DEPLOY_TARGET" == production ]]; then
+    deployment_json="$(vercel deploy --prebuilt --prod --skip-domain --json "${credentials[@]}")"
+  else
+    deployment_json="$(vercel deploy --prebuilt --json "${credentials[@]}")"
+  fi
   deployment_fields="$(node "$repo_dir/scripts/deployment-result.mjs" <<< "$deployment_json")"
   IFS=$'\t' read -r deployment_id deployment_url <<< "$deployment_fields"
   urls+=("$deployment_url")
