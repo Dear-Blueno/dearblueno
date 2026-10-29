@@ -68,7 +68,7 @@
   }
 }
 
-.Popup[data-reach-dialog-content] {
+.Popup[data-dialog-content] {
   width: 40% !important;
   @media (max-width: 30rem) {
     width: 80% !important;

@@ -1,8 +1,7 @@
 import styles from "./NewCommentBoxFooter.module.scss";
 import CommentFooterButton from "./CommentFooterButton";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
+import { DialogOverlay, DialogContent } from "components/dialog/Dialog";
 import { useState } from "react";
-import "@reach/dialog/styles.css";
 import AnonymousToggle from "./AnonymousToggle";
 import { useIsMobile } from "hooks/is-mobile";
 

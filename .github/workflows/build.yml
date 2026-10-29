@@ -1,35 +1,51 @@
-name: 🧪 Build on Pull Request
-
-on: pull_request
-
+name: Validate
+on:
+  pull_request:
+  workflow_call:
+permissions:
+  contents: read
 jobs:
-  build:
+  required-check:
+    # Preserve the status name required by the existing main branch policy.
     name: Build and Test
-
+    needs: [backend, frontend]
+    if: always()
     runs-on: ubuntu-latest
-
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🔨 Set up Node 16.17.0
-        uses: actions/setup-node@v2
+      - run: test "$BACKEND_RESULT" = success && test "$FRONTEND_RESULT" = success
+        env:
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          FRONTEND_RESULT: ${{ needs.frontend.result }}
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.17.0
-
-      - name: 🛠 Compile and Test Backend
-        run: |
-          cd server
-          npm ci
-          npm run lint
-          npm run build
-          npm run test:build
-          cd ..
-
-      - name: ⛏ Build Frontend
-        run: |
-          cd client
-          npm ci
-          npm run lint
-          npm run build
-          cd ..
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm test -- --detectOpenHandles
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://api.dearblueno.net

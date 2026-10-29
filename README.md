@@ -5,7 +5,7 @@
 
 This is the repository for the website for Dear Blueno, the unofficial anonymous post board for students and community members at Brown University in Providence.
 
-This open-source project is built on the MERN stack ([MongoDB](https://www.mongodb.com/), [Express.js](https://expressjs.com/), [React.js](https://reactjs.org/), [Node.js](https://nodejs.org/)). We also use [TypeScript](https://www.typescriptlang.org/), [Next.js](https://nextjs.org/), [next-pwa](https://github.com/shadowwalker/next-pwa), [Mongoose.js](https://mongoosejs.com/), [Passport.js](https://www.passportjs.org/), [google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/), and [node-cron](https://nodecron.com/).
+This open-source project is built on the MERN stack ([MongoDB](https://www.mongodb.com/), [Express.js](https://expressjs.com/), [React.js](https://reactjs.org/), [Node.js](https://nodejs.org/)). We also use [TypeScript](https://www.typescriptlang.org/), [Next.js](https://nextjs.org/), [Mongoose.js](https://mongoosejs.com/), [Passport.js](https://www.passportjs.org/), [google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/).
 
 ## License and Contributing
 
@@ -13,4 +13,8 @@ This project is licensed under GNU AGPLv3. [Read about it here.](https://choosea
 
 We invite you to contribute to the project! Fork this repository, commit your changes, then submit a pull request for your contributions to be reviewed. Alternatively, you may submit an issue to report a bug or suggestion.
 
-**NOTE**: The `main` branch of this repository is automatically published to the production website! Beware of pushing directly to the `main` branch without testing and/or requesting code review first!
+## Deployment
+
+Use Node.js 24. Express and Next.js deploy as separate Vercel projects with MongoDB Atlas Free. Background work runs once daily through authenticated Vercel Cron.
+
+GitHub Actions validates both apps, then deploys directly with Vercel CLI. Pushes to `main` deploy production; pushes to `staging` deploy the Vercel preview environment at `staging.dearblueno.net` and `stagingapi.dearblueno.net`. Deployments require the `VERCEL_DEPLOYMENTS_ENABLED` repository variable and Vercel account/project secrets.

@@ -1,71 +1,10 @@
-name: 🚀 Deploy Staging
-
-on:
-  workflow_dispatch:
-  push:
-    branches: [staging]
-
+# Staging is handled by deploy.yml, using Vercel preview environment secrets.
+name: Legacy staging deployment disabled
+on: workflow_dispatch
+permissions:
+  contents: read
 jobs:
-  build-deploy-backend:
-    name: 🎉 Build, Test, and Deploy Backend
+  notice:
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🔨 Set up Node 16.17.0
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.17.0
-
-      - name: 🛠 Compile Backend
-        run: |
-          cd server
-          npm ci
-          npm run lint
-          npm run build
-          npm run test:build
-          cd ..
-
-          mkdir -p deploy/server/dist
-          cp -r server/dist deploy/server
-          cp server/* deploy/server || :
-
-      - name: ☁ SFTP Deploy
-        uses: easingthemes/ssh-deploy@v2
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/home/${{ secrets.REMOTE_USER }}/DearBluenoStaging/"
-          SOURCE: "deploy/server/"
-
-  build-deploy-frontend:
-    name: 🎉 Build and Deploy Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🔨 Set up Node 16.17.0
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.17.0
-
-      - name: ⛏ Build Frontend
-        run: |
-          cd client
-          npm ci
-          npm run lint
-          npm run build
-          cd ..
-        env:
-          NEXT_PUBLIC_API_URL: "https://stagingapi.dearblueno.net"
-
-      - name: ☁ Deploy to Vercel Git Repo
-        uses: wei/git-sync@v3
-        with:
-          source_repo: "https://github.com/Dear-Blueno/dearblueno.git"
-          source_branch: "staging"
-          destination_repo: "https://DearBlueno:${{ secrets.PAT }}@github.com/DearBlueno/deploy.git"
-          destination_branch: "staging-deploy"
+      - run: echo 'Use the Deploy Vercel workflow on the staging branch.'

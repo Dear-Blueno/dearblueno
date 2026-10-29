@@ -27,7 +27,7 @@ function replaceEmoji(text: string) {
         {emoji}
       </span>
     );
-    lastIndex = (index ?? 0) + emoji.length;
+    lastIndex = index + emoji.length;
   }
   if (lastIndex < text.length) {
     children.push(text.slice(lastIndex));

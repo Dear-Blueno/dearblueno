@@ -100,6 +100,9 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
+  loginDays: { type: [String], default: [] },
+  lastStreakDate: { type: String },
+  notifiedEventIds: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   streakDays: {
     type: Number,
     default: 0,
@@ -180,6 +183,9 @@ export interface IBasicUser {
 export interface IUser extends IBasicUser {
   email: string;
   lastLoggedIn: Date;
+  loginDays: string[];
+  lastStreakDate?: string;
+  notifiedEventIds: string[];
   moderator: boolean;
   bannedUntil?: Date;
   bookmarks: any[];

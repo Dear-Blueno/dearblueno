@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 
 const PostSchema = new Schema({
+  importId: { type: String, select: false },
   postNumber: {
     type: Number,
     required: false,
@@ -82,6 +83,8 @@ const PostSchema = new Schema({
   },
 });
 
+PostSchema.index({ importId: 1 }, { unique: true, sparse: true });
+
 // Index the text content of the post for full text search
 PostSchema.index({ content: "text" });
 // Index by approved, pinned, and postNumber for faster queries (sort by new)
@@ -93,6 +96,7 @@ PostSchema.index({ approved: -1, pinned: -1, hotScore: -1, postNumber: -1 });
 
 export interface IPost {
   _id: string;
+  importId?: string;
   postNumber: number;
   content: string;
   imageUrl: string;

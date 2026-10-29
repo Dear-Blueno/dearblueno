@@ -1,19 +1,20 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   images: {
-    domains: [
+    remotePatterns: [
       "lh3.googleusercontent.com",
       "www.brown.edu",
       "awards.cs.brown.edu",
       "i.imgur.com",
-    ],
+    ].map((hostname) => ({ protocol: "https", hostname })),
+  },
+  async headers() {
+    return [
+      {
+        source: "/sw.js",
+        headers: [{ key: "Cache-Control", value: "no-cache" }],
+      },
+    ];
   },
 };
-
-const withPWA = require("next-pwa")({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-});
-
-module.exports = withPWA(nextConfig);

@@ -1,3 +1,4 @@
+import { easternDay } from "../jobs/calendar";
 import passport from "passport";
 import {
   Profile,
@@ -61,6 +62,7 @@ export default function passportConfig() {
               profilePicture: picture,
               lastLoggedIn: new Date(),
               verifiedBrown,
+              $addToSet: { loginDays: easternDay(new Date()) },
             },
             { new: true, upsert: true }
           );

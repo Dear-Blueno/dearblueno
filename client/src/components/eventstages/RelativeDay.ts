@@ -1,6 +1,6 @@
-import format from "date-fns/format";
-import isToday from "date-fns/isToday";
-import isTomorrow from "date-fns/isTomorrow";
+import { format } from "date-fns";
+import { isToday } from "date-fns";
+import { isTomorrow } from "date-fns";
 
 export const makeDate = (date: string) => {
   const dateArray = date.split("-");

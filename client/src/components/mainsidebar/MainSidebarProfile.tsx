@@ -1,6 +1,6 @@
 import LevelAndXPBar from "components/user/LevelAndXPBar";
 import useUser from "hooks/useUser";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import styles from "./MainSidebarProfile.module.scss";
 

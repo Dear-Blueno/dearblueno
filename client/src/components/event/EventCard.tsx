@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import styles from "./EventCard.module.scss";
 import { BsFillPeopleFill, BsCheckLg } from "react-icons/bs";
 import { HiLightningBolt } from "react-icons/hi";

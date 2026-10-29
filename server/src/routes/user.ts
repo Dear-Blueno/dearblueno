@@ -102,7 +102,7 @@ userRouter.get(
     })
       .limit(5)
       .select(
-        "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings"
+        "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings -loginDays -lastStreakDate -notifiedEventIds"
       );
 
     if (users.length === 0) {
@@ -119,7 +119,7 @@ userRouter.get(
 userRouter.get("/:id", param("id").isMongoId(), validate, async (req, res) => {
   // Get user by id, remove sensitive information from the response
   const user = await User.findById(req.params.id).select(
-    "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings"
+    "-email -lastLoggedIn -moderator -bannedUntil -bookmarks -notifications -subscriptions -blockedUsers -settings -loginDays -lastStreakDate -notifiedEventIds"
   );
   if (!user) {
     res.status(404).send("User not found");

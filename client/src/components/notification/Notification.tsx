@@ -1,5 +1,5 @@
 import styles from "./Notification.module.scss";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { INotification } from "types/IUser";
 import RelativeDate from "components/post/RelativeDate";

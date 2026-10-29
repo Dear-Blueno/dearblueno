@@ -3,7 +3,7 @@ import { body, param, query } from "express-validator";
 import User, { IUser } from "../models/User";
 import { authCheck, modCheck, optionalAuth } from "../middleware/auth";
 import Post, { IPost } from "../models/Post";
-import { Document, SortOrder } from "mongoose";
+import { SortOrder } from "mongoose";
 import { validate } from "../middleware/validate";
 import cleanSensitivePost from "../config/cleanSensitivePost";
 
@@ -166,7 +166,7 @@ postRouter.get(
         },
       });
 
-    const cleanPosts = posts.map((post: IPost & Document) =>
+    const cleanPosts = posts.map((post) =>
       cleanSensitivePost(post.toObject(), req.user as IUser)
     );
 
@@ -195,7 +195,7 @@ postRouter.get(
         select: "reactions approved",
       });
 
-    const cleanPosts = posts.map((post: IPost & Document) =>
+    const cleanPosts = posts.map((post) =>
       cleanSensitivePost(post.toObject(), req.user as IUser)
     );
 
@@ -233,7 +233,7 @@ postRouter.get(
           select: "name profilePicture badges displayName pronouns",
         },
       });
-    if (!post || !post.approved) {
+    if (!post?.approved) {
       res.status(404).send("Post not found");
       return;
     }
@@ -261,7 +261,7 @@ postRouter.get(
           select: "name profilePicture badges displayName pronouns",
         },
       });
-    if (!post || !post.approved) {
+    if (!post?.approved) {
       res.status(404).send("Post not found");
       return;
     }
@@ -286,7 +286,7 @@ postRouter.get(
         path: "comments",
         select: "reactions approved",
       });
-    if (!post || !post.approved) {
+    if (!post?.approved) {
       res.status(404).send("Post not found");
       return;
     }

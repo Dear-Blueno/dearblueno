@@ -46,10 +46,16 @@ Open [http://localhost:5000](http://localhost:5000) to view it in your favorite 
 
 Runs the backend integration test suites.\
 If you changed the backend code, you should run this script before committing.\
-To run all test suites include end-to-end tests (requires Google Sheets API access), you can run `npm run e2e`.\
-Alternatively, you can run `npm run coverage` to run the test suites with code coverage analysis (also includes end-to-end tests).
+To run all test suites include end-to-end tests (requires Google Sheets API access), you can run `npm run test:e2e`.\
+Alternatively, you can run `npm run test:coverage` to run the test suites with code coverage analysis (also includes end-to-end tests).
 
 #### `npm run build`
 
 Builds the backend for production to the `dist` folder.\
 This compiles the build, so it can be run on a Node.js server with `npm start`.
+
+## Serverless deployment and daily jobs
+
+Use Node.js 24 and the variables in [.env.example](.env.example). `src/index.ts` exports the Vercel application; `src/dev.ts` runs the local HTTP listener. Production requires long session/cron secrets, HTTPS client/callback URLs, and real OAuth credentials.
+
+`GET /internal/jobs/daily` requires the `CRON_SECRET` bearer token and `JOBS_ENABLED=true`. It imports Sheets, sends reminders for the next 25 hours, updates hot scores, and processes completed Eastern calendar days. Vercel invokes it daily at 09:00 UTC. `GET /internal/jobs/status` uses the same bearer token and reports whether the last successful batch is under 36 hours old. Both endpoints disable caching.

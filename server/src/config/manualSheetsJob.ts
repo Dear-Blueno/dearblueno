@@ -23,14 +23,15 @@ if (!process.env.MONGODB_URI) {
 }
 
 // Setup MongoDB
-mongoConnection();
+// Connection is awaited before running database work below.
 
 // Log the sheets from env variables
 logger.info(`Verified Sheet ID: ${process.env.VERIFIED_GOOGLE_SHEET_ID}`);
 logger.info(`Unverified Sheet ID: ${process.env.UNVERIFIED_GOOGLE_SHEET_ID}`);
 
 // Run the job
-hourlySheetsJob()
+mongoConnection()
+  .then(() => hourlySheetsJob())
   .then(() => {
     logger.info("Job completed successfully!");
     process.exit(0);

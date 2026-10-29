@@ -7,7 +7,7 @@ import SubmitPageHeader from "components/header/submit/SubmitPageHeader";
 import { useRouter } from "next/router";
 import ImageSubmit from "components/submit/ImageSubmit";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import LogoIcon from "images/logo128.png";
 import EventStages from "components/eventstages/EventStages";
 import Head from "next/head";

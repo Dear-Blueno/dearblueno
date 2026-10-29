@@ -766,12 +766,12 @@ describe("Posts", () => {
   describe("POST /posts", () => {
     it("should return 400 if no content is provided", async () => {
       await request(app).post("/posts").send({ user }).expect(400);
-      expect(await Post.count()).toBe(0);
+      expect(await Post.countDocuments()).toBe(0);
     });
 
     it("should return 400 if content is less than 1 character", async () => {
       await request(app).post("/posts").send({ user, content: "" }).expect(400);
-      expect(await Post.count()).toBe(0);
+      expect(await Post.countDocuments()).toBe(0);
     });
 
     it("should return 400 if content is more than 5000 characters", async () => {
@@ -779,7 +779,7 @@ describe("Posts", () => {
         .post("/posts")
         .send({ user, content: "a".repeat(5001) })
         .expect(400);
-      expect(await Post.count()).toBe(0);
+      expect(await Post.countDocuments()).toBe(0);
     });
 
     it("should return 200 if logged in and content is valid", async () => {
@@ -788,7 +788,7 @@ describe("Posts", () => {
         .send({ user, content: "This is a test post" })
         .expect(200);
 
-      expect(await Post.count()).toBe(1);
+      expect(await Post.countDocuments()).toBe(1);
 
       const post = await Post.findOne();
       expect(post).toBeDefined();
@@ -807,7 +807,7 @@ describe("Posts", () => {
         .send({ content: "This is a test post" })
         .expect(200);
 
-      expect(await Post.count()).toBe(1);
+      expect(await Post.countDocuments()).toBe(1);
 
       const post = await Post.findOne();
       expect(post).toBeDefined();
@@ -825,7 +825,7 @@ describe("Posts", () => {
         .send({ user: modUser, content: "This is a test post" })
         .expect(200);
 
-      expect(await Post.count()).toBe(1);
+      expect(await Post.countDocuments()).toBe(1);
 
       const post = await Post.findOne();
       expect(post).toBeDefined();
@@ -848,7 +848,7 @@ describe("Posts", () => {
         .post("/posts/image")
         .send({ user, imageUrl: "https://i.imgur.com/Ydhgl4K.jpg" })
         .expect(400);
-      expect(await Post.count()).toBe(0);
+      expect(await Post.countDocuments()).toBe(0);
     });
 
     it("should return 400 if imageUrl is not hosted on Imgur", async () => {

@@ -15,7 +15,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 // Setup MongoDB
-mongoConnection();
+// Connection is awaited before running database work below.
 
 // For each post, the score should be 3 times the number of reactions + 3 times the number of non-anonymous comments + 2 times the number of anonymous comments + 1 times the number of reactions on comments
 const addScores = async () => {
@@ -50,8 +50,7 @@ const addScores = async () => {
     );
 
     const hoursSinceApproved =
-      new Date().getTime() -
-      new Date(post.approvedTime).getTime() / 1000 / 60 / 60;
+      (Date.now() - new Date(post.approvedTime).getTime()) / (1000 * 60 * 60);
     post.score = score;
     post.hotScore = score - 2 * hoursSinceApproved;
     promises.push(post.save());
@@ -62,7 +61,8 @@ const addScores = async () => {
   return Promise.all(promises).then(() => console.timeEnd("fullTask"));
 };
 
-addScores()
+mongoConnection()
+  .then(addScores)
   .then(() => console.log("Success!"))
   .then(() => process.exit(0))
   .catch((err) => console.error(err));

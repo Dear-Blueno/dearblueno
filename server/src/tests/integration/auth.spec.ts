@@ -27,6 +27,6 @@ describe("Auth", () => {
 
   afterAll(async () => {
     await mongoose.disconnect();
-    await mongo.stop(true);
+    await mongo.stop({ doCleanup: true });
   });
 });

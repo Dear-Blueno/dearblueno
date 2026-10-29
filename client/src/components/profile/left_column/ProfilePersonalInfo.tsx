@@ -7,7 +7,7 @@ import {
 import { IoMdBook } from "react-icons/io";
 import { BiFace } from "react-icons/bi";
 import ProfilePersonalInfoEntry from "./ProfilePersonalInfoEntry";
-import { DialogContent, DialogOverlay } from "@reach/dialog";
+import { DialogContent, DialogOverlay } from "components/dialog/Dialog";
 import { useState } from "react";
 
 interface ProfilePersonalInfoProps {

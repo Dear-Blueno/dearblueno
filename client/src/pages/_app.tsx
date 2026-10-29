@@ -1,4 +1,5 @@
 import "styles/globals.scss";
+import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import MainNavigation from "components/mainsidebar/MainNavigation";
 import axiosInit from "config/axios";
@@ -19,6 +20,11 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+      void navigator.serviceWorker.register("/sw.js").catch(console.error);
+    }
+  }, []);
   return (
     <div className="App">
       <IsMobileProvider>

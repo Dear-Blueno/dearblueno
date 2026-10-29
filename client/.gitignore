@@ -38,7 +38,6 @@ yarn-error.log*
 
 # pwa / workbox
 /public/precache.*.*.js
-/public/sw.js
 /public/workbox-*.js
 /public/worker-*.js
 /public/fallback-*.js
@@ -47,3 +46,6 @@ yarn-error.log*
 /public/workbox-*.js.map
 /public/worker-*.js.map
 /public/fallback-*.js
+.env*
+
+!.env.example
