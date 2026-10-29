@@ -22,12 +22,13 @@
 
 - A temporary protected deployment ran the complete daily batch against the staging clone in **9.56 seconds**. A repeat call returned `already-completed` in 0.17 seconds, and the status endpoint was healthy.
 - All 910 staging users retained their seeded legacy checkpoint. No submission posts were imported because the staging Sheets were empty; blank headers were safely initialized. The temporary jobs-enabled deployment was removed afterward; normal preview/production jobs remain disabled.
-- Draft PR #76 is open and both GitHub CI jobs pass.
+- PR #76 is ready for review. Backend/frontend CI passes; the workflow now also preserves the existing required `Build and Test` status. Main requires one approving review from someone other than the PR author.
 
 ## Pending cutover requirements
 
-- The user must install the exact rules in `dearblueno-migration.sudoers` with `visudo`. Only stop/restart of the two named Dear Blueno PM2 processes and `pm2 save` as the `nodejs` account are allowed; no root shell or nginx modification is requested. Use `sudo -n` exclusively.
-- GitHub project IDs and `CRON_SECRET` are configured. `VERCEL_TOKEN` remains pending: the current Vercel OAuth app cannot create deployment tokens. The user was asked to save a team-scoped token directly in the repository's Actions secrets.
+- The original five scoped PM2 rules are installed and verified. Use `sudo -n` exclusively. The two original Dear Blueno applications were stopped and PM2 state saved at approximately 8:57 p.m. Eastern on October 28; the disposable compatibility check process was also stopped.
+- Final source preflight failed before any final backup or Atlas database replacement. The source `mongod.service` was found failed after signal KILL at 3:58 p.m. Eastern, several hours before the cutover attempt. Its data directory remains present. An additional single-command rule for `/usr/bin/systemctl start mongod` as root has been requested and added to the sudoers example. Recover the database, then rerun frozen-source backup/restore/verification. Never substitute rehearsal data for a final migration.
+- GitHub project IDs, `CRON_SECRET`, and `VERCEL_TOKEN` are now configured. Token presence is verified; unattended deployment still needs validation after the PR is merged.
 - Legacy daily completion was verified in both source PM2 logs at midnight Eastern on October 28. Seed `lastStreakDate=2026-10-27` after final raw verification (or recheck the date if cutover occurs later), avoiding duplicate streak/XP awards.
 - Rollback runtime Node 24.22.1 and isolated PM2 are installed under `/home/nick/dearblueno-migration`; validation uses port 3101. The original ports and applications are not changed.
 - Final cutover requires stopping the source writers, a fresh encrypted backup and final restore, verification, deployed application smoke checks, and the documented performance/job-duration gates. Rehearsal data is not a final production migration.
