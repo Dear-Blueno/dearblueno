@@ -22,9 +22,10 @@ for component in server client; do
   vercel pull --yes --environment="$DEPLOY_TARGET" "${credentials[@]}"
   vercel build "${production_args[@]}" "${credentials[@]}"
   deployment_json="$(vercel deploy --prebuilt "${production_args[@]}" --skip-domain --json "${credentials[@]}")"
-  deployment_url="$(node -e 'let data="";process.stdin.on("data",chunk=>data+=chunk).on("end",()=>{const result=JSON.parse(data);if(result.status!=="ok"||result.deployment?.readyState!=="READY")process.exit(1);console.log(result.deployment.url)})' <<< "$deployment_json")"
+  deployment_fields="$(node "$repo_dir/scripts/deployment-result.mjs" <<< "$deployment_json")"
+  IFS=$'\t' read -r deployment_id deployment_url <<< "$deployment_fields"
   urls+=("$deployment_url")
-  deployment_ids+=("$(node -e 'let data="";process.stdin.on("data",chunk=>data+=chunk).on("end",()=>console.log(JSON.parse(data).deployment.id))' <<< "$deployment_json")")
+  deployment_ids+=("$deployment_id")
 done
 # Both builds and uploads must succeed before changing production aliases.
 if [[ "$DEPLOY_TARGET" == production ]]; then
