@@ -387,7 +387,7 @@ postRouter.put(
 postRouter.put(
   "/:num/react",
   authCheck,
-  body("reaction").isInt({ min: 1, max: 6 }),
+  body("reaction").isInt({ min: 1, max: 7 }),
   body("state").toBoolean(),
   param("num").isInt({ min: 1 }),
   validate,
