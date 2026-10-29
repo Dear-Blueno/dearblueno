@@ -13,8 +13,8 @@ This project is licensed under GNU AGPLv3. [Read about it here.](https://choosea
 
 We invite you to contribute to the project! Fork this repository, commit your changes, then submit a pull request for your contributions to be reviewed. Alternatively, you may submit an issue to report a bug or suggestion.
 
-## Deployment and migration
+## Deployment
 
-Use Node.js 24. The backend exports Express for Vercel Functions; Next.js stays on Vercel and MongoDB moves to Atlas Free. Background work runs once daily through authenticated Vercel Cron.
+Use Node.js 24. Express and Next.js deploy as separate Vercel projects with MongoDB Atlas Free. Background work runs once daily through authenticated Vercel Cron.
 
-See [the migration runbook](docs/MIGRATION.md) for provisioning, environment setup, encrypted backups, staging, cutover, and rollback. Production deployment is disabled until the `VERCEL_DEPLOYMENTS_ENABLED` repository variable is explicitly enabled after migration checks. Once enabled, passing changes on `main` deploy to production and `staging` deploys to preview.
+GitHub Actions validates both apps, then deploys directly with Vercel CLI. Pushes to `main` deploy production; pushes to `staging` deploy the Vercel preview environment at `staging.dearblueno.net` and `stagingapi.dearblueno.net`. Deployments require the `VERCEL_DEPLOYMENTS_ENABLED` repository variable and Vercel account/project secrets.

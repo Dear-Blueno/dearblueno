@@ -37,4 +37,4 @@ The Pages Router retains server-rendered sitemap generation and profile ISR. The
 
 See the section about [deployment](https://nextjs.org/docs/deployment) for more information on how to deploy your app.
 
-Use Node.js 24. Deployment and environment configuration are described in [the migration runbook](../docs/MIGRATION.md).
+Use Node.js 24. GitHub Actions deploys with Vercel CLI: `main` uses production variables, and `staging` uses preview variables.

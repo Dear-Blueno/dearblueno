@@ -59,5 +59,3 @@ This compiles the build, so it can be run on a Node.js server with `npm start`.
 Use Node.js 24 and the variables in [.env.example](.env.example). `src/index.ts` exports the Vercel application; `src/dev.ts` runs the local HTTP listener. Production requires long session/cron secrets, HTTPS client/callback URLs, and real OAuth credentials.
 
 `GET /internal/jobs/daily` requires the `CRON_SECRET` bearer token and `JOBS_ENABLED=true`. It imports Sheets, sends reminders for the next 25 hours, updates hot scores, and processes completed Eastern calendar days. Vercel invokes it daily at 09:00 UTC. `GET /internal/jobs/status` uses the same bearer token and reports whether the last successful batch is under 36 hours old. Both endpoints disable caching.
-
-See [the migration runbook](../docs/MIGRATION.md) for automated provisioning/configuration, isolated staging, database index creation, backup/restore, deployment, and safe production cutover. Native Atlas backup subscriptions are not enabled by this migration.
